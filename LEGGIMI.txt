@@ -1,7 +1,7 @@
 FONDAZIONE LA ROSA D'ORO ETS — SITO IN COSTRUZIONE (6 settembre 2026)
 
 Che cosa c'è
-  sito/              la cartella da caricare così com'è su Netlify o Cloudflare Pages
+  sito/              la cartella pubblicata così com'è (GitHub Pages; va bene anche per Netlify o Cloudflare Pages)
     index.html       la home
     */index.html     le altre 47 pagine, una cartella per pagina
     css/stile.css    l'unico foglio di stile: tutto il sistema visivo è nelle variabili in cima
@@ -12,7 +12,10 @@ Che cosa c'è
   testi_pagine.py    i testi redazionati (la sezione «In memoria» è quella di Dacia)
   LEGGIMI.txt        questo file
 
-Come guardarlo
+Dove si vede
+  https://eliasminotti.github.io/rosadoro/ — indirizzo pubblico di prova, non indicizzato:
+  lo vede solo chi ha il link. Si aggiorna da solo a ogni push sull'archivio GitHub
+  eliasminotti/rosadoro (il workflow .github/workflows/pages.yml pubblica la cartella «sito/»).
   Doppio clic su sito/index.html: tutti i collegamenti funzionano anche dalla cartella.
 
 Che cosa manca, per scelta

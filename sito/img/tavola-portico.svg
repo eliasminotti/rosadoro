@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-label="Portico a quattro colonne, inciso su fondo avorio">
+<defs>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/>
+  </pattern>
+  <linearGradient id="luceP" x1="1" y1="0" x2=".3" y2="1">
+    <stop offset="0%" stop-color="#B88F3D" stop-opacity=".14"/>
+    <stop offset="50%" stop-color="#B88F3D" stop-opacity=".05"/>
+    <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+  </linearGradient>
+  <symbol id="rosa" viewBox="0 0 200 200">
+    <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+      <circle cx="100" cy="100" r="12"/>
+      <path d="M100 88c9-7 20-3 21 8s-9 19-21 16"/><path d="M100 112c-9 7-20 3-21-8s9-19 21-16"/>
+      <path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/>
+      <path d="M100 52c25-15 52-3 55 24s-22 47-55 43"/><path d="M100 148c-25 15-52 3-55-24s22-47 55-43"/>
+      <path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/>
+      <circle cx="100" cy="100" r="86" stroke-width=".7" opacity=".55"/>
+    </g>
+  </symbol>
+  <symbol id="colonna" viewBox="0 0 80 360" overflow="visible">
+    <g fill="none" stroke="currentColor" stroke-linecap="round">
+      <path d="M8 0h64M12 12h56" stroke-width="1.4" opacity=".55"/>
+      <path d="M14 12c0 10 6 16 8 18M66 12c0 10-6 16-8 18" stroke-width="1" opacity=".45"/>
+      <path d="M22 30v300M58 30v300" stroke-width="1.5" opacity=".6"/>
+      <path d="M31 34v292M40 34v292M49 34v292" stroke-width=".8" opacity=".22"/>
+      <path d="M16 330h48M12 342h56M8 354h64" stroke-width="1.3" opacity=".5"/>
+    </g>
+    <path d="M22 36h9v288h-9z" fill="url(#tr-rado)" opacity=".7"/>
+  </symbol>
+</defs>
+
+  <rect width="1400" height="760" fill="#FBFBF9"/>
+
+  <!-- la piazza davanti: linee di fuga leggere -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <g stroke-width=".8" opacity=".2">
+      <path d="M0 760 700 640M200 760 700 640M400 760 700 640M1400 760 700 640M1200 760 700 640M1000 760 700 640"/>
+    </g>
+    <g stroke-width=".7" opacity=".14">
+      <path d="M150 736h1100M330 700h740M470 672h460"/>
+    </g>
+  </g>
+
+  <!-- la luce da destra -->
+  <path d="M1080 200 1400 40 1400 640 700 640z" fill="url(#luceP)"/>
+
+  <!-- gradini -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".5">
+    <path d="M250 640h900M280 618h840M310 596h780"/>
+    <path d="M250 640v-22M280 618v-22M1150 640v-22M1120 618v-22" opacity=".7"/>
+  </g>
+  <g color="#1C1C1C" opacity=".25"><path d="M250 640h900v6H250z" fill="url(#tr-rado)" stroke="none"/></g>
+
+  <!-- trabeazione e frontone -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M320 200 700 86 1080 200z" stroke-width="1.5" opacity=".6"/>
+    <path d="M350 200 700 96 1050 200" stroke-width=".8" opacity=".25"/>
+    <path d="M320 200h760M340 236h720" stroke-width="1.5" opacity=".6"/>
+    <path d="M340 236v-36M1060 236v-36" stroke-width="1.5" opacity=".6"/>
+    <path d="M395 212v16M405 212v16M415 212v16M595 212v16M605 212v16M615 212v16M785 212v16M795 212v16M805 212v16M985 212v16M995 212v16M1005 212v16" stroke-width="1" opacity=".35"/>
+  </g>
+  <g color="#B88F3D" opacity=".32"><path d="M340 236h720v10H340z" fill="url(#tr-medio)" stroke="none"/></g>
+
+  <!-- la rosa nel timpano -->
+  <g color="#8D6E2A" opacity=".8"><use href="#rosa" x="660" y="118" width="80" height="80"/></g>
+
+  <!-- le quattro colonne -->
+  <g color="#1C1C1C">
+    <use href="#colonna" x="365" y="236" width="80" height="360"/>
+    <use href="#colonna" x="565" y="236" width="80" height="360"/>
+    <use href="#colonna" x="765" y="236" width="80" height="360"/>
+    <use href="#colonna" x="965" y="236" width="80" height="360"/>
+  </g>
+
+  <!-- la porta ad arco, al centro -->
+  <g color="#8D6E2A">
+    <path d="M655 400c15-40 75-40 90 0v196h-90z" fill="#B88F3D" fill-opacity=".07" stroke="currentColor" stroke-width="1.7" opacity=".8"/>
+    <g stroke="currentColor" fill="none" stroke-width="1" opacity=".5">
+      <path d="M700 372v224M655 470h90"/>
+    </g>
+  </g>
+
+  <!-- il muro dietro le colonne, appena accennato -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-width=".8" opacity=".18">
+    <path d="M445 236v360M965 236v360M445 300h520M445 360h520"/>
+  </g>
+</svg>

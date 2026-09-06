@@ -45,8 +45,11 @@ SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei
 # ogni pagina: cartella (indirizzo senza index.html), voce (breve), titolo (pieno),
 # occhiello (la sezione), hero, tipo, e qualche dettaglio facoltativo.
 
+# «intro» è la riga di orientamento che la home mostra nella fascia della sezione:
+# per «In memoria» viene dal testo di Dacia (TESTI); per le altre è provvisoria,
+# e si sostituisce con l'introduzione vera al punto 4. «casa» è la tavola incisa della fascia.
 SEZIONI = [
-    dict(chiave="in-memoria", voce="In memoria", titolo="In memoria", hero="avorio",
+    dict(chiave="in-memoria", voce="In memoria", titolo="In memoria", hero="avorio", casa="lemniscata",
          pagine=[
              dict(slug="fondo-di-memoria", voce="Donazione in memoria di…", titolo="Il fondo di memoria", riga=""),
              dict(slug="giardino-dei-ricordi", voce="Il giardino dei ricordi", titolo="Il giardino dei ricordi", riga=""),
@@ -55,14 +58,16 @@ SEZIONI = [
              dict(slug="io-sono-qui-per-te", voce="Io sono qui per te", titolo="Io sono qui per te", riga="Accompagnamento nel fine vita", hero="lemniscata"),
              dict(slug="elaborare-il-lutto", voce="Elaborare il lutto", titolo="Elaborare il lutto", riga="", nascosta=True),
          ]),
-    dict(chiave="lasciti", voce="Lasciti", titolo="Lasciti", hero="rosa", tavola="interno",
+    dict(chiave="lasciti", voce="Lasciti", titolo="Lasciti", hero="rosa", tavola="interno", casa="rosa",
+         intro="Per chi pensa a un lascito: le informazioni e il supporto, i vantaggi fiscali previsti dalla legge, e ciò che la Fondazione offre a chi lascia.",
          pagine=[
              dict(slug="supporto", voce="Supporto", titolo="Informazioni e supporto", riga="Per chi vuole fare un lascito"),
              dict(slug="vantaggi-fiscali", voce="Vantaggi fiscali", titolo="Vantaggi fiscali", riga=""),
              dict(slug="offerte", voce="Offerte", titolo="Possibilità e servizi per chi lascia", riga="Che cosa la Fondazione offre"),
          ],
          rimandi=[dict(voce="Progetti", titolo="I progetti che un lascito può sostenere", verso="progetti")]),
-    dict(chiave="progetti", voce="Progetti", titolo="Progetti", hero="avorio", tavola="paesaggio",
+    dict(chiave="progetti", voce="Progetti", titolo="Progetti", hero="avorio", tavola="paesaggio", casa="paesaggio",
+         intro="I progetti seguono un ciclo di vita — da avviare, da sostenere, in corso, realizzati — accanto alle realtà amiche e alla porta per proporre il tuo.",
          pagine=[
              dict(slug="da-avviare", voce="Da avviare", titolo="Progetti da avviare", riga="In germe: cercano persone e competenze"),
              dict(slug="da-sostenere", voce="Da sostenere", titolo="Progetti da sostenere", riga="In raccolta"),
@@ -72,14 +77,16 @@ SEZIONI = [
              dict(slug="progetti-amici", voce="Progetti amici", titolo="Progetti amici", riga="Realtà riconosciute, non della Fondazione", radice=True),
              dict(slug="presenta-il-tuo-progetto", voce="Presentaci il tuo progetto", titolo="Presentaci il tuo progetto", riga=""),
          ]),
-    dict(chiave="eventi-e-formazione", voce="Eventi e formazione", titolo="Eventi e formazione", hero="avorio",
+    dict(chiave="eventi-e-formazione", voce="Eventi e formazione", titolo="Eventi e formazione", hero="avorio", casa="interno",
+         intro="Gli incontri e i percorsi di formazione che la Fondazione è costituita per promuovere: in medicina, in agricoltura, nell'accompagnamento.",
          pagine=[
              dict(slug="eventi", voce="Eventi", titolo="Eventi", riga=""),
              dict(slug="formazione-medica", voce="Formazione medica", titolo="Formazione medica", riga=""),
              dict(slug="formazione-agricola", voce="Formazione agricola", titolo="Formazione agricola", riga=""),
              dict(slug="formazione-accompagnamento", voce="Formazione all'accompagnamento", titolo="Formazione all'accompagnamento", riga="", hero="lemniscata"),
          ]),
-    dict(chiave="servizi", voce="Servizi", titolo="Servizi alle persone", hero="veli",
+    dict(chiave="servizi", voce="Servizi", titolo="Servizi alle persone", hero="veli", casa="spighe",
+         intro="Le attività di interesse generale previste dallo statuto: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento.",
          pagine=[
              dict(slug="persone-fragili", voce="Sostegno a persone fragili", titolo="Sostegno a persone fragili", riga="", art="Statuto, art. 3.1.b-c"),
              dict(slug="agricoltura-sociale", voce="Agricoltura sociale e laboratori terapeutici", titolo="Agricoltura sociale e laboratori terapeutici", riga="", art="Statuto, art. 3.1.s e 3.3", tavola="spighe"),
@@ -87,12 +94,14 @@ SEZIONI = [
              dict(slug="consulenza", voce="Consulenza e orientamento", titolo="Consulenza e orientamento", riga="", art="Statuto, art. 3.6.d-e"),
          ],
          rimandi=[dict(voce="Accompagnamento e fine vita", titolo="Io sono qui per te", verso="in-memoria/io-sono-qui-per-te")]),
-    dict(chiave="aziende-e-istituzioni", voce="Per aziende e istituzioni", titolo="Per aziende e istituzioni", hero="avorio",
+    dict(chiave="aziende-e-istituzioni", voce="Per aziende e istituzioni", titolo="Per aziende e istituzioni", hero="avorio", casa="portico",
+         intro="Le forme di collaborazione che lo statuto prevede per aziende e istituzioni: partecipazione, sostegno ai progetti, iniziative condivise.",
          pagine=[
              dict(slug="aziende", voce="Aziende", titolo="Per le aziende", riga=""),
              dict(slug="istituzioni", voce="Istituzioni", titolo="Per le istituzioni", riga=""),
          ]),
-    dict(chiave="professionisti", voce="Per professionisti", titolo="Per professionisti", hero="notte", notte=True,
+    dict(chiave="professionisti", voce="Per professionisti", titolo="Per professionisti", hero="notte", notte=True, casa="emblema",
+         intro="Otto strumenti previsti dallo statuto, per chi assiste una persona o una famiglia nel destinare un patrimonio: notai, commercialisti, avvocati, consulenti.",
          pagine=[
              dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="Mandato di esecutore testamentario e custode", riga="", art="Statuto, art. 14 · artt. 700 ss. c.c."),
              dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="", art="Statuto, art. 14"),
@@ -272,11 +281,11 @@ def footer(da):
 # --------------------------------------------------------------------------
 # le hero
 # --------------------------------------------------------------------------
-def hero(da, p, sotto):
+def hero(da, p, sotto, classe_sotto="sotto"):
     tipo = p["hero"]
     occhiello = '<p class="occhiello">%s</p>' % sfuggi(p["occhiello"])
     fonte = ('<p class="fonte">%s</p>' % sfuggi(p["art"])) if p.get("art") else ""
-    testo = '%s%s<h1>%s</h1><hr class="filo"><p class="sotto">%s</p>' % (occhiello, fonte, sfuggi(p["titolo"]), sotto)
+    testo = '%s%s<h1>%s</h1><hr class="filo"><p class="%s">%s</p>' % (occhiello, fonte, sfuggi(p["titolo"]), classe_sotto, sotto)
     if tipo == "avorio":
         return '<section class="hero hero-avorio"><div class="riga"></div><div class="bordo"></div><div class="pagina">%s</div></section>' % testo
     if tipo == "rosa":
@@ -329,7 +338,9 @@ TAVOLE_ALT = {
     "interno": "Interno architettonico inciso su avorio, con una finestra ad arco",
     "rosa": "Rosa vista dall'alto, incisa",
     "lemniscata": "Lemniscata disegnata dalla luce, incisa su avorio",
+    "portico": "Portico a quattro colonne con la rosa nel timpano, inciso su avorio",
 }
+TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 
 def lato(da, p):
     """il menu laterale con le pagine della stessa sezione"""
@@ -407,6 +418,13 @@ def corpo_chi_siamo(da, p):
                           sfuggi(ENTE["nome"]), sfuggi(ENTE["sede"]), ENTE["cf"].replace("C.F. ", ""), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]).replace("Atto costitutivo ", ""),
                           verso(da, "documenti"))
 
+def tavola_porta(da, s):
+    """l'immagine della fascia: una tavola incisa, o l'emblema in oro sulla fascia nera"""
+    if s["casa"] == "emblema":
+        return '<figure class="tavola-porta">%s</figure>' % emblema()
+    classe = "tavola-porta intera" if s["casa"] in TAVOLE_ALTE else "tavola-porta"
+    return '<figure class="%s"><img src="%s" alt="%s" loading="lazy"></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % s["casa"]), TAVOLE_ALT[s["casa"]])
+
 def corpo_home(da, p):
     porte = []
     for s in SEZIONI:
@@ -420,12 +438,15 @@ def corpo_home(da, p):
             cartella = q["slug"] if q.get("radice") else s["chiave"] + "/" + q["slug"]
             riga = ('<span class="riga">%s</span>' % sfuggi(q["riga"])) if q.get("riga") else ""
             voci.append('<li><a href="%s">%s%s</a></li>' % (verso(da, cartella), sfuggi(q["voce"]), riga))
+        intro = TESTI.get(s["chiave"], {}).get("sotto") or s.get("intro") or ""
         porte.append("""<section class="porta%s" data-spia="%s" id="porta-%s">
-      <div class="dentro">%s<h3><a href="%s">%s</a></h3></div>
-      <div><ul class="sotto-voci">%s</ul><a class="vai" href="%s">Entra</a></div>
+      <div class="dentro">%s<h3><a href="%s">%s</a></h3><p class="intro">%s</p><a class="vai" href="%s">Entra</a></div>
+      %s
+      <div class="pagine-porta"><p class="etichetta">In questa sezione</p><ul class="sotto-voci">%s</ul></div>
     </section>""" % (" nera" if s.get("notte") else "", s["chiave"], s["chiave"],
                      '<p class="occhiello">Otto strumenti statutari</p>' if s.get("notte") else "",
-                     verso(da, s["chiave"]), sfuggi(s["titolo"]), "".join(voci), verso(da, s["chiave"])))
+                     verso(da, s["chiave"]), sfuggi(s["titolo"]), sfuggi(intro), verso(da, s["chiave"]),
+                     tavola_porta(da, s), "".join(voci)))
     return """<main>
   <section class="sezione" id="chi-siamo">
     <div class="pagina"><div class="due-colonne">
@@ -483,6 +504,8 @@ def pagina_html(da, p):
     if da in TESTI and TESTI[da].get("musica"):
         sotto += ('</p><button type="button" class="ascolta" data-audio="%s" hidden>Ascolta · Chopin, valzer op. 69'
                   '</button><p hidden>' % risorsa(da, "audio/valzer-op-69.mp3"))
+    # il motto: la frase d'apertura tutta in un rigo, più grande ed evidente (Dacia, 6.9)
+    classe_sotto = "sotto motto" if da in TESTI and TESTI[da].get("motto") else "sotto"
     classe_body = ' class="notte"' if p.get("notte") else ""
     return """<!DOCTYPE html>
 <html lang="it">
@@ -513,7 +536,7 @@ def pagina_html(da, p):
 """ % (sfuggi(scheda), sfuggi(descrizione), sfuggi(scheda), url, sfuggi(ENTE["nome"]),
        ('<meta name="robots" content="noindex, nofollow">\n' if ANTEPRIMA else ''),
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
-       SPRITE, header(da, p), hero(da, p, sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
+       SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
 
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FBFBF9"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
 

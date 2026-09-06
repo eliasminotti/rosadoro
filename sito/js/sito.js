@@ -2,7 +2,7 @@
    Fondazione La Rosa d'Oro ETS — il poco che si muove
    --------------------------------------------------------------------------
    1. il menu sotto i 1024 px (apertura del pannello, sottomenu a fisarmonica)
-   2. lo scrollspy della home, con le tre regole del briefing:
+   2. lo scrollspy della home (le sette fasce), con le tre regole del briefing:
       - ogni voce ha una propria sezione osservata (data-spia)
       - vince la sezione più vicina al centro della fascia visibile
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
@@ -93,13 +93,15 @@
   }
 })();
 
-/* ---- 4. il giardino dei ricordi: la dedica parte come email, il sito non conserva nulla ---- */
+/* ---- 4. il giardino dei ricordi: si sceglie l'immagine e si scrive il nome; la dedica è
+        facoltativa. Il messaggio parte come email, il sito non conserva nulla ---- */
 (function () {
   'use strict';
   var velo = document.getElementById('velo-dedica');
   if (!velo) return;
   var scelta = '';
   var campoFoto = velo.querySelector('.dedica-foto');
+  var campoNome = velo.querySelector('#dedica-nome');
   var campoTesto = velo.querySelector('#dedica-testo');
   var invia = velo.querySelector('.invia');
   var bottoni = document.querySelectorAll('.pianta button[data-foto]');
@@ -107,18 +109,30 @@
     bottoni[i].addEventListener('click', function (e) {
       scelta = e.currentTarget.getAttribute('data-foto');
       campoFoto.textContent = 'Immagine scelta: ' + scelta;
+      campoNome.value = '';
       campoTesto.value = '';
+      campoNome.classList.remove('manca');
       velo.hidden = false;
-      campoTesto.focus();
+      campoNome.focus();
     });
   }
   velo.querySelector('.chiudi-dialogo').addEventListener('click', function () { velo.hidden = true; });
   velo.addEventListener('click', function (e) { if (e.target === velo) velo.hidden = true; });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') velo.hidden = true; });
+  campoNome.addEventListener('input', function () { campoNome.classList.remove('manca'); });
   invia.addEventListener('click', function (e) {
+    var nome = campoNome.value.trim();
+    if (!nome) {                                   /* il nome è l'unica cosa che serve */
+      e.preventDefault();
+      campoNome.classList.add('manca');
+      campoNome.focus();
+      return;
+    }
+    var dedica = campoTesto.value.trim();
     var indirizzo = invia.getAttribute('data-mailto');
     invia.href = 'mailto:' + indirizzo +
-      '?subject=' + encodeURIComponent('Dedica per il Giardino dei ricordi — ' + scelta) +
-      '&body=' + encodeURIComponent(campoTesto.value + '\n\n(immagine scelta: ' + scelta + ')');
+      '?subject=' + encodeURIComponent('Giardino dei ricordi — ' + nome) +
+      '&body=' + encodeURIComponent('In memoria di: ' + nome + '\nImmagine scelta: ' + scelta +
+        (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)'));
   });
 })();

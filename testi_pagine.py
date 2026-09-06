@@ -22,6 +22,7 @@ TESTI["in-memoria"] = dict(
 # ------------------------------------------------------------ A · il fondo
 TESTI["in-memoria/fondo-di-memoria"] = dict(
     sotto="Il ricordo diventa azione: onora il passato con un gesto nel presente.",
+    motto=True,      # tutta in un rigo, più grande ed evidente (Dacia, 6.9)
     musica=True,
     corpo="""
 <p class="citazione">Le memorie più belle sono quelle che durano in eterno. Le memorie più belle sono quelle che plasmano la realtà.</p>
@@ -73,19 +74,19 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 
 # ------------------------------------------------------- B · il giardino
 TESTI["in-memoria/giardino-dei-ricordi"] = dict(
-    sotto="Dedica un'immagine a chi ami: scorri il giardino, scegli, lascia il tuo pensiero.",
+    sotto="Scegli un'immagine, scrivi il nome di chi vuoi ricordare: la posiamo nel giardino.",
     corpo="""
-<p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più: dedicalo al tuo caro. La dedica arriva alla Fondazione e viene posata nel giardino, accanto all'immagine scelta.</p>
+<p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più. Scegli l'immagine e scrivi il nome della persona che vuoi ricordare — e, se vuoi, una dedica. Il nome arriva alla Fondazione e viene posato nel giardino, accanto all'immagine scelta.</p>
 <div class="giardino" aria-label="Le immagini del giardino">
-  <div class="pianta">{foto:FOTO APE|L'ape sul fiore|quadra}<button type="button" data-foto="L'ape sul fiore">Dedica questa immagine</button></div>
-  <div class="pianta">{foto:ROSA|La rosa|quadra}<button type="button" data-foto="La rosa">Dedica questa immagine</button></div>
-  <div class="pianta">{foto:GRANO PERSIANO|Il grano|quadra}<button type="button" data-foto="Il grano">Dedica questa immagine</button></div>
-  <div class="pianta">{foto:NEVE1|La neve|quadra}<button type="button" data-foto="La neve">Dedica questa immagine</button></div>
-  <div class="pianta">{foto:ARCOBALENO2|L'arcobaleno|quadra}<button type="button" data-foto="L'arcobaleno">Dedica questa immagine</button></div>
+  <div class="pianta">{foto:FOTO APE|L'ape sul fiore|quadra}<button type="button" data-foto="L'ape sul fiore">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:ROSA|La rosa|quadra}<button type="button" data-foto="La rosa">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GRANO PERSIANO|Il grano|quadra}<button type="button" data-foto="Il grano">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:NEVE1|La neve|quadra}<button type="button" data-foto="La neve">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:ARCOBALENO2|L'arcobaleno|quadra}<button type="button" data-foto="L'arcobaleno">Scegli questa immagine</button></div>
 </div>
 <figure class="dedica-esempio">
-  {foto:FOTO APE|Un esempio di dedica|}
-  <figcaption>«Per nonna Clelia, che ci ha insegnato la pazienza dei fiori.» — <em>un esempio di dedica</em></figcaption>
+  {foto:FOTO APE|Un esempio|}
+  <figcaption><strong>Nonna Clelia</strong><br>«Ci ha insegnato la pazienza dei fiori.» — <em>un esempio: il nome, e la dedica se si vuole</em></figcaption>
 </figure>
 <h3>Contattaci inoltre per</h3>
 <ul>
@@ -99,9 +100,13 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 
 <div class="velo-dialogo" id="velo-dedica" role="dialog" aria-modal="true" aria-labelledby="dedica-titolo" hidden>
   <div class="dialogo">
-    <h3 id="dedica-titolo">La tua dedica</h3>
-    <p class="dedica-foto" style="font-size:15px"></p>
-    <textarea id="dedica-testo" placeholder="A chi la dedichi, e con quali parole…"></textarea>
+    <h3 id="dedica-titolo">Chi vuoi ricordare</h3>
+    <p class="dedica-foto"></p>
+    <label for="dedica-nome">Il nome</label>
+    <input id="dedica-nome" type="text" autocomplete="off" placeholder="Il nome, o come lo chiamavi">
+    <label for="dedica-testo">Una dedica <span>facoltativa</span></label>
+    <textarea id="dedica-testo" placeholder="Poche parole, o nessuna"></textarea>
+    <p class="nota">Il nome arriva alla Fondazione come messaggio e viene posato nel giardino a cura nostra.</p>
     <div class="righe">
       <button type="button" class="chiudi-dialogo">Annulla</button>
       <a class="invia" data-mailto="biodinamica@larosadoro.org" href="#">Invia</a>

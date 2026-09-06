@@ -153,6 +153,7 @@ p:last-child{margin-bottom:0}
 .hero h1{font-weight:var(--peso-hero);font-size:96px;line-height:1;letter-spacing:-.01em;margin:0 0 30px;max-width:16ch}
 .hero .filo{margin-bottom:28px}
 .hero .sotto{font-family:var(--display);font-style:italic;font-weight:300;font-size:23px;line-height:1.5;max-width:44ch;color:var(--testo-70);margin:0}
+.hero .sotto.motto{font-style:normal;font-weight:600;color:var(--accento);font-size:clamp(26px,2.7vw,38px);line-height:1.2;letter-spacing:.005em;max-width:none;text-wrap:balance}
 .grana{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>")}
 
 /* 02 Avorio: solo tipografia e due filetti */
@@ -209,24 +210,34 @@ p:last-child{margin-bottom:0}
 .centrata .filo{margin:36px auto}
 .centrata .rimandi{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;margin-top:8px}
 
-/* le porte del sito: una fascia per ogni voce del menu, così ogni voce ha la sua sezione osservabile */
+/* le porte del sito: una fascia per ogni voce del menu, così ogni voce ha la sua sezione osservabile.
+   Tre campi: l'introduzione della sezione, la sua tavola incisa, le porte alle sue pagine */
 .porte{display:grid;gap:24px;margin-top:8px}
-.porta{background:var(--carta);border:1px solid var(--filo);display:grid;grid-template-columns:5fr 7fr;gap:56px;padding:64px 56px;transition:border-color .15s}
+.porta{background:var(--carta);border:1px solid var(--filo);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,3fr) minmax(0,4fr);gap:56px;padding:56px;align-items:center;transition:border-color .15s}
 .porta:hover{border-color:var(--filo-forte)}
 .porta h3{font-size:44px;line-height:1}
 .porta h3 a:hover{color:var(--accento)}
 .porta .occhiello{margin-bottom:18px}
-.porta .dentro p{font-size:17px;color:var(--testo-60)}
-.porta .sotto-voci{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 32px}
-.porta .sotto-voci a{font-size:15px;line-height:22px;color:var(--testo-70);border-bottom:1px solid transparent}
-.porta .sotto-voci a:hover{color:var(--testo);border-bottom-color:var(--oro)}
+.porta .intro{font-size:17px;line-height:1.55;color:var(--testo-60);margin:22px 0 28px;max-width:38ch}
+.tavola-porta{position:relative;margin:0;aspect-ratio:4/3;border:1px solid var(--filo-forte);background:var(--avorio);overflow:hidden}
+.tavola-porta img{width:100%;height:100%;object-fit:cover}
+.tavola-porta.intera img{object-fit:contain}
+.tavola-porta .emblema{position:absolute;left:50%;top:50%;width:62%;height:62%;transform:translate(-50%,-50%);color:var(--oro);opacity:.8}
+.porta .etichetta{font-size:11px;line-height:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--testo-45);margin:0 0 6px;padding-bottom:12px;border-bottom:1px solid var(--filo-forte);max-width:none}
+.porta .sotto-voci{list-style:none;margin:0;padding:0}
+.porta .sotto-voci li{border-bottom:1px solid var(--filo)}
+.porta .sotto-voci a{display:block;padding:11px 0;font-size:15px;line-height:22px;color:var(--testo-70)}
+.porta .sotto-voci a:hover{color:var(--testo);padding-left:12px;box-shadow:inset 1px 0 0 var(--oro)}
 .porta .sotto-voci .riga{display:block;font-size:13px;color:var(--testo-45)}
-.porta .sotto-voci .separa{grid-column:1/-1;height:1px;background:var(--oro);opacity:.6;margin:4px 0}
+.porta .sotto-voci .separa{height:1px;background:var(--oro);opacity:.6;margin:6px 0;border:0}
 .porta.nera{background:var(--nero);border-color:rgba(184,143,61,.35)}
 .porta.nera h3,.porta.nera h3 a{color:#fff}
 .porta.nera h3 a:hover{color:var(--oro)}
 .porta.nera .occhiello{color:var(--oro)}
-.porta.nera .dentro p{color:rgba(255,255,255,.6)}
+.porta.nera .intro{color:rgba(255,255,255,.6)}
+.porta.nera .tavola-porta{background:#0F0E0D;border-color:rgba(184,143,61,.45)}
+.porta.nera .etichetta{color:rgba(255,255,255,.45);border-bottom-color:rgba(184,143,61,.55)}
+.porta.nera .sotto-voci li{border-bottom-color:rgba(184,143,61,.22)}
 .porta.nera .sotto-voci a{color:rgba(255,255,255,.72)}
 .porta.nera .sotto-voci a:hover{color:#fff}
 .porta.nera .sotto-voci .riga{color:rgba(255,255,255,.4)}
@@ -346,9 +357,10 @@ p:last-child{margin-bottom:0}
   .squadra{width:56px;height:56px}
 
   .due-colonne{grid-template-columns:1fr;gap:56px}
-  .porta{grid-template-columns:1fr;gap:28px;padding:40px 28px}
+  .porta{grid-template-columns:1fr;gap:32px;padding:40px 28px}
   .porta h3{font-size:34px}
-  .porta .sotto-voci{grid-template-columns:1fr}
+  .tavola-porta{max-width:420px}
+  .hero .sotto.motto{font-size:clamp(24px,5.6vw,30px)}
   .schede{grid-template-columns:1fr}
   .corpo .colonne{grid-template-columns:1fr;gap:56px}
   .lato{position:static}
@@ -409,7 +421,12 @@ p:last-child{margin-bottom:0}
 .dialogo{background:var(--avorio);border:1px solid var(--oro);max-width:480px;width:100%;padding:32px}
 .dialogo h3{margin-bottom:10px}
 .dialogo .dedica-foto{font-size:15px;color:var(--testo-60)}
-.dialogo textarea{width:100%;min-height:110px;border:1px solid var(--filo-forte);background:var(--bianco);font-family:var(--sans);font-size:16px;line-height:1.5;color:var(--antracite);padding:12px;resize:vertical}
+.dialogo label{display:block;font-family:var(--sans);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--accento);margin:18px 0 8px}
+.dialogo label span{font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--testo-45);margin-left:8px}
+.dialogo input{width:100%;border:1px solid var(--filo-forte);background:var(--bianco);font-family:var(--sans);font-size:17px;line-height:1.4;color:var(--antracite);padding:12px}
+.dialogo input.manca{border-color:var(--bordeaux)}
+.dialogo textarea{width:100%;min-height:84px;border:1px solid var(--filo-forte);background:var(--bianco);font-family:var(--sans);font-size:16px;line-height:1.5;color:var(--antracite);padding:12px;resize:vertical}
+.dialogo .nota{font-size:13px;line-height:1.5;color:var(--testo-45);margin:14px 0 0;max-width:none}
 .dialogo .righe{display:flex;gap:12px;justify-content:flex-end;margin-top:16px}
 .dialogo .righe a,.dialogo .righe button{font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:11px 16px;border:1px solid var(--filo-forte);background:none;color:var(--accento);cursor:pointer}
 .dialogo .invia{background:var(--antracite);color:var(--avorio);border-color:var(--antracite)}

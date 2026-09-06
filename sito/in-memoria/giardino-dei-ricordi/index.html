@@ -46,19 +46,19 @@
     </nav>
   </div></div>
 </header>
-<section class="hero hero-avorio"><div class="riga"></div><div class="bordo"></div><div class="pagina"><p class="occhiello">In memoria</p><h1>Il giardino dei ricordi</h1><hr class="filo"><p class="sotto">Dedica un'immagine a chi ami: scorri il giardino, scegli, lascia il tuo pensiero.</p></div></section>
+<section class="hero hero-avorio"><div class="riga"></div><div class="bordo"></div><div class="pagina"><p class="occhiello">In memoria</p><h1>Il giardino dei ricordi</h1><hr class="filo"><p class="sotto">Scegli un'immagine, scrivi il nome di chi vuoi ricordare: la posiamo nel giardino.</p></div></section>
 <main class="corpo"><div class="pagina"><div class="colonne"><aside class="lato"><p class="occhiello">In memoria</p><ul><li><a href="../../in-memoria/index.html">In memoria</a></li><li><a href="../../in-memoria/fondo-di-memoria/index.html">Il fondo di memoria</a></li><li class="attuale"><a href="../../in-memoria/giardino-dei-ricordi/index.html">Il giardino dei ricordi</a></li><li><a href="../../in-memoria/funerali/index.html">Funerali</a></li><li><a href="../../in-memoria/svuota-e-sorridi/index.html">Gli Svuota e Sorridi</a></li><li><a href="../../in-memoria/io-sono-qui-per-te/index.html">Io sono qui per te</a></li><li><a href="../../in-memoria/elaborare-il-lutto/index.html">Elaborare il lutto</a></li></ul></aside><article class="testo">
-<p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più: dedicalo al tuo caro. La dedica arriva alla Fondazione e viene posata nel giardino, accanto all'immagine scelta.</p>
+<p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più. Scegli l'immagine e scrivi il nome della persona che vuoi ricordare — e, se vuoi, una dedica. Il nome arriva alla Fondazione e viene posato nel giardino, accanto all'immagine scelta.</p>
 <div class="giardino" aria-label="Le immagini del giardino">
-  <div class="pianta"><figure class="foto quadra" data-file="FOTO APE"><span class="didascalia">L'ape sul fiore · FOTO APE</span></figure><button type="button" data-foto="L'ape sul fiore">Dedica questa immagine</button></div>
-  <div class="pianta"><figure class="foto quadra" data-file="ROSA"><span class="didascalia">La rosa · ROSA</span></figure><button type="button" data-foto="La rosa">Dedica questa immagine</button></div>
-  <div class="pianta"><figure class="foto quadra" data-file="GRANO PERSIANO"><span class="didascalia">Il grano · GRANO PERSIANO</span></figure><button type="button" data-foto="Il grano">Dedica questa immagine</button></div>
-  <div class="pianta"><figure class="foto quadra" data-file="NEVE1"><span class="didascalia">La neve · NEVE1</span></figure><button type="button" data-foto="La neve">Dedica questa immagine</button></div>
-  <div class="pianta"><figure class="foto quadra" data-file="ARCOBALENO2"><span class="didascalia">L'arcobaleno · ARCOBALENO2</span></figure><button type="button" data-foto="L'arcobaleno">Dedica questa immagine</button></div>
+  <div class="pianta"><figure class="foto quadra" data-file="FOTO APE"><span class="didascalia">L'ape sul fiore · FOTO APE</span></figure><button type="button" data-foto="L'ape sul fiore">Scegli questa immagine</button></div>
+  <div class="pianta"><figure class="foto quadra" data-file="ROSA"><span class="didascalia">La rosa · ROSA</span></figure><button type="button" data-foto="La rosa">Scegli questa immagine</button></div>
+  <div class="pianta"><figure class="foto quadra" data-file="GRANO PERSIANO"><span class="didascalia">Il grano · GRANO PERSIANO</span></figure><button type="button" data-foto="Il grano">Scegli questa immagine</button></div>
+  <div class="pianta"><figure class="foto quadra" data-file="NEVE1"><span class="didascalia">La neve · NEVE1</span></figure><button type="button" data-foto="La neve">Scegli questa immagine</button></div>
+  <div class="pianta"><figure class="foto quadra" data-file="ARCOBALENO2"><span class="didascalia">L'arcobaleno · ARCOBALENO2</span></figure><button type="button" data-foto="L'arcobaleno">Scegli questa immagine</button></div>
 </div>
 <figure class="dedica-esempio">
-  <figure class="foto" data-file="FOTO APE"><span class="didascalia">Un esempio di dedica · FOTO APE</span></figure>
-  <figcaption>«Per nonna Clelia, che ci ha insegnato la pazienza dei fiori.» — <em>un esempio di dedica</em></figcaption>
+  <figure class="foto" data-file="FOTO APE"><span class="didascalia">Un esempio · FOTO APE</span></figure>
+  <figcaption><strong>Nonna Clelia</strong><br>«Ci ha insegnato la pazienza dei fiori.» — <em>un esempio: il nome, e la dedica se si vuole</em></figcaption>
 </figure>
 <h3>Contattaci inoltre per</h3>
 <ul>
@@ -72,9 +72,13 @@
 
 <div class="velo-dialogo" id="velo-dedica" role="dialog" aria-modal="true" aria-labelledby="dedica-titolo" hidden>
   <div class="dialogo">
-    <h3 id="dedica-titolo">La tua dedica</h3>
-    <p class="dedica-foto" style="font-size:15px"></p>
-    <textarea id="dedica-testo" placeholder="A chi la dedichi, e con quali parole…"></textarea>
+    <h3 id="dedica-titolo">Chi vuoi ricordare</h3>
+    <p class="dedica-foto"></p>
+    <label for="dedica-nome">Il nome</label>
+    <input id="dedica-nome" type="text" autocomplete="off" placeholder="Il nome, o come lo chiamavi">
+    <label for="dedica-testo">Una dedica <span>facoltativa</span></label>
+    <textarea id="dedica-testo" placeholder="Poche parole, o nessuna"></textarea>
+    <p class="nota">Il nome arriva alla Fondazione come messaggio e viene posato nel giardino a cura nostra.</p>
     <div class="righe">
       <button type="button" class="chiudi-dialogo">Annulla</button>
       <a class="invia" data-mailto="biodinamica@larosadoro.org" href="#">Invia</a>
