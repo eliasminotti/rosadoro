@@ -1,0 +1,23 @@
+FONDAZIONE LA ROSA D'ORO ETS — SITO IN COSTRUZIONE (6 settembre 2026)
+
+Che cosa c'è
+  sito/              la cartella da caricare così com'è su Netlify o Cloudflare Pages
+    index.html       la home
+    */index.html     le altre 47 pagine, una cartella per pagina
+    css/stile.css    l'unico foglio di stile: tutto il sistema visivo è nelle variabili in cima
+    js/sito.js       menu, scrollspy, musica su scelta, finestra della dedica
+    font/            i caratteri ospitati nel sito (Cormorant Garamond, Instrument Sans), licenza OFL
+    img/             le tavole incise, le quattro azioni dei funerali, la favicon
+  costruisci.py      l'assemblatore: la mappa del sito, genera tutte le pagine
+  testi_pagine.py    i testi redazionati (la sezione «In memoria» è quella di Dacia)
+  LEGGIMI.txt        questo file
+
+Come guardarlo
+  Doppio clic su sito/index.html: tutti i collegamenti funzionano anche dalla cartella.
+
+Che cosa manca, per scelta
+  Le fotografie (arcobaleno, bambina, ape…): i posti sono pronti e segnati; servono i file.
+  La musica del fondo di memoria: il pulsante appare da solo quando il file
+  audio/valzer-op-69.mp3 sarà nella cartella del sito.
+  I testi delle altre sezioni: in corsivo bordeaux ciò che è ancora da scrivere.
+  Le informative privacy e cookie (punto 5 della sequenza).

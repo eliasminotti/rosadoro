@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-label="Rosa vista dall'alto, incisa">
+<defs>
+  <!-- tratteggi -->
+  <pattern id="tr-fitto" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="1.5" opacity=".55"/>
+  </pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/>
+  </pattern>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <pattern id="tr-croce" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="9" stroke="currentColor" stroke-width=".9" opacity=".4"/>
+    <line x1="0" y1="0" x2="9" y2="0" stroke="currentColor" stroke-width=".9" opacity=".4"/>
+  </pattern>
+
+  <!-- chicco di grano -->
+  <symbol id="chicco" viewBox="0 0 20 44" overflow="visible">
+    <path d="M10 1c6 7 8 14 8 21s-3 14-8 21c-5-7-8-14-8-21S4 8 10 1z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M10 6v32" stroke="currentColor" stroke-width=".9" opacity=".6"/>
+  </symbol>
+
+  <!-- foglia lanceolata -->
+  <symbol id="foglia" viewBox="0 0 60 160" overflow="visible">
+    <path d="M30 2C10 40 2 92 26 158 50 92 46 40 30 2z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M30 8c-2 44-4 96-4 148" stroke="currentColor" stroke-width="1" opacity=".7"/>
+    <g stroke="currentColor" stroke-width=".8" opacity=".45">
+      <path d="M29 34 16 46M29 34 42 44M28 60 14 74M28 60 43 70M27 88 15 102M27 88 42 98M26 116 17 128M26 116 39 126"/>
+    </g>
+  </symbol>
+
+  <!-- petalo di rosa -->
+  <symbol id="petalo" viewBox="0 0 100 100" overflow="visible">
+    <path d="M50 96C16 84 4 56 12 32 20 8 44 0 50 0s30 8 38 32c8 24-4 52-38 64z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </symbol>
+</defs>
+
+    <rect width="640" height="640" fill="#FBFBF9"/>
+    <g color="#B88F3D" opacity=".5"><circle cx="320" cy="320" r="268" fill="none" stroke="currentColor" stroke-width="1"/></g>
+    <g color="#8D6E2A" fill="none" stroke="currentColor" stroke-linecap="round">
+      <!-- corolla esterna -->
+      <g stroke-width="1.7" opacity=".9">
+        <use href="#petalo" width="230" height="230" x="205" y="118" transform="rotate(0 320 320)"/>
+        <use href="#petalo" width="230" height="230" x="205" y="118" transform="rotate(72 320 320)"/>
+        <use href="#petalo" width="230" height="230" x="205" y="118" transform="rotate(144 320 320)"/>
+        <use href="#petalo" width="230" height="230" x="205" y="118" transform="rotate(216 320 320)"/>
+        <use href="#petalo" width="230" height="230" x="205" y="118" transform="rotate(288 320 320)"/>
+      </g>
+      <!-- corolla media, sfalsata -->
+      <g stroke-width="1.5" opacity=".85">
+        <use href="#petalo" width="164" height="164" x="238" y="192" transform="rotate(36 320 320)"/>
+        <use href="#petalo" width="164" height="164" x="238" y="192" transform="rotate(108 320 320)"/>
+        <use href="#petalo" width="164" height="164" x="238" y="192" transform="rotate(180 320 320)"/>
+        <use href="#petalo" width="164" height="164" x="238" y="192" transform="rotate(252 320 320)"/>
+        <use href="#petalo" width="164" height="164" x="238" y="192" transform="rotate(324 320 320)"/>
+      </g>
+      <!-- corolla interna -->
+      <g stroke-width="1.3" opacity=".8">
+        <use href="#petalo" width="104" height="104" x="268" y="248" transform="rotate(18 320 320)"/>
+        <use href="#petalo" width="104" height="104" x="268" y="248" transform="rotate(90 320 320)"/>
+        <use href="#petalo" width="104" height="104" x="268" y="248" transform="rotate(162 320 320)"/>
+        <use href="#petalo" width="104" height="104" x="268" y="248" transform="rotate(234 320 320)"/>
+        <use href="#petalo" width="104" height="104" x="268" y="248" transform="rotate(306 320 320)"/>
+      </g>
+      <!-- cuore a spirale -->
+      <g stroke-width="1.5">
+        <path d="M320 300c14 0 22 10 22 20s-9 21-22 21-24-10-24-23 12-27 27-27 30 14 30 30-15 33-33 33"/>
+      </g>
+    </g>
+    <g color="#1C1C1C" opacity=".22"><circle cx="320" cy="320" r="152" fill="url(#tr-rado)" stroke="none"/></g>
+  </svg>

@@ -1,0 +1,41 @@
+# Pubblica la cartella «sito/» su GitHub Pages a ogni push.
+# L'indirizzo di anteprima è https://eliasminotti.github.io/rosadoro/
+# Le pagine chiedono ai motori di ricerca di non indicizzarle (ANTEPRIMA = True in costruisci.py).
+name: Pubblica il sito
+
+on:
+  push:
+    branches:
+      - claude/rosadoro-foundation-site-6hc5hu
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  pubblica:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Scarica il repository
+        uses: actions/checkout@v4
+      - name: Configura Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Impacchetta la cartella sito/
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: sito
+      - name: Pubblica
+        id: deploy
+        uses: actions/deploy-pages@v4

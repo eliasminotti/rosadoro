@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img" aria-label="Tre spighe di grano incise">
+<defs>
+  <!-- tratteggi -->
+  <pattern id="tr-fitto" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="1.5" opacity=".55"/>
+  </pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/>
+  </pattern>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <pattern id="tr-croce" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="9" stroke="currentColor" stroke-width=".9" opacity=".4"/>
+    <line x1="0" y1="0" x2="9" y2="0" stroke="currentColor" stroke-width=".9" opacity=".4"/>
+  </pattern>
+
+  <!-- chicco di grano -->
+  <symbol id="chicco" viewBox="0 0 20 44" overflow="visible">
+    <path d="M10 1c6 7 8 14 8 21s-3 14-8 21c-5-7-8-14-8-21S4 8 10 1z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M10 6v32" stroke="currentColor" stroke-width=".9" opacity=".6"/>
+  </symbol>
+
+  <!-- foglia lanceolata -->
+  <symbol id="foglia" viewBox="0 0 60 160" overflow="visible">
+    <path d="M30 2C10 40 2 92 26 158 50 92 46 40 30 2z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M30 8c-2 44-4 96-4 148" stroke="currentColor" stroke-width="1" opacity=".7"/>
+    <g stroke="currentColor" stroke-width=".8" opacity=".45">
+      <path d="M29 34 16 46M29 34 42 44M28 60 14 74M28 60 43 70M27 88 15 102M27 88 42 98M26 116 17 128M26 116 39 126"/>
+    </g>
+  </symbol>
+
+  <!-- petalo di rosa -->
+  <symbol id="petalo" viewBox="0 0 100 100" overflow="visible">
+    <path d="M50 96C16 84 4 56 12 32 20 8 44 0 50 0s30 8 38 32c8 24-4 52-38 64z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </symbol>
+</defs>
+
+  <rect width="640" height="800" fill="#FBFBF9"/>
+  <g color="#1C1C1C" opacity=".16"><rect x="46" y="46" width="548" height="708" fill="none" stroke="currentColor" stroke-width="1"/></g>
+  <g color="#B88F3D"><rect x="58" y="58" width="524" height="684" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/></g>
+
+  <!-- stelo centrale -->
+  <g color="#1C1C1C">
+    <path d="M320 742C318 620 316 500 318 392" fill="none" stroke="currentColor" stroke-width="2.2"/>
+    <path d="M256 704c34-14 54-42 62-84" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".8"/>
+    <path d="M386 640c-34-10-52-34-68-70" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".8"/>
+  </g>
+  <g color="#8D6E2A" transform="translate(300 356) scale(1.05)"><use href="#chicco" width="20" height="44" x="0" y="0"/></g>
+  <g color="#8D6E2A">
+    <use href="#chicco" width="19" height="42" x="288" y="384" transform="rotate(-13 297 405)"/>
+    <use href="#chicco" width="19" height="42" x="326" y="384" transform="rotate(13 335 405)"/>
+    <use href="#chicco" width="19" height="42" x="286" y="420" transform="rotate(-16 295 441)"/>
+    <use href="#chicco" width="19" height="42" x="328" y="420" transform="rotate(16 337 441)"/>
+    <use href="#chicco" width="18" height="40" x="288" y="456" transform="rotate(-18 297 476)"/>
+    <use href="#chicco" width="18" height="40" x="328" y="456" transform="rotate(18 337 476)"/>
+    <use href="#chicco" width="17" height="38" x="292" y="492" transform="rotate(-20 300 511)"/>
+    <use href="#chicco" width="17" height="38" x="326" y="492" transform="rotate(20 334 511)"/>
+  </g>
+  <!-- reste -->
+  <g color="#8D6E2A" stroke="currentColor" fill="none" stroke-width=".9" opacity=".7" stroke-linecap="round">
+    <path d="M310 352 292 244M318 350 314 232M328 352 344 246M300 386 258 300M340 386 382 300M298 422 250 348M342 422 390 348"/>
+  </g>
+
+  <!-- stelo sinistro -->
+  <g color="#1C1C1C"><path d="M196 744c14-118 26-232 22-320" fill="none" stroke="currentColor" stroke-width="1.8"/></g>
+  <g color="#8D6E2A" opacity=".85">
+    <use href="#chicco" width="16" height="36" x="210" y="396" transform="rotate(-6 218 414)"/>
+    <use href="#chicco" width="16" height="36" x="192" y="424" transform="rotate(-14 200 442)"/>
+    <use href="#chicco" width="16" height="36" x="222" y="424" transform="rotate(10 230 442)"/>
+    <use href="#chicco" width="15" height="34" x="192" y="456" transform="rotate(-16 199 473)"/>
+    <use href="#chicco" width="15" height="34" x="222" y="456" transform="rotate(12 229 473)"/>
+    <use href="#chicco" width="14" height="32" x="196" y="488" transform="rotate(-18 203 504)"/>
+    <use href="#chicco" width="14" height="32" x="220" y="488" transform="rotate(14 227 504)"/>
+  </g>
+  <g color="#8D6E2A" stroke="currentColor" fill="none" stroke-width=".8" opacity=".55" stroke-linecap="round">
+    <path d="M216 392 202 306M198 424 164 356M228 424 262 356"/>
+  </g>
+
+  <!-- stelo destro -->
+  <g color="#1C1C1C"><path d="M448 744c-12-104-24-206-20-286" fill="none" stroke="currentColor" stroke-width="1.8"/></g>
+  <g color="#8D6E2A" opacity=".85">
+    <use href="#chicco" width="16" height="36" x="420" y="430" transform="rotate(4 428 448)"/>
+    <use href="#chicco" width="16" height="36" x="404" y="460" transform="rotate(-12 412 478)"/>
+    <use href="#chicco" width="16" height="36" x="434" y="460" transform="rotate(14 442 478)"/>
+    <use href="#chicco" width="15" height="34" x="406" y="492" transform="rotate(-14 413 509)"/>
+    <use href="#chicco" width="15" height="34" x="432" y="492" transform="rotate(16 439 509)"/>
+    <use href="#chicco" width="14" height="32" x="410" y="524" transform="rotate(-16 417 540)"/>
+    <use href="#chicco" width="14" height="32" x="430" y="524" transform="rotate(18 437 540)"/>
+  </g>
+  <g color="#8D6E2A" stroke="currentColor" fill="none" stroke-width=".8" opacity=".55" stroke-linecap="round">
+    <path d="M426 426 416 344M410 460 378 396M440 460 472 396"/>
+  </g>
+
+  <!-- foglie -->
+  <g color="#1C1C1C" opacity=".85"><use href="#foglia" width="52" height="140" x="238" y="586" transform="rotate(-24 264 656)"/></g>
+  <g color="#1C1C1C" opacity=".85"><use href="#foglia" width="48" height="130" x="366" y="600" transform="rotate(22 390 665)"/></g>
+
+  <!-- terra -->
+  <g color="#1C1C1C" opacity=".5"><line x1="120" y1="744" x2="520" y2="744" stroke="currentColor" stroke-width="1"/></g>
+  <g color="#1C1C1C"><rect x="120" y="744" width="400" height="16" fill="url(#tr-rado)" stroke="none"/></g>
+</svg>

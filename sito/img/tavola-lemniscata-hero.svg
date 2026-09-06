@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-label="Lemniscata disegnata dalla luce, incisione su avorio">
+<defs>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/>
+  </pattern>
+  <symbol id="rosa" viewBox="0 0 200 200">
+    <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+      <circle cx="100" cy="100" r="12"/>
+      <path d="M100 88c9-7 20-3 21 8s-9 19-21 16"/><path d="M100 112c-9 7-20 3-21-8s9-19 21-16"/>
+      <path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/>
+      <path d="M100 52c25-15 52-3 55 24s-22 47-55 43"/><path d="M100 148c-25 15-52 3-55-24s22-47 55-43"/>
+      <path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/>
+      <circle cx="100" cy="100" r="86" stroke-width=".7" opacity=".55"/>
+    </g>
+  </symbol>
+</defs>
+
+  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <defs>
+    <!-- la velatura di fondo: caldo a sinistra, freddo a destra -->
+    <radialGradient id="vCaldo" cx="26%" cy="62%" r="52%">
+      <stop offset="0%" stop-color="#B88F3D" stop-opacity=".17"/>
+      <stop offset="52%" stop-color="#C08A55" stop-opacity=".06"/>
+      <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vFreddo" cx="74%" cy="38%" r="52%">
+      <stop offset="0%" stop-color="#5F7396" stop-opacity=".15"/>
+      <stop offset="52%" stop-color="#5F7396" stop-opacity=".05"/>
+      <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- alone: la luce che attraversa -->
+    <filter id="alone" x="-30%" y="-60%" width="160%" height="220%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+    <filter id="aloneStretto" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+
+    <!-- lost and found: il tratto si perde in due punti -->
+    <linearGradient id="perdita" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fff" stop-opacity=".15"/>
+      <stop offset="14%" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset="33%" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset="43%" stop-color="#fff" stop-opacity=".08"/>
+      <stop offset="52%" stop-color="#fff" stop-opacity=".65"/>
+      <stop offset="62%" stop-color="#fff" stop-opacity=".95"/>
+      <stop offset="79%" stop-color="#fff" stop-opacity=".9"/>
+      <stop offset="90%" stop-color="#fff" stop-opacity=".1"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity=".3"/>
+    </linearGradient>
+    <mask id="mkPerdita"><rect x="200" y="180" width="1000" height="400" fill="url(#perdita)"/></mask>
+  </defs>
+
+  <rect width="1400" height="760" fill="url(#vCaldo)"/>
+  <rect width="1400" height="760" fill="url(#vFreddo)"/>
+
+  <!-- la lemniscata, definita una volta e riusata a tre livelli -->
+  <g id="lem" transform="translate(0,-4)">
+    <!-- alone largo: la luce -->
+    <path d="M700 380C616 280 484 268 424 322c-58 52-46 152 44 176 92 24 176-40 232-118 56-78 140-142 232-118 90 24 102 124 44 176-60 54-192 42-276-58z"
+          fill="none" stroke="#B88F3D" stroke-width="26" opacity=".22" filter="url(#alone)"/>
+    <!-- alone stretto: il nucleo -->
+    <path d="M700 380C616 280 484 268 424 322c-58 52-46 152 44 176 92 24 176-40 232-118 56-78 140-142 232-118 90 24 102 124 44 176-60 54-192 42-276-58z"
+          fill="none" stroke="#D9B86A" stroke-width="9" opacity=".5" filter="url(#aloneStretto)"/>
+    <!-- il tratto inciso, che si perde e riemerge -->
+    <g mask="url(#mkPerdita)">
+      <path d="M700 380C616 280 484 268 424 322c-58 52-46 152 44 176 92 24 176-40 232-118 56-78 140-142 232-118 90 24 102 124 44 176-60 54-192 42-276-58z"
+            fill="none" stroke="#8D6E2A" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- tratteggio rado dentro le due anse: la materia del velo -->
+  <g color="#8D6E2A" opacity=".13">
+    <ellipse cx="512" cy="378" rx="92" ry="72" fill="url(#tr-rado)" stroke="none" transform="rotate(-8 512 378)"/>
+    <ellipse cx="888" cy="378" rx="92" ry="72" fill="url(#tr-rado)" stroke="none" transform="rotate(8 888 378)"/>
+  </g>
+
+  <!-- il nodo centrale: un solo punto luminoso, non un incrocio disegnato -->
+  <circle cx="700" cy="376" r="30" fill="#F5E4BC" opacity=".5" filter="url(#aloneStretto)"/>
+  <circle cx="700" cy="376" r="3.2" fill="#8D6E2A" opacity=".7"/>
+</svg>

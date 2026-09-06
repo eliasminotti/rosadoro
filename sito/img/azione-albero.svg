@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Un albero appena piantato, inciso">
+  <rect width="200" height="240" fill="#FBFBF9"/>
+  <!-- chioma -->
+  <g stroke="#1C1C1C" fill="none" stroke-linecap="round">
+    <ellipse cx="100" cy="86" rx="52" ry="42" stroke-width="1.6"/>
+    <path d="M62 74c14-12 32-16 48-10M74 112c16 8 38 6 52-6M112 56c12 4 22 14 24 26M68 96c4 8 10 14 18 18" stroke-width=".9" opacity=".55"/>
+  </g>
+  <!-- tratteggio della chioma -->
+  <g stroke="#8D6E2A" stroke-width=".8" opacity=".4" stroke-linecap="round">
+    <path d="M78 66l-8 8M94 60l-12 12M110 58l-14 14M124 62l-14 14M134 74l-12 12M136 90l-10 10M126 104l-8 8"/>
+  </g>
+  <!-- tronco -->
+  <g stroke="#1C1C1C" fill="none" stroke-linecap="round">
+    <path d="M96 128c1 24 1 44-2 62M104 128c1 22 2 42 4 62" stroke-width="1.6"/>
+    <path d="M97 142c-8-6-13-13-14-22M103 152c8-5 13-11 15-19" stroke-width="1.2"/>
+  </g>
+  <!-- terra smossa e radici -->
+  <g stroke="#1C1C1C" fill="none" stroke-linecap="round">
+    <path d="M64 190h72" stroke-width="1.6"/>
+    <path d="M84 196c-6 5-14 7-22 6M116 196c6 5 14 7 22 6" stroke-width="1" opacity=".6"/>
+  </g>
+  <g stroke="#8D6E2A" stroke-width=".8" opacity=".5" stroke-linecap="round">
+    <path d="M52 208h12M74 208h10M92 208h16M120 208h10M140 208h8"/>
+  </g>
+</svg>
