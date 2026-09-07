@@ -153,6 +153,7 @@ p:last-child{margin-bottom:0}
 .hero h1{font-weight:var(--peso-hero);font-size:96px;line-height:1;letter-spacing:-.01em;margin:0 0 30px;max-width:16ch}
 .hero .filo{margin-bottom:28px}
 .hero .sotto{font-family:var(--display);font-style:italic;font-weight:300;font-size:23px;line-height:1.5;max-width:44ch;color:var(--testo-70);margin:0}
+.hero .sotto.unica{max-width:none}
 .hero .sotto.motto{font-style:normal;font-weight:600;color:var(--accento);font-size:clamp(26px,2.7vw,38px);line-height:1.2;letter-spacing:.005em;max-width:none;text-wrap:balance}
 .grana{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>")}
 
@@ -380,6 +381,7 @@ p:last-child{margin-bottom:0}
 
 /* ---------- testi impaginati: citazioni, box, elenchi ---------- */
 .citazione{font-family:var(--display);font-style:italic;font-weight:400;font-size:26px;line-height:1.4;color:var(--accento);max-width:40ch;margin:2em 0}
+.citazione.unica{max-width:none}          /* le frasi che Dacia vuole su una linea sola */
 .testo>.citazione:first-child{margin-top:0}
 .testo ul{margin:0 0 1.2em;padding-left:1.15em}
 .testo ul li{margin:.45em 0}
@@ -394,7 +396,8 @@ p:last-child{margin-bottom:0}
 
 /* le quattro azioni dei funerali */
 .azioni{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:2.2em 0}
-.azione{border:1px solid var(--filo);background:var(--carta);padding:22px 26px;display:flex;gap:20px;align-items:center;transition:border-color .15s}
+.azione{border:1px solid var(--filo);background:var(--carta);padding:22px 26px;display:flex;gap:20px;align-items:center;transition:border-color .15s;color:inherit}
+a.azione:hover h4{color:var(--accento)}
 .azione:hover{border-color:var(--filo-forte)}
 .azione img{width:88px;height:auto;flex:0 0 auto}
 .azione h4{font-family:var(--display);font-size:22px;line-height:1.15;margin:0 0 6px;font-weight:600}
@@ -405,6 +408,8 @@ p:last-child{margin-bottom:0}
 .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .foto .didascalia{position:absolute;left:12px;right:12px;bottom:14px;text-align:center;font-size:11px;line-height:16px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45)}
 .foto.ritratto{aspect-ratio:4/5;max-width:420px}
+.foto.cielo{aspect-ratio:4/3}
+.foto.cielo img{object-position:50% 38%}   /* la fotografia è verticale: si tiene la parte con l'arcobaleno */
 .foto.quadra{aspect-ratio:1;margin:0}
 
 /* il giardino dei ricordi */

@@ -26,18 +26,21 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
     musica=True,
     corpo="""
 <p class="citazione">Le memorie più belle sono quelle che durano in eterno. Le memorie più belle sono quelle che plasmano la realtà.</p>
-<p>Un fondo di memoria è una donazione o una raccolta fondi che commemora la vita di una persona speciale. Crea un ponte tra ciò che è stato e ciò che sarà, tra il mondo della materia e il mondo spirituale, tra il mondo dell'agire e quello dei tuoi cari, come un arcobaleno.</p>
-{foto:ARCOBALENO1|La fotografia dell'arcobaleno entra qui|}
-<p>Scegliendo attivamente di onorare coloro che non ci sono più, crei un dialogo continuo di amore e memoria che arricchisce la tua vita e quella di chi ti circonda. Secondo alcune tradizioni — l'antroposofia, ad esempio — questo atto allevia anche le pene di chi è partito, magari prematuramente, lasciando in sospeso cose o situazioni.</p>
+<p>Un fondo di memoria è una donazione o una raccolta fondi che commemora la vita di una persona speciale. Esso crea un ponte tra ciò che è stato e ciò che sarà, tra il mondo della materia e il mondo spirituale, tra il mondo del tuo agire e quello dei tuoi cari che non possono più compiere azione. Come un arcobaleno.</p>
+{foto:ARCOBALENO1|Un arcobaleno|cielo}
+<p>Scegliendo attivamente di onorare coloro che non ci sono più, crei un dialogo continuo di amore e memoria che arricchisce la tua vita e quella di chi ti circonda. Secondo alcune tradizioni spirituali e l'antroposofia, ad esempio, questo atto allevia anche le pene di chi è dipartito, magari prematuramente, lasciando in sospeso cose o situazioni.</p>
 <h3>Apri un fondo per onorare il tuo caro e i suoi valori, sostenendo un progetto</h3>
-<p>Trasforma il lutto in un aiuto concreto a favore di progetti e cause che erano vicini alla persona scomparsa, e che vivranno nel futuro grazie a un atto di amore e di gratitudine. La vita può cambiare irrimediabilmente con una perdita; attraverso un progetto concreto, però, l'essenza di chi non c'è più continua a toccare il mondo, con un legame che trascende la morte. Un gesto semplice e importante, che può permettere a noi di portare a termine oggi ciò che ieri è rimasto incompiuto.</p>
-<p>Aprire un fondo in memoria di un nonno contadino, sostenendo progetti di agricoltura cosciente, può motivare le generazioni future a curarsi della terra e a rinnovare tradizioni antiche con pratiche sostenibili. O ancora: una donna avrebbe voluto diventare violinista e, per le avversità della vita, non ha potuto; dedicare il suo fondo a un progetto sulla musica è un modo per far proseguire ciò che in vita non è accaduto.</p>
-{foto:BIMBA 1|La fotografia della bambina entra qui|ritratto}
+<p>Trasforma il lutto in un aiuto concreto a favore di progetti e cause che erano vicini alla persona scomparsa, e che vivranno nel futuro grazie a un atto di amore e di gratitudine. La vita può cambiare irrimediabilmente con una perdita; attraverso un progetto concreto, però, l'essenza di chi non c'è più continua a toccare il mondo, con un legame che trascende la morte.</p>
+<p class="citazione">Un gesto semplice e importante, che può permettere a noi di portare a termine oggi ciò che ieri è rimasto incompiuto.</p>
+<p>Aprire un fondo in memoria di un nonno contadino, sostenendo progetti di agricoltura cosciente, può motivare le generazioni future a curarsi della terra e a rinnovare tradizioni antiche con pratiche sostenibili.</p>
+<p class="citazione">Ci sono momenti in cui il passato pesa come un debito non saldato.</p>
+<p>O ancora: una donna avrebbe voluto diventare violinista e, per le avversità della vita, non ha potuto farlo; dedicare il suo fondo a un progetto sulla musica è un modo per far perseguire ciò che in vita non è accaduto.</p>
+{foto:BIMBA 1|Una bambina|ritratto}
 <div class="box">
 <p><strong>Ricordare aiuta.</strong> Chi raccoglie fondi in memoria di una persona cara racconta di trarne un beneficio reale: un senso dato alla perdita, un miglioramento del proprio benessere, legami rinsaldati e nuovi. Lo documenta il rapporto della fondazione britannica Marie Curie sul fundraising in memoria.</p>
 <p><a class="link" href="https://www.mariecurie.org.uk/document/fundraising-in-memory-bereavement-impact-report" rel="noopener">Leggi il rapporto</a> &nbsp;·&nbsp; <a class="link" href="{→in-memoria/elaborare-il-lutto}">Elaborare il lutto: l'approfondimento</a></p>
 </div>
-<p>Perché la memoria diventi un gesto concreto, crea un fondo con noi: le azioni parlano più delle parole.</p>
+<p class="citazione">Perché la memoria diventi un gesto concreto, crea un fondo con noi: le azioni parlano più delle parole.</p>
 <h3>Aprire il fondo è semplice e veloce</h3>
 <p>Decidi tu il come, la finalità, la visibilità oppure la riservatezza, fino all'anonimato. La Fondazione ti solleva dalle incombenze burocratiche, amministrative e contabili. Puoi farlo in tre modi:</p>
 <ul>
@@ -66,10 +69,10 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 <li>perché crediamo in progetti che migliorino il futuro del mondo, grazie alla saggezza e al lavoro dei nostri cari.</li>
 </ul>
 <h3>I vantaggi fiscali</h3>
-<p>I contributi versati a un fondo di memoria della Fondazione sono detraibili o deducibili secondo l'art. 83 del Codice del Terzo Settore (D.Lgs. 117/2017). Per le persone: <strong>detrazione IRPEF del 30%</strong> dell'importo donato, su un massimo di 30.000 euro l'anno (vantaggio fino a 9.000 euro); in alternativa, <strong>deduzione dal reddito fino al 10%</strong> del reddito complessivo, con l'eccedenza riportabile nei quattro periodi d'imposta successivi. Per aziende, liberi professionisti e società: deduzione delle erogazioni in denaro fino al 10% del reddito dichiarato. Perché il beneficio valga, la donazione va fatta con strumenti tracciabili: bonifico, carta, versamento postale. Il quadro completo è in <a class="link" href="{→lasciti/vantaggi-fiscali}">Vantaggi fiscali</a>.</p>
-<p class="citazione">Onoriamo la memoria di ieri dando ali ai sogni di domani.</p>
+<p>I contributi versati a un fondo di memoria della Fondazione sono detraibili o deducibili secondo l'art. 83 del Codice del Terzo Settore (D.Lgs. 117/2017). Per le persone: <strong>detrazione IRPEF del 30%</strong> dell'importo donato, su un massimo di 30.000 euro l'anno (vantaggio fino a 9.000 euro); in alternativa, <strong>deduzione dal reddito fino al 10%</strong> del reddito complessivo, con l'eccedenza riportabile nei quattro periodi d'imposta successivi. Per aziende, liberi professionisti e società: deduzione delle erogazioni in denaro fino al 10% del reddito dichiarato. Perché il beneficio valga, la donazione va fatta con strumenti tracciabili: bonifico, carta, versamento postale.</p>
+<p class="citazione unica">Onoriamo la memoria di ieri dando ali ai sogni di domani.</p>
 <p>Il fondo di memoria è previsto dallo statuto della Fondazione (art. 12, «Fondo della memoria ed eredità solidale»): lo trovi nella pagina <a class="link" href="{→documenti}">Documenti</a>; per i professionisti c'è la <a class="link" href="{→professionisti/fondo-della-memoria}">scheda dedicata</a>.</p>
-<p>E ci sono altri modi per sostenere chi affronta un lutto: <a class="link" href="{→in-memoria/giardino-dei-ricordi}">il Giardino dei ricordi</a>, i <a class="link" href="{→in-memoria/funerali}">Funerali</a>, <a class="link" href="{→in-memoria/svuota-e-sorridi}">gli Svuota e Sorridi</a> e <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Io sono qui per te</a>.</p>
+<p>Ci sono anche altri modi per sostenere chi affronta un lutto: <a class="link" href="{→in-memoria/giardino-dei-ricordi}">il Giardino dei ricordi</a>, i <a class="link" href="{→in-memoria/funerali}">Funerali</a>, <a class="link" href="{→in-memoria/svuota-e-sorridi}">gli Svuota e Sorridi</a> e <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Io sono qui per te</a>.</p>
 """)
 
 # ------------------------------------------------------- B · il giardino
@@ -85,7 +88,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   <div class="pianta">{foto:ARCOBALENO2|L'arcobaleno|quadra}<button type="button" data-foto="L'arcobaleno">Scegli questa immagine</button></div>
 </div>
 <figure class="dedica-esempio">
-  {foto:FOTO APE|Un esempio|}
+  {foto:FOTO APE|L'ape sul fiore, l'immagine dell'esempio|}
   <figcaption><strong>Nonna Clelia</strong><br>«Ci ha insegnato la pazienza dei fiori.» — <em>un esempio: il nome, e la dedica se si vuole</em></figcaption>
 </figure>
 <h3>Contattaci inoltre per</h3>
@@ -121,10 +124,10 @@ TESTI["in-memoria/funerali"] = dict(
     corpo="""
 <p>Al posto di ghirlande e fiori, per il funerale si possono raccogliere fondi per un progetto. Chi partecipa scrive un messaggio di vicinanza per coloro che restano, e sostiene con la propria donazione una causa:</p>
 <div class="azioni">
-  <div class="azione"><img src="{img:azione-candela.svg}" alt="Una candela accesa, incisa" width="200" height="240"><div><h4>Accendi una candela</h4><p>Sostieni progetti di medicina</p></div></div>
-  <div class="azione"><img src="{img:azione-albero.svg}" alt="Un albero appena piantato, inciso" width="200" height="240"><div><h4>Pianta un albero</h4><p>Sostieni progetti per l'agricoltura</p></div></div>
-  <div class="azione"><img src="{img:azione-fiore.svg}" alt="Un fiore che sboccia, inciso" width="200" height="240"><div><h4>Fai sbocciare un fiore</h4><p>Sostieni progetti che riguardano il sociale</p></div></div>
-  <div class="azione"><img src="{img:azione-clessidra.svg}" alt="La clessidra alata, incisa" width="200" height="240"><div><h4>Gira la clessidra alata</h4><p>Sostieni progetti che riguardano il fine vita</p></div></div>
+  <a class="azione" href="{→dona}"><img src="{img:azione-candela.svg}" alt="Una candela accesa, incisa" width="200" height="240"><div><h4>Accendi una candela</h4><p>Sostieni progetti di medicina</p></div></a>
+  <a class="azione" href="{→dona}"><img src="{img:azione-albero.svg}" alt="Un albero appena piantato, inciso" width="200" height="240"><div><h4>Pianta un albero</h4><p>Sostieni progetti per l'agricoltura</p></div></a>
+  <a class="azione" href="{→dona}"><img src="{img:azione-fiore.svg}" alt="Un fiore che sboccia, inciso" width="200" height="240"><div><h4>Fai sbocciare un fiore</h4><p>Sostieni progetti che riguardano il sociale</p></div></a>
+  <a class="azione" href="{→dona}"><img src="{img:azione-clessidra.svg}" alt="La clessidra alata, incisa" width="200" height="240"><div><h4>Gira la clessidra alata</h4><p>Sostieni progetti che riguardano il fine vita</p></div></a>
 </div>
 <p>Grazie ai ricordi, chi non c'è più rimane presente nella vita dei suoi cari: ricordarlo è un modo naturale per mantenere vivo il legame e, gradualmente, accettare l'assenza. E talvolta, per sostenere la famiglia, serve un gesto concreto.</p>
 <h3>Un gesto concreto per la famiglia</h3>
@@ -137,21 +140,23 @@ TESTI["in-memoria/funerali"] = dict(
 # --------------------------------------------------- D · svuota e sorridi
 TESTI["in-memoria/svuota-e-sorridi"] = dict(
     sotto="Riordina l'esterno mettendo ordine al tuo mondo interno. Apri spazio a un nuovo capitolo.",
+    unica=True,      # tutta sulla stessa linea (Dacia, 7.9)
     corpo="""
-<p>Svuotare la casa di una persona cara che non c'è più è uno dei momenti più intensi del lutto, e ha un profondo potere terapeutico: un atto pratico che fa da ponte tra il dolore e l'accettazione, trasformando un gesto materiale in un vero processo psicologico. Ogni scatola riempita è un piccolo rituale di congedo.</p>
+<p>Svuotare la casa di una persona cara che non c'è più è uno dei momenti più intensi del lutto, e ha un profondo potere terapeutico: un atto pratico che fa da ponte tra il dolore e l'accettazione, trasformando un gesto materiale in un vero processo psicologico.</p>
+<p class="citazione">Ogni scatola riempita è un piccolo rituale di congedo.</p>
 <p>Farlo da soli, però, richiede spesso troppe energie: le case contengono gli oggetti di una vita intera, ed è difficile scegliere che cosa tenere e che cosa lasciare andare.</p>
 <h3>Come funziona</h3>
 <p>Un'équipe di volontari, empatici e delicati, arriva con un furgone direttamente alla casa e aiuta a creare un nuovo ordine: catalogare gli oggetti, alleggerire dal superfluo, fare spazio — fino allo smaltimento ecologico, alla pulizia profonda, all'imbiancare o allo spostare mobili. E ciò che può avere una seconda vita viene donato, perché abbia uno scopo: è da qui che nasce il sorriso del nome.</p>
 <p>L'équipe si sta formando in queste settimane: <a class="link" href="{→contatti}">scrivici</a> per essere tra i primi a ricevere il servizio — o per unirti tu stesso ai volontari.</p>
 <figure class="tavola"><img src="{img:tavola-interno.svg}" alt="La luce entra da una finestra ad arco in un interno inciso"><figcaption>Il nuovo che arriva</figcaption></figure>
-<p class="citazione">Non restare fermo nel dolore: muoviti verso il futuro.</p>
+<p class="citazione unica">Non restare fermo nel dolore: muoviti verso il futuro.</p>
 """)
 
 # ------------------------------------------------- E · io sono qui per te
 TESTI["in-memoria/io-sono-qui-per-te"] = dict(
     sotto="Accanto a chi si avvicina alla soglia, e a chi gli vuole bene.",
     corpo="""
-<p>Stai attraversando la fase più delicata della vita e hai bisogno di una persona che ti aiuti? Accompagni un familiare al passaggio della soglia? Siamo qui per sostenere le persone in fin di vita, le loro famiglie e i loro cari, in modo concreto e spirituale, prendendo in considerazione tutto ciò che c'è attorno.</p>
+<p>Stai attraversando la fase più delicata della vita e hai bisogno di una persona che ti aiuti? Accompagni un familiare al passaggio della soglia? <strong>Siamo qui per sostenere le persone in fin di vita, le loro famiglie e i loro cari, in modo concreto e spirituale, prendendo in considerazione tutto ciò che c'è attorno.</strong></p>
 <p>Siamo qui per orientarti tra le decisioni e le scelte della fase finale della vita: dal funerale al testamento, fino a decidere chi si occuperà del tuo cane e del tuo gatto.</p>
 <p>Hai voglia di liberare la casa e destinare i tuoi oggetti, ma non ne hai la forza? Siamo qui per te: il «riordino svedese» (Margareta Magnusson, <em>The Gentle Art of Swedish Death Cleaning</em>) accompagna un distacco graduale e sereno — e gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a> possono darti una mano concreta.</p>
 <h3>Un percorso con un counsellor</h3>

@@ -324,6 +324,11 @@ def gettoni(html, da):
     def foto(m):
         nome, dida, classe = m.group(1), m.group(2), m.group(3)
         classe = (" " + classe) if classe else ""
+        # se la fotografia è arrivata (img/foto/<nome>.jpg), entra al suo posto; altrimenti resta il posto segnato
+        file = re.sub(r"[^a-z0-9]+", "-", nome.lower()).strip("-") + ".jpg"
+        if os.path.exists(os.path.join(USCITA, "img", "foto", file)):
+            return ('<figure class="foto%s"><img src="%s" alt="%s" loading="lazy"></figure>'
+                    % (classe, risorsa(da, "img/foto/" + file), sfuggi(dida)))
         return ('<figure class="foto%s" data-file="%s"><span class="didascalia">%s · %s</span></figure>'
                 % (classe, sfuggi(nome), sfuggi(dida), sfuggi(nome)))
     html = re.sub(r"\{foto:([^|}]+)\|([^|}]*)\|([^}]*)\}", foto, html)
@@ -505,7 +510,7 @@ def pagina_html(da, p):
         sotto += ('</p><button type="button" class="ascolta" data-audio="%s" hidden>Ascolta · Chopin, valzer op. 69'
                   '</button><p hidden>' % risorsa(da, "audio/valzer-op-69.mp3"))
     # il motto: la frase d'apertura tutta in un rigo, più grande ed evidente (Dacia, 6.9)
-    classe_sotto = "sotto motto" if da in TESTI and TESTI[da].get("motto") else "sotto"
+    classe_sotto = "sotto" + (" motto" if TESTI.get(da, {}).get("motto") else "") + (" unica" if TESTI.get(da, {}).get("unica") else "")
     classe_body = ' class="notte"' if p.get("notte") else ""
     return """<!DOCTYPE html>
 <html lang="it">
