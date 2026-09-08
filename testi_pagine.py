@@ -6,6 +6,7 @@ La voce è la sua; la redazione (refusi, misura, registro) è concordata.
 Gettoni usati nei testi, sostituiti dall'assemblatore:
   {→cartella}        collegamento relativo alla pagina indicata
   {img:file.svg}     percorso di un'immagine in img/
+  {file:nome.pdf}    percorso di un allegato da scaricare, in allegati/
   {foto:NOME|didascalia|classe}   posto di una fotografia non ancora consegnata
 """
 
@@ -271,6 +272,7 @@ TESTI["lasciti/perche-donare"] = dict(
 <li><strong>Perché lavoriamo con notai e professionisti che conoscono questi strumenti</strong>: lo statuto della Fondazione è stato scritto e rivisto con loro. {verifica}</li>
 <li><strong>Perché puoi trarne vantaggi fiscali.</strong></li>
 </ul>
+<p>Il rendiconto dei lasciti ricevuti, e di come sono stati impiegati, è in corso d'opera: sarà pubblicato in questa pagina.</p>
 <h3>I vantaggi fiscali</h3>
 <p>I lasciti a favore degli enti del Terzo settore iscritti al RUNTS, come la Fondazione, sono <strong>esenti dall'imposta di successione</strong> (art. 82, comma 2, del Codice del Terzo Settore, D.Lgs. 117/2017). Per gli altri beneficiari si applicano aliquote e franchigie che variano con il grado di parentela: il 4% per il coniuge e i parenti in linea retta, con una franchigia di un milione di euro per ciascun erede; il 6% per fratelli e sorelle, con franchigia di 100.000 euro, e per gli altri parenti fino al quarto grado; l'8% per tutti gli altri, senza franchigia. {verifica}</p>
 <p class="citazione unica">Lascia un segno concreto per un futuro bello, buono e giusto.</p>
@@ -295,6 +297,7 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
 <p>Si redigono per atto pubblico, per scrittura privata autenticata da un notaio, oppure per scrittura privata consegnata di persona all'ufficio dello stato civile del proprio Comune; sono esenti da bollo e da ogni tassa; si possono revocare o modificare in qualsiasi momento, con le stesse forme. Puoi indicare un <strong>fiduciario</strong> — la cosiddetta delega sanitaria — cioè una persona di fiducia che faccia le tue veci con i medici e faccia valere la tua volontà. Le DAT sono inserite nella Banca dati nazionale del Ministero della Salute, accessibile ai medici in caso di necessità.</p>
 <p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
 <p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
+<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-modulo-bozza.pdf}">scarica il modulo (PDF)</a>. È una bozza in lettura: non sostituisce il colloquio con il tuo medico.</p>
 <p>Vuoi saperne di più, o parlarne con un medico preparato? Siamo qui per te: <a class="link" href="{→contatti}">contattaci</a>.</p>
 <h3>Le domande che un testamento aiuta a sciogliere</h3>
 <ul>

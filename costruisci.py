@@ -322,6 +322,7 @@ def gettoni(html, da):
     """sostituisce {→cartella}, {img:file} e {foto:NOME|didascalia|classe} nei testi"""
     html = re.sub(r"\{\u2192([a-z0-9\-/]*)\}", lambda m: verso(da, m.group(1)), html)
     html = re.sub(r"\{img:([^}]+)\}", lambda m: risorsa(da, "img/" + m.group(1)), html)
+    html = re.sub(r"\{file:([^}]+)\}", lambda m: risorsa(da, "allegati/" + m.group(1)), html)   # i PDF da scaricare
     def foto(m):
         nome, dida, classe = m.group(1), m.group(2), m.group(3)
         classe = (" " + classe) if classe else ""
@@ -551,7 +552,7 @@ def costruisci():
     # via le pagine vecchie, restano css/js/font/img
     for nome in os.listdir(USCITA):
         percorso = os.path.join(USCITA, nome)
-        if os.path.isdir(percorso) and nome not in ("css", "js", "font", "img"):
+        if os.path.isdir(percorso) and nome not in ("css", "js", "font", "img", "allegati"):
             shutil.rmtree(percorso)
         elif nome.endswith(".html"):
             os.remove(percorso)
