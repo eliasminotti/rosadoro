@@ -25,7 +25,7 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
     motto=True,      # tutta in un rigo, più grande ed evidente (Dacia, 6.9)
     musica=True,
     corpo="""
-<p class="citazione">Le memorie più belle sono quelle che durano in eterno. Le memorie più belle sono quelle che plasmano la realtà.</p>
+<p class="citazione unica">Le memorie più belle sono quelle che durano in eterno.<br>Le memorie più belle sono quelle che plasmano la realtà.</p>
 <p>Un fondo di memoria è una donazione o una raccolta fondi che commemora la vita di una persona speciale. Esso crea un ponte tra ciò che è stato e ciò che sarà, tra il mondo della materia e il mondo spirituale, tra il mondo del tuo agire e quello dei tuoi cari che non possono più compiere azione. Come un arcobaleno.</p>
 {foto:ARCOBALENO1|Un arcobaleno|cielo}
 <p>Scegliendo attivamente di onorare coloro che non ci sono più, crei un dialogo continuo di amore e memoria che arricchisce la tua vita e quella di chi ti circonda. Secondo alcune tradizioni spirituali e l'antroposofia, ad esempio, questo atto allevia anche le pene di chi è dipartito, magari prematuramente, lasciando in sospeso cose o situazioni.</p>
@@ -35,7 +35,6 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 <p>Aprire un fondo in memoria di un nonno contadino, sostenendo progetti di agricoltura cosciente, può motivare le generazioni future a curarsi della terra e a rinnovare tradizioni antiche con pratiche sostenibili.</p>
 <p class="citazione">Ci sono momenti in cui il passato pesa come un debito non saldato.</p>
 <p>O ancora: una donna avrebbe voluto diventare violinista e, per le avversità della vita, non ha potuto farlo; dedicare il suo fondo a un progetto sulla musica è un modo per far perseguire ciò che in vita non è accaduto.</p>
-{foto:BIMBA 1|Una bambina|ritratto}
 <div class="box">
 <p><strong>Ricordare aiuta.</strong> Chi raccoglie fondi in memoria di una persona cara racconta di trarne un beneficio reale: un senso dato alla perdita, un miglioramento del proprio benessere, legami rinsaldati e nuovi. Lo documenta il rapporto della fondazione britannica Marie Curie sul fundraising in memoria.</p>
 <p><a class="link" href="https://www.mariecurie.org.uk/document/fundraising-in-memory-bereavement-impact-report" rel="noopener">Leggi il rapporto</a> &nbsp;·&nbsp; <a class="link" href="{→in-memoria/elaborare-il-lutto}">Elaborare il lutto: l'approfondimento</a></p>
@@ -49,6 +48,7 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 <li>la creazione di un fondo di memoria a nome del defunto, in cui decidi tu la destinazione — per la persona cara che se ne è andata, o per te stesso, per come vuoi essere ricordato.</li>
 </ul>
 <p class="citazione">Trasforma la perdita in speranza per il mondo.</p>
+{foto:AURORA BOREALE|L'aurora boreale|ritratto}
 <h3>Che cosa puoi donare</h3>
 <ul>
 <li>una somma di denaro;</li>
@@ -82,10 +82,19 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 <p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più. Scegli l'immagine e scrivi il nome della persona che vuoi ricordare — e, se vuoi, una dedica. Il nome arriva alla Fondazione e viene posato nel giardino, accanto all'immagine scelta.</p>
 <div class="giardino" aria-label="Le immagini del giardino">
   <div class="pianta">{foto:FOTO APE|L'ape sul fiore|quadra}<button type="button" data-foto="L'ape sul fiore">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:ROSA|La rosa|quadra}<button type="button" data-foto="La rosa">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GRANO PERSIANO|Il grano|quadra}<button type="button" data-foto="Il grano">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:NEVE1|La neve|quadra}<button type="button" data-foto="La neve">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:ARCOBALENO2|L'arcobaleno|quadra}<button type="button" data-foto="L'arcobaleno">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:STELLE DI BETLEMME|Le stelle di Betlemme|quadra}<button type="button" data-foto="Le stelle di Betlemme">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:ROSA BIANCA|La rosa bianca|quadra}<button type="button" data-foto="La rosa bianca">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:CAMPANELLINI|I campanellini|quadra}<button type="button" data-foto="I campanellini">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:SALICE|Il salice sull'acqua|quadra}<button type="button" data-foto="Il salice sull'acqua">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:NON TI SCORDAR DI ME|I nontiscordardimé|quadra}<button type="button" data-foto="I nontiscordardimé">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:FIORI DI CILIEGIO|I fiori di ciliegio|quadra}<button type="button" data-foto="I fiori di ciliegio">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:TARASSACO|Il tarassaco|quadra}<button type="button" data-foto="Il tarassaco">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:STELLA AZZURRA|La stella azzurra|quadra}<button type="button" data-foto="La stella azzurra">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:TULIPANO|Il tulipano|quadra}<button type="button" data-foto="Il tulipano">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:CANDELA E ROSE|La candela e le rose|quadra}<button type="button" data-foto="La candela e le rose">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIRASOLE|Il girasole|quadra}<button type="button" data-foto="Il girasole">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:SOFFIONI|I soffioni|quadra}<button type="button" data-foto="I soffioni">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:BOCCIOLO DI ROSA|Il bocciolo di rosa|quadra}<button type="button" data-foto="Il bocciolo di rosa">Scegli questa immagine</button></div>
 </div>
 <figure class="dedica-esempio">
   {foto:FOTO APE|L'ape sul fiore, l'immagine dell'esempio|}
@@ -132,7 +141,8 @@ TESTI["in-memoria/funerali"] = dict(
 <p>Grazie ai ricordi, chi non c'è più rimane presente nella vita dei suoi cari: ricordarlo è un modo naturale per mantenere vivo il legame e, gradualmente, accettare l'assenza. E talvolta, per sostenere la famiglia, serve un gesto concreto.</p>
 <h3>Un gesto concreto per la famiglia</h3>
 <p>Vuoi essere tu a coprire le spese del funerale di un amico? O vorresti chiedere aiuto senza imbarazzo, permettendo a chi desidera sostenerti — ma non sa come — di farlo? Contattaci: apriremo noi la raccolta al posto tuo, per il funerale o per gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a>.</p>
-<p>È spesso difficile trovare la giusta distanza, e la giusta vicinanza, con chi ha subito un lutto. Sei l'azienda in cui la persona scomparsa lavorava, o un'associazione a cui ha dato molto in vita? Coinvolgi i tuoi dipendenti o i tuoi soci nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">Giardino dei ricordi</a>.</p>
+<p>È spesso difficile trovare la giusta distanza, e la giusta vicinanza, con chi ha subito un lutto.</p>
+<p><strong>Sei l'azienda in cui la persona scomparsa lavorava, o un'associazione a cui ha dato molto in vita?</strong> Coinvolgi i tuoi dipendenti o i tuoi soci nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">Giardino dei ricordi</a>.</p>
 <h3>Un funerale laico</h3>
 <p>Vuoi celebrare un funerale laico? Stiamo attivando i contatti giusti: <a class="link" href="{→contatti}">scrivici</a>.</p>
 """)
@@ -156,11 +166,12 @@ TESTI["in-memoria/svuota-e-sorridi"] = dict(
 TESTI["in-memoria/io-sono-qui-per-te"] = dict(
     sotto="Accanto a chi si avvicina alla soglia, e a chi gli vuole bene.",
     corpo="""
-<p>Stai attraversando la fase più delicata della vita e hai bisogno di una persona che ti aiuti? Accompagni un familiare al passaggio della soglia? <strong>Siamo qui per sostenere le persone in fin di vita, le loro famiglie e i loro cari, in modo concreto e spirituale, prendendo in considerazione tutto ciò che c'è attorno.</strong></p>
+<p>Stai attraversando la fase più delicata della vita e hai bisogno di una persona che ti aiuti? Accompagni un familiare al passaggio della soglia?</p>
+<p><strong>Siamo qui per sostenere le persone nel fine vita, le loro famiglie e i loro cari, in modo concreto e spirituale, prendendo in considerazione tutto quanto è attorno a te.</strong></p>
 <p>Siamo qui per orientarti tra le decisioni e le scelte della fase finale della vita: dal funerale al testamento, fino a decidere chi si occuperà del tuo cane e del tuo gatto.</p>
-<p>Hai voglia di liberare la casa e destinare i tuoi oggetti, ma non ne hai la forza? Siamo qui per te: il «riordino svedese» (Margareta Magnusson, <em>The Gentle Art of Swedish Death Cleaning</em>) accompagna un distacco graduale e sereno — e gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a> possono darti una mano concreta.</p>
+<p>Hai voglia di liberare casa, destinare i vari oggetti, ma non ne hai la forza? Siamo qui per aiutarti a svuotare casa: il «riordino svedese» (Margareta Magnusson, <em>The Gentle Art of Swedish Death Cleaning</em>) accompagna un distacco graduale e sereno, e gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a> possono darti una mano concreta.</p>
 <h3>Un percorso con un counsellor</h3>
-<p>Fai fatica a uscire dal lutto e a elaborarlo? Contattaci per un percorso con uno dei nostri counsellor. Il counsellor non cura — il lutto non è una malattia, è un processo naturale — ma offre uno spazio protetto, sicuro e non giudicante per esplorare le emozioni e ricostruire una quotidianità interrotta. Secondo le tue inclinazioni puoi scegliere chi lavora con piccole strategie di adattamento, con la meditazione, con l'arteterapia o con la scrittura espressiva. Sarai sostenuto in tutti i passaggi verso il futuro, per ricominciare a vivere.</p>
+<p>Fai fatica a uscire dal lutto e a elaborarlo? <strong>Siamo qui per aiutarti. Contattaci per un percorso con uno dei nostri counsellor.</strong> Il counsellor non cura — il lutto non è una malattia, è un processo naturale — ma offre uno spazio protetto, sicuro e non giudicante per esplorare le emozioni e ricostruire una quotidianità interrotta. Secondo le tue inclinazioni puoi scegliere chi lavora con piccole strategie di adattamento, con la meditazione, con l'arteterapia o con la scrittura espressiva. Sarai sostenuto in tutti i passaggi verso il futuro, per ricominciare a vivere.</p>
 <p><a class="vai" href="{→contatti}">Avvia la procedura per essere messo in contatto</a></p>
 <p>Possiamo rispondere anche a qualsiasi altra domanda tu abbia riguardo alla morte, al morire e alle malattie. Non sei solo.</p>
 <h3>Incontri e workshop</h3>
