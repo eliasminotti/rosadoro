@@ -270,7 +270,7 @@ TESTI["lasciti/perche-donare"] = dict(
 <li><strong>Perché i progetti sono costruiti sulla persona e sul territorio</strong>, personalizzati secondo le esigenze del luogo e della comunità.</li>
 <li><strong>Perché, se lo vorrai, daremo notizia del tuo impegno</strong> — o del tuo lascito, quando sarà avvenuto — sul sito e sui nostri canali, perché tu sia ricordato, magari con una tua frase.</li>
 <li><strong>Perché lavoriamo con notai e professionisti che conoscono questi strumenti</strong>: lo statuto della Fondazione è stato scritto e rivisto con loro. {verifica}</li>
-<li><strong>Perché siamo una fondazione con una struttura leggera</strong>: la parte di ciò che doni che va a finire in amministrazione è contenuta, e il bilancio — depositato ogni anno al Registro del Terzo settore, e quindi pubblico — lo mostra.</li>
+<li><strong>Perché siamo una Fondazione con una struttura leggera e focalizzata su ciò che conta</strong>: la parte di ciò che doni e che va a finire in amministrazione è contenuta, e il bilancio — depositato ogni anno al Registro del Terzo settore, e quindi pubblico — lo mostra.</li>
 <li><strong>Perché puoi trarne vantaggi fiscali.</strong></li>
 </ul>
 <p>Il rendiconto dei lasciti ricevuti, e di come sono stati impiegati, è in corso d'opera: sarà pubblicato in questa pagina.</p>
