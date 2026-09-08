@@ -49,7 +49,7 @@ SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei
 # per «In memoria» viene dal testo di Dacia (TESTI); per le altre è provvisoria,
 # e si sostituisce con l'introduzione vera al punto 4. «casa» è la tavola incisa della fascia.
 SEZIONI = [
-    dict(chiave="in-memoria", voce="In memoria", titolo="In memoria", hero="avorio", casa="lemniscata",
+    dict(chiave="in-memoria", voce="In memoria", titolo="In memoria", hero="lemniscata", casa="lemniscata",
          pagine=[
              dict(slug="fondo-di-memoria", voce="Donazione in memoria di…", titolo="Il fondo di memoria", riga=""),
              dict(slug="giardino-dei-ricordi", voce="Il giardino dei ricordi", titolo="Il giardino dei ricordi", riga=""),
@@ -59,11 +59,12 @@ SEZIONI = [
              dict(slug="elaborare-il-lutto", voce="Elaborare il lutto", titolo="Elaborare il lutto", riga="", nascosta=True),
          ]),
     dict(chiave="lasciti", voce="Lasciti", titolo="Lasciti", hero="rosa", tavola="interno", casa="rosa",
-         intro="Per chi pensa a un lascito: le informazioni e il supporto, i vantaggi fiscali previsti dalla legge, e ciò che la Fondazione offre a chi lascia.",
+         intro="Il lascito testamentario e come si fa; perché farlo alla Rosa d'Oro, con i vantaggi fiscali; il testamento redatto con noi; il Dopo di Noi per chi ha un familiare fragile.",
          pagine=[
-             dict(slug="supporto", voce="Supporto", titolo="Informazioni e supporto", riga="Per chi vuole fare un lascito"),
-             dict(slug="vantaggi-fiscali", voce="Vantaggi fiscali", titolo="Vantaggi fiscali", riga=""),
-             dict(slug="offerte", voce="Offerte", titolo="Possibilità e servizi per chi lascia", riga="Che cosa la Fondazione offre"),
+             dict(slug="il-lascito-testamentario", voce="Così volli che fosse", titolo="Così volli che fosse", riga="Il lascito testamentario"),
+             dict(slug="perche-donare", voce="Perché donare alla Rosa d'Oro", titolo="Perché donare alla Rosa d'Oro", riga="Con i vantaggi fiscali"),
+             dict(slug="il-tuo-testamento", voce="Redigi il tuo testamento con noi", titolo="Redigi il tuo testamento con noi", riga="I tipi di testamento, le DAT", tavola="lettera"),
+             dict(slug="dopo-di-noi", voce="Il Dopo di Noi", titolo="Il Dopo di Noi", riga="La protezione dei fragili", art="Legge 112/2016"),
          ],
          rimandi=[dict(voce="Progetti", titolo="I progetti che un lascito può sostenere", verso="progetti")]),
     dict(chiave="progetti", voce="Progetti", titolo="Progetti", hero="avorio", tavola="paesaggio", casa="paesaggio",
@@ -105,7 +106,7 @@ SEZIONI = [
          pagine=[
              dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="Mandato di esecutore testamentario e custode", riga="", art="Statuto, art. 14 · artt. 700 ss. c.c."),
              dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="", art="Statuto, art. 14"),
-             dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="", art="Statuto, art. 14 · L. 112/2016"),
+             dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="", art="Statuto, art. 14 · L. 112/2016", gemella="lasciti/dopo-di-noi"),
              dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="", art="Statuto, art. 14"),
              dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="", art="Statuto, art. 8"),
              dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="", art="Statuto, art. 9"),
@@ -344,6 +345,7 @@ TAVOLE_ALT = {
     "rosa": "Rosa vista dall'alto, incisa",
     "lemniscata": "Lemniscata disegnata dalla luce, incisa su avorio",
     "portico": "Portico a quattro colonne con la rosa nel timpano, inciso su avorio",
+    "lettera": "Una lettera chiusa dal sigillo con la rosa, e una penna stilografica, incise su avorio",
 }
 TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 

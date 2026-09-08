@@ -199,3 +199,131 @@ TESTI["in-memoria/elaborare-il-lutto"] = dict(
 <p>Il lutto riguarda sia la perdita reale di una persona cara, sia perdite metaforiche: la fine di una relazione, un cambiamento drastico di vita. Si parla di <em>lutto complicato</em> quando l'elaborazione si blocca e il dolore non si attenua con il tempo: a differenza del lutto naturale, in cui la sofferenza acuta lascia gradualmente spazio all'integrazione del ricordo, la persona rimane a lungo trattenuta nelle prime fasi emotive, con un impatto invalidante sulla vita quotidiana.</p>
 <p><strong>Ti riconosci in questo? Stai affrontando un lutto e hai delle domande?</strong> <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Io sono qui per te</a>.</p>
 """)
+
+
+# ================================================================ LASCITI
+# Dal documento «LASCITO» di Dacia (8 settembre 2026). Le frasi con {verifica}
+# sono quelle che aspettano il riscontro di Elias prima della pubblicazione.
+V = '<span class="da-verificare">da verificare</span>'
+
+TESTI["lasciti"] = dict(
+    sotto="Un futuro che aspetta di essere scritto.",
+    corpo="""
+<p class="citazione">C'è un futuro che aspetta di essere scritto. Diventa tu l'inchiostro.</p>
+<p>Negli ultimi anni il testamento solidale ha acquisito una rilevanza crescente a livello internazionale. In Italia è ancora poco diffuso; in altri paesi europei, come il Regno Unito, la cultura del lascito solidale è ormai radicata, e quell'esperienza offre spunti per rendere questa scelta sempre più accessibile.</p>
+<p>In queste pagine: che cos'è un lascito testamentario e come si fa; perché farlo alla Rosa d'Oro, con i vantaggi fiscali; come redigere il tuo testamento con noi; e il Dopo di Noi, per chi ha un familiare fragile da proteggere.</p>
+""")
+
+TESTI["lasciti/il-lascito-testamentario"] = dict(
+    sotto="Il lascito testamentario: un gesto di amore, solidarietà e generosità.",
+    corpo="""
+<p>Il lascito testamentario è una disposizione inserita nel testamento con cui decidi, in vita, di destinare una parte o la totalità del tuo patrimonio — denaro, immobili, titoli, oggetti di valore — a persone, enti o organizzazioni non profit, dopo la tua morte.</p>
+<p>La legge italiana permette a ciascuno di destinare liberamente una parte del proprio patrimonio, la cosiddetta <strong>quota disponibile</strong>, anche a organizzazioni non profit (artt. 536 e seguenti del codice civile). Nessuno viene penalizzato: i tuoi cari sono sempre tutelati dalla <strong>quota di legittima</strong>, che spetta di diritto ai parenti più stretti, al coniuge o alla persona unita civilmente. Le quote variano con la composizione della famiglia: con un solo figlio e senza coniuge, per esempio, metà del patrimonio spetta a lui per legge, e l'altra metà è disponibile, da destinare secondo le tue volontà.</p>
+<p>Senza testamento, i beni si dividono secondo le regole della successione legittima, che possono assegnarli a persone meno vicine a te o, in mancanza di parenti, allo Stato.</p>
+<p>Fare un lascito testamentario significa operare con libertà e coscienza. Un testamento è un modo sicuro per garantire che i tuoi desideri vengano rispettati e che i tuoi ideali continuino a realizzarsi anche dopo di te.</p>
+<p class="citazione">Dona a ciò che per te è vita.</p>
+{foto:ROSA|Una rosa|ritratto}
+<p>Esprimere le proprie ultime volontà con un lascito è un gesto semplice, privo di vincoli e sempre modificabile, che assicura il rispetto dei propri desideri e dei propri progetti. Conta ancora di più in un momento difficile, come una malattia: scegliere con libertà e coscienza risveglia e rafforza l'Io, e promuove forze di guarigione. E sentirsi parte di una comunità più grande — ampliando lo sguardo alla realtà sociale e spirituale che ci circonda e ci riguarda, in quanto esseri umani che hanno camminato su questa terra — aiuta a non sentirsi soli, malati e isolati, ma parte di un tutto.</p>
+<p>Un lascito testamentario è un segno tangibile del tuo impegno verso gli altri.</p>
+<h3>Che cosa puoi lasciare</h3>
+<p>Un lascito solidale non richiede grandi patrimoni. Puoi lasciare:</p>
+<ul>
+<li>una somma di denaro;</li>
+<li>titoli, azioni, buoni postali, fondi di investimento o il tuo TFR;</li>
+<li>beni mobili: opere d'arte, gioielli, arredi, orologi, libri, oggetti d'antiquariato, collezioni;</li>
+<li>beni immobili: appartamenti, terreni, fabbricati;</li>
+<li>polizze vita: designare la Fondazione come beneficiaria è semplice e riservato, e le somme liquidate dall'assicuratore non entrano nell'asse ereditario (art. 1923 c.c.), fermi restando i diritti che la legge riserva ai legittimari sui premi versati;</li>
+<li>la nuda proprietà.</li>
+</ul>
+<h3>I tre tipi di lascito</h3>
+<ul>
+<li><strong>residuale</strong>: una quota del patrimonio, o ciò che ne resta dopo i legati e la quota di legittima garantita ai parenti stretti;</li>
+<li><strong>pecuniario</strong>: una somma di denaro determinata;</li>
+<li><strong>specifico</strong>, o legato di specie: un bene preciso e identificato — un oggetto, un gioiello, un immobile.</li>
+</ul>
+<h3>Donazione o lascito?</h3>
+<p>La donazione ha effetto subito, mentre sei in vita, e richiede l'atto notarile alla presenza di due testimoni. Il lascito ha effetto dopo la morte, resta modificabile finché vivi e non toglie nulla alla disponibilità dei tuoi beni.</p>
+<p class="citazione unica">Lascia un segno concreto per un futuro bello, buono e giusto.</p>
+<h3>Come fare un lascito alla Fondazione</h3>
+<p>Perché sia valido, il lascito va inserito in un testamento redatto in una delle forme previste dalla legge: le trovi in <a class="link" href="{→lasciti/il-tuo-testamento}">Redigi il tuo testamento con noi</a>. Si può decidere in qualunque fase della vita, e non toglie nulla alla disponibilità dei beni durante la vita. <a class="link" href="{→contatti}">Contattaci</a>, oppure procedi così:</p>
+<ol>
+<li>scrivi per esteso la denominazione ufficiale, il codice fiscale e la sede legale della Fondazione: <strong>Fondazione La Rosa d'Oro ETS</strong>, codice fiscale <strong>14629350969</strong>, Via Bianca di Savoia 17, 20122 Milano;</li>
+<li>decidi che cosa lasciare: una somma, un bene, un immobile, una quota;</li>
+<li>verifica la quota disponibile: se ti serve un professionista per calcolarla con precisione, <a class="link" href="{→contatti}">contattaci</a>;</li>
+<li>scegli la forma del testamento;</li>
+<li>affida l'atto a un notaio (testamento pubblico), per evitare smarrimenti e contestazioni;</li>
+<li>conserva il testamento in un luogo sicuro — depositato dal notaio, e affidato a una persona di fiducia — perché sia facilmente reperibile;</li>
+<li>se vuoi, comunicaci il tuo impegno: ci dà l'opportunità di esprimerti la nostra gratitudine mentre sei in vita. Il modulo di impegno te lo mandiamo su richiesta.</li>
+</ol>
+""")
+
+TESTI["lasciti/perche-donare"] = dict(
+    sotto="Donare è posare la prima pietra: apre la strada a molte altre.",
+    corpo="""
+<ul class="stelle">
+<li><strong>Perché donare è posare la prima pietra</strong>, e aprire la strada a molte altre che seguiranno. La tua donazione può finanziare un progetto preciso e locale, e fare una differenza tangibile: i tuoi parenti e amici potranno visitare i luoghi, parlare con chi li guida e vedere come vengono usati i fondi. Non confluisce in un bilancio grande, generico e senza luogo, sottratto a ogni riscontro.</li>
+<li><strong>Perché promuoviamo la pluralità e l'inclusione attiva.</strong> Crediamo che l'identità umana si declini al plurale, perché cresce e si arricchisce nell'incontro e nella relazione con l'altro. La Rosa d'Oro ha progetti propri e ne sostiene altri in linea con i suoi valori: chi ha un sogno in un dato ambito può <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentare il proprio progetto</a>, che viene valutato con un'analisi di fattibilità. Guarda i <a class="link" href="{→progetti}">progetti</a>.</li>
+<li><strong>Perché lavoriamo sul campo e con il cuore</strong>: per sostenere la cultura del dono e comunità che crescono, e arrivare dove lo Stato spesso non arriva.</li>
+<li><strong>Perché favoriamo i giovani.</strong></li>
+<li><strong>Perché in futuro agricoltura, medicina e sociale possono funzionare meglio.</strong></li>
+<li><strong>Perché i progetti sono costruiti sulla persona e sul territorio</strong>, personalizzati secondo le esigenze del luogo e della comunità.</li>
+<li><strong>Perché, se lo vorrai, daremo notizia del tuo impegno</strong> — o del tuo lascito, quando sarà avvenuto — sul sito e sui nostri canali, perché tu sia ricordato, magari con una tua frase.</li>
+<li><strong>Perché lavoriamo con notai e professionisti che conoscono questi strumenti</strong>: lo statuto della Fondazione è stato scritto e rivisto con loro. {verifica}</li>
+<li><strong>Perché puoi trarne vantaggi fiscali.</strong></li>
+</ul>
+<h3>I vantaggi fiscali</h3>
+<p>I lasciti a favore degli enti del Terzo settore iscritti al RUNTS, come la Fondazione, sono <strong>esenti dall'imposta di successione</strong> (art. 82, comma 2, del Codice del Terzo Settore, D.Lgs. 117/2017). Per gli altri beneficiari si applicano aliquote e franchigie che variano con il grado di parentela: il 4% per il coniuge e i parenti in linea retta, con una franchigia di un milione di euro per ciascun erede; il 6% per fratelli e sorelle, con franchigia di 100.000 euro, e per gli altri parenti fino al quarto grado; l'8% per tutti gli altri, senza franchigia. {verifica}</p>
+<p class="citazione unica">Lascia un segno concreto per un futuro bello, buono e giusto.</p>
+""")
+
+TESTI["lasciti/il-tuo-testamento"] = dict(
+    sotto="Facile, attraente, sociale, tempestivo: un gesto di pochi minuti.",
+    corpo="""
+<p>Compilare un testamento con noi è un gesto di pochi minuti. Ci ispiriamo a una strategia adottata con successo nel Regno Unito, il modello EAST — <em>Easy, Attractive, Social, Timely</em> — che favorisce l'adozione di comportamenti virtuosi: rendere il testamento solidale semplice significa ridurre le difficoltà burocratiche, agevolarne la compilazione e far crescere la cultura del dono. La Fondazione è qui per aiutarti in questo.</p>
+<p>Vuoi condividere la tua storia? Vuoi conoscere la storia di chi ha già fatto questa scelta? Vuoi iniziare un percorso biografico con uno dei nostri consulenti, per capire meglio che cosa vuoi davvero donare e quale può essere il tuo valore nel futuro? <a class="link" href="{→contatti}">Scrivici</a>.</p>
+<h3>I tipi di testamento</h3>
+<h4>1. Il testamento olografo: il più semplice</h4>
+<p>Deve essere scritto, datato (giorno, mese, anno) e firmato interamente a mano dal testatore — senza computer, macchina da scrivere o mano di terzi. Il suo vantaggio è la rapidità con cui si redige e si modifica. È consigliabile farne tre copie: una da conservare, una per il notaio, una per una persona fidata.</p>
+<h4>2. Il testamento pubblico: il più sicuro</h4>
+<p>È ricevuto dal notaio in presenza di due testimoni: il testatore espone le proprie volontà, che vengono messe per iscritto e firmate da testatore, testimoni e notaio, tenuti al più stretto riserbo. Questa forma protegge dai rischi di falsificazione, perdita o distruzione, perché l'atto è redatto dal notaio e conservato nel suo studio; una copia è registrata nel Registro generale dei testamenti, che lo rende rintracciabile anche senza conoscere il notaio.</p>
+<h4>3. Il testamento segreto: il più intimo</h4>
+<p>È redatto e chiuso in una busta sigillata, consegnata al notaio alla presenza di due testimoni: né il notaio né i testimoni ne conoscono il contenuto, che resta riservato fino all'apertura. Può essere scritto anche al computer o da terzi, ma deve essere firmato dal testatore.</p>
+<h3>Modificare il testamento</h3>
+<p>Il testamento può essere modificato o revocato in qualsiasi momento. Si può sostituire un testamento olografo con uno pubblico, e viceversa. Per le modifiche minori si può aggiungere un <em>codicillo</em>: un'aggiunta che integra o modifica le volontà espresse in precedenza. Per essere valide, le modifiche a un testamento olografo vanno scritte di proprio pugno, datate e firmate di nuovo.</p>
+<h3>La libertà del come: le DAT e il fiduciario</h3>
+<p>Al tuo testamento puoi affiancare le <strong>Disposizioni anticipate di trattamento</strong> (DAT), dette anche testamento biologico, regolate dalla legge 219/2017. Con le DAT una persona maggiorenne e capace di intendere e di volere esprime in anticipo le proprie volontà sulle cure: accertamenti diagnostici, scelte terapeutiche, trattamenti di sostegno vitale come la nutrizione e l'idratazione artificiali. Hanno effetto quando non si è più in grado di autodeterminarsi.</p>
+<p>Si redigono per atto pubblico, per scrittura privata autenticata da un notaio, oppure per scrittura privata consegnata di persona all'ufficio dello stato civile del proprio Comune; sono esenti da bollo e da ogni tassa; si possono revocare o modificare in qualsiasi momento, con le stesse forme. Puoi indicare un <strong>fiduciario</strong> — la cosiddetta delega sanitaria — cioè una persona di fiducia che faccia le tue veci con i medici e faccia valere la tua volontà. Le DAT sono inserite nella Banca dati nazionale del Ministero della Salute, accessibile ai medici in caso di necessità.</p>
+<p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
+<p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
+<p>Vuoi saperne di più, o parlarne con un medico preparato? Siamo qui per te: <a class="link" href="{→contatti}">contattaci</a>.</p>
+<h3>Le domande che un testamento aiuta a sciogliere</h3>
+<ul>
+<li>Chi prenderà le decisioni in caso di un incidente grave?</li>
+<li>Chi vorresti che si prendesse cura del tuo animale, in caso di morte improvvisa?</li>
+<li>Se entrambi i coniugi mancassero insieme, chi dovrebbe ereditare? E in caso di morte improvvisa, tutto al coniuge superstite, o preferisci che erediti anche qualcun altro?</li>
+<li>Come desideri che vengano accuditi i tuoi figli, se mancassero entrambi i genitori?</li>
+</ul>
+<div class="box">
+<p><strong>Chi lascia, e perché.</strong> Un sondaggio italiano sul lascito solidale — «La prima cosa bella: cosa rende bella la vita e cosa far durare per sempre», del Comitato Testamento Solidale — racconta che ciò che si vorrebbe durasse per sempre sono i legami affettivi (67,7% delle indicazioni) e il sentirsi una brava persona (45,5%); che per lasciare un ricordo di sé quasi un intervistato su quattro pensa al lascito solidale (24,4%), con un picco tra i 25 e i 34 anni (30%); e che tra gli oggetti da tramandare vince l'album di fotografie (44%), poi una lettera scritta a mano (37%). {verifica}</p>
+<p>Nel Regno Unito una parte sempre più significativa di chi fa testamento destina una quota a enti benefici: campagne di sensibilizzazione, agevolazioni fiscali, la fiducia nel non profit, e avvocati e notai che parlano del testamento solidale ai loro clienti. Secondo Rob Cope, direttore di Remember A Charity — un consorzio di oltre duecento enti benefici britannici — la chiave è stato il lavoro congiunto tra le organizzazioni, che ha trasformato il testamento solidale in una norma sociale. La Fondazione rema in questo senso. {verifica}</p>
+<p><a class="link" href="{→contatti}">Sei un'organizzazione non profit e vorresti collaborare? Scrivici.</a> &nbsp;·&nbsp; <a class="link" href="{→contatti}">Sei un notaio o un avvocato e vuoi lavorare con noi? Scrivici.</a></p>
+</div>
+""")
+
+TESTI["lasciti/dopo-di-noi"] = dict(
+    sotto="Prima o poi, tutti abbiamo bisogno di un riparo. Custodisci la fragilità altrui.",
+    corpo="""
+<p class="citazione">Prima o poi, tutti abbiamo bisogno di un riparo. Custodisci la fragilità altrui.</p>
+{foto:BIMBA 1|Una bambina di spalle, davanti al mare|ritratto}
+<p>I bambini con disabilità sono bambini bisognosi di cure dell'anima. Hai un familiare con disabilità e vuoi tutelarlo per quando non ci sarai più?</p>
+<p>La Fondazione è costituita per operare nel quadro della legge sul «Dopo di Noi» (legge 112/2016), a tutela delle persone con disabilità grave prive del sostegno familiare: per assicurare che il patrimonio della famiglia sia destinato esclusivamente al benessere della persona con disabilità; per co-progettare il percorso individuale con i servizi sociali e sanitari del territorio; per promuovere l'inserimento in micro-coabitazioni (gruppi appartamento) che ricreino l'ambiente familiare; per finanziare percorsi che sviluppino le competenze residue della persona — l'agricoltura sociale, l'arte; per favorire la cura dell'individuo: visite mediche, un'alimentazione adeguata, trattamenti olistici.</p>
+<p>Queste attività possono svolgersi d'intesa con una persona di fiducia indicata dalla famiglia come referente non amministrativo, che aiuti a coordinare le scelte conoscendo la storia della famiglia. E puoi lasciare tu stesso indicazioni sulla vostra storia insieme e su ciò che ti piacerebbe per lui o per lei, un domani.</p>
+<p class="citazione">La tutela delle fasce più vulnerabili è il pilastro su cui poggia una comunità solidale, equa e coesa.</p>
+<p class="citazione">Accudire la fragilità è come prendersi cura di un germoglio.</p>
+<p>Lo strumento è previsto dallo statuto della Fondazione (art. 14): lo trovi nella pagina <a class="link" href="{→documenti}">Documenti</a>. Per i professionisti c'è la <a class="link" href="{→professionisti/dopo-di-noi}">scheda sulla gestione del Dopo di Noi</a>.</p>
+<p><a class="vai" href="{→contatti}">Vuoi saperne di più? Contattaci</a></p>
+""")
+
+# il segno «da verificare», sostituito nei testi dei Lasciti
+for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento"):
+    TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
