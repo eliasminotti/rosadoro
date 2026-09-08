@@ -283,6 +283,13 @@ def footer(da):
 # --------------------------------------------------------------------------
 # le hero
 # --------------------------------------------------------------------------
+def lastra_foto(da):
+    """la fotografia della home (spighe e rosa sul tavolo), se c'è; altrimenti l'emblema e il posto segnato"""
+    if os.path.exists(os.path.join(USCITA, "img", "foto", "tavolo-spighe-rosa.jpg")):
+        return ('<img src="%s" alt="Un mazzo di spighe legato da un nastro e una rosa rossa su un tavolo di legno scuro, davanti a una libreria" width="1024" height="1024" fetchpriority="high">'
+                % risorsa(da, "img/foto/tavolo-spighe-rosa.jpg"))
+    return emblema() + '<span class="didascalia">La fotografia entra qui</span>'
+
 def hero(da, p, sotto, classe_sotto="sotto"):
     tipo = p["hero"]
     occhiello = '<p class="occhiello">%s</p>' % sfuggi(p["occhiello"])
@@ -308,14 +315,12 @@ def hero(da, p, sotto, classe_sotto="sotto"):
     <div class="dentro">%s</div>
     <div class="campo-foto">
       <div class="lastra">
-        <!-- quando c'è la fotografia: <img src="img/tavolo-spighe-rosa.jpg" alt="…" width="1024" height="1024"> -->
         %s
-        <span class="didascalia">La fotografia entra qui</span>
         <span class="squadra a"></span><span class="squadra b"></span>
       </div>
     </div>
   </div>
-</section>""" % (testo, emblema())
+</section>""" % (testo, lastra_foto(da))
     raise ValueError("hero sconosciuta: " + tipo)
 
 # --------------------------------------------------------------------------
