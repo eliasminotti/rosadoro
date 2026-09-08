@@ -441,6 +441,11 @@ a.azione:hover h4{color:var(--accento)}
 .dialogo input{width:100%;border:1px solid var(--filo-forte);background:var(--bianco);font-family:var(--sans);font-size:17px;line-height:1.4;color:var(--antracite);padding:12px}
 .dialogo input.manca{border-color:var(--bordeaux)}
 .dialogo textarea{width:100%;min-height:84px;border:1px solid var(--filo-forte);background:var(--bianco);font-family:var(--sans);font-size:16px;line-height:1.5;color:var(--antracite);padding:12px;resize:vertical}
+.dialogo label.consenso{display:flex;gap:12px;align-items:flex-start;margin:18px 0 0;font-family:var(--sans);font-size:14px;line-height:1.5;letter-spacing:0;text-transform:none;color:var(--antracite);cursor:pointer}
+.dialogo label.consenso input{width:18px;height:18px;flex:none;margin:3px 0 0;padding:0;accent-color:var(--oro)}
+.dialogo label.consenso.manca{color:var(--bordeaux)}
+.dialogo label.consenso.manca input{outline:2px solid var(--bordeaux);outline-offset:1px}
+.dialogo .nota a{color:var(--oro-scuro)}
 .dialogo .nota{font-size:13px;line-height:1.5;color:var(--testo-45);margin:14px 0 0;max-width:none}
 .dialogo .righe{display:flex;gap:12px;justify-content:flex-end;margin-top:16px}
 .dialogo .righe a,.dialogo .righe button{font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:11px 16px;border:1px solid var(--filo-forte);background:none;color:var(--accento);cursor:pointer}

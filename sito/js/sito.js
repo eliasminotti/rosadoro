@@ -103,6 +103,8 @@
   var campoFoto = velo.querySelector('.dedica-foto');
   var campoNome = velo.querySelector('#dedica-nome');
   var campoTesto = velo.querySelector('#dedica-testo');
+  var consenso = velo.querySelector('#dedica-consenso');
+  var rigaConsenso = consenso ? consenso.parentNode : null;
   var invia = velo.querySelector('.invia');
   var bottoni = document.querySelectorAll('.pianta button[data-foto]');
   for (var i = 0; i < bottoni.length; i++) {
@@ -112,6 +114,7 @@
       campoNome.value = '';
       campoTesto.value = '';
       campoNome.classList.remove('manca');
+      if (consenso) { consenso.checked = false; rigaConsenso.classList.remove('manca'); }
       velo.hidden = false;
       campoNome.focus();
     });
@@ -120,6 +123,7 @@
   velo.addEventListener('click', function (e) { if (e.target === velo) velo.hidden = true; });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') velo.hidden = true; });
   campoNome.addEventListener('input', function () { campoNome.classList.remove('manca'); });
+  if (consenso) consenso.addEventListener('change', function () { rigaConsenso.classList.remove('manca'); });
   invia.addEventListener('click', function (e) {
     var nome = campoNome.value.trim();
     if (!nome) {                                   /* il nome è l'unica cosa che serve */
@@ -128,11 +132,18 @@
       campoNome.focus();
       return;
     }
+    if (consenso && !consenso.checked) {           /* e il consenso alla pubblicazione */
+      e.preventDefault();
+      rigaConsenso.classList.add('manca');
+      consenso.focus();
+      return;
+    }
     var dedica = campoTesto.value.trim();
     var indirizzo = invia.getAttribute('data-mailto');
     invia.href = 'mailto:' + indirizzo +
       '?subject=' + encodeURIComponent('Giardino dei ricordi — ' + nome) +
       '&body=' + encodeURIComponent('In memoria di: ' + nome + '\nImmagine scelta: ' + scelta +
-        (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)'));
+        (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)') +
+        '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.'));
   });
 })();

@@ -120,7 +120,8 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
     <input id="dedica-nome" type="text" autocomplete="off" placeholder="Il nome, o come lo chiamavi">
     <label for="dedica-testo">Una dedica <span>facoltativa</span></label>
     <textarea id="dedica-testo" placeholder="Poche parole, o nessuna"></textarea>
-    <p class="nota">Il nome arriva alla Fondazione come messaggio e viene posato nel giardino a cura nostra.</p>
+    <label class="consenso" for="dedica-consenso"><input id="dedica-consenso" type="checkbox"> <span>Sono un familiare, o comunque una persona che ha titolo a ricordarla, e acconsento a che il nome e la dedica siano posati nel giardino, visibili a chi lo visita.</span></label>
+    <p class="nota">Il nome arriva alla Fondazione come messaggio e viene posato nel giardino a cura nostra: il sito non conserva nulla. Puoi chiederci in ogni momento di toglierlo, scrivendo a biodinamica@larosadoro.org. Non scrivere recapiti o dati di altre persone. Il modulo è per chi ha almeno 14 anni. <a class="link" href="{→privacy}">Come trattiamo i dati</a>.</p>
     <div class="righe">
       <button type="button" class="chiudi-dialogo">Annulla</button>
       <a class="invia" data-mailto="biodinamica@larosadoro.org" href="#">Invia</a>
@@ -332,3 +333,80 @@ TESTI["lasciti/dopo-di-noi"] = dict(
 # il segno «da verificare», sostituito nei testi dei Lasciti
 for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento"):
     TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
+
+
+# ------------------------------------------------------------ note legali
+# Bozza scritta l'8 settembre 2026 sulla base della ricerca «Ricerca — privacy e GDPR sito»
+# (cartella «SITO — operativa»). Da verificare da Elias; i punti aperti portano il cartellino.
+TESTI["privacy"] = dict(
+    sotto="Come trattiamo i tuoi dati, in parole semplici.",
+    corpo="""
+<p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, dedichi un ricordo o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
+
+<h3>Chi è il titolare</h3>
+<p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
+
+<h3>Quando visiti il sito</h3>
+<p>Il sito è fatto di sole pagine statiche. Non usa cookie di profilazione, né strumenti di analisi del traffico, né contenuti incorporati da terzi. I caratteri tipografici sono ospitati sui nostri stessi server. L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita le pagine, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Servono a far funzionare il sito e a proteggerlo da abusi. La base giuridica è il nostro legittimo interesse alla sicurezza del sito. Questi registri sono conservati da GitHub secondo le sue regole, per il tempo necessario a questo scopo. Ne parla anche l'<a class="link" href="{→cookie}">informativa sui cookie</a>.</p>
+
+<h3>Quando ci scrivi</h3>
+<p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica e il messaggio. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. Conserviamo la corrispondenza per il tempo necessario a gestire la richiesta, e in seguito solo se ne nasce un rapporto con la Fondazione.</p>
+
+<h3>Quando ci presenti un progetto</h3>
+<p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presenta il tuo progetto</a> ci arrivano i dati di chi propone, la descrizione del progetto e il collegamento al documento che vuoi farci leggere. Li usiamo solo per valutare la proposta, e li conserviamo per la durata della valutazione; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
+
+<h3>Quando dedichi un ricordo nel giardino</h3>
+<p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Il messaggio arriva alla Fondazione per posta elettronica e il nome viene posato nel giardino a cura nostra: il sito non conserva nulla da sé. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
+<p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi chiedere in ogni momento di togliere una dedica, la tua o quella di un tuo caro scritta da altri, scrivendo a <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
+
+<h3>Quando fai una donazione</h3>
+<p>Se doni con carta, Apple Pay o Google Pay, il pagamento avviene sulle pagine sicure di <strong>Stripe</strong> (Stripe Payments Europe Ltd, Irlanda). Se scegli PayPal, sulle pagine di <strong>PayPal</strong> (PayPal Europe S.à r.l. et Cie, S.C.A., Lussemburgo). In entrambi i casi il nostro sito non vede né conserva i dati della tua carta o del tuo conto: li raccolgono direttamente Stripe e PayPal, che trattano i dati del pagamento come titolari autonomi, secondo le loro informative (<a class="link" href="https://stripe.com/it/privacy" rel="noopener">Stripe</a>, <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">PayPal</a>). Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e la causale che hai scelto, oltre a un eventuale messaggio. Se doni con bonifico, ci arrivano i dati che la tua banca trasmette con il pagamento.</p>
+<p>La base giuridica è il rapporto di donazione che scegli di avviare e gli obblighi di legge che ne derivano per la Fondazione, in particolare la tenuta delle scritture contabili e la rendicontazione della raccolta fondi prevista per gli enti del Terzo settore.</p>
+
+<h3>La ricevuta e il codice fiscale</h3>
+<p>Le donazioni alla Fondazione danno diritto a una detrazione o a una deduzione fiscale (art. 83 del Codice del Terzo settore). Per emettere la ricevuta che ti serve, ti chiediamo separatamente il codice fiscale, insieme al nome e all'indirizzo: la ricevuta è un obbligo nostro, non una condizione del pagamento, e per questo il codice fiscale non passa da Stripe né da PayPal. La base giuridica è l'obbligo di legge. Le ricevute e i documenti contabili sono conservati per <strong>dieci anni</strong>, come prevede il codice civile per le scritture contabili.</p>
+
+<h3>Quando ti scriviamo noi</h3>
+<p>A chi ha donato possiamo scrivere per ringraziare e per rendere conto di come è stato usato ciò che ha donato. Per altri messaggi, come le notizie sulle attività della Fondazione, ti chiediamo prima il consenso, e puoi ritirarlo in ogni momento con una riga di risposta.</p>
+
+<h3>Chi tratta i dati insieme a noi</h3>
+<p>Oltre alle persone della Fondazione, i tuoi dati sono trattati da alcuni fornitori, ciascuno per la sua parte:</p>
+<ul>
+<li><strong>GitHub</strong> (GitHub, Inc., Stati Uniti) ospita le pagine del sito e ne tiene i registri tecnici, per conto della Fondazione;</li>
+<li><strong>Forminit</strong> (UXPLUS Ltd, Regno Unito) riceve i messaggi dei moduli e ce li recapita, per conto della Fondazione; i dati sono conservati cifrati su server in Irlanda; %(V)s</li>
+<li><strong>Stripe</strong> e <strong>PayPal</strong> gestiscono i pagamenti come titolari autonomi, come detto sopra;</li>
+<li>la <strong>banca</strong> della Fondazione, per i bonifici.</li>
+</ul>
+<p>Non vendiamo, non cediamo e non diffondiamo i tuoi dati. Possiamo comunicarli solo a chi la legge ci obbliga a comunicarli: per esempio al commercialista e agli organi di controllo, per la tenuta dei conti e il bilancio.</p>
+
+<h3>Fuori dall'Unione europea</h3>
+<p>GitHub tratta i registri tecnici negli Stati Uniti. Il trasferimento è coperto dal Data Privacy Framework tra Unione europea e Stati Uniti (decisione di esecuzione (UE) 2023/1795), al quale GitHub aderisce, e dalle clausole contrattuali standard della Commissione europea (decisione 2021/914). Forminit tratta i dati nel Regno Unito, Paese che l'Unione europea riconosce come adeguato (decisione rinnovata il 19 dicembre 2025), e li conserva in Irlanda. Stripe e PayPal, come titolari autonomi, rispondono in proprio delle garanzie sui trasferimenti, descritte nelle loro informative.</p>
+
+<h3>Per quanto tempo</h3>
+<ul>
+<li>registri tecnici del sito: per il tempo necessario alla sicurezza, secondo le regole di GitHub;</li>
+<li>messaggi dei moduli: per il tempo necessario a gestire la richiesta o la valutazione;</li>
+<li>dediche nel giardino: finché la pagina resta in linea, o finché non ne chiedi la rimozione;</li>
+<li>dati delle donazioni, ricevute e documenti contabili: dieci anni;</li>
+<li>consenso a ricevere notizie: finché non lo ritiri.</li>
+</ul>
+
+<h3>I tuoi diritti</h3>
+<p>Puoi chiederci in ogni momento di sapere quali dati abbiamo su di te, di correggerli, di cancellarli, di limitarne l'uso, di opporti al trattamento, di riceverli in un formato leggibile da una macchina; puoi ritirare un consenso che ci hai dato, senza che questo tocchi ciò che è stato fatto prima. Basta una riga a <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>. Se ritieni che i tuoi dati siano trattati in modo scorretto, puoi rivolgerti al Garante per la protezione dei dati personali (<a class="link" href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).</p>
+
+<h3>Se hai meno di quattordici anni</h3>
+<p>Il sito non si rivolge ai bambini e parla di temi che riguardano la perdita e la fine della vita. I moduli sono per chi ha almeno quattordici anni; per i più piccoli occorre l'intervento di chi esercita la responsabilità genitoriale (art. 2-quinquies del Codice in materia di protezione dei dati personali).</p>
+
+<h3>Questa informativa</h3>
+<p>È stata scritta l'8 settembre 2026, prima dell'apertura del sito, e verrà aggiornata quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
+""" % dict(V=V))
+
+TESTI["cookie"] = dict(
+    sotto="Questo sito non usa cookie. Ecco che cosa significa.",
+    corpo="""
+<p>Questo sito è composto solo da pagine statiche e <strong>non utilizza cookie di profilazione né altri strumenti di tracciamento</strong>. Per questo non trovi un banner da accettare: la legge lo richiede solo a chi traccia.</p>
+<p>Non usiamo sistemi di analisi del traffico, né contenuti incorporati da terzi come video, mappe o pulsanti dei social. I caratteri tipografici sono ospitati sui nostri stessi server, così nessun altro sa che stai leggendo queste pagine.</p>
+<p>L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita il sito, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Serve alla sola sicurezza del sito ed è trattato sulla base del nostro legittimo interesse, come previsto dalle linee guida del Garante per la protezione dei dati personali del 10 giugno 2021.</p>
+<p>Quando doni con carta o con PayPal, il pagamento avviene sulle pagine di Stripe o di PayPal, che hanno le loro regole sui cookie: le trovi nelle loro informative, prima di pagare.</p>
+<p>Se un giorno aggiungeremo strumenti che richiedono il consenso, questa pagina cambierà e comparirà il banner. Per tutto il resto, leggi l'<a class="link" href="{→privacy}">informativa sulla privacy</a>.</p>
+""")
