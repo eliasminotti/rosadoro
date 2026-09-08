@@ -175,6 +175,7 @@ p:last-child{margin-bottom:0}
 /* D Lemniscata: la tavola è lo sfondo, il testo le sta sopra a sinistra */
 .hero-lemniscata .tavola-sfondo{position:absolute;top:0;bottom:0;left:42%;right:0;z-index:0}
 .hero-lemniscata .tavola-sfondo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.hero-lemniscata.leggera .tavola-sfondo{opacity:.5}   /* le tavole a tratto pieno (rosa, interno) stanno più indietro */
 .hero-lemniscata .pagina>*{max-width:52%}
 .hero-lemniscata .velo{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(251,251,249,1) 0%,rgba(251,251,249,1) 41%,rgba(251,251,249,0) 60%)}
 

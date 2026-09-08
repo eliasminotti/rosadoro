@@ -49,12 +49,12 @@ SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei
 # per «In memoria» viene dal testo di Dacia (TESTI); per le altre è provvisoria,
 # e si sostituisce con l'introduzione vera al punto 4. «casa» è la tavola incisa della fascia.
 SEZIONI = [
-    dict(chiave="in-memoria", voce="In memoria", titolo="In memoria", hero="lemniscata", casa="lemniscata",
+    dict(chiave="in-memoria", voce="In memoria", titolo="In memoria", hero="avorio", casa="lemniscata",
          pagine=[
-             dict(slug="fondo-di-memoria", voce="Donazione in memoria di…", titolo="Il fondo di memoria", riga=""),
-             dict(slug="giardino-dei-ricordi", voce="Il giardino dei ricordi", titolo="Il giardino dei ricordi", riga=""),
-             dict(slug="funerali", voce="Funerali", titolo="Funerali", riga="Non fiori ma opere di bene"),
-             dict(slug="svuota-e-sorridi", voce="Gli Svuota e Sorridi", titolo="Gli Svuota e Sorridi", riga=""),
+             dict(slug="fondo-di-memoria", voce="Donazione in memoria di…", titolo="Il fondo di memoria", riga="", hero="tavola", testata="arcobaleno"),
+             dict(slug="giardino-dei-ricordi", voce="Il giardino dei ricordi", titolo="Il giardino dei ricordi", riga="", hero="tavola", testata="rosa", leggera=True),
+             dict(slug="funerali", voce="Funerali", titolo="Funerali", riga="Non fiori ma opere di bene", hero="tavola", testata="candela"),
+             dict(slug="svuota-e-sorridi", voce="Gli Svuota e Sorridi", titolo="Gli Svuota e Sorridi", riga="", hero="tavola", testata="interno", leggera=True),
              dict(slug="io-sono-qui-per-te", voce="Io sono qui per te", titolo="Io sono qui per te", riga="Accompagnamento nel fine vita", hero="lemniscata"),
              dict(slug="elaborare-il-lutto", voce="Elaborare il lutto", titolo="Elaborare il lutto", riga="", nascosta=True),
          ]),
@@ -151,7 +151,8 @@ for s in SEZIONI:
         cartella = p["slug"] if p.get("radice") else s["chiave"] + "/" + p["slug"]
         registra(cartella, voce=p["voce"], titolo=p["titolo"], occhiello=s["voce"], hero=p.get("hero", s["hero"]),
                  tipo="pagina", sezione=s["chiave"], notte=s.get("notte", False), art=p.get("art"), riga=p.get("riga", ""),
-                 tavola=p.get("tavola"), avviso=p.get("avviso"), gemella=p.get("gemella"))
+                 tavola=p.get("tavola"), avviso=p.get("avviso"), gemella=p.get("gemella"),
+                 testata=p.get("testata"), leggera=p.get("leggera", False))
 
 for p in SERVIZIO:
     registra(p["cartella"], voce=p["voce"], titolo=p["titolo"], occhiello=p["occhiello"], hero=p["hero"],
@@ -293,9 +294,11 @@ def hero(da, p, sotto, classe_sotto="sotto"):
         return '<section class="hero hero-rosa">%s<div class="pagina">%s</div></section>' % (emblema(), testo)
     if tipo == "veli":
         return '<section class="hero hero-veli"><div class="caldo"></div><div class="freddo"></div><div class="incontro"></div><div class="grana"></div><div class="pagina">%s</div></section>' % testo
-    if tipo == "lemniscata":
-        return ('<section class="hero hero-lemniscata"><div class="tavola-sfondo"><img src="%s" alt="" width="1400" height="760"></div>'
-                '<div class="velo"></div><div class="pagina">%s</div></section>' % (risorsa(da, "img/tavola-lemniscata-hero.svg"), testo))
+    if tipo in ("lemniscata", "tavola"):
+        nome = "lemniscata-hero" if tipo == "lemniscata" else p["testata"]
+        classe = "hero hero-lemniscata" + (" leggera" if p.get("leggera") else "")
+        return ('<section class="%s"><div class="tavola-sfondo"><img src="%s" alt="" width="1400" height="760"></div>'
+                '<div class="velo"></div><div class="pagina">%s</div></section>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), testo))
     if tipo == "notte":
         return '<section class="hero hero-notte"><div class="fondo"></div><div class="luce"></div>%s<div class="grana"></div><div class="pagina">%s</div></section>' % (emblema(), testo)
     if tipo == "casa":
@@ -347,6 +350,8 @@ TAVOLE_ALT = {
     "lemniscata": "Lemniscata disegnata dalla luce, incisa su avorio",
     "portico": "Portico a quattro colonne con la rosa nel timpano, inciso su avorio",
     "lettera": "Una lettera chiusa dal sigillo con la rosa, e una penna stilografica, incise su avorio",
+    "arcobaleno": "Un arcobaleno inciso sopra le colline",
+    "candela": "Una candela accesa, incisa",
 }
 TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 

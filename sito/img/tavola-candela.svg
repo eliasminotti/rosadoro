@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-label="Una candela accesa, incisa su fondo avorio">
+<defs>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/>
+  </pattern>
+  <radialGradient id="aloneC" cx="50%" cy="34%" r="40%">
+    <stop offset="0%" stop-color="#B88F3D" stop-opacity=".34"/>
+    <stop offset="40%" stop-color="#B88F3D" stop-opacity=".12"/>
+    <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="fiamma" cx="50%" cy="70%" r="55%">
+    <stop offset="0%" stop-color="#FFF4D6" stop-opacity=".95"/>
+    <stop offset="60%" stop-color="#B88F3D" stop-opacity=".35"/>
+    <stop offset="100%" stop-color="#B88F3D" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <rect width="1400" height="760" fill="url(#aloneC)"/>
+
+  <!-- il piano -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M300 640h800" stroke-width="1.2" opacity=".35"/>
+    <path d="M380 690h640" stroke-width=".7" opacity=".14"/>
+  </g>
+
+  <!-- il piattello -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <ellipse cx="700" cy="626" rx="118" ry="16" stroke-width="1.4" opacity=".55"/>
+    <path d="M582 626c0 12 52 22 118 22s118-10 118-22" stroke-width="1.2" opacity=".45"/>
+    <path d="M660 610c0 6 18 10 40 10s40-4 40-10" stroke-width=".9" opacity=".35"/>
+  </g>
+  <g color="#1C1C1C" opacity=".22"><path d="M582 626c0 12 52 22 118 22s118-10 118-22v10c0 12-52 22-118 22s-118-10-118-22z" fill="url(#tr-rado)" stroke="none"/></g>
+
+  <!-- la candela -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M656 614V336M744 614V336" stroke-width="1.6" opacity=".62"/>
+    <ellipse cx="700" cy="336" rx="44" ry="9" stroke-width="1.4" opacity=".6"/>
+    <path d="M656 614c0 5 20 9 44 9s44-4 44-9" stroke-width="1.2" opacity=".5"/>
+    <path d="M668 350c-2 40 4 70-6 96 8 14 4 40-2 60" stroke-width=".8" opacity=".3"/>
+    <path d="M700 327v-30" stroke-width="1.6" opacity=".7"/>
+  </g>
+  <g color="#1C1C1C" opacity=".3"><path d="M656 340v274c10 4 22 7 36 8V344c-14-1-26-2-36-4z" fill="url(#tr-medio)" stroke="none"/></g>
+  <!-- una goccia di cera -->
+  <g color="#B88F3D" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"><path d="M722 340c8 18 12 40 6 60 6 8 10 26 0 36"/></g>
+
+  <!-- la fiamma -->
+  <ellipse cx="700" cy="270" rx="70" ry="90" fill="url(#fiamma)"/>
+  <g color="#8D6E2A" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M700 296c-24-22-30-46-16-70 6-10 10-20 16-38 6 18 10 28 16 38 14 24 8 48-16 70z" stroke-width="1.5" opacity=".85"/>
+    <path d="M700 286c-10-12-14-26-6-40 2-6 4-10 6-18 2 8 4 12 6 18 8 14 4 28-6 40z" stroke-width="1" opacity=".55"/>
+  </g>
+  <!-- i raggi della luce, appena -->
+  <g color="#B88F3D" fill="none" stroke="currentColor" stroke-width=".8" stroke-linecap="round" opacity=".38">
+    <path d="M560 250h60M780 250h60M598 170l40 30M802 170l-40 30M700 140v40M640 120l20 40M760 120l-20 40"/>
+  </g>
+</svg>

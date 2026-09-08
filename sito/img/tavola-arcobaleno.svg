@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-label="Un arcobaleno inciso sopra le colline, su fondo avorio">
+<defs>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <radialGradient id="aloneA" cx="50%" cy="78%" r="52%">
+    <stop offset="0%" stop-color="#B88F3D" stop-opacity=".22"/>
+    <stop offset="55%" stop-color="#B88F3D" stop-opacity=".07"/>
+    <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="arco" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#8D6E2A" stop-opacity="0"/>
+    <stop offset="22%" stop-color="#8D6E2A" stop-opacity=".9"/>
+    <stop offset="50%" stop-color="#B88F3D" stop-opacity="1"/>
+    <stop offset="78%" stop-color="#8D6E2A" stop-opacity=".9"/>
+    <stop offset="100%" stop-color="#8D6E2A" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="arcoScuro" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#1C1C1C" stop-opacity="0"/>
+    <stop offset="30%" stop-color="#1C1C1C" stop-opacity=".35"/>
+    <stop offset="70%" stop-color="#1C1C1C" stop-opacity=".35"/>
+    <stop offset="100%" stop-color="#1C1C1C" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <rect width="1400" height="760" fill="url(#aloneA)"/>
+
+  <!-- i sette archi, dal più esterno: oro e antracite alternati, che si perdono ai piedi -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M190 640A510 510 0 0 1 1210 640" stroke="url(#arco)" stroke-width="2.2"/>
+    <path d="M214 640A486 486 0 0 1 1186 640" stroke="url(#arcoScuro)" stroke-width="1"/>
+    <path d="M238 640A462 462 0 0 1 1162 640" stroke="url(#arco)" stroke-width="1.6"/>
+    <path d="M262 640A438 438 0 0 1 1138 640" stroke="url(#arcoScuro)" stroke-width=".9"/>
+    <path d="M286 640A414 414 0 0 1 1114 640" stroke="url(#arco)" stroke-width="1.3"/>
+    <path d="M310 640A390 390 0 0 1 1090 640" stroke="url(#arcoScuro)" stroke-width=".8"/>
+    <path d="M334 640A366 366 0 0 1 1066 640" stroke="url(#arco)" stroke-width="1"/>
+  </g>
+  <!-- il tratteggio fra gli archi, solo nella parte alta -->
+  <g color="#B88F3D" opacity=".32">
+    <path d="M214 640A486 486 0 0 1 1186 640L1162 640A462 462 0 0 0 238 640z" fill="url(#tr-rado)" stroke="none" clip-path="inset(0 0 45% 0)"/>
+  </g>
+
+  <!-- le colline -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M0 596c160-58 300-70 460-46s300 60 460 40 300-64 480-52" stroke-width="1.5" opacity=".55"/>
+    <path d="M0 650c200-40 380-44 560-22s340 48 560 24 220-40 280-46" stroke-width="1.2" opacity=".4"/>
+    <path d="M0 704c240-26 470-26 700-10s470 22 700 6" stroke-width=".9" opacity=".25"/>
+    <path d="M60 760c100-18 220-24 340-20M520 760c140-14 300-16 460-8M1040 760c120-10 240-12 360-8" stroke-width=".7" opacity=".16"/>
+  </g>
+  <g color="#1C1C1C" opacity=".2"><path d="M0 650c200-40 380-44 560-22s340 48 560 24 220-40 280-46V704c-230-16-460-16-700 0s-470 22-700 10z" fill="url(#tr-rado)" stroke="none"/></g>
+
+  <!-- un albero piccolo, come nel paesaggio -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".5" stroke-linecap="round">
+    <path d="M1130 606v-58M1130 548c-22-2-36-18-36-36s16-32 36-32 36 14 36 32-14 34-36 36"/>
+  </g>
+</svg>
