@@ -1,0 +1,56 @@
+REGOLE DI QUALITÀ DEL SITO — Fondazione La Rosa d'Oro ETS
+Scritte l'11 settembre 2026 con Elias. Sono i segnali, quasi tutti inconsci,
+che separano un sito «fatto in casa» da uno «serio, solido, leggero e fluido».
+Ogni modifica al sito si confronta con questa lista prima di essere pubblicata.
+
+ 1. TIPOGRAFIA CURATA. Corpo del testo mai sotto i 17 px; righe di 60–75
+    caratteri; interlinea ampia; virgolette «» e apostrofo ’ (mai " e ');
+    due caratteri soltanto: Cormorant Garamond per i titoli, Instrument Sans
+    per il resto. Il corpo del testo curato quanto i titoli.
+ 2. SPAZIO COERENTE. Le distanze tra le sezioni sono sempre le stesse, i
+    blocchi hanno la stessa larghezza, niente è appiccicato. Lo spazio vuoto
+    è ciò che fa «alto livello».
+ 3. FOTOGRAFIE DELLA STESSA FAMIGLIA. Vedi le tre regole in fondo. Se una foto
+    non passa, meglio una tavola incisa che una foto media.
+ 4. POCHI COLORI, SEMPRE GLI STESSI. Avorio #FBFBF9, antracite #1C1C1C, oro
+    #B88F3D, oro scuro #8D6E2A, bordeaux #7A1F2F. Pulsanti identici in ogni
+    pagina: nessun colore nuovo per «far risaltare».
+ 5. MOVIMENTO MINIMO E FLUIDO. Niente caroselli automatici, niente parallasse,
+    niente effetti che saltano. Transizioni brevi (150–250 ms) su link e
+    pulsanti, così la pagina risponde alla mano.
+ 6. NIENTE SALTI MENTRE CARICA. Caratteri ospitati da noi e già pronti;
+    immagini con larghezza e altezza dichiarate, così lo spazio è riservato.
+    Il layout che si sposta mentre si legge è il segnale più forte di
+    «fatto in casa».
+ 7. VELOCITÀ. Ogni pagina sotto un secondo. Immagini compresse (JPEG di
+    qualità 80–85, mai sopra i 300 KB per una foto grande), nessun script
+    esterno.
+ 8. MENU E PIEDE UGUALI OVUNQUE. Stessa voce, stesso ordine, stessi dati
+    legali in fondo. Il visitatore non deve mai chiedersi «dove sono?».
+ 9. I DETTAGLI INVISIBILI. Icona nella scheda del browser; titolo della
+    scheda sensato; anteprima curata quando si condivide il link (og:image,
+    da fare con gli interruttori della pubblicazione); pagina «non trovata»
+    curata; email con lo stesso dominio del sito; https.
+10. PAROLE DA PERSONA, NON DA ENTE. «Scrivici» invece di «Invia»; frasi
+    brevi; niente punti esclamativi, niente MAIUSCOLE, niente «in
+    costruzione» o refusi. Un refuso in home vale come una macchia sulla
+    giacca.
+11. IN TRE SECONDI SI CAPISCE CHI SIAMO E COSA CHIEDIAMO. Un'idea per
+    schermata, un'azione principale per pagina.
+12. SUL TELEFONO TUTTO TIENE. Niente sfondamenti laterali, tocchi grandi,
+    menu che si apre bene. Metà dei visitatori vede solo questo.
+
+Chi controlla che cosa. I punti 1, 2, 4, 5, 6, 7, 8, 9 e 12 sono misurabili
+e li verifica Claude con strumenti (schermate, dimensioni, pesi, tempi).
+I punti 3, 10 e 11 si giudicano a occhio, insieme, Elias e Dacia con Claude.
+
+LE TRE REGOLE DELLE FOTOGRAFIE
+ a. Stessa famiglia: luce naturale, colori veri e non saturi, nessun filtro;
+    sul sito le foto devono sembrare scattate dalla stessa mano nello
+    stesso giorno.
+ b. Qualità minima: almeno 1600 px sul lato lungo per le foto grandi, 1000
+    per i quadrati del giardino; a fuoco; niente foto di stock, niente
+    immagini prese dalla rete.
+ c. Un soggetto per foto, con aria intorno: la foto deve reggere anche
+    tagliata in orizzontale (testate) o in quadrato (giardino).
+ Ogni foto nuova passa da queste tre regole prima di entrare nel sito.
