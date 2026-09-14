@@ -81,7 +81,8 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 TESTI["in-memoria/giardino-dei-ricordi"] = dict(
     sotto="Scegli un'immagine, scrivi il nome di chi vuoi ricordare: la posiamo nel giardino.",
     corpo="""
-<p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più. Scegli l'immagine e scrivi il nome della persona che vuoi ricordare — e, se vuoi, una dedica. Il nome arriva alla Fondazione e viene posato nel giardino, accanto all'immagine scelta.</p>
+<p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più, per il tuo caro. Puoi percepirne internamente il profumo. Scegli l'immagine e scrivi il nome della persona che vuoi ricordare — e, se vuoi, una dedica. Il nome arriva alla Fondazione e viene posato nel giardino, accanto all'immagine scelta, e lì resta, in un giardino di anime reso fecondo dal nostro Amore.</p>
+<p class="scorri" aria-hidden="true">Scorri la galleria <span>→</span></p>
 <div class="giardino" aria-label="Le immagini del giardino">
   <div class="pianta">{foto:FOTO APE|L'ape sul fiore|quadra}<button type="button" data-foto="L'ape sul fiore">Scegli questa immagine</button></div>
   <div class="pianta">{foto:STELLE DI BETLEMME|Le stelle di Betlemme|quadra}<button type="button" data-foto="Le stelle di Betlemme">Scegli questa immagine</button></div>
@@ -100,7 +101,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 </div>
 <figure class="dedica-esempio">
   {foto:FOTO APE|L'ape sul fiore, l'immagine dell'esempio|}
-  <figcaption><strong>Nonna Clelia</strong><br>«Ci ha insegnato la pazienza dei fiori.» — <em>un esempio: il nome, e la dedica se si vuole</em></figcaption>
+  <figcaption><strong>Nonna Clelia</strong><br>«Ci hai insegnato la laboriosità delle api e la bellezza paziente dello sbocciare dei fiori.» — <em>un esempio: il nome, e la dedica se si vuole</em></figcaption>
 </figure>
 <h3>Contattaci inoltre per</h3>
 <ul>
@@ -146,6 +147,8 @@ TESTI["in-memoria/funerali"] = dict(
 <p>Vuoi essere tu a coprire le spese del funerale di un amico? O vorresti chiedere aiuto senza imbarazzo, permettendo a chi desidera sostenerti — ma non sa come — di farlo? Contattaci: apriremo noi la raccolta al posto tuo, per il funerale o per gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a>.</p>
 <p>È spesso difficile trovare la giusta distanza, e la giusta vicinanza, con chi ha subito un lutto.</p>
 <p><strong>Sei l'azienda in cui la persona scomparsa lavorava, o un'associazione a cui ha dato molto in vita?</strong> Coinvolgi i tuoi dipendenti o i tuoi soci nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">Giardino dei ricordi</a>.</p>
+<h3>L'elogio funebre</h3>
+<p>Vuoi che qualcuno ti aiuti, o scriva per te, un elogio funebre per il tuo caro che ha passato la soglia? Abbiamo chi lo fa per te: <a class="link" href="{→contatti}">scrivici</a>.</p>
 <h3>Un funerale laico</h3>
 <p>Vuoi celebrare un funerale laico? Stiamo attivando i contatti giusti: <a class="link" href="{→contatti}">scrivici</a>.</p>
 """)
@@ -223,11 +226,13 @@ TESTI["lasciti/il-lascito-testamentario"] = dict(
 <p>Il lascito testamentario è una disposizione inserita nel testamento con cui decidi, in vita, di destinare una parte o la totalità del tuo patrimonio — denaro, immobili, titoli, oggetti di valore — a persone, enti o organizzazioni non profit, dopo la tua morte.</p>
 <p>La legge italiana permette a ciascuno di destinare liberamente una parte del proprio patrimonio, la cosiddetta <strong>quota disponibile</strong>, anche a organizzazioni non profit (artt. 536 e seguenti del codice civile). Nessuno viene penalizzato: i tuoi cari sono sempre tutelati dalla <strong>quota di legittima</strong>, che spetta di diritto ai parenti più stretti, al coniuge o alla persona unita civilmente. Le quote variano con la composizione della famiglia: con un solo figlio e senza coniuge, per esempio, metà del patrimonio spetta a lui per legge (art. 537 c.c.) e l'altra metà è disponibile, da destinare secondo le tue volontà; con il coniuge la ripartizione cambia (art. 542 c.c.). È solo un esempio: la base di calcolo è il patrimonio al netto dei debiti, più le donazioni fatte in vita (art. 556 c.c.), e il conto preciso lo fa un professionista.</p>
 <p>Senza testamento, i beni si dividono secondo le regole della successione legittima, che possono assegnarli a persone meno vicine a te o, in mancanza di parenti entro il sesto grado (art. 572 c.c.), allo Stato (art. 586 c.c.).</p>
-<p>Fare un lascito testamentario significa operare con libertà e coscienza. Un testamento è un modo sicuro per garantire che i tuoi desideri vengano rispettati e che i tuoi ideali continuino a realizzarsi anche dopo di te.</p>
+<p><strong>Fare un lascito testamentario significa operare con libertà e coscienza.</strong> Un testamento è un modo sicuro per garantire che i tuoi desideri vengano rispettati e che i tuoi ideali continuino a realizzarsi anche dopo di te.</p>
 <p class="citazione">Dona a ciò che per te è vita.</p>
 {foto:ROSA|Una rosa|ritratto}
-<p>Esprimere le proprie ultime volontà con un lascito è un gesto semplice, privo di vincoli e sempre modificabile, che assicura il rispetto dei propri desideri e dei propri progetti. Conta ancora di più in un momento difficile, come una malattia: scegliere con libertà e coscienza risveglia e rafforza l'Io, e promuove forze di guarigione. E sentirsi parte di una comunità più grande — ampliando lo sguardo alla realtà sociale e spirituale che ci circonda e ci riguarda, in quanto esseri umani che hanno camminato su questa terra — aiuta a non sentirsi soli, malati e isolati, ma parte di un tutto.</p>
-<p>Un lascito testamentario è un segno tangibile del tuo impegno verso gli altri.</p>
+<p>Esprimere le proprie ultime volontà con un lascito è un gesto semplice, privo di vincoli e sempre modificabile, che assicura il rispetto dei propri desideri e dei propri progetti. Ciò conta ancora di più in un momento difficile e di vulnerabilità, come una malattia: scegliere con libertà e coscienza come disporre delle proprie volontà e del proprio patrimonio, per quanto piccolo sia, risveglia e rafforza l'Io e promuove forze di guarigione. Studi dimostrano inoltre come la pianificazione anticipata delle cure (<em>Advance Care Planning</em>) riduca l'ansia e la depressione nei pazienti affetti da patologie gravi e croniche. Sentirsi parte di una comunità più grande — ampliando lo sguardo alla realtà sociale e spirituale che ci circonda e ci riguarda, in quanto esseri umani che hanno camminato su questa terra — aiuta a non sentirsi soli e isolati, ma parte di un tutto, eterno.</p>
+<p class="citazione">«Nessun atto di gentilezza, per piccolo che sia, va mai perduto.» — Esopo</p>
+<p>Uno studio pubblicato sul <em>New England Journal of Medicine</em> riporta inoltre che i familiari costretti a prendere decisioni di fine vita senza la guida di disposizioni anticipate hanno riportato tassi più elevati di depressione, ansia e sintomi da stress post-traumatico rispetto a coloro che disponevano di indicazioni chiare da seguire. {verifica} Facendo un testamento e compilando le DAT <strong>sollevi concretamente i tuoi cari</strong> da questo peso, dando loro la certezza di rispettare le tue volontà anziché dover intuire cosa potresti desiderare.</p>
+<p class="citazione">Un lascito testamentario è un segno tangibile del tuo impegno verso gli altri.</p>
 <h3>Che cosa puoi lasciare</h3>
 <p>Un lascito solidale non richiede grandi patrimoni. Puoi lasciare:</p>
 <ul>
@@ -248,7 +253,7 @@ TESTI["lasciti/il-lascito-testamentario"] = dict(
 <p>La donazione ha effetto subito, mentre sei in vita, e richiede l'atto notarile alla presenza di due testimoni. Il lascito ha effetto dopo la morte, resta modificabile finché vivi e non toglie nulla alla disponibilità dei tuoi beni.</p>
 <p class="citazione unica">Lascia un segno concreto per un futuro bello, buono e giusto.</p>
 <h3>Come fare un lascito alla Fondazione</h3>
-<p>Perché sia valido, il lascito va inserito in un testamento redatto in una delle forme previste dalla legge: le trovi in <a class="link" href="{→lasciti/il-tuo-testamento}">Redigi il tuo testamento con noi</a>. Si può decidere in qualunque fase della vita, e non toglie nulla alla disponibilità dei beni durante la vita. <a class="link" href="{→contatti}">Contattaci</a>, oppure procedi così:</p>
+<p>Perché sia valido, il lascito va inserito in un testamento redatto in una delle forme previste dalla legge: le trovi in <a class="link" href="{→lasciti/il-tuo-testamento}">Redigi il tuo testamento con noi</a>. <strong>Si può decidere in qualunque fase della vita, e non toglie nulla alla disponibilità dei beni durante la vita.</strong> <a class="link" href="{→contatti}">Contattaci</a>, oppure procedi così:</p>
 <ol>
 <li>scrivi per esteso la denominazione ufficiale, il codice fiscale e la sede legale della Fondazione: <strong>Fondazione La Rosa d'Oro ETS</strong>, codice fiscale <strong>14629350969</strong>, Via Bianca di Savoia 17, 20122 Milano;</li>
 <li>decidi che cosa lasciare: una somma, un bene, un immobile, una quota;</li>
@@ -256,25 +261,28 @@ TESTI["lasciti/il-lascito-testamentario"] = dict(
 <li>scegli la forma del testamento;</li>
 <li>affida l'atto a un notaio (testamento pubblico), per evitare smarrimenti e contestazioni;</li>
 <li>conserva il testamento in un luogo sicuro — depositato dal notaio, e affidato a una persona di fiducia — perché sia facilmente reperibile;</li>
-<li>se vuoi, comunicaci il tuo impegno: ci dà l'opportunità di esprimerti la nostra gratitudine mentre sei in vita. Il modulo di impegno te lo mandiamo su richiesta.</li>
+<li>se vuoi, comunicaci il tuo impegno: ci dà l'opportunità di esprimerti la nostra gratitudine mentre sei in vita e di discutere i dettagli della tua visione. Su richiesta, inviamo il modulo di impegno da compilare.</li>
 </ol>
+<p>Molte persone evitano la pianificazione anticipata delle cure a causa del disagio nel discutere del tema della morte. È il tuo caso? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Contatta uno dei nostri counsellor</a>.</p>
 """)
 
 TESTI["lasciti/perche-donare"] = dict(
-    sotto="Donare è posare la prima pietra: apre la strada a molte altre.",
+    sotto="Donare è posare la prima pietra: apre la strada a molte nuove vie.",
     corpo="""
 <ul class="stelle">
-<li><strong>Perché donare è posare la prima pietra</strong>, e aprire la strada a molte altre che seguiranno. La tua donazione può finanziare un progetto preciso e locale, e fare una differenza tangibile: i tuoi parenti e amici potranno visitare i luoghi, parlare con chi li guida e vedere come vengono usati i fondi. Non confluisce in un bilancio grande, generico e senza luogo, sottratto a ogni riscontro.</li>
-<li><strong>Perché promuoviamo la pluralità e l'inclusione attiva.</strong> Crediamo che l'identità umana si declini al plurale, perché cresce e si arricchisce nell'incontro e nella relazione con l'altro. La Rosa d'Oro ha progetti propri e ne sostiene altri in linea con i suoi valori: chi ha un sogno in un dato ambito può <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentare il proprio progetto</a>, che viene valutato con un'analisi di fattibilità. Guarda i <a class="link" href="{→progetti}">progetti</a>.</li>
-<li><strong>Perché lavoriamo sul campo e con il cuore</strong>: per sostenere la cultura del dono e comunità che crescono, e arrivare dove lo Stato spesso non arriva.</li>
-<li><strong>Perché favoriamo i giovani.</strong></li>
-<li><strong>Perché in futuro agricoltura, medicina e sociale possono funzionare meglio.</strong></li>
-<li><strong>Perché i progetti sono costruiti sulla persona e sul territorio</strong>, personalizzati secondo le esigenze del luogo e della comunità.</li>
-<li><strong>Perché, se lo vorrai, daremo notizia del tuo impegno</strong> — o del tuo lascito, quando sarà avvenuto — sul sito e sui nostri canali, perché tu sia ricordato, magari con una tua frase.</li>
-<li><strong>Perché lavoriamo con notai e professionisti che conoscono questi strumenti</strong>: lo statuto della Fondazione è stato scritto e rivisto con loro. {verifica}</li>
+<li><strong>Perché donare è posare la prima pietra: apre la strada a molte nuove vie.</strong> La tua donazione può finanziare un progetto preciso e locale, e fare una differenza tangibile: i tuoi familiari e amici avranno l'opportunità di visitare i progetti, dialogare con i responsabili e verificare direttamente l'impiego dei fondi. Non confluisce in un bilancio grande, generico e senza luogo, sottratto a ogni riscontro.</li>
+<li><strong>Perché promuoviamo la pluralità e l'inclusione attiva.</strong> Crediamo che l'identità umana si declini al plurale: cresciamo nel confronto, ci evolviamo nella relazione e nelle sinergie. La Rosa d'Oro ha progetti propri e ne sostiene altri in linea con i suoi valori: chi ha un sogno in un dato ambito può <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentare il proprio progetto</a>, che viene valutato con un'analisi di fattibilità. Guarda i <a class="link" href="{→progetti}">progetti</a>.</li>
+<li><strong>Perché lavoriamo sul campo e con il cuore</strong>: per sostenere la cultura del dono e comunità che crescono, e arrivare dove lo Stato spesso non arriva, rispondendo alle domande che ci vengono incontro dalle necessità concrete delle persone che incontriamo o che si rivolgono alla Fondazione.</li>
+<li><strong>Perché favoriamo i giovani</strong>, catalizzatori del cambiamento sociale e dell'innovazione culturale. Promuovere il loro potenziale significa alimentare quell'identità plurale e aperta al futuro, fondamentale per l'evoluzione dell'umanità. Attraverso l'ascolto attivo e l'inclusione, trasformiamo le loro aspirazioni in concrete opportunità di crescita condivisa.</li>
+<li><strong>Perché in futuro agricoltura, medicina e sociale possano funzionare meglio, e perché li vediamo come pilastri interconnessi di un unico ecosistema.</strong> Crediamo che il futuro risieda nella loro convergenza: coltivare la terra in modo sostenibile, curare la persona nella sua interezza e rigenerare i legami comunitari, per il benessere collettivo.</li>
+<li><strong>Perché i progetti sono personalizzati (<em>tailor-made</em>) e su misura, costruiti sulla persona e sul territorio.</strong> Crediamo che la reale efficacia di un progetto risieda nella sua capacità di adattarsi plasticamente alle esigenze della comunità e alle vocazioni del luogo, il <em>genius loci</em>. Attraverso un'analisi profonda del contesto e una co-progettazione con gli attori locali, trasformiamo i bisogni specifici in opportunità di sviluppo uniche, sostenibili e durature, garantendo l'impatto a lungo termine dei progetti e integrandoli armoniosamente nel tessuto sociale ed economico locale.</li>
+<li><strong>Perché, se lo vorrai, saremo onorati di celebrare il tuo sostegno</strong> — o di rendere omaggio alla memoria del tuo lascito — attraverso il nostro sito istituzionale e i canali ufficiali, perché tu sia ricordato, magari con una tua frase. Desideriamo esprimerti gratitudine, e soprattutto che il tuo impegno diventi una testimonianza viva per la comunità e trasmetta alle future generazioni il valore del tuo impatto sul territorio.</li>
+<li><strong>Perché lavoriamo con notai e professionisti che condividono i nostri valori</strong>: lo statuto stesso della Fondazione è stato rivisto con loro. {verifica}</li>
 <li><strong>Perché siamo una Fondazione con una struttura leggera e focalizzata su ciò che conta</strong>: la parte di ciò che doni e che va a finire in amministrazione è contenuta, e il bilancio — depositato ogni anno al Registro del Terzo settore, e quindi pubblico — lo mostra.</li>
-<li><strong>Perché puoi trarne vantaggi fiscali.</strong></li>
+<li><strong>Perché la tua donazione è meritevole e come tale gode di vantaggi fiscali.</strong> Tutte le donazioni sono fiscalmente deducibili o detraibili nei limiti previsti dalla legge. Conservando la ricevuta del pagamento tracciabile, potrai ridurre il tuo carico fiscale in sede di dichiarazione dei redditi.</li>
 </ul>
+<p>Vuoi condividere la tua storia? Vuoi conoscere la storia di chi ha già fatto questa scelta? <a class="link" href="{→contatti}">Scrivici</a>.</p>
+<p>Vuoi iniziare un percorso biografico con uno dei nostri consulenti, per superare la paura della morte, sciogliere nodi, capire meglio quale può essere il tuo valore nel futuro e se, e che cosa, vuoi davvero donare? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Il percorso con i nostri counsellor</a>.</p>
 <p>Il rendiconto dei lasciti ricevuti, e di come sono stati impiegati, è in corso d'opera: sarà pubblicato in questa pagina.</p>
 <h3>I vantaggi fiscali</h3>
 <p>I lasciti e le donazioni a favore degli enti del Terzo settore iscritti al RUNTS, come la Fondazione, <strong>non sono soggetti all'imposta sulle successioni e donazioni</strong>, né alle imposte ipotecaria e catastale, a condizione che siano usati per l'attività statutaria, con esclusivo perseguimento di finalità civiche, solidaristiche e di utilità sociale (art. 82, commi 1 e 2, del Codice del Terzo Settore, D.Lgs. 117/2017). La Fondazione, inoltre, non risponde in solido dell'imposta dovuta dagli altri eredi (art. 36, comma 5-bis, D.Lgs. 346/1990). Per gli altri beneficiari si applicano aliquote e franchigie che variano con il grado di parentela (artt. 7 e 56 del D.Lgs. 346/1990): il 4% per il coniuge e i parenti in linea retta, con una franchigia di un milione di euro per ciascun beneficiario; il 6% per fratelli e sorelle, con franchigia di 100.000 euro; il 6% senza franchigia per gli altri parenti fino al quarto grado, gli affini in linea retta e gli affini in linea collaterale fino al terzo grado; l'8% senza franchigia per tutti gli altri. Se il beneficiario è una persona con disabilità grave, la franchigia sale a 1.500.000 euro.</p>
@@ -285,7 +293,6 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
     sotto="Facile, attraente, sociale, tempestivo: un gesto di pochi minuti.",
     corpo="""
 <p>Compilare un testamento con noi è un gesto di pochi minuti. Ci ispiriamo a una strategia adottata con successo nel Regno Unito, il modello EAST — <em>Easy, Attractive, Social, Timely</em> — che favorisce l'adozione di comportamenti virtuosi: rendere il testamento solidale semplice significa ridurre le difficoltà burocratiche, agevolarne la compilazione e far crescere la cultura del dono. La Fondazione è qui per aiutarti in questo.</p>
-<p>Vuoi condividere la tua storia? Vuoi conoscere la storia di chi ha già fatto questa scelta? Vuoi iniziare un percorso biografico con uno dei nostri consulenti, per capire meglio che cosa vuoi davvero donare e quale può essere il tuo valore nel futuro? <a class="link" href="{→contatti}">Scrivici</a>.</p>
 <h3>I tipi di testamento</h3>
 <h4>1. Il testamento olografo: il più semplice</h4>
 <p>Deve essere scritto, datato (giorno, mese, anno) e firmato interamente a mano dal testatore — senza computer, macchina da scrivere o mano di terzi. Il suo vantaggio è la rapidità con cui si redige e si modifica. È consigliabile farne tre copie: una da conservare, una per il notaio, una per una persona fidata.</p>
@@ -295,13 +302,6 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
 <p>È redatto e chiuso in una busta sigillata, consegnata al notaio alla presenza di due testimoni: né il notaio né i testimoni ne conoscono il contenuto, che resta riservato fino all'apertura. Può essere scritto anche al computer o da terzi, ma deve essere firmato dal testatore.</p>
 <h3>Modificare il testamento</h3>
 <p>Il testamento può essere modificato o revocato in qualsiasi momento. Si può sostituire un testamento olografo con uno pubblico, e viceversa. Per le modifiche minori si può aggiungere un <em>codicillo</em>: un'aggiunta che integra o modifica le volontà espresse in precedenza. Per essere valide, le modifiche a un testamento olografo vanno scritte di proprio pugno, datate e firmate di nuovo.</p>
-<h3>La libertà del come: le DAT e il fiduciario</h3>
-<p>È un'altra cosa rispetto al lascito, e riguarda le cure, non i beni: la mettiamo qui perché spesso si decide nello stesso momento. Al tuo testamento puoi affiancare le <strong>Disposizioni anticipate di trattamento</strong> (DAT), dette anche testamento biologico, regolate dalla legge 219/2017. Con le DAT una persona maggiorenne e capace di intendere e di volere esprime in anticipo le proprie volontà sulle cure: accertamenti diagnostici, scelte terapeutiche, trattamenti di sostegno vitale come la nutrizione e l'idratazione artificiali. Hanno effetto quando non si è più in grado di autodeterminarsi.</p>
-<p>Si redigono per atto pubblico, per scrittura privata autenticata da un notaio, oppure per scrittura privata consegnata di persona all'ufficio dello stato civile del proprio Comune; sono esenti da bollo e da ogni tassa; si possono revocare o modificare in qualsiasi momento, con le stesse forme. Puoi indicare un <strong>fiduciario</strong> — la cosiddetta delega sanitaria — cioè una persona di fiducia che faccia le tue veci con i medici e faccia valere la tua volontà. Con il tuo consenso, le DAT sono inserite nella Banca dati nazionale del Ministero della Salute (legge 205/2017, art. 1, comma 418), accessibile ai medici in caso di necessità.</p>
-<p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
-<p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
-<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-modulo-bozza.pdf}">scarica il modulo (PDF)</a>. È una bozza in lettura: non sostituisce il colloquio con il tuo medico.</p>
-<p>Vuoi saperne di più, o parlarne con un medico preparato? Siamo qui per te: <a class="link" href="{→contatti}">contattaci</a>.</p>
 <h3>Le domande che un testamento aiuta a sciogliere</h3>
 <ul>
 <li>Chi prenderà le decisioni in caso di un incidente grave?</li>
@@ -309,6 +309,29 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
 <li>Se entrambi i coniugi mancassero insieme, chi dovrebbe ereditare? E in caso di morte improvvisa, tutto al coniuge superstite, o preferisci che erediti anche qualcun altro?</li>
 <li>Come desideri che vengano accuditi i tuoi figli, se mancassero entrambi i genitori?</li>
 </ul>
+<h3>La libertà del come: le DAT e il fiduciario</h3>
+<p class="citazione">Crediamo che la dignità e l'autodeterminazione debbano essere garantite in ogni momento della vita.</p>
+<p>Riguardano le cure, non i beni: le mettiamo qui perché spesso si decidono nello stesso momento del testamento. Tramite lo strumento formale delle <strong>Disposizioni anticipate di trattamento</strong> (DAT), ciascuno ha la possibilità di esprimere in modo chiaro e consapevole le proprie volontà in ambito sanitario, assicurando che le proprie preferenze vengano rispettate qualora dovesse sopraggiungere una temporanea o permanente incapacità di comunicare. È un'importantissima tutela della propria libertà, spesso poco conosciuta.</p>
+<p>Le DAT, dette anche testamento biologico e regolate dalla legge 219/2017, permettono a una persona maggiorenne e capace di intendere e di volere di esprimere in anticipo le proprie volontà sulle cure: accertamenti diagnostici, scelte terapeutiche, trattamenti di sostegno vitale come la nutrizione e l'idratazione artificiali. Hanno effetto quando non si è più in grado di autodeterminarsi. Come per il testamento, anche in questo caso i tuoi cari saranno sollevati dal dover prendere decisioni complesse in momenti di dolore, in cui è facile perdere la lucidità, e saranno ridotti i potenziali conflitti tra i membri della famiglia.</p>
+<p>Si redigono per atto pubblico, per scrittura privata autenticata da un notaio, oppure per scrittura privata consegnata di persona all'ufficio dello stato civile del proprio Comune; sono esenti da bollo e da ogni tassa; si possono revocare o modificare in qualsiasi momento, con le stesse forme. Puoi indicare un <strong>fiduciario</strong> — la cosiddetta delega sanitaria — cioè una persona di fiducia che faccia le tue veci con i medici e faccia valere la tua volontà. Con il tuo consenso, le DAT sono inserite nella Banca dati nazionale del Ministero della Salute (legge 205/2017, art. 1, comma 418), accessibile ai medici in caso di necessità. Se in futuro dovessi cambiare idea, potrai modificarle in qualsiasi momento, esattamente come per il testamento.</p>
+<p>Avere una disposizione anticipata di trattamento, in genere, significa che eviterai:</p>
+<ul class="stelle">
+<li>dolore inutile;</li>
+<li>procedure inutili;</li>
+<li>un ricovero ospedaliero non desiderato.</li>
+</ul>
+<p>Consigliamo inoltre di specificare:</p>
+<ul class="stelle">
+<li>dove desideri soggiornare durante le cure di fine vita: in un hospice (puoi scrivere anche quale), in una struttura di cure palliative, a casa con o senza cure palliative, o in un altro luogo — per esempio quanto previsto dal progetto «Pianeta Verde», quando sarà attivo;</li>
+<li>se richiedi un'assistenza spirituale: puoi indicare anche la Fondazione e la sua équipe del Pianeta Verde;</li>
+<li>se consenti qualsiasi visitatore, o limiti l'accesso ad alcuni cari o a nessuno, nel momento del passaggio della soglia e nelle settimane che lo precedono.</li>
+</ul>
+<p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
+<p><strong>Attraverso una disposizione anticipata di trattamento puoi comunicare ai medici cosa desideri — o non desideri — finché sei in grado di farlo. Garantisci che i tuoi desideri più intimi e familiari vengano rispettati.</strong></p>
+<p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
+<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-modulo-bozza.pdf}">scarica il modulo (PDF)</a>. È una bozza in lettura: non sostituisce il colloquio con il tuo medico.</p>
+<p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
+<p><a class="vai" href="{→contatti}">Scrivici</a></p>
 <div class="box">
 <p><strong>Chi lascia, e perché.</strong> Un sondaggio italiano sul lascito solidale — «La prima cosa bella: cosa rende bella la vita e cosa far durare per sempre», del Comitato Testamento Solidale — racconta che ciò che si vorrebbe durasse per sempre sono i legami affettivi (67,7% delle indicazioni) e il sentirsi una brava persona (45,5%); che per lasciare un ricordo di sé quasi un intervistato su quattro pensa al lascito solidale (24,4%), con un picco tra i 25 e i 34 anni (30%); e che tra gli oggetti da tramandare vince l'album di fotografie (44%), poi una lettera scritta a mano (37%). {verifica}</p>
 <p>Nel Regno Unito una parte sempre più significativa di chi fa testamento destina una quota a enti benefici: campagne di sensibilizzazione, agevolazioni fiscali, la fiducia nel non profit, e avvocati e notai che parlano del testamento solidale ai loro clienti. Secondo Rob Cope, direttore di Remember A Charity — un consorzio di oltre duecento enti benefici britannici — la chiave è stato il lavoro congiunto tra le organizzazioni, che ha trasformato il testamento solidale in una norma sociale. La Fondazione rema in questo senso. {verifica}</p>
@@ -327,11 +350,12 @@ TESTI["lasciti/dopo-di-noi"] = dict(
 <p class="citazione">La tutela delle fasce più vulnerabili è il pilastro su cui poggia una comunità solidale, equa e coesa.</p>
 <p class="citazione">Accudire la fragilità è come prendersi cura di un germoglio.</p>
 <p>Lo strumento è previsto dallo statuto della Fondazione (art. 14): lo trovi nella pagina <a class="link" href="{→documenti}">Documenti</a>. Per i professionisti c'è la <a class="link" href="{→professionisti/dopo-di-noi}">scheda sulla gestione del Dopo di Noi</a>.</p>
+<p>Vuoi attivare un'équipe olistica per il tuo caro con disabilità? <a class="link" href="{→contatti}">Scrivici</a> e attiveremo i terapeuti più vicini a te.</p>
 <p><a class="vai" href="{→contatti}">Vuoi saperne di più? Contattaci</a></p>
 """)
 
 # il segno «da verificare», sostituito nei testi dei Lasciti
-for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento"):
+for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento", "lasciti/il-lascito-testamentario"):
     TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
 
 
@@ -409,4 +433,69 @@ TESTI["cookie"] = dict(
 <p>L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita il sito, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Serve alla sola sicurezza del sito ed è trattato sulla base del nostro legittimo interesse, come previsto dalle linee guida del Garante per la protezione dei dati personali del 10 giugno 2021.</p>
 <p>Quando doni con carta o con PayPal, il pagamento avviene sulle pagine di Stripe o di PayPal, che hanno le loro regole sui cookie: le trovi nelle loro informative, prima di pagare.</p>
 <p>Se un giorno aggiungeremo strumenti che richiedono il consenso, questa pagina cambierà e comparirà il banner. Per tutto il resto, leggi l'<a class="link" href="{→privacy}">informativa sulla privacy</a>.</p>
+""")
+
+
+# ------------------------------------------------------------ Chi siamo (testo di Dacia, 14.9)
+TESTI["chi-siamo"] = dict(
+    sotto="Uniamo scienza e cuore.",
+    motto=True,
+    corpo="""
+<p>La Fondazione La Rosa d'Oro è un ente non profit riconosciuto dal Registro unico nazionale del Terzo settore, con sede a Milano, costituito il 26 febbraio 2026. Ciò che ci caratterizza è:</p>
+<ul class="stelle">
+<li>l'<strong>attenzione</strong> alle esigenze della persona, del territorio e del terreno agricolo, insieme all'<strong>ascolto</strong> profondo della persona e dei gruppi di persone, e la sensibilità;</li>
+<li>la capacità di <strong>mediazione</strong>: facilitare il dialogo e risolvere i conflitti in ambito familiare e comunitario. Ciò avviene di pari passo con il <em>networking</em>, l'abilità relazionale e strategica di stabilire, sviluppare e mantenere relazioni a lungo termine con persone, aziende, istituzioni pubbliche e private, e di creare reti di comunità, grazie a cui si favorisce la sussidiarietà orizzontale. In particolare, la cooperazione a livello internazionale ci permette di ottenere risultati più forti;</li>
+<li>l'<strong>operosità</strong> e la <strong>concretezza</strong>: far vivere nella pratica un progetto, un ideale, con impegno concreto, attivo e instancabile;</li>
+<li>la <strong>responsabilità</strong>: rendersi protagonisti di piccoli grandi cambiamenti per il pianeta Terra;</li>
+<li>il <strong>coraggio</strong> di operare per il bene comune, con spirito civico, altruistico e solidale, attraverso interventi e servizi sociali, agricoli, paesaggistici e sociosanitari;</li>
+<li>lo spirito di <strong>innovazione</strong> e di <strong>ricerca</strong>: sostenere il progresso scientifico, artistico o sociale per creare un impatto positivo e nutrire l'anima;</li>
+<li>la <strong>trasparenza</strong>: la gestione etica e rendicontabile del patrimonio, la coerenza tra gli scopi dichiarati e le azioni.</li>
+</ul>
+<p class="tre-parole">Fede, Amore e Speranza</p>
+<p>La Fondazione non ha scopo di lucro e persegue finalità civiche, solidaristiche e di utilità sociale, con attività in ambito sociale e sociosanitario. Ha carattere <strong>operativo</strong>, in quanto promuove, crea e gestisce progetti offrendo beni e servizi in prima persona, ed <strong>erogativo</strong>, in quanto fornisce consulenze e risorse, materiali o immateriali, a terzi.</p>
+<h3>Cosa offriamo</h3>
+<div class="offerte">
+<div class="box">
+<h4>Assistenza alle persone</h4>
+<p>L'accompagnamento medico-assistenziale e spirituale nel fine vita: il nostro impegno va oltre le cure mediche e assistenziali, e offre un accompagnamento che tocca anche la sfera spirituale, garantendo dignità, sollievo e calore umano in ogni fase della vita, fino agli istanti più delicati.</p>
+<p>L'assistenza a persone fragili: anziani, persone con patologie croniche, con dipendenze, minori in difficoltà, persone con disturbi dello spettro autistico, con grave disabilità, con patologie neurologiche e neuropsichiatriche.</p>
+<p>L'uso delle risorse agricole per migliorare le condizioni di salute e la qualità della vita — di bambini con patologie oncologiche, di giovani a rischio di esclusione sociale — perché il contatto con la terra aiuta a ritrovare una dimensione individuale e sociale e una propria identità produttiva: i ragazzi sono coinvolti nell'intera filiera e accompagnati verso la vita adulta e l'indipendenza economica. E l'agricoltura sociale: attività agricole produttive, biologiche, biodinamiche e rigenerative, per la tutela del paesaggio, della biodiversità e del suolo, che garantisce alimenti sani come strumento di prevenzione.</p>
+<p class="citazione">Proteggiamo e custodiamo la Terra, perché un ambiente sano e un cibo sano significano una vita migliore per tutti.</p>
+<p>La promozione e la tutela dei diritti umani, civili, sociali e politici, dei diritti dei consumatori e degli utenti delle attività di interesse generale, delle pari opportunità e delle iniziative di aiuto reciproco. La beneficenza, il sostegno a distanza, la cessione gratuita di alimenti o prodotti, l'erogazione di denaro, beni o servizi a sostegno di persone svantaggiate o di attività di interesse generale.</p>
+<p><a class="vai" href="{→servizi}">I servizi</a></p>
+</div>
+<div class="box">
+<h4>Assistenza alla natura</h4>
+<p>Interventi e servizi per la salvaguardia e il miglioramento dell'ambiente e per l'uso accorto e razionale delle risorse naturali: bonifiche, ripristino idrogeologico, riforestazione, rinaturalizzazione; la creazione di aree verdi e parchi per la tutela della biodiversità.</p>
+<p>La tutela e la valorizzazione del patrimonio culturale e paesaggistico; la riqualificazione di beni pubblici inutilizzati e di antiche ville abbandonate.</p>
+<p><a class="vai" href="{→servizi/agricoltura-sociale}">Agricoltura sociale</a></p>
+</div>
+<div class="box">
+<h4>Formazione e divulgazione</h4>
+<p>La formazione per gli operatori del fine vita e per gli agricoltori; la formazione universitaria, post-universitaria e professionale; la formazione e l'aggiornamento continuo di personale sanitario, medico e di operatori delle discipline terapeutiche e del benessere, in particolare in ambito fitoterapico.</p>
+<p>Attività culturali di interesse sociale con finalità educativa; la formazione extra-scolastica, per prevenire la dispersione scolastica e il bullismo e contrastare la povertà educativa. Percorsi educativi e formativi strutturati — corsi pluriennali, master, scuole di specializzazione, seminari, workshop e convegni — negli ambiti medico-terapeutico, socio-assistenziale, dell'educazione alimentare, dell'agricoltura e dell'agricoltura sociale, della rigenerazione territoriale.</p>
+<p>Laboratori produttivi, artigianali e agricoli, residenziali e non, in cui il lavoro manuale e la realizzazione di manufatti sono strumento terapeutico e pedagogico. Attività culturali, artistiche e ricreative di interesse sociale.</p>
+<p><a class="vai" href="{→eventi-e-formazione}">Eventi e formazione</a></p>
+</div>
+<div class="box">
+<h4>Ricerca e promozione del futuro</h4>
+<p>Ricerche sulle potenzialità di nuove piante medicinali e sull'effetto di nuove modalità di cura, per esempio in ambienti naturali e nel paesaggio; la valutazione del valore dell'assistenza medica con un approccio su corpo, mente e spirito, anche con pratiche artistiche o olistiche; la valutazione dell'impatto sociale degli interventi di riqualificazione.</p>
+<p>Incubare, sostenere e promuovere progetti di altre realtà con una visione comune, con l'erogazione di beni e servizi. Sosteniamo in particolare il talento e la determinazione dei giovani: borse di studio e laboratori per le idee della prossima generazione, per aiutare a costruire i leader e i ricercatori del futuro.</p>
+<p><a class="vai" href="{→progetti}">I progetti</a></p>
+</div>
+</div>
+<p><a class="vai" href="{→progetti/da-sostenere}">Scopri i progetti che stiamo finanziando, e come puoi fare la tua parte</a></p>
+<h3>La nostra storia</h3>
+{foto:ASSISI 2025|La basilica di San Francesco ad Assisi, settembre 2025|ritratto oro}
+<p>Tutto nasce ad Assisi, durante la festa di Michele, nel settembre del 2025. Si trovano lì un agricoltore, consulente bioforestale, e un medico, a parlare delle gioie e delle difficoltà nei reciproci campi. Osservano come sia la medicina sia l'agricoltura si trovino in uno spazio di transizione, in cui tanto deve essere fatto perché le due discipline lavorino davvero a favore dell'umano e per l'umano. Nello stesso tempo, dalle necessità portate dalle persone con cui entrambi hanno a che fare, arriva la domanda di aiuto: creare un ponte tra passato e futuro, facilitare la nascita di progetti e tutte quelle situazioni legate al lutto e alla successione, spesso complicate sul piano pratico e poco in linea con i desideri di chi non c'è più. Mentre camminano dalla basilica di San Francesco verso la Porziuncola, tra gli ulivi, il progetto sottilmente si crea.</p>
+<div class="foto-riga">
+{foto:ULIVI DI ASSISI|Gli ulivi sotto la collina di Assisi|oro}
+{foto:BASILICA DI ASSISI|La facciata della basilica superiore|oro}
+</div>
+<p>Dopo profonde meditazioni durante le Notti Sante e valutazioni attente, i due lavorano alla creazione di una Fondazione, il cui statuto viene partorito il 7 gennaio 2026. Il 26 febbraio 2026 la Fondazione La Rosa d'Oro prende forma reale.</p>
+<h3>I fondatori</h3>
+<p><strong>Dr.ssa Dacia Dalla Libera</strong>, presidente. Medico chirurgo, neurologa ed esperta di medicina integrata (ayurveda, antroposofia); <em>quietude practitioner</em>, una figura di supporto spirituale e nel fine vita che offre cura emotiva e spirituale a chi affronta la morte, il fine vita e il lutto; formatrice.</p>
+<p><strong>Elias Minotti</strong>, vicepresidente. Agricoltore, tecnico, formatore e consulente negli ambiti agricolo, agroalimentare e forestale, della gestione ambientale, paesaggistica e del verde in genere.</p>
+<p>Per conoscere il nostro statuto: <a class="link" href="{→documenti}">la pagina Documenti</a>.</p>
+<p class="citazione unica">Ammirare il Bello, Custodire il Vero, Venerare il Nobile, Decidere il Bene.</p>
 """)

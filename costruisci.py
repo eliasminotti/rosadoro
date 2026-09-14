@@ -62,7 +62,7 @@ SEZIONI = [
          intro="Il lascito testamentario e come si fa; perché farlo alla Rosa d'Oro, con i vantaggi fiscali; il testamento redatto con noi; il Dopo di Noi per chi ha un familiare fragile.",
          pagine=[
              dict(slug="il-lascito-testamentario", voce="Così volli che fosse", titolo="Così volli che fosse", riga="Il lascito testamentario"),
-             dict(slug="perche-donare", voce="Perché donare alla Rosa d'Oro", titolo="Perché donare alla Rosa d'Oro", riga="Con i vantaggi fiscali"),
+             dict(slug="perche-donare", voce="Perché donare alla Rosa d'Oro", titolo="Perché donare alla Rosa d'Oro", riga="E i vantaggi fiscali"),
              dict(slug="il-tuo-testamento", voce="Redigi il tuo testamento con noi", titolo="Redigi il tuo testamento con noi", riga="I tipi di testamento, le DAT", tavola="lettera"),
              dict(slug="dopo-di-noi", voce="Il Dopo di Noi", titolo="Il Dopo di Noi", riga="La protezione dei fragili", art="Legge 112/2016"),
          ],
@@ -415,6 +415,13 @@ def corpo_sezione(da, p):
 </div></main>""" % (intro, tavola, "".join(schede))
 
 def corpo_chi_siamo(da, p):
+    if "chi-siamo" in TESTI:                       # il testo di Dacia (14.9): pagina intera, i dati in fondo
+        return """<main class="corpo"><div class="pagina">
+  <article class="testo">%s
+    <h3>La Fondazione in breve</h3>
+    <dl class="fatti">%s</dl>
+  </article>
+</div></main>""" % (gettoni(TESTI["chi-siamo"]["corpo"], da), fatti_chi_siamo(da))
     return """<main class="corpo"><div class="pagina"><div class="colonne">
   <div><figure class="riquadro tavola-dentro"><img src="%s" alt="%s"><span class="squadra a"></span><span class="squadra b"></span></figure></div>
   <article class="testo">
@@ -426,7 +433,7 @@ def corpo_chi_siamo(da, p):
       <div><dt>Codice fiscale</dt><dd>%s</dd></div>
       <div><dt>Iscrizione</dt><dd>%s</dd></div>
       <div><dt>Costituzione</dt><dd>%s, rep. 8190 / racc. 4764, Notaio F. Franco</dd></div>
-      <div><dt>Presidente</dt><dd>Dacia Dalla Libera</dd></div>
+      <div><dt>Presidente</dt><dd>Dr.ssa Dacia Dalla Libera</dd></div>
       <div><dt>Vicepresidente</dt><dd>Elias Minotti</dd></div>
       <div><dt>Realtà collegata</dt><dd>Associazione Orizzonti Celesti (Svizzera), ente distinto che opera sul versante elvetico</dd></div>
       <div><dt>Statuto</dt><dd><a class="link" href="%s">Nella pagina Documenti</a></dd></div>
@@ -435,6 +442,19 @@ def corpo_chi_siamo(da, p):
 </div></div></main>""" % (risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"], sfuggi("[Il resto del testo si scrive al punto 4.]"),
                           sfuggi(ENTE["nome"]), sfuggi(ENTE["sede"]), ENTE["cf"].replace("C.F. ", ""), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]).replace("Atto costitutivo ", ""),
                           verso(da, "documenti"))
+
+def fatti_chi_siamo(da):
+    return """
+      <div><dt>Denominazione</dt><dd>%s</dd></div>
+      <div><dt>Sede</dt><dd>%s</dd></div>
+      <div><dt>Codice fiscale</dt><dd>%s</dd></div>
+      <div><dt>Iscrizione</dt><dd>%s</dd></div>
+      <div><dt>Costituzione</dt><dd>%s, rep. 8190 / racc. 4764, Notaio F. Franco</dd></div>
+      <div><dt>Presidente</dt><dd>Dr.ssa Dacia Dalla Libera</dd></div>
+      <div><dt>Vicepresidente</dt><dd>Elias Minotti</dd></div>
+      <div><dt>Realtà collegata</dt><dd>Associazione Orizzonti Celesti (Svizzera), ente distinto che opera sul versante elvetico <span class="da-verificare">da verificare</span></dd></div>
+      <div><dt>Statuto</dt><dd><a class="link" href="%s">Nella pagina Documenti</a></dd></div>""" % (
+        sfuggi(ENTE["nome"]), sfuggi(ENTE["sede"]), ENTE["cf"].replace("C.F. ", ""), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]).replace("Atto costitutivo ", ""), verso(da, "documenti"))
 
 def tavola_porta(da, s):
     """l'immagine della fascia: una tavola incisa, o l'emblema in oro sulla fascia nera"""

@@ -423,10 +423,22 @@ a.azione:hover h4{color:var(--accento)}
 .foto.quadra{aspect-ratio:1;margin:0}
 
 /* il giardino dei ricordi */
-.giardino{display:grid;grid-auto-flow:column;grid-auto-columns:250px;gap:20px;overflow-x:auto;padding:4px 2px 18px;margin:1.8em 0;scroll-snap-type:x proximity}
+.giardino{display:grid;grid-auto-flow:column;grid-auto-columns:200px;gap:20px;overflow-x:auto;padding:4px 2px 18px;margin:1.8em 0;scroll-snap-type:x proximity}
 .pianta{scroll-snap-align:start;border:1px solid var(--filo);background:var(--carta);padding:12px;display:flex;flex-direction:column;gap:12px}
 .pianta button{background:none;border:1px solid var(--filo-forte);color:var(--accento);font-family:var(--sans);font-size:11px;line-height:16px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:10px;cursor:pointer}
 .pianta button:hover{border-color:var(--oro);color:var(--testo)}
+.scorri{font-family:var(--sans);font-size:11px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--testo-45);margin:1.6em 0 -1.2em}
+.scorri span{display:inline-block;margin-left:6px;animation:scorri 1.6s ease-in-out infinite}
+@keyframes scorri{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+.foto.oro img{border:1px solid var(--oro);padding:8px;background:var(--carta)}
+.foto-riga{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:1.6em 0}
+.foto-riga .foto{margin:0}
+.tre-parole{font-family:var(--display);font-size:22px;letter-spacing:.22em;text-transform:uppercase;color:var(--accento);margin:1.6em 0}
+.offerte{columns:2;column-gap:24px;margin:1.4em 0 2.2em}
+.offerte .box{margin:0 0 24px;max-width:none;break-inside:avoid;display:flex;flex-direction:column}
+.offerte .box h4{margin:0 0 12px}
+.offerte .box .vai{margin-top:auto;padding-top:14px}
+.offerte .box .citazione{font-size:20px;margin:14px 0}
 .dedica-esempio{margin:2.2em 0;max-width:420px}
 .dedica-esempio .foto{margin:0 0 14px;aspect-ratio:1}
 .dedica-esempio figcaption{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70)}
@@ -456,4 +468,6 @@ a.azione:hover h4{color:var(--accento)}
   .azioni{grid-template-columns:1fr}
   .citazione{font-size:22px}
   .giardino{grid-auto-columns:210px}
+  .foto-riga{grid-template-columns:1fr}
+  .offerte{columns:1}
 }
