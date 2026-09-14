@@ -63,7 +63,8 @@ SEZIONI = [
          pagine=[
              dict(slug="il-lascito-testamentario", voce="Così volli che fosse", titolo="Così volli che fosse", riga="Il lascito testamentario"),
              dict(slug="perche-donare", voce="Perché donare alla Rosa d'Oro", titolo="Perché donare alla Rosa d'Oro", riga="E i vantaggi fiscali"),
-             dict(slug="il-tuo-testamento", voce="Redigi il tuo testamento con noi", titolo="Redigi il tuo testamento con noi", riga="I tipi di testamento, le DAT", tavola="lettera"),
+             dict(slug="il-tuo-testamento", voce="Redigi il tuo testamento con noi", titolo="Redigi il tuo testamento con noi", riga="I tipi di testamento", tavola="lettera"),
+             dict(slug="la-liberta-del-come", voce="La libertà del come", titolo="La libertà del come", riga="Le DAT e il fiduciario", art="Legge 219/2017", tavola="pergamena"),
              dict(slug="dopo-di-noi", voce="Il Dopo di Noi", titolo="Il Dopo di Noi", riga="La protezione dei fragili", art="Legge 112/2016"),
          ],
          rimandi=[dict(voce="Progetti", titolo="I progetti che un lascito può sostenere", verso="progetti")]),
@@ -357,6 +358,7 @@ TAVOLE_ALT = {
     "lettera": "Una lettera chiusa dal sigillo con la rosa, e una penna stilografica, incise su avorio",
     "arcobaleno": "Un arcobaleno inciso sopra le colline",
     "candela": "Una candela accesa, incisa",
+    "pergamena": "Una pergamena aperta con la piuma che scrive, incisa su avorio",
 }
 TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 
@@ -452,7 +454,6 @@ def fatti_chi_siamo(da):
       <div><dt>Costituzione</dt><dd>%s, rep. 8190 / racc. 4764, Notaio F. Franco</dd></div>
       <div><dt>Presidente</dt><dd>Dr.ssa Dacia Dalla Libera</dd></div>
       <div><dt>Vicepresidente</dt><dd>Elias Minotti</dd></div>
-      <div><dt>Realtà collegata</dt><dd>Associazione Orizzonti Celesti (Svizzera), ente distinto che opera sul versante elvetico <span class="da-verificare">da verificare</span></dd></div>
       <div><dt>Statuto</dt><dd><a class="link" href="%s">Nella pagina Documenti</a></dd></div>""" % (
         sfuggi(ENTE["nome"]), sfuggi(ENTE["sede"]), ENTE["cf"].replace("C.F. ", ""), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]).replace("Atto costitutivo ", ""), verso(da, "documenti"))
 

@@ -94,10 +94,18 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   <div class="pianta">{foto:TARASSACO|Il tarassaco|quadra}<button type="button" data-foto="Il tarassaco">Scegli questa immagine</button></div>
   <div class="pianta">{foto:STELLA AZZURRA|La stella azzurra|quadra}<button type="button" data-foto="La stella azzurra">Scegli questa immagine</button></div>
   <div class="pianta">{foto:TULIPANO|Il tulipano|quadra}<button type="button" data-foto="Il tulipano">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:CANDELA E ROSE|La candela e le rose|quadra}<button type="button" data-foto="La candela e le rose">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIRASOLE|Il girasole|quadra}<button type="button" data-foto="Il girasole">Scegli questa immagine</button></div>
   <div class="pianta">{foto:SOFFIONI|I soffioni|quadra}<button type="button" data-foto="I soffioni">Scegli questa immagine</button></div>
   <div class="pianta">{foto:BOCCIOLO DI ROSA|Il bocciolo di rosa|quadra}<button type="button" data-foto="Il bocciolo di rosa">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:CORONA IMPERIALE|La corona imperiale|quadra}<button type="button" data-foto="La corona imperiale">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:CALLE|Le calle|quadra}<button type="button" data-foto="Le calle">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:ALLIUM|L'allium|quadra}<button type="button" data-foto="L'allium">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:FOGLIA CON LA PIOGGIA|La foglia dopo la pioggia|quadra}<button type="button" data-foto="La foglia dopo la pioggia">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GERANIO|Il geranio|quadra}<button type="button" data-foto="Il geranio">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:DIGITALE|La digitale|quadra}<button type="button" data-foto="La digitale">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:IRIS|L'iris|quadra}<button type="button" data-foto="L'iris">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GRANO|Il grano giovane|quadra}<button type="button" data-foto="Il grano giovane">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:MARGHERITE|Le margherite nel prato|quadra}<button type="button" data-foto="Le margherite nel prato">Scegli questa immagine</button></div>
 </div>
 <figure class="dedica-esempio">
   {foto:FOTO APE|L'ape sul fiore, l'immagine dell'esempio|}
@@ -309,29 +317,8 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
 <li>Se entrambi i coniugi mancassero insieme, chi dovrebbe ereditare? E in caso di morte improvvisa, tutto al coniuge superstite, o preferisci che erediti anche qualcun altro?</li>
 <li>Come desideri che vengano accuditi i tuoi figli, se mancassero entrambi i genitori?</li>
 </ul>
-<h3>La libertà del come: le DAT e il fiduciario</h3>
-<p class="citazione">Crediamo che la dignità e l'autodeterminazione debbano essere garantite in ogni momento della vita.</p>
-<p>Riguardano le cure, non i beni: le mettiamo qui perché spesso si decidono nello stesso momento del testamento. Tramite lo strumento formale delle <strong>Disposizioni anticipate di trattamento</strong> (DAT), ciascuno ha la possibilità di esprimere in modo chiaro e consapevole le proprie volontà in ambito sanitario, assicurando che le proprie preferenze vengano rispettate qualora dovesse sopraggiungere una temporanea o permanente incapacità di comunicare. È un'importantissima tutela della propria libertà, spesso poco conosciuta.</p>
-<p>Le DAT, dette anche testamento biologico e regolate dalla legge 219/2017, permettono a una persona maggiorenne e capace di intendere e di volere di esprimere in anticipo le proprie volontà sulle cure: accertamenti diagnostici, scelte terapeutiche, trattamenti di sostegno vitale come la nutrizione e l'idratazione artificiali. Hanno effetto quando non si è più in grado di autodeterminarsi. Come per il testamento, anche in questo caso i tuoi cari saranno sollevati dal dover prendere decisioni complesse in momenti di dolore, in cui è facile perdere la lucidità, e saranno ridotti i potenziali conflitti tra i membri della famiglia.</p>
-<p>Si redigono per atto pubblico, per scrittura privata autenticata da un notaio, oppure per scrittura privata consegnata di persona all'ufficio dello stato civile del proprio Comune; sono esenti da bollo e da ogni tassa; si possono revocare o modificare in qualsiasi momento, con le stesse forme. Puoi indicare un <strong>fiduciario</strong> — la cosiddetta delega sanitaria — cioè una persona di fiducia che faccia le tue veci con i medici e faccia valere la tua volontà. Con il tuo consenso, le DAT sono inserite nella Banca dati nazionale del Ministero della Salute (legge 205/2017, art. 1, comma 418), accessibile ai medici in caso di necessità. Se in futuro dovessi cambiare idea, potrai modificarle in qualsiasi momento, esattamente come per il testamento.</p>
-<p>Avere una disposizione anticipata di trattamento, in genere, significa che eviterai:</p>
-<ul class="stelle">
-<li>dolore inutile;</li>
-<li>procedure inutili;</li>
-<li>un ricovero ospedaliero non desiderato.</li>
-</ul>
-<p>Consigliamo inoltre di specificare:</p>
-<ul class="stelle">
-<li>dove desideri soggiornare durante le cure di fine vita: in un hospice (puoi scrivere anche quale), in una struttura di cure palliative, a casa con o senza cure palliative, o in un altro luogo — per esempio quanto previsto dal progetto «Pianeta Verde», quando sarà attivo;</li>
-<li>se richiedi un'assistenza spirituale: puoi indicare anche la Fondazione e la sua équipe del Pianeta Verde;</li>
-<li>se consenti qualsiasi visitatore, o limiti l'accesso ad alcuni cari o a nessuno, nel momento del passaggio della soglia e nelle settimane che lo precedono.</li>
-</ul>
-<p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
-<p><strong>Attraverso una disposizione anticipata di trattamento puoi comunicare ai medici cosa desideri — o non desideri — finché sei in grado di farlo. Garantisci che i tuoi desideri più intimi e familiari vengano rispettati.</strong></p>
-<p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
-<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-modulo-bozza.pdf}">scarica il modulo (PDF)</a>. È una bozza in lettura: non sostituisce il colloquio con il tuo medico.</p>
-<p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
-<p><a class="vai" href="{→contatti}">Scrivici</a></p>
+<h3>La libertà del come</h3>
+<p>Al testamento puoi affiancare le <strong>Disposizioni anticipate di trattamento</strong> (DAT), che riguardano le cure e non i beni: spesso si decidono nello stesso momento. Ne parliamo in una pagina a sé, <a class="link" href="{→lasciti/la-liberta-del-come}">La libertà del come</a>, dove trovi anche il fac-simile da scaricare.</p>
 <div class="box">
 <p><strong>Chi lascia, e perché.</strong> Un sondaggio italiano sul lascito solidale — «La prima cosa bella: cosa rende bella la vita e cosa far durare per sempre», del Comitato Testamento Solidale — racconta che ciò che si vorrebbe durasse per sempre sono i legami affettivi (67,7% delle indicazioni) e il sentirsi una brava persona (45,5%); che per lasciare un ricordo di sé quasi un intervistato su quattro pensa al lascito solidale (24,4%), con un picco tra i 25 e i 34 anni (30%); e che tra gli oggetti da tramandare vince l'album di fotografie (44%), poi una lettera scritta a mano (37%). {verifica}</p>
 <p>Nel Regno Unito una parte sempre più significativa di chi fa testamento destina una quota a enti benefici: campagne di sensibilizzazione, agevolazioni fiscali, la fiducia nel non profit, e avvocati e notai che parlano del testamento solidale ai loro clienti. Secondo Rob Cope, direttore di Remember A Charity — un consorzio di oltre duecento enti benefici britannici — la chiave è stato il lavoro congiunto tra le organizzazioni, che ha trasformato il testamento solidale in una norma sociale. La Fondazione rema in questo senso. {verifica}</p>
@@ -438,19 +425,20 @@ TESTI["cookie"] = dict(
 
 # ------------------------------------------------------------ Chi siamo (testo di Dacia, 14.9)
 TESTI["chi-siamo"] = dict(
-    sotto="Uniamo scienza e cuore.",
+    sotto="Accanto alla vita, dalla terra al cielo.",
     motto=True,
     corpo="""
 <p>La Fondazione La Rosa d'Oro è un ente non profit riconosciuto dal Registro unico nazionale del Terzo settore, con sede a Milano, costituito il 26 febbraio 2026. Ciò che ci caratterizza è:</p>
 <ul class="stelle">
 <li>l'<strong>attenzione</strong> alle esigenze della persona, del territorio e del terreno agricolo, insieme all'<strong>ascolto</strong> profondo della persona e dei gruppi di persone, e la sensibilità;</li>
-<li>la capacità di <strong>mediazione</strong>: facilitare il dialogo e risolvere i conflitti in ambito familiare e comunitario. Ciò avviene di pari passo con il <em>networking</em>, l'abilità relazionale e strategica di stabilire, sviluppare e mantenere relazioni a lungo termine con persone, aziende, istituzioni pubbliche e private, e di creare reti di comunità, grazie a cui si favorisce la sussidiarietà orizzontale. In particolare, la cooperazione a livello internazionale ci permette di ottenere risultati più forti;</li>
+<li>la capacità di <strong>mediazione</strong>: facilitare il dialogo e risolvere i conflitti in ambito familiare e comunitario. Ciò avviene di pari passo con il <strong>networking</strong>, l'abilità relazionale e strategica di stabilire, sviluppare e mantenere relazioni a lungo termine con persone, aziende, istituzioni pubbliche e private, e di creare reti di comunità, grazie a cui si favorisce la sussidiarietà orizzontale. In particolare, la cooperazione a livello internazionale ci permette di ottenere risultati più forti;</li>
 <li>l'<strong>operosità</strong> e la <strong>concretezza</strong>: far vivere nella pratica un progetto, un ideale, con impegno concreto, attivo e instancabile;</li>
 <li>la <strong>responsabilità</strong>: rendersi protagonisti di piccoli grandi cambiamenti per il pianeta Terra;</li>
 <li>il <strong>coraggio</strong> di operare per il bene comune, con spirito civico, altruistico e solidale, attraverso interventi e servizi sociali, agricoli, paesaggistici e sociosanitari;</li>
 <li>lo spirito di <strong>innovazione</strong> e di <strong>ricerca</strong>: sostenere il progresso scientifico, artistico o sociale per creare un impatto positivo e nutrire l'anima;</li>
 <li>la <strong>trasparenza</strong>: la gestione etica e rendicontabile del patrimonio, la coerenza tra gli scopi dichiarati e le azioni.</li>
 </ul>
+<p class="citazione">Coltiviamo la terra, accogliamo la vita, custodiamo il cammino fino alla fine.</p>
 <p class="tre-parole">Fede, Amore e Speranza</p>
 <p>La Fondazione non ha scopo di lucro e persegue finalità civiche, solidaristiche e di utilità sociale, con attività in ambito sociale e sociosanitario. Ha carattere <strong>operativo</strong>, in quanto promuove, crea e gestisce progetti offrendo beni e servizi in prima persona, ed <strong>erogativo</strong>, in quanto fornisce consulenze e risorse, materiali o immateriali, a terzi.</p>
 <h3>Cosa offriamo</h3>
@@ -490,7 +478,7 @@ TESTI["chi-siamo"] = dict(
 <p>Tutto nasce ad Assisi, durante la festa di Michele, nel settembre del 2025. Si trovano lì un agricoltore, consulente bioforestale, e un medico, a parlare delle gioie e delle difficoltà nei reciproci campi. Osservano come sia la medicina sia l'agricoltura si trovino in uno spazio di transizione, in cui tanto deve essere fatto perché le due discipline lavorino davvero a favore dell'umano e per l'umano. Nello stesso tempo, dalle necessità portate dalle persone con cui entrambi hanno a che fare, arriva la domanda di aiuto: creare un ponte tra passato e futuro, facilitare la nascita di progetti e tutte quelle situazioni legate al lutto e alla successione, spesso complicate sul piano pratico e poco in linea con i desideri di chi non c'è più. Mentre camminano dalla basilica di San Francesco verso la Porziuncola, tra gli ulivi, il progetto sottilmente si crea.</p>
 <div class="foto-riga">
 {foto:ULIVI DI ASSISI|Gli ulivi sotto la collina di Assisi|oro}
-{foto:BASILICA DI ASSISI|La facciata della basilica superiore|oro}
+{foto:SANTA CHIARA|La basilica di Santa Chiara|oro}
 </div>
 <p>Dopo profonde meditazioni durante le Notti Sante e valutazioni attente, i due lavorano alla creazione di una Fondazione, il cui statuto viene partorito il 7 gennaio 2026. Il 26 febbraio 2026 la Fondazione La Rosa d'Oro prende forma reale.</p>
 <h3>I fondatori</h3>
@@ -498,4 +486,33 @@ TESTI["chi-siamo"] = dict(
 <p><strong>Elias Minotti</strong>, vicepresidente. Agricoltore, tecnico, formatore e consulente negli ambiti agricolo, agroalimentare e forestale, della gestione ambientale, paesaggistica e del verde in genere.</p>
 <p>Per conoscere il nostro statuto: <a class="link" href="{→documenti}">la pagina Documenti</a>.</p>
 <p class="citazione unica">Ammirare il Bello, Custodire il Vero, Venerare il Nobile, Decidere il Bene.</p>
+""")
+
+
+# ------------------------------------------------------------ La libertà del come (le DAT), pagina a sé: prova del 14.9 su richiesta di Dacia, da confermare con Elias
+TESTI["lasciti/la-liberta-del-come"] = dict(
+    sotto="Le Disposizioni anticipate di trattamento: esprimi le tue volontà sulle cure, finché puoi.",
+    corpo="""
+<p class="citazione">Crediamo che la dignità e l'autodeterminazione debbano essere garantite in ogni momento della vita.</p>
+<p>Le DAT riguardano le cure, non i beni, e si possono fare anche senza un testamento. Tramite lo strumento formale delle <strong>Disposizioni anticipate di trattamento</strong> (DAT), ciascuno ha la possibilità di esprimere in modo chiaro e consapevole le proprie volontà in ambito sanitario, assicurando che le proprie preferenze vengano rispettate qualora dovesse sopraggiungere una temporanea o permanente incapacità di comunicare. È un'importantissima tutela della propria libertà, spesso poco conosciuta.</p>
+<p>Le DAT, dette anche testamento biologico e regolate dalla legge 219/2017, permettono a una persona maggiorenne e capace di intendere e di volere di esprimere in anticipo le proprie volontà sulle cure: accertamenti diagnostici, scelte terapeutiche, trattamenti di sostegno vitale come la nutrizione e l'idratazione artificiali. Hanno effetto quando non si è più in grado di autodeterminarsi. Come per il testamento, anche in questo caso i tuoi cari saranno sollevati dal dover prendere decisioni complesse in momenti di dolore, in cui è facile perdere la lucidità, e saranno ridotti i potenziali conflitti tra i membri della famiglia.</p>
+<p>Si redigono per atto pubblico, per scrittura privata autenticata da un notaio, oppure per scrittura privata consegnata di persona all'ufficio dello stato civile del proprio Comune; sono esenti da bollo e da ogni tassa; si possono revocare o modificare in qualsiasi momento, con le stesse forme. Puoi indicare un <strong>fiduciario</strong> — la cosiddetta delega sanitaria — cioè una persona di fiducia che faccia le tue veci con i medici e faccia valere la tua volontà. Con il tuo consenso, le DAT sono inserite nella Banca dati nazionale del Ministero della Salute (legge 205/2017, art. 1, comma 418), accessibile ai medici in caso di necessità. Se in futuro dovessi cambiare idea, potrai modificarle in qualsiasi momento, esattamente come per il <a class="link" href="{→lasciti/il-tuo-testamento}">testamento</a>.</p>
+<p>Avere una disposizione anticipata di trattamento, in genere, significa che eviterai:</p>
+<ul class="stelle">
+<li>dolore inutile;</li>
+<li>procedure inutili;</li>
+<li>un ricovero ospedaliero non desiderato.</li>
+</ul>
+<p>Consigliamo inoltre di specificare:</p>
+<ul class="stelle">
+<li>dove desideri soggiornare durante le cure di fine vita: in un hospice (puoi scrivere anche quale), in una struttura di cure palliative, a casa con o senza cure palliative, o in un altro luogo — per esempio quanto previsto dal progetto «Pianeta Verde», quando sarà attivo;</li>
+<li>se richiedi un'assistenza spirituale: puoi indicare anche la Fondazione e la sua équipe del Pianeta Verde;</li>
+<li>se consenti qualsiasi visitatore, o limiti l'accesso ad alcuni cari o a nessuno, nel momento del passaggio della soglia e nelle settimane che lo precedono.</li>
+</ul>
+<p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
+<p><strong>Attraverso una disposizione anticipata di trattamento puoi comunicare ai medici cosa desideri — o non desideri — finché sei in grado di farlo. Garantisci che i tuoi desideri più intimi e familiari vengano rispettati.</strong></p>
+<p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
+<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-modulo-bozza.pdf}">scarica il modulo (PDF)</a>. È una bozza in lettura: non sostituisce il colloquio con il tuo medico.</p>
+<p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
+<p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
