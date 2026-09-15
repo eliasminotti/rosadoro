@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-label="Un tempio con il timpano e tre colonne, inciso su avorio">
+<defs>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/></pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/></pattern>
+  <linearGradient id="luce" x1="1" y1="0" x2=".2" y2="1"><stop offset="0%" stop-color="#B88F3D" stop-opacity=".14"/><stop offset="55%" stop-color="#B88F3D" stop-opacity=".04"/><stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/></linearGradient>
+  <symbol id="rosa" viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></symbol>
+</defs>
+  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <path d="M700 40 1400 0 1400 760 300 760z" fill="url(#luce)"/>
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M60 660h1280" stroke-width="1.2" opacity=".35"/><path d="M120 700h1160M200 732h1000" stroke-width=".7" opacity=".14"/></g>
+  <g color="#1C1C1C" opacity=".2"><path d="M380 614h640l20 22H360z" fill="url(#tr-rado)" stroke="none"/></g>
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M700 118 1040 262H360z" fill="#FFFFFF" fill-opacity=".6" stroke-width="1.8" opacity=".65"/>
+    <path d="M700 148 990 250H410z" stroke-width="1" opacity=".3"/>
+    <path d="M360 262h680v36H360zM380 298h640" stroke-width="1.5" opacity=".6"/>
+    <path d="M448 300h64M452 312h56M456 312v270M504 312v270M448 582h64M442 596h76" stroke-width="1.5" opacity=".62"/><path d="M468 330v236M480 330v236M492 330v236" stroke-width=".8" opacity=".25"/><path d="M668 300h64M672 312h56M676 312v270M724 312v270M668 582h64M662 596h76" stroke-width="1.5" opacity=".62"/><path d="M688 330v236M700 330v236M712 330v236" stroke-width=".8" opacity=".25"/><path d="M888 300h64M892 312h56M896 312v270M944 312v270M888 582h64M882 596h76" stroke-width="1.5" opacity=".62"/><path d="M908 330v236M920 330v236M932 330v236" stroke-width=".8" opacity=".25"/>
+    <path d="M370 596h660v18H370zM350 614h700v22H350z" stroke-width="1.6" opacity=".62"/>
+  </g>
+  <g color="#1C1C1C" opacity=".22"><path d="M410 250 700 148 990 250z" fill="url(#tr-rado)" stroke="none"/><path d="M360 262h680v36H360z" fill="url(#tr-medio)" stroke="none"/></g>
+  <g color="#8D6E2A" opacity=".8"><use href="#rosa" x="660" y="168" width="80" height="80"/></g>
+</svg>

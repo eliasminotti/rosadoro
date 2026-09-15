@@ -120,6 +120,8 @@
     });
   }
   velo.querySelector('.chiudi-dialogo').addEventListener('click', function () { velo.hidden = true; });
+  var freccia = document.querySelector('.scorri-freccia'), striscia = document.querySelector('.giardino');
+  if (freccia && striscia) freccia.addEventListener('click', function () { striscia.scrollBy({ left: striscia.clientWidth * 0.8, behavior: 'smooth' }); });
   velo.addEventListener('click', function (e) { if (e.target === velo) velo.hidden = true; });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') velo.hidden = true; });
   campoNome.addEventListener('input', function () { campoNome.classList.remove('manca'); });

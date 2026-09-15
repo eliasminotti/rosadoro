@@ -99,8 +99,8 @@ SEZIONI = [
     dict(chiave="aziende-e-istituzioni", voce="Per aziende e istituzioni", titolo="Per aziende e istituzioni", hero="avorio", casa="portico",
          intro="Le forme di collaborazione che lo statuto prevede per aziende e istituzioni: partecipazione, sostegno ai progetti, iniziative condivise.",
          pagine=[
-             dict(slug="aziende", voce="Aziende", titolo="Per le aziende", riga=""),
-             dict(slug="istituzioni", voce="Istituzioni", titolo="Per le istituzioni", riga=""),
+             dict(slug="aziende", voce="Aziende", titolo="Per le aziende", riga="Sostenere, donare, crescere insieme", hero="tavola", testata="equipe"),
+             dict(slug="istituzioni", voce="Istituzioni", titolo="Per le istituzioni", riga="Il partenariato pubblico-privato", hero="tavola", testata="tempio"),
          ]),
     dict(chiave="professionisti", voce="Per professionisti", titolo="Per professionisti", hero="notte", notte=True, casa="emblema",
          intro="Otto strumenti previsti dallo statuto, per chi assiste una persona o una famiglia nel destinare un patrimonio: notai, commercialisti, avvocati, consulenti.",
@@ -127,9 +127,10 @@ SERVIZIO = [
     dict(cartella="contatti", voce="Contatti", titolo="Contatti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="privacy", voce="Privacy", titolo="Informativa sulla privacy", occhiello="Note legali", hero="avorio", dove="footer"),
     dict(cartella="cookie", voce="Cookie", titolo="Informativa sui cookie", occhiello="Note legali", hero="avorio", dove="footer"),
+    dict(cartella="cinque-per-mille", voce="5 per mille", titolo="Il 5 per mille", occhiello="Sostieni la Fondazione", hero="avorio", dove="barra"),
 ]
 # «Lavora con noi» per ora rimanda ai Progetti da avviare
-BARRA = [("Chi siamo", "chi-siamo"), ("Dona ora", "dona"), ("Lavora con noi", "progetti/da-avviare")]
+BARRA = [("Chi siamo", "chi-siamo"), ("Dona ora", "dona"), ("5 per mille", "cinque-per-mille"), ("Lavora con noi", "progetti/da-avviare")]
 
 # --------------------------------------------------------------------------
 # dalla mappa all'elenco delle pagine
@@ -207,7 +208,7 @@ def emblema(classe="emblema", simbolo="rosa"):
 def logo(da):
     return ('<a class="logo" href="%s" aria-label="%s, home">%s'
             '<span class="nome">Fondazione <b>La Rosa d\'<i>Oro</i></b></span></a>'
-            % (verso(da, ""), sfuggi(ENTE["nome"]), emblema("", "rosa-piccola")))
+            % (verso(da, ""), sfuggi(ENTE["nome"]), '<img class="marchio" src="%s" alt="" width="96" height="96">' % risorsa(da, "img/logo-piccolo.png")))
 
 def sottomenu(s, da):
     righe = []
@@ -359,6 +360,8 @@ TAVOLE_ALT = {
     "arcobaleno": "Un arcobaleno inciso sopra le colline",
     "candela": "Una candela accesa, incisa",
     "pergamena": "Una pergamena aperta con la piuma che scrive, incisa su avorio",
+    "equipe": "Quattro persone in cerchio, unite da archi, incise su avorio",
+    "tempio": "Un tempio con il timpano e tre colonne, inciso su avorio",
 }
 TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 

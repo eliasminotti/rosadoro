@@ -113,6 +113,7 @@ p:last-child{margin-bottom:0}
 .testa-bassa .pagina{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .logo{display:flex;align-items:center;gap:12px;color:var(--testo);flex:0 0 auto}
 .logo svg{width:32px;height:32px;color:var(--oro)}
+.logo .marchio{width:44px;height:44px;flex:none}
 .logo .nome{font-family:var(--display);font-size:25px;line-height:1;letter-spacing:.005em;font-weight:400;white-space:nowrap}
 .logo .nome b{font-weight:600}
 .logo .nome i{font-style:normal;color:var(--accento)}
@@ -316,6 +317,7 @@ p:last-child{margin-bottom:0}
   .testa-alta{display:none}
   .logo .nome{font-size:21px}
   .logo svg{width:26px;height:26px}
+  .logo .marchio{width:36px;height:36px}
   .apri-menu{display:inline-flex;align-items:center;background:none;border:1px solid var(--filo-forte);color:var(--testo);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:11px 16px;cursor:pointer}
   .menu{position:fixed;left:0;right:0;top:var(--testa-bassa);bottom:var(--barra);background:var(--fondo);overflow-y:auto;display:none;z-index:40}
   .menu.aperto{display:block}
@@ -427,10 +429,16 @@ a.azione:hover h4{color:var(--accento)}
 .pianta{scroll-snap-align:start;border:1px solid var(--filo);background:var(--carta);padding:12px;display:flex;flex-direction:column;gap:12px}
 .pianta button{background:none;border:1px solid var(--filo-forte);color:var(--accento);font-family:var(--sans);font-size:11px;line-height:16px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:10px;cursor:pointer}
 .pianta button:hover{border-color:var(--oro);color:var(--testo)}
-.scorri{font-family:var(--sans);font-size:11px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--testo-45);margin:1.6em 0 -1.2em}
-.scorri span{display:inline-block;margin-left:6px;animation:scorri 1.6s ease-in-out infinite}
-@keyframes scorri{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
-.foto.oro img{border:1px solid var(--oro);padding:8px;background:var(--carta)}
+.giardino-cornice{position:relative}
+.giardino-cornice::after{content:"";position:absolute;right:0;top:0;bottom:18px;width:72px;background:linear-gradient(90deg,rgba(251,251,249,0),var(--avorio) 70%);pointer-events:none}
+.scorri-freccia{position:absolute;right:0;top:50%;transform:translateY(-60%);z-index:2;background:none;border:0;padding:8px 4px 8px 16px;font-family:var(--display);font-size:44px;line-height:1;color:var(--oro);cursor:pointer;animation:scorri 1.8s ease-in-out infinite}
+.scorri-freccia:hover{color:var(--accento);animation:none}
+@keyframes scorri{0%,100%{transform:translate(0,-60%)}50%{transform:translate(5px,-60%)}}
+.foto.oro{border:1px solid var(--oro);background:#1C1C1C;background-image:none}
+.foto.oro img{inset:7px;width:auto;height:auto}
+.logo-grande{max-width:300px;margin:0 0 2em}
+.logo-grande img{display:block;width:100%;height:auto}
+.testo strong.oro{color:var(--accento)}
 .foto-riga{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:1.6em 0}
 .foto-riga .foto{margin:0}
 .tre-parole{font-family:var(--display);font-size:22px;letter-spacing:.22em;text-transform:uppercase;color:var(--accento);margin:1.6em 0}

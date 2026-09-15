@@ -82,7 +82,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
     sotto="Scegli un'immagine, scrivi il nome di chi vuoi ricordare: la posiamo nel giardino.",
     corpo="""
 <p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più, per il tuo caro. Puoi percepirne internamente il profumo. Scegli l'immagine e scrivi il nome della persona che vuoi ricordare — e, se vuoi, una dedica. Il nome arriva alla Fondazione e viene posato nel giardino, accanto all'immagine scelta, e lì resta, in un giardino di anime reso fecondo dal nostro Amore.</p>
-<p class="scorri" aria-hidden="true">Scorri la galleria <span>→</span></p>
+<div class="giardino-cornice">
 <div class="giardino" aria-label="Le immagini del giardino">
   <div class="pianta">{foto:FOTO APE|L'ape sul fiore|quadra}<button type="button" data-foto="L'ape sul fiore">Scegli questa immagine</button></div>
   <div class="pianta">{foto:STELLE DI BETLEMME|Le stelle di Betlemme|quadra}<button type="button" data-foto="Le stelle di Betlemme">Scegli questa immagine</button></div>
@@ -106,6 +106,8 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   <div class="pianta">{foto:IRIS|L'iris|quadra}<button type="button" data-foto="L'iris">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GRANO|Il grano giovane|quadra}<button type="button" data-foto="Il grano giovane">Scegli questa immagine</button></div>
   <div class="pianta">{foto:MARGHERITE|Le margherite nel prato|quadra}<button type="button" data-foto="Le margherite nel prato">Scegli questa immagine</button></div>
+</div>
+<button type="button" class="scorri-freccia" aria-label="Scorri le immagini">»</button>
 </div>
 <figure class="dedica-esempio">
   {foto:FOTO APE|L'ape sul fiore, l'immagine dell'esempio|}
@@ -341,9 +343,6 @@ TESTI["lasciti/dopo-di-noi"] = dict(
 <p><a class="vai" href="{→contatti}">Vuoi saperne di più? Contattaci</a></p>
 """)
 
-# il segno «da verificare», sostituito nei testi dei Lasciti
-for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento", "lasciti/il-lascito-testamentario"):
-    TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
 
 
 # ------------------------------------------------------------ note legali
@@ -428,15 +427,16 @@ TESTI["chi-siamo"] = dict(
     sotto="Accanto alla vita, dalla terra al cielo.",
     motto=True,
     corpo="""
-<p>La Fondazione La Rosa d'Oro è un ente non profit riconosciuto dal Registro unico nazionale del Terzo settore, con sede a Milano, costituito il 26 febbraio 2026. Ciò che ci caratterizza è:</p>
+<figure class="logo-grande"><img src="{img:logo.jpg}" alt="Il logo della Fondazione: una rosa tra le spighe, in un cerchio d'oro" width="720" height="720"></figure>
+<p>La <strong class="oro">Fondazione La Rosa d'Oro</strong> è un ente non profit riconosciuto dal Registro unico nazionale del Terzo settore, con sede a Milano, costituito il 26 febbraio 2026. Ciò che ci caratterizza è:</p>
 <ul class="stelle">
-<li>l'<strong>attenzione</strong> alle esigenze della persona, del territorio e del terreno agricolo, insieme all'<strong>ascolto</strong> profondo della persona e dei gruppi di persone, e la sensibilità;</li>
-<li>la capacità di <strong>mediazione</strong>: facilitare il dialogo e risolvere i conflitti in ambito familiare e comunitario. Ciò avviene di pari passo con il <strong>networking</strong>, l'abilità relazionale e strategica di stabilire, sviluppare e mantenere relazioni a lungo termine con persone, aziende, istituzioni pubbliche e private, e di creare reti di comunità, grazie a cui si favorisce la sussidiarietà orizzontale. In particolare, la cooperazione a livello internazionale ci permette di ottenere risultati più forti;</li>
-<li>l'<strong>operosità</strong> e la <strong>concretezza</strong>: far vivere nella pratica un progetto, un ideale, con impegno concreto, attivo e instancabile;</li>
-<li>la <strong>responsabilità</strong>: rendersi protagonisti di piccoli grandi cambiamenti per il pianeta Terra;</li>
-<li>il <strong>coraggio</strong> di operare per il bene comune, con spirito civico, altruistico e solidale, attraverso interventi e servizi sociali, agricoli, paesaggistici e sociosanitari;</li>
-<li>lo spirito di <strong>innovazione</strong> e di <strong>ricerca</strong>: sostenere il progresso scientifico, artistico o sociale per creare un impatto positivo e nutrire l'anima;</li>
-<li>la <strong>trasparenza</strong>: la gestione etica e rendicontabile del patrimonio, la coerenza tra gli scopi dichiarati e le azioni.</li>
+<li>l'<strong class="oro">attenzione</strong> alle esigenze della persona, del territorio e del terreno agricolo, insieme all'<strong class="oro">ascolto</strong> profondo della persona e dei gruppi di persone, e la sensibilità;</li>
+<li>la capacità di <strong class="oro">mediazione</strong>: facilitare il dialogo e risolvere i conflitti in ambito familiare e comunitario. Ciò avviene di pari passo con il networking, l'abilità relazionale e strategica di stabilire, sviluppare e mantenere relazioni a lungo termine con persone, aziende, istituzioni pubbliche e private, e di creare reti di comunità, grazie a cui si favorisce la sussidiarietà orizzontale. In particolare, la cooperazione a livello internazionale ci permette di ottenere risultati più forti;</li>
+<li>l'<strong class="oro">operosità</strong> e la <strong class="oro">concretezza</strong>: far vivere nella pratica un progetto, un ideale, con impegno concreto, attivo e instancabile;</li>
+<li>la <strong class="oro">responsabilità</strong>: rendersi protagonisti di piccoli grandi cambiamenti per il pianeta Terra;</li>
+<li>il <strong class="oro">coraggio</strong> di operare per il bene comune, con spirito civico, altruistico e solidale, attraverso interventi e servizi sociali, agricoli, paesaggistici e sociosanitari;</li>
+<li>lo spirito di <strong class="oro">innovazione</strong> e di <strong class="oro">ricerca</strong>: sostenere il progresso scientifico, artistico o sociale per creare un impatto positivo e nutrire l'anima;</li>
+<li>la <strong class="oro">trasparenza</strong>: la gestione etica e rendicontabile del patrimonio, la coerenza tra gli scopi dichiarati e le azioni.</li>
 </ul>
 <p class="citazione">Coltiviamo la terra, accogliamo la vita, custodiamo il cammino fino alla fine.</p>
 <p class="tre-parole">Fede, Amore e Speranza</p>
@@ -516,3 +516,100 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 <p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
+
+
+# ------------------------------------------------------------ Per aziende e istituzioni (testi di Dacia, 15.9)
+TESTI["aziende-e-istituzioni/aziende"] = dict(
+    sotto="La tua azienda può sostenere uno dei progetti della Fondazione La Rosa d'Oro.",
+    corpo="""
+<p>Ci sono molti modi in cui un'azienda può camminare con noi. Eccone alcuni.</p>
+<ul class="stelle">
+<li><strong>Cause related marketing</strong>: entra nel cuore dei tuoi clienti coinvolgendoli in un gesto concreto di solidarietà al momento dell'acquisto di un prodotto o di un servizio.</li>
+<li><strong>Donazioni in natura</strong>: dona i prodotti invenduti, le eccedenze di magazzino o gli oggetti provenienti da eventi e allestimenti, per sostenere i progetti e le iniziative.</li>
+<li><strong>Il benessere delle persone</strong>: rafforza le relazioni e il benessere della comunità aziendale con iniziative di formazione, consulenza alla persona e volontariato aziendale.</li>
+<li><strong>Il team building solidale</strong>, per rafforzare il senso di appartenenza: attività di gruppo — uscite con famiglie e bambini (eventi culturali, sportivi, nella natura) o visite alle strutture della Fondazione; e il donare insieme — sostegno a distanza, <em>match giving</em>, <em>payroll giving</em>, raccolte di doni (Back to School, Uovo Sospeso e altre).</li>
+<li><strong>Consulenza e sostegno psicologico</strong> per le persone dell'azienda, sui temi dell'adolescenza, della genitorialità, del contrasto alla violenza di genere, del benessere digitale, del benessere alimentare in <em>smart working</em>. Alcune azioni possibili: counselling e coaching per l'empowerment relazionale, familiare e lavorativo; uno sportello online dedicato; corsi di leadership per sviluppare una leadership positiva, comunicazioni autentiche e un ambiente di lavoro sereno.</li>
+</ul>
+<p>Tutto questo si riflette sulla reputazione del marchio: la percezione che il pubblico ha della tua azienda.</p>
+<p class="citazione">Promuovi il benessere olistico dei dipendenti, integrando salute fisica, mentale, emotiva, sociale e finanziaria, attraverso strategie di welfare evolute.</p>
+<h3>I vantaggi fiscali</h3>
+<p>Le donazioni agli enti del Terzo settore sono deducibili o detraibili nei limiti di legge (art. 83 del Codice del Terzo settore). E il welfare aziendale gode di un regime di favore, disciplinato dal Testo unico delle imposte sui redditi (TUIR), che trasforma la spesa per il benessere in un risparmio per l'azienda e per il dipendente. {verifica}</p>
+<ul class="stelle">
+<li><strong>Per l'azienda: costi certi e deducibilità.</strong> Su premi e aumenti in busta paga l'azienda paga contributi aggiuntivi per circa il 30–35%; con il welfare aziendale questo sovraccarico scompare: 1.000 euro stanziati in servizi costano all'azienda esattamente 1.000 euro. Le somme investite in servizi di utilità sociale o di benessere sono deducibili dal reddito d'impresa (artt. 95 e 100 del TUIR), a patto che siano rivolte alla generalità dei dipendenti o a categorie omogenee, e regolate da un accordo o da un regolamento aziendale. {verifica}</li>
+<li><strong>Per il dipendente: valore lordo uguale a valore netto.</strong> I beni e i servizi erogati con un piano di welfare non concorrono a formare il reddito da lavoro dipendente: 1.000 euro di credito welfare sono 1.000 euro di servizi, senza tasse e senza contributi. {verifica}</li>
+<li><strong>I fringe benefit.</strong> I benefit in beni o voucher (buoni spesa, rimborsi delle bollette, carte carburante) seguono le regole dell'art. 51, comma 3, del TUIR, con soglie di esenzione di 1.000 euro l'anno per la generalità dei dipendenti e di 2.000 euro per chi ha figli fiscalmente a carico. {verifica}</li>
+<li><strong>La conversione del premio di risultato.</strong> Convertire in welfare un premio legato alla produttività azzera anche la tassazione sostitutiva prevista per i premi in denaro e la quota di contributi a carico del lavoratore: il dipendente riceve il 100% del valore in servizi. {verifica}</li>
+</ul>
+<p class="citazione unica">La Fondazione La Rosa d'Oro: una realtà viva e vera.</p>
+<p><a class="vai" href="{→contatti}">Parliamone: scrivici</a></p>
+""")
+
+TESTI["aziende-e-istituzioni/istituzioni"] = dict(
+    sotto="Sei un'istituzione pubblica? Collabora con noi.",
+    corpo="""
+<p>Le fondazioni private, filantropiche o bancarie, possono collaborare con le istituzioni nel modello del partenariato pubblico-privato sociale, per moltiplicare l'impatto degli interventi sul territorio. Questa sinergia unisce la capillarità e la legittimità delle istituzioni con la flessibilità, l'innovazione e le risorse delle fondazioni. Ecco le principali attività e i modi in cui operare insieme.</p>
+<h3>1. Rigenerazione urbana e beni comuni</h3>
+<ul class="stelle">
+<li><strong>Co-progettazione di spazi pubblici</strong>: il recupero di aree dismesse, parchi, periferie o beni culturali dimenticati, per restituirli alla cittadinanza come centri sociali, culturali o sportivi.</li>
+<li><strong>Patti di collaborazione</strong>: accordi di amministrazione condivisa in cui istituzioni, fondazioni e cittadini gestiscono insieme un bene comune, come una biblioteca di quartiere o un giardino pubblico.</li>
+</ul>
+<h3>2. Welfare di comunità e contrasto alle fragilità</h3>
+<ul class="stelle">
+<li><strong>Lotta alla povertà educativa</strong>: bandi congiunti, come il fondo nazionale per il contrasto della povertà educativa minorile, per sostenere scuole, doposcuola e centri giovanili nei contesti svantaggiati.</li>
+<li><strong>Inclusione sociale e socio-sanitaria</strong>: progetti di housing sociale per persone in difficoltà economica, anziani o persone con disabilità, in cui il Comune offre la struttura o le autorizzazioni e la fondazione finanzia la ristrutturazione e i servizi di assistenza.</li>
+</ul>
+<h3>3. Formazione in ambito agricolo, sanitario e nell'accompagnamento alla morte</h3>
+<ul class="stelle">
+<li>la formazione dei volontari e della cittadinanza;</li>
+<li>percorsi di reinserimento e di riallenamento;</li>
+<li><strong>strategie nazionali e standard professionali</strong>: allineare i moduli formativi della fondazione alle linee guida istituzionali, perché medici, infermieri e specialisti ricevano competenze certificate e omogenee;</li>
+<li><strong>campagne di sensibilizzazione</strong>: collaborare per sciogliere il tabù della morte con eventi pubblici, convegni e tavoli di lavoro istituzionali;</li>
+<li><strong>un modello di finanziamento misto</strong>: l'ente pubblico copre i costi strutturali o concede i patrocini, la fondazione sostiene i costi vivi, le borse di studio o le tecnologie didattiche.</li>
+</ul>
+<h3>4. Innovazione e ricerca</h3>
+<ul class="stelle">
+<li><strong>Sostegno alla ricerca scientifica</strong>: il co-finanziamento di borse di studio, laboratori universitari o progetti di ricerca biomedica, agricola e tecnologica.</li>
+<li><strong>Sperimentazione di nuove politiche</strong>, con progetti pilota per provare un servizio innovativo, per esempio un nuovo modello di assistenza domiciliare: se il progetto funziona, l'istituzione pubblica può assorbirlo e trasformarlo in una politica strutturale.</li>
+</ul>
+<h3>5. Cultura, arte e valorizzazione del territorio</h3>
+<ul class="stelle">
+<li><strong>Grandi eventi e mostre</strong>: l'organizzazione e la promozione di festival culturali, rassegne d'arte o restauri di monumenti che il solo bilancio comunale o statale non riuscirebbe a coprire.</li>
+<li><strong>Turismo sostenibile</strong>: percorsi turistici, culturali e spirituali per valorizzare i piccoli borghi e le aree interne, compresi i cammini, come la via Francigena.</li>
+</ul>
+<p><a class="vai" href="{→contatti}">Parliamone: scrivici</a></p>
+""")
+
+# ------------------------------------------------------------ Formazione all'accompagnamento (testo iniziale di Dacia, 15.9)
+TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
+    sotto="Stare accanto a chi si trova nell'ultimo tratto della vita: competenze emotive, pratiche e spirituali.",
+    corpo="""
+{foto:DUE MANI|Due mani che si tengono|ritratto oro}
+<p>La formazione per l'accompagnamento alla morte, o al fine vita, è un percorso multidisciplinare rivolto a professionisti sanitari, volontari e cittadini che desiderano acquisire competenze emotive, pratiche e spirituali per stare accanto a chi si trova nell'ultimo tratto della vita.</p>
+<p>I percorsi formativi sono diversi:</p>
+<ul class="stelle">
+<li><strong>Quietude Italia</strong>;</li>
+<li>la formazione per la cittadinanza e il volontariato;</li>
+<li>la formazione online sulle DAT, le <a class="link" href="{→lasciti/la-liberta-del-come}">Disposizioni anticipate di trattamento</a>.</li>
+</ul>
+<p><a class="vai" href="{→contatti}">Vuoi partecipare? Scrivici</a></p>
+""")
+
+# ------------------------------------------------------------ Il 5 per mille (15.9: Elias conferma che l'iscrizione è completata dal commercialista)
+TESTI["cinque-per-mille"] = dict(
+    sotto="Una firma, nessun costo: una parte delle tue imposte al lavoro della Fondazione.",
+    corpo="""
+<p>Il 5 per mille è una quota dell'IRPEF che lo Stato destina comunque: con una firma puoi decidere che vada alla Fondazione La Rosa d'Oro. Non costa nulla, e non sostituisce l'8 per mille né il 2 per mille, che restano scelte separate.</p>
+<h3>Come si fa</h3>
+<ol>
+<li>Nella dichiarazione dei redditi (modello 730 o modello Redditi), oppure nella scheda allegata alla Certificazione unica se non sei tenuto a presentare la dichiarazione, cerca il riquadro <strong>«Sostegno degli enti del Terzo settore iscritti nel RUNTS»</strong>.</li>
+<li>Firma nel riquadro.</li>
+<li>Scrivi il codice fiscale della Fondazione: <strong class="oro">14629350969</strong>.</li>
+</ol>
+<p>Se ti affidi a un CAF o a un commercialista, basta dirgli: «Il 5 per mille alla Fondazione La Rosa d'Oro, codice fiscale 14629350969».</p>
+<p>La Fondazione è iscritta nell'elenco degli enti beneficiari del 5 per mille. Le somme ricevute vengono rendicontate come prevede la legge, e il rendiconto sarà pubblicato nella pagina <a class="link" href="{→documenti}">Documenti</a>.</p>
+<p class="citazione unica">Una firma che non ti costa nulla, e che a qualcuno cambia molto.</p>
+""")
+
+# il segno «da verificare», sostituito nei testi dei Lasciti
+for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento", "lasciti/il-lascito-testamentario", "aziende-e-istituzioni/aziende"):
+    TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
