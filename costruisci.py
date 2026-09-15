@@ -20,6 +20,7 @@ from testi_pagine import TESTI
 # --------------------------------------------------------------------------
 DOMINIO = "https://larosadoro.org"      # [VERIFICARE] il dominio definitivo
 ANTEPRIMA = True                          # True: le pagine chiedono ai motori di ricerca di non indicizzarle (indirizzo di prova)
+TESTATA_CENTRATA = True                   # prova del 15.9 (Dacia, ok Elias): logo e nome sopra, menu sotto; False = una riga
 LINK_PULITI = False                       # False: i collegamenti finiscono in «index.html», così il sito
                                           #        funziona anche aperto da una cartella sul computer.
                                           # True:  collegamenti puliti «/lasciti/», da attivare alla pubblicazione.
@@ -83,9 +84,9 @@ SEZIONI = [
          intro="Gli incontri e i percorsi di formazione che la Fondazione è costituita per promuovere: in medicina, in agricoltura, nell'accompagnamento.",
          pagine=[
              dict(slug="eventi", voce="Eventi", titolo="Eventi", riga=""),
-             dict(slug="formazione-medica", voce="Formazione medica", titolo="Formazione medica", riga=""),
+             dict(slug="formazione-medica", voce="Formazione medico-terapeutica", titolo="Formazione medico-terapeutica", riga=""),
              dict(slug="formazione-agricola", voce="Formazione agricola", titolo="Formazione agricola", riga=""),
-             dict(slug="formazione-accompagnamento", voce="Formazione all'accompagnamento", titolo="Formazione all'accompagnamento", riga="", hero="lemniscata"),
+             dict(slug="formazione-accompagnamento", voce="Formazione accompagnamento alla morte", titolo="Formazione accompagnamento alla morte", riga="", hero="lemniscata"),
          ]),
     dict(chiave="servizi", voce="Servizi", titolo="Servizi alle persone", hero="veli", casa="spighe",
          intro="Le attività di interesse generale previste dallo statuto: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento.",
@@ -127,6 +128,7 @@ SERVIZIO = [
     dict(cartella="contatti", voce="Contatti", titolo="Contatti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="privacy", voce="Privacy", titolo="Informativa sulla privacy", occhiello="Note legali", hero="avorio", dove="footer"),
     dict(cartella="cookie", voce="Cookie", titolo="Informativa sui cookie", occhiello="Note legali", hero="avorio", dove="footer"),
+    dict(cartella="news", voce="News", titolo="News", occhiello="La Fondazione", hero="avorio", dove="menu"),
     dict(cartella="cinque-per-mille", voce="5 per mille", titolo="Il 5 per mille", occhiello="Sostieni la Fondazione", hero="avorio", dove="barra"),
 ]
 # «Lavora con noi» per ora rimanda ai Progetti da avviare
@@ -238,9 +240,13 @@ def header(da, pagina):
             % (" ".join(classi), s["chiave"], verso(da, s["chiave"]),
                ' aria-current="true"' if pagina.get("sezione") == s["chiave"] else "",
                sfuggi(s["voce"]), sfuggi(s["voce"]), sottomenu(s, da)))
+        if s["chiave"] == "servizi":               # le pagine singole del menu (News), dopo Servizi
+            for p in SERVIZIO:
+                if p["dove"] == "menu":
+                    voci.append('<li class="voce sola%s"><a href="%s">%s</a></li>' % (" attiva" if da == p["cartella"] else "", verso(da, p["cartella"]), sfuggi(p["voce"])))
     secondari = "".join('<li><a href="%s">%s</a></li>' % (verso(da, p["cartella"]), sfuggi(p["voce"]))
                         for p in SERVIZIO if p["dove"] == "secondario")
-    return """<header class="testa">
+    return """<header class="testa%s">
   <div class="testa-alta"><div class="pagina"><nav aria-label="Menu secondario"><ul class="menu-sec">%s</ul></nav></div></div>
   <div class="testa-bassa"><div class="pagina">
     %s
@@ -250,7 +256,7 @@ def header(da, pagina):
       <ul class="menu-sec-mobile">%s</ul>
     </nav>
   </div></div>
-</header>""" % (secondari, logo(da), "".join(voci), secondari)
+</header>""" % (" centrata" if TESTATA_CENTRATA else "", secondari, logo(da), "".join(voci), secondari)
 
 def barra(da):
     voci = []

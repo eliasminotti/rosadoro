@@ -613,3 +613,11 @@ TESTI["cinque-per-mille"] = dict(
 # il segno «da verificare», sostituito nei testi dei Lasciti
 for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento", "lasciti/il-lascito-testamentario", "aziende-e-istituzioni/aziende"):
     TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
+
+
+# ------------------------------------------------------------ News (voce nel menu, 15.9)
+TESTI["news"] = dict(
+    sotto="Le novità della Fondazione: incontri, progetti, notizie.",
+    corpo="""
+<p class="segnaposto">[Qui arrivano le novità, una sotto l'altra, con la data: la più recente in alto. Le prime si scrivono quando ci sono.]</p>
+""")
