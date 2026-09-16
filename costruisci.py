@@ -12,7 +12,7 @@ Il committente non deve mai eseguirlo: lo faccio io e consegno la cartella
 pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
-import os, re, shutil, datetime
+import os, re, shutil, datetime, subprocess
 from testi_pagine import TESTI
 
 # --------------------------------------------------------------------------
@@ -611,7 +611,6 @@ def costruisci():
         conteggio += 1
     print("Scritte %d pagine in %s (%s)" % (conteggio, USCITA, datetime.date.today().isoformat()))
     # il JavaScript si controlla a ogni costruzione: un errore di sintassi spegne tutto il sito senza avvisare
-    import shutil, subprocess
     if shutil.which("node"):
         esito = subprocess.run(["node", "--check", os.path.join(USCITA, "js", "sito.js")], capture_output=True, text=True)
         if esito.returncode != 0:
