@@ -146,6 +146,6 @@
       '?subject=' + encodeURIComponent('Giardino dei ricordi — ' + nome) +
       '&body=' + encodeURIComponent('In memoria di: ' + nome + '\nImmagine scelta: ' + scelta +
         (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)') +
-        '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.'));
+        '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.');
   });
 })();

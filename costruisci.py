@@ -610,6 +610,13 @@ def costruisci():
             f.write(pagina_html(cartella, p))
         conteggio += 1
     print("Scritte %d pagine in %s (%s)" % (conteggio, USCITA, datetime.date.today().isoformat()))
+    # il JavaScript si controlla a ogni costruzione: un errore di sintassi spegne tutto il sito senza avvisare
+    import shutil, subprocess
+    if shutil.which("node"):
+        esito = subprocess.run(["node", "--check", os.path.join(USCITA, "js", "sito.js")], capture_output=True, text=True)
+        if esito.returncode != 0:
+            raise SystemExit("ERRORE nel JavaScript (js/sito.js): non pubblicare.\n" + esito.stderr)
+        print("JavaScript controllato: nessun errore di sintassi")
 
 if __name__ == "__main__":
     costruisci()
