@@ -257,7 +257,7 @@ def header(da, pagina):
       <ul class="menu-sec-mobile">%s</ul>
     </nav>
   </div></div>
-</header>""" % (" centrata" if TESTATA_CENTRATA else "", secondari, logo(da), "".join(voci), secondari)
+</header>""" % (" a-due-righe" if TESTATA_CENTRATA else "", secondari, logo(da), "".join(voci), secondari)
 
 def barra(da):
     voci = []
