@@ -128,12 +128,12 @@ SERVIZIO = [
     dict(cartella="contatti", voce="Contatti", titolo="Contatti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="privacy", voce="Privacy", titolo="Informativa sulla privacy", occhiello="Note legali", hero="avorio", dove="footer"),
     dict(cartella="cookie", voce="Cookie", titolo="Informativa sui cookie", occhiello="Note legali", hero="avorio", dove="footer"),
-    dict(cartella="news", voce="News", titolo="News", occhiello="La Fondazione", hero="avorio", dove="menu"),
+    dict(cartella="news", voce="News", titolo="News", occhiello="La Fondazione", hero="avorio", dove="barra"),
     dict(cartella="lavora-con-noi", voce="Lavora con noi", titolo="Lavora con noi", occhiello="La Fondazione", hero="avorio", dove="barra"),
     dict(cartella="cinque-per-mille", voce="5 per mille", titolo="Il 5 per mille", occhiello="Sostieni la Fondazione", hero="avorio", dove="barra"),
 ]
 # «Lavora con noi» per ora rimanda ai Progetti da avviare
-BARRA = [("Chi siamo", "chi-siamo"), ("Dona ora", "dona"), ("5 per mille", "cinque-per-mille"), ("Lavora con noi", "lavora-con-noi")]
+BARRA = [("Chi siamo", "chi-siamo"), ("News", "news"), ("Dona ora", "dona"), ("5 per mille", "cinque-per-mille"), ("Lavora con noi", "lavora-con-noi")]   # cinque voci, Dona ora al centro (Elias, 16.9)
 
 # --------------------------------------------------------------------------
 # dalla mappa all'elenco delle pagine
