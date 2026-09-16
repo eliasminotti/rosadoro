@@ -446,8 +446,9 @@ a.azione:hover h4{color:var(--accento)}
 .scorri-freccia{position:absolute;right:0;top:50%;transform:translateY(-60%);z-index:2;background:none;border:0;padding:8px 4px 8px 16px;font-family:var(--display);font-size:44px;line-height:1;color:var(--oro);cursor:pointer;animation:scorri 1.8s ease-in-out infinite}
 .scorri-freccia:hover{color:var(--accento);animation:none}
 @keyframes scorri{0%,100%{transform:translate(0,-60%)}50%{transform:translate(5px,-60%)}}
-.foto.oro{border:1px solid var(--oro);background:#1C1C1C;background-image:none}
-.foto.oro img{inset:7px;width:auto;height:auto}
+/* tutte le fotografie con la cornice d'oro e nero del pannello della home (Dacia, 16.9); tranne il giardino */
+.foto:not(.quadra):not(.dedica-esempio .foto){border:1px solid var(--oro);background:#1C1C1C;background-image:none}
+.foto:not(.quadra):not(.dedica-esempio .foto) img{inset:7px;width:auto;height:auto}
 .logo-grande{max-width:300px;margin:0 0 2em}
 .logo-grande img{display:block;width:100%;height:auto}
 .testo strong.oro{color:var(--accento)}

@@ -522,6 +522,7 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 TESTI["aziende-e-istituzioni/aziende"] = dict(
     sotto="La tua azienda può sostenere uno dei progetti della Fondazione La Rosa d'Oro.",
     corpo="""
+<p class="citazione">«La bontà è l'unico investimento che non fallisce mai.» — Henry David Thoreau</p>
 <p>Ci sono molti modi in cui un'azienda può camminare con noi. Eccone alcuni.</p>
 <ul class="stelle">
 <li><strong>Cause related marketing</strong>: entra nel cuore dei tuoi clienti coinvolgendoli in un gesto concreto di solidarietà al momento dell'acquisto di un prodotto o di un servizio.</li>
@@ -541,12 +542,14 @@ TESTI["aziende-e-istituzioni/aziende"] = dict(
 <li><strong>La conversione del premio di risultato.</strong> Convertire in welfare un premio legato alla produttività azzera anche la tassazione sostitutiva prevista per i premi in denaro e la quota di contributi a carico del lavoratore: il dipendente riceve il 100% del valore in servizi. {verifica}</li>
 </ul>
 <p class="citazione unica">La Fondazione La Rosa d'Oro: una realtà viva e vera.</p>
+<p class="citazione">La responsabilità dell'azienda va oltre il business: investire nel futuro della comunità è il modo più autentico per restituire valore.</p>
 <p><a class="vai" href="{→contatti}">Parliamone: scrivici</a></p>
 """)
 
 TESTI["aziende-e-istituzioni/istituzioni"] = dict(
     sotto="Sei un'istituzione pubblica? Collabora con noi.",
     corpo="""
+<p class="citazione">«Ci guadagniamo da vivere con ciò che otteniamo, ma costruiamo una vita con ciò che doniamo.» — attribuita a Winston Churchill</p>
 <p>Le fondazioni private, filantropiche o bancarie, possono collaborare con le istituzioni nel modello del partenariato pubblico-privato sociale, per moltiplicare l'impatto degli interventi sul territorio. Questa sinergia unisce la capillarità e la legittimità delle istituzioni con la flessibilità, l'innovazione e le risorse delle fondazioni. Ecco le principali attività e i modi in cui operare insieme.</p>
 <h3>1. Rigenerazione urbana e beni comuni</h3>
 <ul class="stelle">
@@ -620,4 +623,31 @@ TESTI["news"] = dict(
     sotto="Le novità della Fondazione: incontri, progetti, notizie.",
     corpo="""
 <p class="segnaposto">[Qui arrivano le novità, una sotto l'altra, con la data: la più recente in alto. Le prime si scrivono quando ci sono.]</p>
+""")
+
+
+# ------------------------------------------------------------ Per aziende e istituzioni: la pagina d'ingresso (citazione, Dacia 16.9)
+TESTI["aziende-e-istituzioni"] = dict(
+    corpo="""
+<p>Le forme di collaborazione che lo statuto prevede per aziende e istituzioni: partecipazione, sostegno ai progetti, iniziative condivise.</p>
+<p class="citazione">«Il valore di un uomo si misura da ciò che dà, e non da ciò che è capace di ricevere.» — attribuita ad Albert Einstein</p>
+""")
+
+# ------------------------------------------------------------ Lavora con noi (testo di Dacia, 16.9)
+TESTI["lavora-con-noi"] = dict(
+    sotto="Condividi i nostri valori? Il tuo talento può fare la differenza.",
+    motto=True,
+    corpo="""
+<p class="citazione">Condividi i nostri valori? Sei un professionista qualificato? Il tuo talento può fare la differenza: unisciti al team della Fondazione.</p>
+<p>Siamo alla ricerca delle seguenti figure:</p>
+<ul class="stelle">
+<li><strong>avvocati, notai, commercialisti</strong> — vedi i <a class="link" href="{→professionisti}">progetti dedicati</a>;</li>
+<li><strong>counsellor</strong> — vedi i <a class="link" href="{→in-memoria/io-sono-qui-per-te}">progetti dedicati</a>;</li>
+<li><strong>celebranti laici di funerali</strong> — vedi i <a class="link" href="{→in-memoria/funerali}">progetti dedicati</a>;</li>
+<li><strong>team per i traslochi</strong> — vedi i <a class="link" href="{→in-memoria/svuota-e-sorridi}">progetti dedicati</a>;</li>
+<li><strong>volontari</strong> — operatori socio-sanitari, infermieri, medici, fisioterapisti, psicologi, <em>quietude practitioner</em> — interessati e qualificati per assistere nel delicato momento del fine vita.</li>
+</ul>
+<p>Unisciti alla nostra Fondazione per costruire insieme un futuro migliore e generare un impatto positivo concreto sulla comunità.</p>
+<p>Se sei interessato a collaborare con noi, inviaci oggi stesso la tua candidatura, accompagnata da una lettera di presentazione: <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>.</p>
+<p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
