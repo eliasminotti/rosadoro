@@ -9,7 +9,7 @@
   <radialGradient id="aloneC" cx="50%" cy="34%" r="40%">
     <stop offset="0%" stop-color="#B88F3D" stop-opacity=".34"/>
     <stop offset="40%" stop-color="#B88F3D" stop-opacity=".12"/>
-    <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#FAF6EE" stop-opacity="0"/>
   </radialGradient>
   <radialGradient id="fiamma" cx="50%" cy="70%" r="55%">
     <stop offset="0%" stop-color="#FFF4D6" stop-opacity=".95"/>
@@ -17,7 +17,7 @@
     <stop offset="100%" stop-color="#B88F3D" stop-opacity="0"/>
   </radialGradient>
 </defs>
-  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <rect width="1400" height="760" fill="#FAF6EE"/>
   <rect width="1400" height="760" fill="url(#aloneC)"/>
 
   <!-- il piano -->

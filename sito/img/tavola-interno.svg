@@ -18,12 +18,12 @@
   </symbol>
 </defs>
 
-  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <rect width="1400" height="760" fill="#FAF6EE"/>
   <defs>
     <linearGradient id="luceC" x1="1" y1="0" x2=".2" y2="1">
       <stop offset="0%" stop-color="#B88F3D" stop-opacity=".16"/>
       <stop offset="46%" stop-color="#B88F3D" stop-opacity=".06"/>
-      <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#FAF6EE" stop-opacity="0"/>
     </linearGradient>
   </defs>
 

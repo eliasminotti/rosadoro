@@ -12,7 +12,7 @@ Ogni modifica al sito si confronta con questa lista prima di essere pubblicata.
     è ciò che fa «alto livello».
  3. FOTOGRAFIE DELLA STESSA FAMIGLIA. Vedi le tre regole in fondo. Se una foto
     non passa, meglio una tavola incisa che una foto media.
- 4. POCHI COLORI, SEMPRE GLI STESSI. Avorio #FBFBF9, antracite #1C1C1C, oro
+ 4. POCHI COLORI, SEMPRE GLI STESSI. Avorio #FAF6EE, antracite #1C1C1C, oro
     #B88F3D, oro scuro #8D6E2A, bordeaux #7A1F2F. Pulsanti identici in ogni
     pagina: nessun colore nuovo per «far risaltare».
  5. MOVIMENTO MINIMO E FLUIDO. Niente caroselli automatici, niente parallasse,

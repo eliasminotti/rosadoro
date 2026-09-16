@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Un albero appena piantato, inciso">
-  <rect width="200" height="240" fill="#FBFBF9"/>
+  <rect width="200" height="240" fill="#FAF6EE"/>
   <!-- chioma -->
   <g stroke="#1C1C1C" fill="none" stroke-linecap="round">
     <ellipse cx="100" cy="86" rx="52" ry="42" stroke-width="1.6"/>

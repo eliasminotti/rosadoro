@@ -6,7 +6,7 @@
   <radialGradient id="aloneA" cx="50%" cy="78%" r="52%">
     <stop offset="0%" stop-color="#B88F3D" stop-opacity=".22"/>
     <stop offset="55%" stop-color="#B88F3D" stop-opacity=".07"/>
-    <stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#FAF6EE" stop-opacity="0"/>
   </radialGradient>
   <linearGradient id="arco" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0%" stop-color="#8D6E2A" stop-opacity="0"/>
@@ -22,7 +22,7 @@
     <stop offset="100%" stop-color="#1C1C1C" stop-opacity="0"/>
   </linearGradient>
 </defs>
-  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <rect width="1400" height="760" fill="#FAF6EE"/>
   <rect width="1400" height="760" fill="url(#aloneA)"/>
 
   <!-- i sette archi, dal più esterno: oro e antracite alternati, che si perdono ai piedi -->

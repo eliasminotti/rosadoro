@@ -596,7 +596,7 @@ def pagina_html(da, p):
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
        SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
 
-FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FBFBF9"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
+FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FAF6EE"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
 
 def costruisci():
     # via le pagine vecchie, restano css/js/font/img

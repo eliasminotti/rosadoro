@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Un fiore che sboccia, inciso">
-  <rect width="200" height="240" fill="#FBFBF9"/>
+  <rect width="200" height="240" fill="#FAF6EE"/>
   <!-- raggi dello sbocciare -->
   <g stroke="#B88F3D" stroke-width=".8" opacity=".5" stroke-linecap="round">
     <path d="M100 26v-12M128 36l8-10M72 36l-8-10M144 62l12-6M56 62l-12-6"/>

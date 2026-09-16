@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Una candela accesa, incisa">
-  <rect width="200" height="240" fill="#FBFBF9"/>
+  <rect width="200" height="240" fill="#FAF6EE"/>
   <!-- alone della fiamma -->
   <circle cx="100" cy="74" r="34" fill="none" stroke="#B88F3D" stroke-width=".8" opacity=".35"/>
   <circle cx="100" cy="74" r="48" fill="none" stroke="#B88F3D" stroke-width=".6" opacity=".18"/>

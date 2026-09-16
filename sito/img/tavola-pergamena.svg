@@ -2,10 +2,10 @@
 <defs>
   <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/></pattern>
   <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/></pattern>
-  <linearGradient id="luce" x1="1" y1="0" x2=".2" y2="1"><stop offset="0%" stop-color="#B88F3D" stop-opacity=".14"/><stop offset="55%" stop-color="#B88F3D" stop-opacity=".04"/><stop offset="100%" stop-color="#FBFBF9" stop-opacity="0"/></linearGradient>
+  <linearGradient id="luce" x1="1" y1="0" x2=".2" y2="1"><stop offset="0%" stop-color="#B88F3D" stop-opacity=".14"/><stop offset="55%" stop-color="#B88F3D" stop-opacity=".04"/><stop offset="100%" stop-color="#FAF6EE" stop-opacity="0"/></linearGradient>
   <symbol id="rosa" viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></symbol>
 </defs>
-  <rect width="1400" height="760" fill="#FBFBF9"/>
+  <rect width="1400" height="760" fill="#FAF6EE"/>
   <path d="M700 40 1400 0 1400 760 300 760z" fill="url(#luce)"/>
   <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M60 660h1280" stroke-width="1.2" opacity=".35"/><path d="M120 700h1160M200 732h1000" stroke-width=".7" opacity=".14"/></g>
   <g color="#1C1C1C" opacity=".2"><path d="M470 632 930 632 950 654 490 654z" fill="url(#tr-rado)" stroke="none"/></g>
