@@ -107,9 +107,7 @@ p:last-child{margin-bottom:0}
 .menu-sec a:hover{color:var(--testo)}
 
 /* l'header intero è appiccicoso con il bordo superiore a -45px: la barra alta scorre via, quella bassa resta */
-.testa{position:sticky;top:calc(-1 * var(--testa-alta));z-index:50;transition:transform .28s ease}
-.testa.nascosta{transform:translateY(-100%)}   /* scorrendo in giù la testata si ritira; torna al primo scorrimento in su */
-@media (prefers-reduced-motion:reduce){.testa{transition:none}}
+.testa{position:sticky;top:calc(-1 * var(--testa-alta));z-index:50}
 .testa-bassa{height:var(--testa-bassa);background:var(--fondo);border-bottom:1px solid var(--filo)}
 [id]{scroll-margin-top:calc(var(--testa-bassa) + 24px)}
 .testa-bassa .pagina{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
@@ -150,14 +148,14 @@ p:last-child{margin-bottom:0}
 
 /* la testata centrata (prova del 15.9): logo e nome in alto al centro, il menu sotto */
 @media (min-width:1024px){
-  .testa.centrata{--testa-bassa:150px}
-  .testa.centrata .testa-bassa .pagina{flex-direction:column;justify-content:center;gap:14px;padding-top:18px;padding-bottom:14px}
-  .testa.centrata .logo{gap:16px}
-  .testa.centrata .logo .marchio{width:56px;height:56px}
-  .testa.centrata .logo .nome{font-size:31px}
-  .testa.centrata .menu>ul{justify-content:center}
-  .testa.centrata .voce.pro>a{margin-left:14px}
-  .testa.centrata .voce.pro .sottomenu{right:auto;left:0}
+  .testa.a-due-righe{--testa-bassa:150px}
+  .testa.a-due-righe .testa-bassa .pagina{flex-direction:column;justify-content:center;gap:14px;padding-top:18px;padding-bottom:14px}
+  .testa.a-due-righe .logo{gap:16px}
+  .testa.a-due-righe .logo .marchio{width:56px;height:56px}
+  .testa.a-due-righe .logo .nome{font-size:31px}
+  .testa.a-due-righe .menu>ul{justify-content:center}
+  .testa.a-due-righe .voce.pro>a{margin-left:14px}
+  .testa.a-due-righe .voce.pro .sottomenu{right:auto;left:0}
 }
 
 /* ---------- hero ---------- */
