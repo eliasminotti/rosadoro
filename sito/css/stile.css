@@ -107,7 +107,9 @@ p:last-child{margin-bottom:0}
 .menu-sec a:hover{color:var(--testo)}
 
 /* l'header intero è appiccicoso con il bordo superiore a -45px: la barra alta scorre via, quella bassa resta */
-.testa{position:sticky;top:calc(-1 * var(--testa-alta));z-index:50}
+.testa{position:sticky;top:calc(-1 * var(--testa-alta));z-index:50;transition:transform .28s ease}
+.testa.nascosta{transform:translateY(-100%)}   /* scorrendo in giù la testata si ritira; torna al primo scorrimento in su */
+@media (prefers-reduced-motion:reduce){.testa{transition:none}}
 .testa-bassa{height:var(--testa-bassa);background:var(--fondo);border-bottom:1px solid var(--filo)}
 [id]{scroll-margin-top:calc(var(--testa-bassa) + 24px)}
 .testa-bassa .pagina{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}

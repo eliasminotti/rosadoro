@@ -149,3 +149,22 @@
         '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.'));
   });
 })();
+
+/* ---- la testata si ritira scorrendo in giù e torna scorrendo in su (Elias, 16.9) ---- */
+(function () {
+  'use strict';
+  var testa = document.querySelector('.testa');
+  if (!testa) return;
+  var prima = window.scrollY, fermo = false;
+  window.addEventListener('scroll', function () {
+    if (fermo) return;
+    fermo = true;
+    window.requestAnimationFrame(function () {
+      var ora = window.scrollY;
+      var aperto = document.querySelector('.voce.aperta, #menu-principale.aperto');
+      if (ora > prima + 4 && ora > testa.offsetHeight && !aperto) testa.classList.add('nascosta');
+      else if (ora < prima - 4 || ora <= 0) testa.classList.remove('nascosta');
+      prima = ora; fermo = false;
+    });
+  }, { passive: true });
+})();
