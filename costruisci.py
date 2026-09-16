@@ -12,7 +12,7 @@ Il committente non deve mai eseguirlo: lo faccio io e consegno la cartella
 pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
-import os, re, shutil, datetime, subprocess
+import os, re, shutil, datetime, subprocess, hashlib
 from testi_pagine import TESTI
 
 # --------------------------------------------------------------------------
@@ -177,7 +177,16 @@ def verso(da, a):
     return su + ("index.html" if a == "" else a + "/index.html")
 
 def risorsa(da, percorso):
-    return "../" * profondita(da) + percorso
+    """il percorso relativo di una risorsa; a css e js si aggiunge l'impronta del contenuto,
+    così i browser (e i telefoni) prendono la versione nuova invece di quella in memoria"""
+    via = "../" * profondita(da) + percorso
+    if percorso.endswith((".css", ".js")):
+        try:
+            with open(os.path.join(USCITA, percorso), "rb") as f:
+                via += "?v=" + hashlib.md5(f.read()).hexdigest()[:8]
+        except OSError:
+            pass
+    return via
 
 def sfuggi(t):
     return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
