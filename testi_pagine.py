@@ -132,10 +132,10 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
     <label for="dedica-testo">Una dedica <span>facoltativa</span></label>
     <textarea id="dedica-testo" placeholder="Poche parole, o nessuna"></textarea>
     <label class="consenso" for="dedica-consenso"><input id="dedica-consenso" type="checkbox"> <span>Sono un familiare, o comunque una persona che ha titolo a ricordarla, e acconsento a che il nome e la dedica siano posati nel giardino, visibili a chi lo visita.</span></label>
-    <p class="nota">Il nome arriva alla Fondazione come messaggio e viene posato nel giardino a cura nostra: il sito non conserva nulla. Puoi chiederci in ogni momento di toglierlo, scrivendo a biodinamica@larosadoro.org. Non scrivere recapiti o dati di altre persone. Il modulo è per chi ha almeno 14 anni. <a class="link" href="{→privacy}">Come trattiamo i dati</a>.</p>
+    <p class="nota">Il nome arriva alla Fondazione come messaggio e viene posato nel giardino a cura nostra: il sito non conserva nulla. Puoi chiederci in ogni momento di toglierlo, scrivendo a segreteria@larosadoro.org. Non scrivere recapiti o dati di altre persone. Il modulo è per chi ha almeno 14 anni. <a class="link" href="{→privacy}">Come trattiamo i dati</a>.</p>
     <div class="righe">
       <button type="button" class="chiudi-dialogo">Annulla</button>
-      <a class="invia" data-mailto="biodinamica@larosadoro.org" href="#">Invia</a>
+      <a class="invia" data-mailto="segreteria@larosadoro.org" href="#">Invia</a>
     </div>
   </div>
 </div>
@@ -354,7 +354,7 @@ TESTI["privacy"] = dict(
 <p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, dedichi un ricordo o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
 
 <h3>Chi è il titolare</h3>
-<p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
+<p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
 
 <h3>Quando visiti il sito</h3>
 <p>Il sito è fatto di sole pagine statiche. Non usa cookie di profilazione, né strumenti di analisi del traffico, né contenuti incorporati da terzi. I caratteri tipografici sono ospitati sui nostri stessi server. L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita le pagine, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Servono a far funzionare il sito e a proteggerlo da abusi. La base giuridica è il nostro legittimo interesse alla sicurezza del sito. Questi registri sono conservati da GitHub secondo le sue regole, per il tempo necessario a questo scopo. Ne parla anche l'<a class="link" href="{→cookie}">informativa sui cookie</a>.</p>
@@ -367,7 +367,7 @@ TESTI["privacy"] = dict(
 
 <h3>Quando dedichi un ricordo nel giardino</h3>
 <p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Il messaggio arriva alla Fondazione per posta elettronica e il nome viene posato nel giardino a cura nostra: il sito non conserva nulla da sé. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
-<p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi chiedere in ogni momento di togliere una dedica, la tua o quella di un tuo caro scritta da altri, scrivendo a <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
+<p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi chiedere in ogni momento di togliere una dedica, la tua o quella di un tuo caro scritta da altri, scrivendo a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
 
 <h3>Quando fai una donazione</h3>
 <p>Se doni con carta, Apple Pay o Google Pay, il pagamento avviene sulle pagine sicure di <strong>Stripe</strong> (Stripe Payments Europe Ltd, Irlanda). Se scegli PayPal, sulle pagine di <strong>PayPal</strong> (PayPal Europe S.à r.l. et Cie, S.C.A., Lussemburgo). In entrambi i casi il nostro sito non vede né conserva i dati della tua carta o del tuo conto: li raccolgono direttamente Stripe e PayPal, che trattano i dati del pagamento come titolari autonomi, secondo le loro informative (<a class="link" href="https://stripe.com/it/privacy" rel="noopener">Stripe</a>, <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">PayPal</a>). Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e la causale che hai scelto, oltre a un eventuale messaggio. Se doni con bonifico, ci arrivano i dati che la tua banca trasmette con il pagamento.</p>
@@ -402,7 +402,7 @@ TESTI["privacy"] = dict(
 </ul>
 
 <h3>I tuoi diritti</h3>
-<p>Puoi chiederci in ogni momento di sapere quali dati abbiamo su di te, di correggerli, di cancellarli, di limitarne l'uso, di opporti al trattamento, di riceverli in un formato leggibile da una macchina; puoi ritirare un consenso che ci hai dato, senza che questo tocchi ciò che è stato fatto prima. Basta una riga a <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>. Se ritieni che i tuoi dati siano trattati in modo scorretto, puoi rivolgerti al Garante per la protezione dei dati personali (<a class="link" href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).</p>
+<p>Puoi chiederci in ogni momento di sapere quali dati abbiamo su di te, di correggerli, di cancellarli, di limitarne l'uso, di opporti al trattamento, di riceverli in un formato leggibile da una macchina; puoi ritirare un consenso che ci hai dato, senza che questo tocchi ciò che è stato fatto prima. Basta una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Se ritieni che i tuoi dati siano trattati in modo scorretto, puoi rivolgerti al Garante per la protezione dei dati personali (<a class="link" href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).</p>
 
 <h3>Se hai meno di quattordici anni</h3>
 <p>Il sito non si rivolge ai bambini e parla di temi che riguardano la perdita e la fine della vita. I moduli sono per chi ha almeno quattordici anni; per i più piccoli occorre l'intervento di chi esercita la responsabilità genitoriale (art. 2-quinquies del Codice in materia di protezione dei dati personali).</p>
@@ -648,7 +648,7 @@ TESTI["lavora-con-noi"] = dict(
 <li><strong>volontari</strong> — operatori socio-sanitari, infermieri, medici, fisioterapisti, psicologi, <em>quietude practitioner</em> — interessati e qualificati per assistere nel delicato momento del fine vita.</li>
 </ul>
 <p>Unisciti alla nostra Fondazione per costruire insieme un futuro migliore e generare un impatto positivo concreto sulla comunità.</p>
-<p>Se sei interessato a collaborare con noi, inviaci oggi stesso la tua candidatura, accompagnata da una lettera di presentazione: <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>.</p>
+<p>Se sei interessato a collaborare con noi, inviaci oggi stesso la tua candidatura, accompagnata da una lettera di presentazione: <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
 

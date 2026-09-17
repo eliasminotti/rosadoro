@@ -35,7 +35,7 @@ ENTE = {
     "cf": "C.F. 14629350969",
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
-    "email": "biodinamica@larosadoro.org",
+    "email": "segreteria@larosadoro.org",
     "tagline": "Costituita per destinare patrimoni al lavoro della terra, alla cura delle persone e all'accompagnamento.",
 }
 
