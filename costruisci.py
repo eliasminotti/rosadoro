@@ -13,7 +13,8 @@ pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
 import os, re, shutil, datetime, subprocess, hashlib
-from testi_pagine import TESTI
+from testi_pagine import TESTI, DESCRIZIONI
+import json
 
 # --------------------------------------------------------------------------
 # impostazioni
@@ -541,9 +542,9 @@ def corpo_home(da, p):
 # --------------------------------------------------------------------------
 # la pagina intera
 # --------------------------------------------------------------------------
-def pagina_html(da, p):
+def pagina_html(da, p, extra_head=""):
     scheda = ENTE["nome"] if da == "" else "%s — %s" % (p["titolo"], ENTE["nome"])
-    descrizione = "%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"]) if da != "" else "%s, %s con sede a Milano, costituita nel 2026." % (ENTE["nome"], ENTE["forma"])
+    descrizione = DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"]))
     url = DOMINIO + ("/" if da == "" else "/" + da + "/")
     if p["tipo"] == "home":
         sotto = sfuggi(ENTE["tagline"])
@@ -554,6 +555,12 @@ def pagina_html(da, p):
     elif p["tipo"] == "chi-siamo":
         sotto = "Ente del Terzo Settore con sede a Milano, costituito il 26 febbraio 2026."
         corpo = corpo_chi_siamo(da, p)
+    elif p["tipo"] == "404":
+        sotto = "Questa pagina non esiste, o ha cambiato indirizzo."
+        corpo = ('<main class="corpo"><div class="pagina"><article class="testo"><p>Può essere un indirizzo scritto male, o una pagina che abbiamo spostato. '
+                 'Da qui puoi tornare alla <a class="link" href="index.html">home</a>, oppure andare a <a class="link" href="in-memoria/index.html">In memoria</a>, '
+                 'ai <a class="link" href="lasciti/index.html">Lasciti</a> o ai <a class="link" href="contatti/index.html">Contatti</a>.</p>'
+                 '<p><a class="vai" href="index.html">Torna alla home</a></p></article></div></main>')
     else:
         sotto = sfuggi("[Sottotitolo: si scrive al punto 4.]")
         corpo = corpo_pagina(da, p)
@@ -568,16 +575,23 @@ def pagina_html(da, p):
     return """<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8">%s
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%s</title>
 <meta name="description" content="%s">
+<link rel="canonical" href="%s">
+<meta name="theme-color" content="#FAF6EE">
 <meta property="og:title" content="%s">
+<meta property="og:description" content="%s">
 <meta property="og:type" content="website">
 <meta property="og:url" content="%s">
 <meta property="og:site_name" content="%s">
 <meta property="og:locale" content="it_IT">
-%s<!-- og:image: si aggiunge con il marchio, al punto 6 -->
+<meta property="og:image" content="%s/img/condivisione.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+%s<script type="application/ld+json">%s</script>
 <link rel="icon" href="%s" type="image/svg+xml">
 <link rel="stylesheet" href="%s">
 </head>
@@ -591,10 +605,20 @@ def pagina_html(da, p):
 <script src="%s"></script>
 </body>
 </html>
-""" % (sfuggi(scheda), sfuggi(descrizione), sfuggi(scheda), url, sfuggi(ENTE["nome"]),
-       ('<meta name="robots" content="noindex, nofollow">\n' if ANTEPRIMA else ''),
+""" % (extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
+       ('<meta name="robots" content="noindex, nofollow">\n' if ANTEPRIMA else ''), DATI_STRUTTURATI,
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
        SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
+
+# la scheda per i motori di ricerca: chi siamo, in forma leggibile dalle macchine (schema.org)
+DATI_STRUTTURATI = json.dumps({
+    "@context": "https://schema.org", "@type": "NGO",
+    "name": ENTE["nome"], "alternateName": ENTE["breve"], "url": DOMINIO + "/", "logo": DOMINIO + "/img/logo.jpg",
+    "email": ENTE["email"], "foundingDate": "2026-02-26", "taxID": ENTE["cf"].replace("C.F. ", ""),
+    "address": {"@type": "PostalAddress", "streetAddress": "Via Bianca di Savoia 17", "postalCode": "20122", "addressLocality": "Milano", "addressCountry": "IT"},
+    "identifier": {"@type": "PropertyValue", "propertyID": "RUNTS", "value": ENTE["runts"]},
+    "areaServed": "IT", "description": DESCRIZIONI[""],
+}, ensure_ascii=False)
 
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FAF6EE"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
 
@@ -609,7 +633,18 @@ def costruisci():
     with open(os.path.join(USCITA, "img", "favicon.svg"), "w", encoding="utf-8") as f:
         f.write(FAVICON)
     with open(os.path.join(USCITA, "robots.txt"), "w", encoding="utf-8") as f:
-        f.write("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\n")
+        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\n") + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
+    # la mappa del sito per i motori di ricerca
+    oggi = datetime.date.today().isoformat()
+    voci = ["<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (DOMINIO + ("/" if not k else "/" + k + "/"), oggi)
+            for k, q in PAGINE.items() if not q.get("nascosta")]
+    with open(os.path.join(USCITA, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s\n</urlset>\n' % "\n".join(voci))
+    # la pagina «non trovata»: GitHub Pages la serve da qualsiasi indirizzo, quindi i percorsi partono dalla radice del sito
+    base = "<script>document.write('<base href=\"' + (location.hostname.slice(-9) === 'github.io' ? '/rosadoro/' : '/') + '\">')</script>"
+    p404 = dict(cartella="", voce="", titolo="Pagina non trovata", occhiello="La Fondazione", hero="avorio", tipo="404", dove="", notte=False)
+    with open(os.path.join(USCITA, "404.html"), "w", encoding="utf-8") as f:
+        f.write(pagina_html("", p404, extra_head="\n" + base))
     open(os.path.join(USCITA, ".nojekyll"), "w").close()
     conteggio = 0
     for cartella, p in PAGINE.items():

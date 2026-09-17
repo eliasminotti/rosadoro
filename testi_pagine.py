@@ -651,3 +651,41 @@ TESTI["lavora-con-noi"] = dict(
 <p>Se sei interessato a collaborare con noi, inviaci oggi stesso la tua candidatura, accompagnata da una lettera di presentazione: <a class="link" href="mailto:biodinamica@larosadoro.org">biodinamica@larosadoro.org</a>.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
+
+
+# ------------------------------------------------------------ le descrizioni per i motori di ricerca (17.9, bozza di Claude; Dacia rilegge)
+# una frase per pagina, al massimo 155 caratteri: è la riga che Google mostra sotto il titolo
+DESCRIZIONI = {
+    "": "Fondazione del Terzo settore a Milano: lasciti, donazioni in memoria, accompagnamento nel fine vita, agricoltura biodinamica e cura delle persone.",
+    "chi-siamo": "Una fondazione nata ad Assisi nel 2025 e riconosciuta dal RUNTS, che unisce agricoltura, medicina e accompagnamento. I valori, la storia, i fondatori.",
+    "in-memoria": "Donare in memoria di chi non c'è più: il fondo di memoria, il giardino dei ricordi, il funerale che diventa un'opera di bene, l'aiuto a chi resta.",
+    "in-memoria/fondo-di-memoria": "Il fondo di memoria: una donazione che ricorda una persona cara e sostiene un progetto concreto. Come si apre, in quali modi, con quali vantaggi fiscali.",
+    "in-memoria/giardino-dei-ricordi": "Il giardino dei ricordi: scegli un'immagine, scrivi il nome di chi vuoi ricordare e, se vuoi, una dedica. Lo posiamo nel giardino della Fondazione.",
+    "in-memoria/funerali": "Non fiori ma opere di bene: al funerale si raccolgono fondi per un progetto. Accendi una candela, pianta un albero, fai sbocciare un fiore.",
+    "in-memoria/svuota-e-sorridi": "Gli Svuota e Sorridi: l'aiuto pratico della Fondazione per svuotare la casa di chi non c'è più, con rispetto, dando nuova vita agli oggetti.",
+    "in-memoria/io-sono-qui-per-te": "Io sono qui per te: l'accompagnamento della Fondazione a chi si avvicina alla fine della vita e a chi gli sta accanto, con medici e counsellor.",
+    "in-memoria/elaborare-il-lutto": "Elaborare il lutto: perché ricordare aiuta, e come un gesto concreto in memoria di una persona cara sostiene chi resta.",
+    "lasciti": "Lasciti testamentari alla Fondazione La Rosa d'Oro: che cosa si può lasciare, come si fa, i vantaggi fiscali, il testamento, le DAT, il Dopo di Noi.",
+    "lasciti/il-lascito-testamentario": "Il lascito testamentario: un gesto semplice e sempre modificabile che destina una parte del patrimonio a ciò che per te è vita. Quota disponibile, forme, passi.",
+    "lasciti/perche-donare": "Perché donare alla Rosa d'Oro: progetti locali e verificabili, una struttura leggera, i vantaggi fiscali. Lasciti e donazioni agli ETS sono esenti da imposta.",
+    "lasciti/il-tuo-testamento": "Come redigere il testamento: olografo, pubblico o segreto, come si modifica, le domande che aiuta a sciogliere. La Fondazione ti accompagna.",
+    "lasciti/la-liberta-del-come": "Le Disposizioni anticipate di trattamento (DAT): che cosa sono, come si redigono, il fiduciario, che cosa specificare. Con il fac-simile da scaricare.",
+    "lasciti/dopo-di-noi": "Il Dopo di Noi (legge 112/2016): tutelare un familiare con disabilità grave per quando non ci sarai più. Come la Fondazione può aiutare.",
+    "progetti": "I progetti della Fondazione La Rosa d'Oro: da avviare, da sostenere, in corso, realizzati. E come presentare il tuo.",
+    "eventi-e-formazione": "Incontri e percorsi di formazione della Fondazione: medico-terapeutica, agricola, accompagnamento alla morte.",
+    "eventi-e-formazione/formazione-accompagnamento": "Formazione all'accompagnamento alla morte: percorsi per professionisti sanitari, volontari e cittadini, per stare accanto a chi vive l'ultimo tratto della vita.",
+    "servizi": "I servizi alle persone della Fondazione: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento.",
+    "aziende-e-istituzioni": "Come aziende e istituzioni possono collaborare con la Fondazione La Rosa d'Oro: sostegno ai progetti, partenariati, iniziative condivise.",
+    "aziende-e-istituzioni/aziende": "Per le aziende: cause related marketing, donazioni in natura, team building solidale, welfare e benessere delle persone. Con i vantaggi fiscali.",
+    "aziende-e-istituzioni/istituzioni": "Per le istituzioni: il partenariato pubblico-privato sociale con la Fondazione, dalla rigenerazione urbana al welfare di comunità e alla formazione.",
+    "professionisti": "Per notai, avvocati, commercialisti e consulenti: gli strumenti della Fondazione per lasciti, fondi di scopo, esecuzione testamentaria, Dopo di Noi.",
+    "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
+    "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counsellor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
+    "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
+    "dona": "Sostieni la Fondazione La Rosa d'Oro con carta, bonifico o PayPal: ogni donazione va a un progetto preciso ed è fiscalmente detraibile o deducibile.",
+    "documenti": "Lo statuto, l'atto costitutivo e i documenti pubblici della Fondazione La Rosa d'Oro ETS.",
+    "contatti": "Scrivi alla Fondazione La Rosa d'Oro: sede a Milano, via Bianca di Savoia 17. Rispondiamo di persona.",
+    "partnership": "Le realtà con cui la Fondazione La Rosa d'Oro collabora, e i siti amici.",
+    "privacy": "Come la Fondazione La Rosa d'Oro tratta i tuoi dati: moduli, dediche, donazioni, ricevute, diritti. In parole semplici.",
+    "cookie": "Questo sito non usa cookie di profilazione né strumenti di tracciamento. Ecco che cosa significa.",
+}
