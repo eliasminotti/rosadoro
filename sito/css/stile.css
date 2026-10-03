@@ -372,7 +372,7 @@ p:last-child{margin-bottom:0}
   .hero-casa h1{font-size:64px}
   .hero-casa .campo-foto{padding:0 0 72px}
   .lastra{max-width:100%}
-  .lastra img{inset:12px;width:auto;height:auto}
+  .lastra img{inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);max-width:none}
   .squadra{width:56px;height:56px}
 
   .due-colonne{grid-template-columns:1fr;gap:56px}
@@ -450,7 +450,7 @@ a.azione:hover h4{color:var(--accento)}
 @keyframes scorri{0%,100%{transform:translate(0,-60%)}50%{transform:translate(5px,-60%)}}
 /* tutte le fotografie con la cornice d'oro e nero del pannello della home (Dacia, 16.9); tranne il giardino */
 .foto:not(.quadra):not(.dedica-esempio .foto){border:1px solid rgba(184,143,61,.55);background:#1C1C1C;background-image:none;overflow:visible}
-.foto:not(.quadra):not(.dedica-esempio .foto) img{inset:14px;width:auto;height:auto}
+.foto:not(.quadra):not(.dedica-esempio .foto) img{inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);max-width:none}
 .foto .squadra{width:56px;height:56px}
 .foto .squadra.a{left:-11px;top:-11px}
 .foto .squadra.b{right:-11px;bottom:-11px}
