@@ -356,8 +356,9 @@ def gettoni(html, da):
         # se la fotografia è arrivata (img/foto/<nome>.jpg), entra al suo posto; altrimenti resta il posto segnato
         file = re.sub(r"[^a-z0-9]+", "-", nome.lower()).strip("-") + ".jpg"
         if os.path.exists(os.path.join(USCITA, "img", "foto", file)):
-            return ('<figure class="foto%s"><img src="%s" alt="%s" loading="lazy"></figure>'
-                    % (classe, risorsa(da, "img/foto/" + file), sfuggi(dida)))
+            squadre = "" if "quadra" in classe else '<span class="squadra a"></span><span class="squadra b"></span>'
+            return ('<figure class="foto%s"><img src="%s" alt="%s" loading="lazy">%s</figure>'
+                    % (classe, risorsa(da, "img/foto/" + file), sfuggi(dida), squadre))
         return ('<figure class="foto%s" data-file="%s"><span class="didascalia">%s · %s</span></figure>'
                 % (classe, sfuggi(nome), sfuggi(dida), sfuggi(nome)))
     html = re.sub(r"\{foto:([^|}]+)\|([^|}]*)\|([^}]*)\}", foto, html)
