@@ -312,6 +312,8 @@ def lastra_foto(da):
 def hero(da, p, sotto, classe_sotto="sotto"):
     tipo = p["hero"]
     occhiello = '<p class="occhiello">%s</p>' % sfuggi(p["occhiello"])
+    if tipo == "casa":                             # la home saluta (Dacia ed Elias, 3.10): un «Benvenuti.» discreto al posto della riga istituzionale
+        occhiello = '<p class="saluto">Benvenuti.</p>'
     fonte = ('<p class="fonte">%s</p>' % sfuggi(p["art"])) if p.get("art") else ""
     testo = '%s%s<h1>%s</h1><hr class="filo"><p class="%s">%s</p>' % (occhiello, fonte, sfuggi(p["titolo"]), classe_sotto, sotto)
     if tipo == "avorio":
