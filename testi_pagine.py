@@ -518,34 +518,90 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 """)
 
 
-# ------------------------------------------------------------ Per aziende e istituzioni (testi di Dacia, 15.9)
+# ------------------------------------------------------------ Per le aziende (testo di Dacia del 15.9, parola per parola, tranne le correzioni
+# fiscali approvate da Elias il 9.10; intorno, le parti nuove di Claude del 9.10: una parte per il bene comune, gli strumenti dello statuto,
+# Lux, le aziende partner). Restano fuori, come in Per professionisti, prestiti, titoli, microcredito, fondo per lo sviluppo e fondi di
+# garanzia (artt. 4, 10 e 13), finché il punto bancario e parabancario non è chiarito. La frase sulle vendite solidali segue la
+# legge 19 giugno 2026, n. 120, da confermare con il commercialista.
 TESTI["aziende-e-istituzioni/aziende"] = dict(
-    sotto="La tua azienda può sostenere uno dei progetti della Fondazione La Rosa d'Oro.",
+    sotto="La tua azienda può sostenere uno dei progetti della Fondazione La Rosa d’Oro.",
     corpo="""
-<p class="citazione">«La bontà è l'unico investimento che non fallisce mai.» — Henry David Thoreau</p>
-<p>Ci sono molti modi in cui un'azienda può camminare con noi. Eccone alcuni.</p>
+<p class="citazione">«La bontà è l’unico investimento che non fallisce mai.» — Henry David Thoreau</p>
+<p>La Fondazione La Rosa d’Oro apre le porte a ogni azienda, grande o piccola. Puoi sostenere un progetto, prenderti cura delle persone che lavorano con te, far nascere qualcosa nel tuo territorio. E con alcune aziende costruiamo qualcosa di più: un rapporto reciproco, da partner.</p>
+<h3>Una parte per il bene comune</h3>
+<p>La tua azienda può destinare al bene comune una piccola parte di ciò che fa: una frazione di ogni vendita, di ogni transazione o di ogni progetto, oppure una percentuale dell’utile di fine anno. Anche uno zero virgola, ripetuto nel tempo, diventa un sostegno che dura. Per bene comune intendiamo il sociale nel senso più ampio: le persone, il lavoro, la salute, la terra, la cultura.</p>
+<p>Sei tu a scegliere dove va:</p>
 <ul class="stelle">
-<li><strong>Cause related marketing</strong>: entra nel cuore dei tuoi clienti coinvolgendoli in un gesto concreto di solidarietà al momento dell'acquisto di un prodotto o di un servizio.</li>
+<li><strong>alla Fondazione tutta,</strong> perché la impieghi dove c’è più bisogno;</li>
+<li><strong>a un progetto</strong> che esiste già e che vuoi veder crescere;</li>
+<li><strong>a un ambito</strong> tra quelli della Fondazione: il sociale, la medicina e la cura, l’agricoltura, l’arte e la cultura, l’educazione;</li>
+<li><strong>a un territorio:</strong> una regione, una città, un paese. Anche dove oggi non c’è ancora un nostro progetto ma servirebbe qualcosa, per le persone, il lavoro, la salute o la terra: lì il tuo sostegno può essere l’inizio di un progetto nuovo, da costruire con chi ci vive.</li>
+</ul>
+<p>La direzione la scegli tu; i progetti da sostenere li decide la Fondazione, che garantisce la tracciabilità dei flussi e un rendiconto separato del tuo contributo, da chiedere quando vuoi. Se lo desideri, i rendiconti annuali si possono anche pubblicare. La tua parte può anche confluire in un fondo con il nome della tua azienda. Tutto, compresa la quota che resta alla Fondazione per i costi di gestione, si mette per iscritto in un accordo. Nell’accordo si sceglie anche la forma, con il commercialista dell’azienda: una donazione, se la Fondazione non dà nulla in cambio, o una sponsorizzazione, se si impegna a far conoscere l’azienda.</p>
+<p>Se vuoi farlo sapere ai tuoi clienti, per esempio sulla confezione o nella pubblicità, ti aiutiamo a dirlo con chiarezza, come chiede la legge sulle vendite solidali: chi riceve, per quale scopo e quanto di ogni vendita. {verifica}</p>
+<p>Ci sono molti modi in cui un’azienda può camminare con noi. Eccone alcuni.</p>
+<ul class="stelle">
+<li><strong>Cause related marketing</strong>: entra nel cuore dei tuoi clienti coinvolgendoli in un gesto concreto di solidarietà al momento dell’acquisto di un prodotto o di un servizio.</li>
 <li><strong>Donazioni in natura</strong>: dona i prodotti invenduti, le eccedenze di magazzino o gli oggetti provenienti da eventi e allestimenti, per sostenere i progetti e le iniziative.</li>
 <li><strong>Il benessere delle persone</strong>: rafforza le relazioni e il benessere della comunità aziendale con iniziative di formazione, consulenza alla persona e volontariato aziendale.</li>
 <li><strong>Il team building solidale</strong>, per rafforzare il senso di appartenenza: attività di gruppo — uscite con famiglie e bambini (eventi culturali, sportivi, nella natura) o visite alle strutture della Fondazione; e il donare insieme — sostegno a distanza, <em>match giving</em>, <em>payroll giving</em>, raccolte di doni (Back to School, Uovo Sospeso e altre).</li>
-<li><strong>Consulenza e sostegno psicologico</strong> per le persone dell'azienda, sui temi dell'adolescenza, della genitorialità, del contrasto alla violenza di genere, del benessere digitale, del benessere alimentare in <em>smart working</em>. Alcune azioni possibili: counselling e coaching per l'empowerment relazionale, familiare e lavorativo; uno sportello online dedicato; corsi di leadership per sviluppare una leadership positiva, comunicazioni autentiche e un ambiente di lavoro sereno.</li>
+<li><strong>Consulenza e sostegno psicologico</strong> per le persone dell’azienda, sui temi dell’adolescenza, della genitorialità, del contrasto alla violenza di genere, del benessere digitale, del benessere alimentare in <em>smart working</em>. Alcune azioni possibili: counselling e coaching per l’empowerment relazionale, familiare e lavorativo; uno sportello online dedicato; corsi di leadership per sviluppare una leadership positiva, comunicazioni autentiche e un ambiente di lavoro sereno.</li>
 </ul>
 <p>Tutto questo si riflette sulla reputazione del marchio: la percezione che il pubblico ha della tua azienda.</p>
 <p class="citazione">Promuovi il benessere olistico dei dipendenti, integrando salute fisica, mentale, emotiva, sociale e finanziaria, attraverso strategie di welfare evolute.</p>
-<h3>I vantaggi fiscali</h3>
-<p>Le donazioni agli enti del Terzo settore sono deducibili o detraibili nei limiti di legge (art. 83 del Codice del Terzo settore). E il welfare aziendale gode di un regime di favore, disciplinato dal Testo unico delle imposte sui redditi (TUIR), che trasforma la spesa per il benessere in un risparmio per l'azienda e per il dipendente. {verifica}</p>
+<h3>Che cosa mette a disposizione la Fondazione</h3>
+<p>Lo statuto della Fondazione prevede strumenti pensati anche per le imprese. Ciascuno si costruisce insieme, caso per caso, con l’aiuto di notai, commercialisti e avvocati.</p>
 <ul class="stelle">
-<li><strong>Per l'azienda: costi certi e deducibilità.</strong> Su premi e aumenti in busta paga l'azienda paga contributi aggiuntivi per circa il 30–35%; con il welfare aziendale questo sovraccarico scompare: 1.000 euro stanziati in servizi costano all'azienda esattamente 1.000 euro. Le somme investite in servizi di utilità sociale o di benessere sono deducibili dal reddito d'impresa (artt. 95 e 100 del TUIR), a patto che siano rivolte alla generalità dei dipendenti o a categorie omogenee, e regolate da un accordo o da un regolamento aziendale. {verifica}</li>
-<li><strong>Per il dipendente: valore lordo uguale a valore netto.</strong> I beni e i servizi erogati con un piano di welfare non concorrono a formare il reddito da lavoro dipendente: 1.000 euro di credito welfare sono 1.000 euro di servizi, senza tasse e senza contributi. {verifica}</li>
-<li><strong>I fringe benefit.</strong> I benefit in beni o voucher (buoni spesa, rimborsi delle bollette, carte carburante) seguono le regole dell'art. 51, comma 3, del TUIR, con soglie di esenzione di 1.000 euro l'anno per la generalità dei dipendenti e di 2.000 euro per chi ha figli fiscalmente a carico. {verifica}</li>
-<li><strong>La conversione del premio di risultato.</strong> Convertire in welfare un premio legato alla produttività azzera anche la tassazione sostitutiva prevista per i premi in denaro e la quota di contributi a carico del lavoratore: il dipendente riceve il 100% del valore in servizi. {verifica}</li>
+<li><strong>Un fondo con il nome della tua azienda.</strong> È un <a class="link" href="{→professionisti/fondi-di-scopo}">fondo di scopo</a>: ha il nome che scegli, uno scopo preso tra le attività della Fondazione e una contabilità separata, con un rendiconto che puoi chiedere quando vuoi. Se lo desideri, un comitato con persone della tua azienda indica i progetti da sostenere. Per i costi di gestione la Fondazione trattiene una quota, fissata nel regolamento del fondo. (Statuto, art. 8)</li>
+<li><strong>Entrare a far parte della Fondazione.</strong> Un’azienda può diventarne Sostenitore, con un contributo che vale un anno. Oppure Partecipante, impegnandosi per più anni con denaro, beni o prestazioni d’opera, cioè anche con il lavoro e le competenze delle sue persone. Le imprese che portano un contributo di grande valore possono diventare Partecipanti istituzionali: possono sedere ai tavoli in cui si definiscono le linee di sviluppo, indicare persone negli organi consultivi e dare il loro nome ai luoghi recuperati con il loro aiuto. L’ammissione la decide il Consiglio di amministrazione. (Statuto, artt. 17, 18 e 19)</li>
+<li><strong>Sostenere senza decidere subito.</strong> I <a class="link" href="{→professionisti/fondi-convertibili}">fondi convertibili</a>: un prestito senza interessi a un progetto della Fondazione, regolato da una convenzione scritta, che diventa una donazione se alla scadenza l’azienda sceglie di lasciarlo alla Fondazione. Non è un servizio aperto al pubblico: se ne parla a tu per tu, caso per caso. (Statuto, art. 9)</li>
+<li><strong>Il futuro della tua impresa.</strong> Un imprenditore può destinare alla Fondazione la sua azienda, un ramo o delle quote con un lascito; possono farlo anche i suoi eredi. Se chi dona lo chiede, la Fondazione può tenere l’azienda e valutare di gestirla con una società strumentale, custodendone il lavoro e le persone secondo i valori che le ha indicato. È una scelta da preparare per tempo, con il notaio e il commercialista. (Statuto, art. 12, commi 8 e 10)</li>
+<li><strong>Terreni, edifici, beni.</strong> Oltre al denaro, un’azienda può donare beni: immobili, terreni, opere, attrezzature. Terreni ed edifici possono entrare nel Fondo Terra Bene Comune, nato per sottrarli alla speculazione e affidarli a giovani agricoltori, cooperative e imprese sociali, con una conduzione biologica, biodinamica e rigenerativa. Un’azienda può anche finanziare, come mecenate, l’acquisto di una terra o di un borgo da restituire alla comunità. (Statuto, artt. 7 e 13)</li>
+<li><strong>Un piano per la filantropia della tua impresa.</strong> Con professionisti partner, la Fondazione è costituita per aiutare un’impresa a dare forma alla sua filantropia: quale fondo aprire, quali progetti sostenere, come verificarne l’impatto. (Statuto, art. 14, comma 5)</li>
 </ul>
-<p class="citazione unica">La Fondazione La Rosa d'Oro: una realtà viva e vera.</p>
-<p class="citazione">La responsabilità dell'azienda va oltre il business: investire nel futuro della comunità è il modo più autentico per restituire valore.</p>
+<h3>Con Lux, la formazione sul digitale</h3>
+<p>Lux è il progetto della Fondazione per un rapporto consapevole con gli strumenti digitali, i social e l’intelligenza artificiale, con un’attenzione particolare ai più giovani. Non è contro la tecnologia: serve a sapere che cosa stiamo guardando, e perché ci trattiene.</p>
+<p>In azienda Lux è pensato per la formazione e la sensibilizzazione. Incontri per i dipendenti, e in particolare per chi ha figli, su come funzionano i meccanismi che catturano l’attenzione, sull’uso dei social, sull’intelligenza artificiale nel lavoro e in famiglia. E un aiuto all’azienda per darsi regole proprie sull’uso degli strumenti digitali.</p>
+<h3>I vantaggi fiscali</h3>
+<p>Le donazioni delle aziende agli enti del Terzo settore sono deducibili dal reddito nei limiti di legge (art. 83 del Codice del Terzo settore). E il welfare aziendale gode di un regime di favore, disciplinato dal Testo unico delle imposte sui redditi (TUIR), che alleggerisce, entro limiti e condizioni precise, il costo del benessere per l’azienda e per il dipendente. {verifica}</p>
+<p>Per un’azienda, le donazioni in denaro o in natura a un ente iscritto al Registro unico nazionale del Terzo settore, come la Fondazione, sono deducibili fino al 10% del reddito complessivo dichiarato; se in un anno il reddito non basta, la parte non usata si deduce nei quattro anni successivi (art. 83, comma 2, del Codice del Terzo settore).</p>
+<ul class="stelle">
+<li><strong>Per l’azienda: costi certi e deducibilità.</strong> Su premi e aumenti in busta paga l’azienda paga contributi aggiuntivi, in media intorno al 30%; con il welfare aziendale, per i servizi previsti dalla legge, questo sovraccarico scompare. Le somme investite in servizi di educazione, istruzione, ricreazione, assistenza sociale e sanitaria sono deducibili dal reddito d’impresa: per intero se il piano nasce da un contratto, un accordo o un regolamento che vincola l’azienda (art. 95 del TUIR); se è offerto volontariamente, fino al 5 per mille delle spese per il personale (art. 100). In ogni caso devono essere rivolte alla generalità dei dipendenti o a categorie di dipendenti. {verifica}</li>
+<li><strong>Per il dipendente: valore lordo uguale a valore netto.</strong> I beni e i servizi previsti dall’art. 51 del TUIR, erogati con un piano di welfare, non concorrono a formare il reddito da lavoro dipendente: entro questi limiti, 1.000 euro di credito welfare sono 1.000 euro di servizi, senza tasse e senza contributi. Proprio per questo non contano per la pensione e per il TFR. {verifica}</li>
+<li><strong>I fringe benefit.</strong> I benefit in beni o voucher (buoni spesa, buoni carburante, rimborsi delle bollette domestiche di acqua, luce e gas, dell’affitto o degli interessi del mutuo sulla prima casa) seguono le regole dell’art. 51, comma 3, del TUIR, con soglie di esenzione di 1.000 euro l’anno nel 2026 e nel 2027 e di 2.000 euro per chi ha figli fiscalmente a carico. Oltre la soglia diventa tassabile l’intero importo. {verifica}</li>
+<li><strong>La conversione del premio di risultato.</strong> Convertire in welfare un premio legato alla produttività, se il contratto aziendale o territoriale lo prevede e il dipendente lo sceglie, azzera anche la tassazione sostitutiva prevista per i premi in denaro (oggi dell’1%) e la quota di contributi a carico del lavoratore: il dipendente riceve il 100% del valore in servizi. Vale fino a 5.000 euro l’anno, per chi nell’anno precedente ha avuto un reddito da lavoro dipendente fino a 80.000 euro. {verifica}</li>
+</ul>
+<p>I servizi della Fondazione per le persone dell’azienda, come il sostegno psicologico con professionisti abilitati, la formazione con Lux e le attività educative per i figli, possono entrare nel piano di welfare, se sono offerti a tutti i dipendenti o a categorie di dipendenti. In questo caso l’azienda acquista un servizio, non fa una donazione. {verifica}</p>
+<p class="citazione unica">La Fondazione La Rosa d’Oro: una realtà viva e vera.</p>
+<p class="citazione">La responsabilità di un’azienda va oltre il business: investire nel futuro della comunità è il modo più autentico per restituire valore.</p>
+<h3>Le aziende partner</h3>
+<p>Con alcune aziende la Fondazione costruisce un rapporto più stretto, che va nei due sensi e si mette per iscritto in un accordo di collaborazione.</p>
+<ul class="stelle">
+<li><strong>Indicazioni reciproche.</strong> Noi possiamo indicare la tua azienda alle persone e alle famiglie che si rivolgono a noi, quando hanno bisogno di ciò che fai. Tu puoi far conoscere la Fondazione ai tuoi clienti, ai dipendenti, al territorio.</li>
+<li><strong>La Fondazione come beneficiaria e come partner nel sociale.</strong> Puoi sceglierla come destinataria delle tue donazioni e costruire con lei i progetti sociali della tua azienda.</li>
+<li><strong>Il nome dell’azienda nel sito.</strong> Le aziende partner che lo desiderano compaiono nella pagina <a class="link" href="{→partnership}">Partnership e siti amici</a>.</li>
+</ul>
+<p>Un principio comune: nessuno paga nessuno per un’indicazione. Chi si rivolge a noi riceve, quando possibile, più di un nome e sceglie liberamente.</p>
+<p>Le aziende partner le scegliamo con cura, tra chi condivide i valori della Fondazione.</p>
+<h3>Le aziende che cerchiamo</h3>
+<p>Alcune imprese incontrano le persone negli stessi momenti della vita in cui le incontriamo noi. Con loro cerchiamo un rapporto di fiducia: ci segnaliamo a vicenda chi può avere bisogno dell’altro, e lavoriamo con gli stessi valori.</p>
+<ul class="stelle">
+<li><strong>Onoranze funebri.</strong> Accanto a una famiglia nel lutto, possono proporre il <a class="link" href="{→in-memoria/funerali}">funerale che diventa un’opera di bene</a> e il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a>. La Fondazione, a sua volta, può indicare alle famiglie chi lavora con rispetto e cura.</li>
+<li><strong>Sgomberi, traslochi e riuso.</strong> Svuotare la casa di chi non c’è più è il lavoro degli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a>: cerchiamo imprese che lo facciano con delicatezza e diano nuova vita agli oggetti.</li>
+<li><strong>Agenzie immobiliari, case d’asta, periti.</strong> Quando un lascito porta alla Fondazione un immobile, un’opera d’arte o una collezione, di regola la Fondazione lo vende al miglior valore e destina il ricavato ai progetti. Servono partner che stimino e vendano con correttezza, e che ricordino la Fondazione a chi vuole destinare un bene a una causa. (Statuto, art. 12, comma 9)</li>
+<li><strong>Aziende agricole, cooperative, imprese sociali.</strong> Per coltivare le terre del Fondo Terra Bene Comune, per l’agricoltura sociale e per i laboratori in cui il lavoro della terra diventa cura e scuola. (Statuto, artt. 3 e 13)</li>
+<li><strong>Imprese che accolgono.</strong> La Fondazione è costituita anche per accompagnare al lavoro persone in difficoltà. Cerchiamo aziende pronte ad accoglierle in un percorso di inserimento, per un nuovo inizio. (Statuto, art. 3, lettera p)</li>
+</ul>
+<p>Cerchiamo anche aziende che vogliano portare Lux nel mondo: farlo conoscere, sostenerlo, diventarne partner.</p>
+<p>Sei un professionista o uno studio? Nella sezione <a class="link" href="{→professionisti}">Per professionisti</a> trovi gli stessi strumenti spiegati per notai, avvocati, commercialisti e consulenti.</p>
+<h3>A che punto siamo</h3>
+<p>La Fondazione è nata il 26 febbraio 2026 ed è iscritta al Registro unico nazionale del Terzo settore. Stiamo costruendo adesso la rete delle aziende partner: le prime che arrivano ci aiutano a darle forma.</p>
+<h3>Come si comincia</h3>
+<p>Scrivici due righe sulla tua azienda e su che cosa fa. Ci incontriamo, capiamo insieme quale strada ha senso e la mettiamo per iscritto in un accordo di collaborazione. L’indirizzo è <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 <p><a class="vai" href="{→contatti}">Parliamone: scrivici</a></p>
 """)
 
+# ------------------------------------------------------------ Per le istituzioni (testi di Dacia, 15.9)
 TESTI["aziende-e-istituzioni/istituzioni"] = dict(
     sotto="Sei un'istituzione pubblica? Collabora con noi.",
     corpo="""
@@ -720,7 +776,7 @@ DESCRIZIONI = {
     "eventi-e-formazione/formazione-accompagnamento": "Formazione all'accompagnamento alla morte: percorsi per professionisti sanitari, volontari e cittadini, per stare accanto a chi vive l'ultimo tratto della vita.",
     "servizi": "I servizi alle persone della Fondazione: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento.",
     "aziende-e-istituzioni": "Come aziende e istituzioni possono collaborare con la Fondazione La Rosa d'Oro: sostegno ai progetti, partenariati, iniziative condivise.",
-    "aziende-e-istituzioni/aziende": "Per le aziende: cause related marketing, donazioni in natura, team building solidale, welfare e benessere delle persone. Con i vantaggi fiscali.",
+    "aziende-e-istituzioni/aziende": "Per le aziende: una parte delle vendite o degli utili per il bene comune, un fondo con il proprio nome, welfare, Lux, vantaggi fiscali, e le aziende partner.",
     "aziende-e-istituzioni/istituzioni": "Per le istituzioni: il partenariato pubblico-privato sociale con la Fondazione, dalla rigenerazione urbana al welfare di comunità e alla formazione.",
     "professionisti": "Cerchiamo studi partner: notai, avvocati, commercialisti, consulenti. Gli strumenti della Fondazione per lasciti ed eredità, e come lavoriamo insieme.",
     "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
