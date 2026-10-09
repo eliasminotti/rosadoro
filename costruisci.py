@@ -572,8 +572,10 @@ def pagina_html(da, p, extra_head=""):
     if da in TESTI and TESTI[da].get("sotto"):
         sotto = sfuggi(TESTI[da]["sotto"])
     if da in TESTI and TESTI[da].get("musica"):
-        sotto += ('</p><button type="button" class="ascolta" data-audio="%s" hidden>Ascolta · Chopin, valzer op. 69'
-                  '</button><p hidden>' % risorsa(da, "audio/valzer-op-69.mp3"))
+        # se il file c'è, il pulsante si vede subito: sul telefono il browser non scarica nulla prima del tocco
+        nascosto = "" if os.path.exists(os.path.join(USCITA, "audio", "valzer-op-69.mp3")) else " hidden"
+        sotto += ('</p><button type="button" class="ascolta" data-audio="%s"%s>Ascolta · Chopin, valzer op. 69'
+                  '</button><p hidden>' % (risorsa(da, "audio/valzer-op-69.mp3"), nascosto))
     # il motto: la frase d'apertura tutta in un rigo, più grande ed evidente (Dacia, 6.9)
     classe_sotto = "sotto" + (" motto" if TESTI.get(da, {}).get("motto") else "") + (" unica" if TESTI.get(da, {}).get("unica") else "")
     classe_body = ' class="notte"' if p.get("notte") else ""
@@ -628,10 +630,10 @@ DATI_STRUTTURATI = json.dumps({
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FAF6EE"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
 
 def costruisci():
-    # via le pagine vecchie, restano css/js/font/img
+    # via le pagine vecchie, restano css/js/font/img/allegati/audio
     for nome in os.listdir(USCITA):
         percorso = os.path.join(USCITA, nome)
-        if os.path.isdir(percorso) and nome not in ("css", "js", "font", "img", "allegati"):
+        if os.path.isdir(percorso) and nome not in ("css", "js", "font", "img", "allegati", "audio"):
             shutil.rmtree(percorso)
         elif nome.endswith(".html"):
             os.remove(percorso)

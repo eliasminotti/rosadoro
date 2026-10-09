@@ -8,6 +8,7 @@ Che cosa c'è
     js/sito.js       menu, scrollspy, musica su scelta, finestra della dedica
     font/            i caratteri ospitati nel sito (Cormorant Garamond, Instrument Sans), licenza OFL
     img/             le tavole incise, le quattro azioni dei funerali, la favicon
+    audio/           il valzer op. 69 n. 1 di Chopin per il fondo di memoria (Luke Faulkner, Musopen, pubblico dominio)
   costruisci.py      l'assemblatore: la mappa del sito, genera tutte le pagine
   testi_pagine.py    i testi redazionati (la sezione «In memoria» è quella di Dacia)
   LEGGIMI.txt        questo file
@@ -20,7 +21,5 @@ Dove si vede
 
 Che cosa manca, per scelta
   Le fotografie (arcobaleno, bambina, ape…): i posti sono pronti e segnati; servono i file.
-  La musica del fondo di memoria: il pulsante appare da solo quando il file
-  audio/valzer-op-69.mp3 sarà nella cartella del sito.
   I testi delle altre sezioni: in corsivo bordeaux ciò che è ancora da scrivere.
   Le informative privacy e cookie (punto 5 della sequenza).
