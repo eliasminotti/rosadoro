@@ -105,17 +105,19 @@ SEZIONI = [
              dict(slug="istituzioni", voce="Istituzioni", titolo="Per le istituzioni", riga="Il partenariato pubblico-privato", hero="tavola", testata="tempio"),
          ]),
     dict(chiave="professionisti", voce="Per professionisti", titolo="Per professionisti", hero="notte", notte=True, casa="emblema",
-         intro="Otto strumenti previsti dallo statuto, per chi assiste una persona o una famiglia nel destinare un patrimonio: notai, commercialisti, avvocati, consulenti.",
+         intro="Cerchiamo studi partner: notai, avvocati, commercialisti e consulenti, con gli strumenti previsti dallo statuto.",
          pagine=[
-             dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="Mandato di esecutore testamentario e custode", riga="", art="Statuto, art. 14 · artt. 700 ss. c.c."),
-             dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="", art="Statuto, art. 14"),
-             dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="", art="Statuto, art. 14 · L. 112/2016", gemella="lasciti/dopo-di-noi"),
-             dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="", art="Statuto, art. 14"),
-             dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="", art="Statuto, art. 8"),
-             dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="", art="Statuto, art. 9"),
-             dict(slug="riqualificazione-etica", voce="Fondi di riqualificazione etica", titolo="Fondi di riqualificazione etica", riga="", art="Statuto, art. 11",
-                  avviso="Il testo pubblico di questa pagina va letto dal notaio prima della pubblicazione."),
-             dict(slug="fondo-della-memoria", voce="Fondo della memoria", titolo="Fondo della memoria ed eredità solidale", riga="", art="Statuto, art. 12",
+             dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="Mandato di esecutore testamentario e custode", riga="Le volontà, rispettate e garantite", art="Statuto, art. 14 · artt. 700 ss. c.c."),
+             dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="Un bene per la cura", art="Statuto, art. 14"),
+             dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="Trust e protezione dei fragili", art="Statuto, art. 14 · L. 112/2016", gemella="lasciti/dopo-di-noi"),
+             dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="Piani di dono su misura", art="Statuto, art. 14"),
+             dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="Il nome e lo scopo di chi dona", art="Statuto, art. 8"),
+             # i fondi convertibili si presentano con cautela (Elias, 9.10): se ne parla a tu per tu, senza moduli né inviti
+             # a prestare, senza «deposito», «risparmio», «rimborso a richiesta» e senza promettere vantaggi fiscali
+             dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="Un sostegno che può diventare dono", art="Statuto, art. 9"),
+             dict(slug="riqualificazione-etica", voce="Fondi di riqualificazione etica", titolo="Fondi di riqualificazione etica", riga="Restituire alla collettività", art="Statuto, art. 11"),
+             # quando si scrive il testo di questa scheda, lo legge il notaio prima della pubblicazione (l'avviso non compare più nella pagina: Elias, 9.10)
+             dict(slug="fondo-della-memoria", voce="Fondo della memoria", titolo="Fondo della memoria ed eredità solidale", riga="Ciò che continua a vivere di un’eredità", art="Statuto, art. 12",
                   gemella="in-memoria/fondo-di-memoria"),
          ]),
 ]
@@ -506,7 +508,7 @@ def corpo_home(da, p):
       %s
       <div class="pagine-porta"><p class="etichetta">In questa sezione</p><ul class="sotto-voci">%s</ul></div>
     </section>""" % (" nera" if s.get("notte") else "", s["chiave"], s["chiave"],
-                     '<p class="occhiello">Otto strumenti statutari</p>' if s.get("notte") else "",
+                     '<p class="occhiello">Per gli studi e i professionisti partner</p>' if s.get("notte") else "",
                      verso(da, s["chiave"]), sfuggi(s["titolo"]), sfuggi(intro), verso(da, s["chiave"]),
                      tavola_porta(da, s), "".join(voci)))
     return """<main>
