@@ -653,6 +653,48 @@ TESTI["lavora-con-noi"] = dict(
 """)
 
 
+# ------------------------------------------------------------ Per professionisti: la pagina d'ingresso (bozza di Claude, 9.10; Elias approva)
+# Restano fuori finché il punto bancario e parabancario non è chiarito: fondi convertibili (art. 9),
+# prestiti, titoli e microcredito (art. 4, cc. 4-5), fondo per lo sviluppo (art. 10), fondi di garanzia (art. 13, c. 8).
+TESTI["professionisti"] = dict(
+    sotto="Cerchiamo studi partner: notai, avvocati, commercialisti e consulenti con cui accompagnare chi vuole che ciò che lascia continui a fare del bene.",
+    corpo="""
+<p class="citazione">Una volontà buona ha bisogno di mani esperte per diventare realtà.</p>
+<p>La Fondazione La Rosa d’Oro accompagna persone e famiglie nei momenti in cui un patrimonio, grande o piccolo, cambia di mano: un testamento, un’eredità, un familiare fragile da proteggere. Il lavoro del notaio, dell’avvocato e del commercialista non lo facciamo noi, e non vogliamo farlo: lo statuto ci dà gli strumenti, i professionisti danno a quegli strumenti la forma giusta per ogni persona. Per questo cerchiamo studi partner, con cui costruire un rapporto vero, che vada nei due sensi.</p>
+<h3>Che cosa mettiamo a disposizione</h3>
+<p>Lo statuto della Fondazione prevede strumenti che puoi proporre ai tuoi clienti. Li trovi uno per scheda qui sotto; in breve:</p>
+<ul class="stelle">
+<li><strong>per destinare un patrimonio</strong>: i <a class="link" href="{→professionisti/fondi-di-scopo}">fondi di scopo</a>, con il nome e lo scopo scelti da chi dona, una contabilità separata e un rendiconto; il <a class="link" href="{→professionisti/fondo-della-memoria}">fondo della memoria e i fondi di eredità solidale</a>, che trasformano in progetti ciò che si trova in un’eredità, dalla liquidità a un’azienda che continua a lavorare; il Fondo Terra Bene Comune, per terreni, tenute e borghi che restano bene comune (art. 13);</li>
+<li><strong>per far rispettare le volontà</strong>: la Fondazione come <a class="link" href="{→professionisti/esecutore-testamentario}">esecutore testamentario e custode</a>, con la terzietà di un ente; il <a class="link" href="{→professionisti/vitalizio-filantropico}">vitalizio filantropico</a>, con cui chi cede un bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita;</li>
+<li><strong>per proteggere chi è fragile</strong>: il <a class="link" href="{→professionisti/dopo-di-noi}">Dopo di Noi</a>, con la Fondazione gestore o guardiano del trust che una famiglia istituisce per una persona con disabilità grave;</li>
+<li><strong>per chi vuole un piano</strong>: il <a class="link" href="{→professionisti/family-office}">Family Office filantropico</a>, che costruisce con famiglie e imprese piani di dono e fondi dedicati, insieme a professionisti abilitati;</li>
+<li><strong>per chi vuole riparare</strong>: i <a class="link" href="{→professionisti/riqualificazione-etica}">fondi di riqualificazione etica</a>, per chi ha regolarizzato la propria posizione fiscale e vuole restituire una parte alla collettività, sempre con il suo legale e dopo le verifiche che la legge chiede.</li>
+</ul>
+<p>Lasciti e donazioni alla Fondazione, destinati alle sue attività, non pagano l’imposta di successione e donazione, né le imposte ipotecaria e catastale (art. 82 del Codice del Terzo settore); chi dona in vita ha in più la detrazione o la deduzione (art. 83). I dettagli sono in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>.</p>
+<h3>Chi cerchiamo</h3>
+<p>Prima di tutto notai, avvocati, commercialisti, consulenti successori e testamentari. E accanto a loro le figure che gli strumenti dello statuto rendono necessarie:</p>
+<ul class="stelle">
+<li><strong>per i patrimoni e le successioni</strong>: avvocati esperti di famiglia, terzo settore e diritto tributario; consulenti finanziari abilitati e intermediari assicurativi, per le polizze vita e i fondi pensione che indicano la Fondazione come beneficiaria; amministratori di sostegno;</li>
+<li><strong>per i beni che arrivano</strong>: periti ed esperti d’arte, di gioielli e d’antiquariato, case d’asta, agenti immobiliari e tecnici; agronomi e dottori forestali per terreni e boschi; consulenti d’impresa per le aziende che continuano a vivere;</li>
+<li><strong>per le persone</strong>: assistenti sociali, educatori e operatori del sociale e del disagio; medici, palliativisti, psicologi e counsellor; mediatori familiari, perché un’eredità è anche una famiglia; imprese di onoranze funebri e celebranti, che incontrano le famiglie nel momento del distacco.</li>
+</ul>
+<h3>Come funziona lo scambio</h3>
+<ul class="stelle">
+<li><strong>Ci indichiamo le persone, nei due sensi.</strong> Quando qualcuno ci chiede un notaio, un avvocato, un commercialista, gli indichiamo gli studi della rete. Quando un tuo cliente vuole che una parte di ciò che ha vada al bene, o ha bisogno di un accompagnamento nel lutto, nel fine vita o per un familiare fragile, puoi indicargli la Fondazione.</li>
+<li><strong>La Fondazione come beneficiaria.</strong> In un testamento, in una donazione, in una polizza vita, quando il cliente cerca una destinazione solidale, puoi proporre la Fondazione: <strong>Fondazione La Rosa d’Oro ETS</strong>, codice fiscale <strong>14629350969</strong>, via Bianca di Savoia 17, 20122 Milano.</li>
+<li><strong>Un partner nel sociale.</strong> Lo studio può sostenere un progetto, aprire un fondo di scopo con il proprio nome, o organizzare con noi incontri per clienti e colleghi sui lasciti solidali, sul Dopo di Noi, sulle disposizioni anticipate di trattamento.</li>
+<li><strong>Il nome dello studio nel sito.</strong> Gli studi partner che lo desiderano compaiono nella pagina <a class="link" href="{→partnership}">Partnership e siti amici</a>.</li>
+</ul>
+<p>Un principio vale per tutti: nessuno paga nessuno per un’indicazione, né in denaro né in prestazioni. Chi si rivolge a noi riceve, quando possibile, più di un nome e sceglie liberamente; lo stesso vale per i tuoi clienti. È ciò che chiedono i codici deontologici delle professioni, ed è ciò che chiediamo anche noi.</p>
+<h3>Con Lux, la formazione sul digitale</h3>
+<p>Lux è il progetto della Fondazione per un uso cosciente e consapevole del digitale, dei social media e dell’intelligenza artificiale. Cerchiamo professionisti con cui portare formazione e sensibilizzazione dove servono: psicologi, pedagogisti, educatori, insegnanti, esperti di tecnologia e di comunicazione. E Lux può essere il partner del tuo studio per la formazione delle persone che ci lavorano.</p>
+<h3>A che punto siamo</h3>
+<p>La Fondazione è nata il 26 febbraio 2026 ed è iscritta al Registro unico nazionale del Terzo settore. Stiamo costruendo adesso la rete degli studi partner. Se il tuo studio guarda al patrimonio come a qualcosa che può continuare a fare del bene, scrivici: ci conosciamo, ti raccontiamo come lavoriamo e vediamo se e come fare strada insieme.</p>
+<p>Gli strumenti sono descritti nello statuto, che trovi nella pagina <a class="link" href="{→documenti}">Documenti</a>.</p>
+<p><a class="vai" href="{→contatti}">Diventa studio partner: scrivici</a></p>
+""")
+
+
 # ------------------------------------------------------------ le descrizioni per i motori di ricerca (17.9, bozza di Claude; Dacia rilegge)
 # una frase per pagina, al massimo 155 caratteri: è la riga che Google mostra sotto il titolo
 DESCRIZIONI = {
@@ -678,7 +720,7 @@ DESCRIZIONI = {
     "aziende-e-istituzioni": "Come aziende e istituzioni possono collaborare con la Fondazione La Rosa d'Oro: sostegno ai progetti, partenariati, iniziative condivise.",
     "aziende-e-istituzioni/aziende": "Per le aziende: cause related marketing, donazioni in natura, team building solidale, welfare e benessere delle persone. Con i vantaggi fiscali.",
     "aziende-e-istituzioni/istituzioni": "Per le istituzioni: il partenariato pubblico-privato sociale con la Fondazione, dalla rigenerazione urbana al welfare di comunità e alla formazione.",
-    "professionisti": "Per notai, avvocati, commercialisti e consulenti: gli strumenti della Fondazione per lasciti, fondi di scopo, esecuzione testamentaria, Dopo di Noi.",
+    "professionisti": "Cerchiamo studi partner: notai, avvocati, commercialisti, consulenti. Gli strumenti della Fondazione per lasciti ed eredità, e come lavoriamo insieme.",
     "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
     "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counsellor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
     "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
