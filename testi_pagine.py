@@ -660,7 +660,7 @@ TESTI["professionisti"] = dict(
     sotto="Cerchiamo studi partner: notai, avvocati, commercialisti e consulenti con cui accompagnare chi vuole che ciò che lascia continui a fare del bene.",
     corpo="""
 <p class="citazione">Una volontà buona ha bisogno di mani esperte per diventare realtà.</p>
-<p>La Fondazione La Rosa d’Oro accompagna persone e famiglie nei momenti in cui un patrimonio, grande o piccolo, cambia di mano: un testamento, un’eredità, un familiare fragile da proteggere. Il lavoro del notaio, dell’avvocato e del commercialista non lo facciamo noi, e non vogliamo farlo: lo statuto ci dà gli strumenti, i professionisti danno a quegli strumenti la forma giusta per ogni persona. Per questo cerchiamo studi partner, con cui costruire un rapporto vero, che vada nei due sensi.</p>
+<p>La Fondazione La Rosa d’Oro accompagna persone e famiglie, ma anche aziende e realtà di qualsiasi tipo, nei momenti in cui un patrimonio, grande o piccolo, cambia di mano: un testamento, un’eredità, un familiare fragile da proteggere. Il lavoro del notaio, dell’avvocato e del commercialista non lo facciamo noi, e non vogliamo farlo: lo statuto ci dà gli strumenti, i professionisti danno a quegli strumenti la forma giusta per ogni persona. Per questo cerchiamo studi partner, con cui costruire un rapporto vero, che vada nei due sensi.</p>
 <h3>Che cosa mettiamo a disposizione</h3>
 <p>Lo statuto della Fondazione prevede strumenti che puoi proporre ai tuoi clienti. Li trovi uno per scheda qui sotto; in breve:</p>
 <ul class="stelle">
@@ -668,7 +668,7 @@ TESTI["professionisti"] = dict(
 <li><strong>per far rispettare le volontà</strong>: la Fondazione come <a class="link" href="{→professionisti/esecutore-testamentario}">esecutore testamentario e custode</a>, con la terzietà di un ente; il <a class="link" href="{→professionisti/vitalizio-filantropico}">vitalizio filantropico</a>, con cui chi cede un bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita;</li>
 <li><strong>per proteggere chi è fragile</strong>: il <a class="link" href="{→professionisti/dopo-di-noi}">Dopo di Noi</a>, con la Fondazione gestore o guardiano del trust che una famiglia istituisce per una persona con disabilità grave;</li>
 <li><strong>per chi vuole un piano</strong>: il <a class="link" href="{→professionisti/family-office}">Family Office filantropico</a>, che costruisce con famiglie e imprese piani di dono e fondi dedicati, insieme a professionisti abilitati;</li>
-<li><strong>per chi vuole riparare</strong>: i <a class="link" href="{→professionisti/riqualificazione-etica}">fondi di riqualificazione etica</a>, per chi ha regolarizzato la propria posizione fiscale e vuole restituire una parte alla collettività, sempre con il suo legale e dopo le verifiche che la legge chiede.</li>
+<li><strong>per chi vuole riparare</strong>: i <a class="link" href="{→professionisti/riqualificazione-etica}">fondi di riqualificazione etica</a>, per chi ha regolarizzato la propria posizione fiscale e vuole restituire una parte alla collettività, sempre con il suo legale e dopo le verifiche che la legge richiede.</li>
 </ul>
 <p>Lasciti e donazioni alla Fondazione, destinati alle sue attività, non pagano l’imposta di successione e donazione, né le imposte ipotecaria e catastale (art. 82 del Codice del Terzo settore); chi dona in vita ha in più la detrazione o la deduzione (art. 83). I dettagli sono in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>.</p>
 <h3>Chi cerchiamo</h3>
@@ -680,12 +680,12 @@ TESTI["professionisti"] = dict(
 </ul>
 <h3>Come funziona lo scambio</h3>
 <ul class="stelle">
-<li><strong>Ci indichiamo le persone, nei due sensi.</strong> Quando qualcuno ci chiede un notaio, un avvocato, un commercialista, gli indichiamo gli studi della rete. Quando un tuo cliente vuole che una parte di ciò che ha vada al bene, o ha bisogno di un accompagnamento nel lutto, nel fine vita o per un familiare fragile, puoi indicargli la Fondazione.</li>
+<li><strong>Indirizzamento reciproco.</strong> Quando qualcuno ci chiede un notaio, un avvocato, un commercialista, gli indichiamo gli studi della rete. Quando un tuo cliente vuole che una parte di ciò che ha venga volta al bene comune, o ha bisogno di un accompagnamento nel lutto, nel fine vita o per un familiare fragile, puoi indicargli la Fondazione.</li>
 <li><strong>La Fondazione come beneficiaria.</strong> In un testamento, in una donazione, in una polizza vita, quando il cliente cerca una destinazione solidale, puoi proporre la Fondazione: <strong>Fondazione La Rosa d’Oro ETS</strong>, codice fiscale <strong>14629350969</strong>, via Bianca di Savoia 17, 20122 Milano.</li>
 <li><strong>Un partner nel sociale.</strong> Lo studio può sostenere un progetto, aprire un fondo di scopo con il proprio nome, o organizzare con noi incontri per clienti e colleghi sui lasciti solidali, sul Dopo di Noi, sulle disposizioni anticipate di trattamento.</li>
 <li><strong>Il nome dello studio nel sito.</strong> Gli studi partner che lo desiderano compaiono nella pagina <a class="link" href="{→partnership}">Partnership e siti amici</a>.</li>
 </ul>
-<p>Un principio vale per tutti: nessuno paga nessuno per un’indicazione, né in denaro né in prestazioni. Chi si rivolge a noi riceve, quando possibile, più di un nome e sceglie liberamente; lo stesso vale per i tuoi clienti. È ciò che chiedono i codici deontologici delle professioni, ed è ciò che chiediamo anche noi.</p>
+<p>Un principio comune: nessuno paga nessuno per un’indicazione, né in denaro né in prestazioni. Chi si rivolge a noi riceve, quando possibile, più di un nome e sceglie liberamente; lo stesso vale per i tuoi clienti. È ciò che chiedono i codici deontologici delle professioni, ed è ciò che chiediamo anche noi.</p>
 <h3>Con Lux, la formazione sul digitale</h3>
 <p>Lux è il progetto della Fondazione per un uso cosciente e consapevole del digitale, dei social media e dell’intelligenza artificiale. Cerchiamo professionisti con cui portare formazione e sensibilizzazione dove servono: psicologi, pedagogisti, educatori, insegnanti, esperti di tecnologia e di comunicazione. E Lux può essere il partner del tuo studio per la formazione delle persone che ci lavorano.</p>
 <h3>A che punto siamo</h3>
