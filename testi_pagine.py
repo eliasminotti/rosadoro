@@ -654,8 +654,9 @@ TESTI["lavora-con-noi"] = dict(
 
 
 # ------------------------------------------------------------ Per professionisti: la pagina d'ingresso (bozza di Claude, 9.10; Elias approva)
-# Restano fuori finché il punto bancario e parabancario non è chiarito: fondi convertibili (art. 9),
-# prestiti, titoli e microcredito (art. 4, cc. 4-5), fondo per lo sviluppo (art. 10), fondi di garanzia (art. 13, c. 8).
+# Restano fuori finché il punto bancario e parabancario non è chiarito: prestiti, titoli e microcredito
+# (art. 4, cc. 4-5), fondo per lo sviluppo (art. 10), fondi di garanzia (art. 13, c. 8). I fondi convertibili
+# (art. 9) ci sono, con le cautele scritte in costruisci.py (Elias, 9.10).
 TESTI["professionisti"] = dict(
     sotto="Cerchiamo studi partner: notai, avvocati, commercialisti e consulenti con cui accompagnare chi vuole che ciò che lascia continui a fare del bene.",
     corpo="""
@@ -668,6 +669,7 @@ TESTI["professionisti"] = dict(
 <li><strong>per far rispettare le volontà</strong>: la Fondazione come <a class="link" href="{→professionisti/esecutore-testamentario}">esecutore testamentario e custode</a>, con la terzietà di un ente; il <a class="link" href="{→professionisti/vitalizio-filantropico}">vitalizio filantropico</a>, con cui chi cede un bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita;</li>
 <li><strong>per proteggere chi è fragile</strong>: il <a class="link" href="{→professionisti/dopo-di-noi}">Dopo di Noi</a>, con la Fondazione gestore o guardiano del trust che una famiglia istituisce per una persona con disabilità grave;</li>
 <li><strong>per chi vuole un piano</strong>: il <a class="link" href="{→professionisti/family-office}">Family Office filantropico</a>, che costruisce con famiglie e imprese piani di dono e fondi dedicati, insieme a professionisti abilitati;</li>
+<li><strong>per chi vuole sostenere senza decidere subito</strong>: i <a class="link" href="{→professionisti/fondi-convertibili}">fondi convertibili</a>, un prestito senza interessi a un progetto della Fondazione, regolato da una convenzione scritta, che diventa una donazione se alla scadenza chi l’ha dato sceglie di lasciarlo alla Fondazione. Non è un servizio aperto al pubblico: se ne parla a tu per tu, caso per caso;</li>
 <li><strong>per chi vuole riparare</strong>: i <a class="link" href="{→professionisti/riqualificazione-etica}">fondi di riqualificazione etica</a>, per chi ha regolarizzato la propria posizione fiscale e vuole restituire una parte alla collettività, sempre con il suo legale e dopo le verifiche che la legge richiede.</li>
 </ul>
 <p>Lasciti e donazioni alla Fondazione, destinati alle sue attività, non pagano l’imposta di successione e donazione, né le imposte ipotecaria e catastale (art. 82 del Codice del Terzo settore); chi dona in vita ha in più la detrazione o la deduzione (art. 83). I dettagli sono in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>.</p>

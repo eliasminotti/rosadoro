@@ -112,8 +112,9 @@ SEZIONI = [
              dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="Trust e protezione dei fragili", art="Statuto, art. 14 · L. 112/2016", gemella="lasciti/dopo-di-noi"),
              dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="Piani di dono su misura", art="Statuto, art. 14"),
              dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="Il nome e lo scopo di chi dona", art="Statuto, art. 8"),
-             # i fondi convertibili restano fuori finché il punto sui crediti convertibili non è chiarito (Elias, 9.10)
-             # dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="", art="Statuto, art. 9"),
+             # i fondi convertibili si presentano con cautela (Elias, 9.10): se ne parla a tu per tu, senza moduli né inviti
+             # a prestare, senza «deposito», «risparmio», «rimborso a richiesta» e senza promettere vantaggi fiscali
+             dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="Un sostegno che può diventare dono", art="Statuto, art. 9"),
              dict(slug="riqualificazione-etica", voce="Fondi di riqualificazione etica", titolo="Fondi di riqualificazione etica", riga="Restituire alla collettività", art="Statuto, art. 11"),
              # quando si scrive il testo di questa scheda, lo legge il notaio prima della pubblicazione (l'avviso non compare più nella pagina: Elias, 9.10)
              dict(slug="fondo-della-memoria", voce="Fondo della memoria", titolo="Fondo della memoria ed eredità solidale", riga="Ciò che continua a vivere di un’eredità", art="Statuto, art. 12",
