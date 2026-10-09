@@ -669,8 +669,8 @@ TESTI["professionisti"] = dict(
 <li><strong>per far rispettare le volontà</strong>: la Fondazione come <a class="link" href="{→professionisti/esecutore-testamentario}">esecutore testamentario e custode</a>, con la terzietà di un ente; il <a class="link" href="{→professionisti/vitalizio-filantropico}">vitalizio filantropico</a>, con cui chi cede un bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita;</li>
 <li><strong>per proteggere chi è fragile</strong>: il <a class="link" href="{→professionisti/dopo-di-noi}">Dopo di Noi</a>, con la Fondazione gestore o guardiano del trust che una famiglia istituisce per una persona con disabilità grave;</li>
 <li><strong>per chi vuole un piano</strong>: il <a class="link" href="{→professionisti/family-office}">Family Office filantropico</a>, che costruisce con famiglie e imprese piani di dono e fondi dedicati, insieme a professionisti abilitati;</li>
-<li><strong>per chi vuole sostenere senza decidere subito</strong>: i <a class="link" href="{→professionisti/fondi-convertibili}">fondi convertibili</a>, un prestito senza interessi a un progetto della Fondazione, regolato da una convenzione scritta, che diventa una donazione se alla scadenza chi l’ha dato sceglie di lasciarlo alla Fondazione. Non è un servizio aperto al pubblico: se ne parla a tu per tu, caso per caso;</li>
-<li><strong>per chi vuole riparare</strong>: i <a class="link" href="{→professionisti/riqualificazione-etica}">fondi di riqualificazione etica</a>, per chi ha regolarizzato la propria posizione fiscale e vuole restituire una parte alla collettività, sempre con il suo legale e dopo le verifiche che la legge richiede.</li>
+<li><strong>per chi vuole sostenere senza decidere subito</strong>: i <a class="link" href="{→professionisti/fondi-convertibili}">fondi convertibili</a>, un prestito senza interessi a un progetto della Fondazione, regolato da una convenzione scritta e personale, che diventa una donazione se alla scadenza chi l’ha dato sceglie di lasciarlo alla Fondazione invece di riaverlo. Non è una proposta rivolta al pubblico: se ne parla a tu per tu, caso per caso;</li>
+<li><strong>per chi vuole restituire</strong>: i <a class="link" href="{→professionisti/riqualificazione-etica}">fondi di riqualificazione etica</a>, per chi ha già regolarizzato per intero la propria posizione fiscale e vuole destinare una parte di ciò che ha al bene comune, sempre con il suo legale e dopo le verifiche che la Fondazione svolge, senza promesse di effetti fiscali o giudiziari.</li>
 </ul>
 <p>Lasciti e donazioni alla Fondazione, destinati alle sue attività, non pagano l’imposta di successione e donazione, né le imposte ipotecaria e catastale (art. 82 del Codice del Terzo settore); chi dona in vita ha in più la detrazione o la deduzione (art. 83). I dettagli sono in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>.</p>
 <h3>Chi cerchiamo</h3>
@@ -696,6 +696,33 @@ TESTI["professionisti"] = dict(
 <p><a class="vai" href="{→contatti}">Diventa studio partner: scrivici</a></p>
 """)
 
+
+# ------------------------------------------------------------ Per professionisti: le schede dei due fondi delicati (bozza di Claude, 10.10; Elias approva)
+# Seguono la ricerca del 9.10 riscontrata sui testi ufficiali il 10.10 (/mnt/project-files/ricerche/): «meccanismo e
+# garanzie sì, effetti e inviti no». Niente pulsante «Scrivici», niente importi, moduli o promesse fiscali o giudiziarie.
+TESTI["professionisti/fondi-convertibili"] = dict(
+    sotto="Un sostegno che può diventare dono.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Vive di doni, e della fiducia di chi la conosce.</p>
+<p>Lo statuto (art. 9) le permette di ricevere anche un sostegno diverso dal dono: un prestito senza interessi, per le sue attività o per un progetto preciso. Lo chiamiamo fondo convertibile.</p>
+<p>Ogni prestito ha una convenzione scritta sua, discussa con chi presta: quanto, per quanto tempo, entro quando chiedere la restituzione, a che cosa servirà. Fino alla scadenza resta un prestito: per la Fondazione è un debito, e come tale compare nel bilancio. Non porta interessi né altri vantaggi, a nessuna delle due parti.</p>
+<p>Alla scadenza decidi tu. Puoi riavere la somma, nei tempi della convenzione. Oppure puoi lasciarla alla Fondazione, in tutto o in parte: la parte che lasci, confermata per iscritto, diventa una donazione, con la sua ricevuta. La scelta è soltanto tua, e non saremo noi a sollecitarla. Se quella ricevuta valga per la tua dichiarazione dei redditi dipende dalle regole di quel momento: non possiamo promettertelo.</p>
+<p>Non è una proposta rivolta al pubblico: non ci sono importi, moduli o raccolte aperte. Se conosci la Fondazione, o una persona di fiducia te l’ha presentata, ne parliamo di persona, caso per caso.</p>
+<p>Oggi stiamo definendo con un legale le regole che ogni convenzione dovrà rispettare. {verifica}</p>
+""")
+
+TESTI["professionisti/riqualificazione-etica"] = dict(
+    sotto="Restituire alla collettività.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore, al servizio del bene comune.</p>
+<p>Lo statuto (art. 11) prevede fondi per chi ha regolarizzato la propria posizione con il fisco, o ha ereditato beni poi regolarizzati, e vuole destinarne una parte a progetti di utilità sociale. È un gesto in più, e libero. Il debito con lo Stato è già stato pagato per intero: la donazione non lo sostituisce.</p>
+<p>Per questo accettiamo una donazione solo a regolarizzazione conclusa, dopo averla verificata sui documenti. Ti chiediamo una dichiarazione scritta sulla provenienza del denaro. Accettiamo soltanto bonifici da un conto intestato a te: mai contanti, mai da altri. Queste verifiche sono una scelta nostra, e si aggiungono a quelle che la legge chiede alle banche e ai professionisti. Decide il consiglio di amministrazione, che può anche dire di no. {verifica}</p>
+<p>In cambio la Fondazione non dà nulla: né un nome su un fondo, né visibilità. Rilascia la ricevuta, e nel bilancio dà conto di quanto riceve e di come lo usa. Non offre consulenza fiscale o legale e non promette alcun effetto, né fiscale né giudiziario: ogni passo lo fai con il tuo legale o il tuo commercialista.</p>
+<p>Oggi stiamo scrivendo con un legale il regolamento di questi fondi. Finché non è approvato, non accettiamo donazioni di questo tipo. {verifica}</p>
+""")
+
+for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-etica"):
+    TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
 
 # ------------------------------------------------------------ le descrizioni per i motori di ricerca (17.9, bozza di Claude; Dacia rilegge)
 # una frase per pagina, al massimo 155 caratteri: è la riga che Google mostra sotto il titolo
