@@ -512,7 +512,7 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 <p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
 <p><strong>Attraverso una disposizione anticipata di trattamento puoi comunicare ai medici cosa desideri — o non desideri — finché sei in grado di farlo. Garantisci che i tuoi desideri più intimi e familiari vengano rispettati.</strong></p>
 <p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
-<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-modulo-bozza.pdf}">scarica il modulo (PDF)</a>. È una bozza in lettura: non sostituisce il colloquio con il tuo medico.</p>
+<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Non sostituisce il colloquio con il tuo medico.</p>
 <p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
@@ -706,6 +706,9 @@ TESTI["documenti"] = dict(
 <h3>Lo statuto</h3>
 <p>Lo statuto dice per che cosa la Fondazione è costituita e come funziona: gli scopi, gli organi, il modo in cui custodisce e impiega i beni che riceve. Descrive tutto ciò che la Fondazione può fare; quello che sta facendo oggi lo racconta il resto del sito.</p>
 <p><a class="vai" href="{file:statuto-fondazione-la-rosa-doro.pdf}">Scarica lo statuto (PDF)</a></p>
+
+<h3>Il fac-simile delle DAT</h3>
+<p>Per chi vuole scrivere le proprie Disposizioni anticipate di trattamento, il cosiddetto testamento biologico, la Fondazione ha preparato un fac-simile da compilare a casa e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Che cosa sono le DAT e come si fanno lo raccontiamo nella pagina <a class="link" href="{→lasciti/la-liberta-del-come}">La libertà del come</a>.</p>
 
 <h3>L’atto costitutivo</h3>
 <p>La Fondazione è stata costituita il 26 febbraio 2026, con atto del notaio F. Franco (repertorio 8190, raccolta 4764). Il testo dello statuto fa parte dell’atto. Se ti serve una copia dell’atto completo, chiedila alla segreteria: <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
