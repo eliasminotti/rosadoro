@@ -494,6 +494,24 @@ a.azione:hover h4{color:var(--accento)}
 .dialogo .invia{background:var(--antracite);color:var(--avorio);border-color:var(--antracite)}
 .dialogo .invia:hover{background:var(--nero);color:#fff}
 
+/* il modulo dei Contatti: gli stessi campi e lo stesso pulsante della finestra della dedica */
+.modulo{max-width:620px;margin:2em 0 2.4em}
+.modulo label{display:block;font-family:var(--sans);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--accento);margin:22px 0 8px}
+.modulo label:first-child{margin-top:0}
+.modulo label span{font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--testo-45);margin-left:8px}
+.modulo input,.modulo textarea{display:block;width:100%;border:1px solid var(--filo-forte);border-radius:0;background:var(--bianco);font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--antracite);padding:12px 14px;transition:border-color .15s}
+.modulo textarea{min-height:190px;resize:vertical}
+.modulo input:focus,.modulo textarea:focus{border-color:var(--oro)}
+.modulo ::placeholder{color:var(--testo-45);opacity:1}
+.modulo .nota{font-size:17px;color:var(--testo-60);margin:18px 0 0}
+.modulo .invia{display:inline-block;margin-top:24px;font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:15px 28px;border:1px solid var(--antracite);background:var(--antracite);color:var(--avorio);cursor:pointer;transition:background-color .15s,border-color .15s}
+.modulo .invia:hover{background:var(--nero);border-color:var(--nero)}
+.modulo .invia:disabled{opacity:.6;cursor:wait}
+.modulo .esito{color:var(--testo);border-left:1px solid var(--oro);padding:2px 0 2px 20px;margin:24px 0 0}
+.modulo .campi[hidden]+.esito{margin-top:0}
+.modulo .esito.errore{border-left-color:var(--bordeaux)}
+.modulo .esito:focus{outline:none}
+
 @media (max-width:1023px){
   .azioni{grid-template-columns:1fr}
   .citazione{font-size:22px}

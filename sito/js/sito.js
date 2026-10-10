@@ -6,7 +6,8 @@
       - ogni voce ha una propria sezione osservata (data-spia)
       - vince la sezione più vicina al centro della fascia visibile
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
-   Nessun dato esce dal sito: qui non c'è nulla che registri o invii.
+   Nulla registra chi visita. Esce dal sito soltanto il messaggio del modulo
+   dei Contatti (5), quando chi scrive lo invia.
    ========================================================================== */
 (function () {
   'use strict';
@@ -147,5 +148,55 @@
       '&body=' + encodeURIComponent('In memoria di: ' + nome + '\nImmagine scelta: ' + scelta +
         (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)') +
         '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.');
+  });
+})();
+
+/* ---- 5. il modulo dei Contatti: il messaggio va a Forminit, che lo recapita alla segreteria.
+        La risposta compare nella pagina; se qualcosa va storto, resta l'indirizzo di posta.
+        Senza questo codice il modulo parte lo stesso, e Forminit mostra la sua conferma ---- */
+(function () {
+  'use strict';
+  var modulo = document.getElementById('modulo-contatti');
+  if (!modulo || !window.fetch || !window.FormData) return;
+  var campi = modulo.querySelector('.campi');
+  var esito = modulo.querySelector('.esito');
+  var invia = modulo.querySelector('.invia');
+  var indirizzo = modulo.getAttribute('data-indirizzo');
+  function dici(testo, errore) {
+    esito.textContent = testo;
+    esito.classList.toggle('errore', !!errore);
+    if (errore) {                                  /* l'alternativa sicura: scrivere per posta */
+      var a = document.createElement('a');
+      a.className = 'link';
+      a.href = 'mailto:' + indirizzo;
+      a.textContent = indirizzo;
+      esito.appendChild(document.createTextNode(' '));
+      esito.appendChild(a);
+      esito.appendChild(document.createTextNode('.'));
+    }
+    esito.hidden = false;
+  }
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (invia.disabled) return;
+    invia.disabled = true;
+    invia.textContent = 'Un momento…';
+    esito.hidden = true;
+    fetch(modulo.action, { method: 'POST', body: new FormData(modulo), headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (!risposta || !risposta.success) throw new Error('non arrivato');
+        modulo.reset();
+        campi.hidden = true;
+        dici('Grazie, il tuo messaggio è arrivato. Ti rispondiamo di persona, all’indirizzo che ci hai lasciato.');
+        esito.focus();
+      })
+      .catch(function () {
+        dici('Il messaggio non è partito. Riprova tra poco, oppure scrivici a', true);
+      })
+      .then(function () {
+        invia.disabled = false;
+        invia.textContent = 'Scrivici';
+      });
   });
 })();

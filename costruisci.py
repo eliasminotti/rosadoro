@@ -25,6 +25,8 @@ TESTATA_CENTRATA = True                   # prova del 15.9 (Dacia, ok Elias): lo
 LINK_PULITI = False                       # False: i collegamenti finiscono in «index.html», così il sito
                                           #        funziona anche aperto da una cartella sul computer.
                                           # True:  collegamenti puliti «/lasciti/», da attivare alla pubblicazione.
+FORMINIT = ""                             # il codice del modulo dei Contatti su Forminit (Form ID, dal pannello di Forminit).
+                                          # Vuoto: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
 USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 
 ENTE = {
@@ -366,7 +368,34 @@ def gettoni(html, da):
         return ('<figure class="foto%s" data-file="%s"><span class="didascalia">%s · %s</span></figure>'
                 % (classe, sfuggi(nome), sfuggi(dida), sfuggi(nome)))
     html = re.sub(r"\{foto:([^|}]+)\|([^|}]*)\|([^}]*)\}", foto, html)
+    if "{modulo-contatti}" in html:
+        html = html.replace("{modulo-contatti}", modulo_contatti(da))
     return html
+
+def modulo_contatti(da):
+    """il modulo della pagina Contatti: il messaggio passa da Forminit, che lo recapita alla segreteria.
+    Con JavaScript la risposta compare nella pagina (sito.js); senza, il modulo parte lo stesso.
+    Il campo nascosto «_gotcha» è la trappola per i programmi che riempiono tutto da soli."""
+    privacy = ('<p class="nota">Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’'
+               '<a class="link" href="%s">informativa sulla privacy</a>.</p>' % verso(da, "privacy"))
+    if not FORMINIT:
+        return '<p><a class="vai" href="mailto:%s">Scrivici</a></p>\n%s' % (ENTE["email"], privacy)
+    return """<form class="modulo" id="modulo-contatti" action="https://forminit.com/f/%s" method="post" data-indirizzo="%s">
+<div class="campi">
+<label for="mc-nome">Il tuo nome</label>
+<input id="mc-nome" name="fi-sender-fullName" type="text" autocomplete="name" required>
+<label for="mc-posta">La tua email</label>
+<input id="mc-posta" name="fi-sender-email" type="email" autocomplete="email" required>
+<label for="mc-oggetto">Oggetto <span>facoltativo</span></label>
+<input id="mc-oggetto" name="fi-text-oggetto" type="text" placeholder="Una parola basta: lascito, progetto, donazione…">
+<label for="mc-messaggio">Il messaggio</label>
+<textarea id="mc-messaggio" name="fi-text-messaggio" rows="7" required></textarea>
+<input type="hidden" name="_gotcha" value="">
+%s
+<button type="submit" class="invia">Scrivici</button>
+</div>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>""" % (sfuggi(FORMINIT), ENTE["email"], privacy)
 
 def tavola_img(da, nome, alt, classe="tavola"):
     return '<figure class="%s"><img src="%s" alt="%s"><figcaption>Tavola incisa</figcaption></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), sfuggi(alt))
