@@ -835,6 +835,30 @@ TESTI["professionisti/riqualificazione-etica"] = dict(
 <p>In cambio la Fondazione non dà nulla. Rilascia la ricevuta, e nel bilancio dà conto di quanto riceve e di come lo usa. Se lo chiedi, e il consiglio di amministrazione è d’accordo, il fondo può essere intitolato alla memoria di una persona o a una causa che indichi tu. La Fondazione non offre consulenza fiscale o legale e non promette alcun effetto, né fiscale né giudiziario: ogni passo lo fai con il tuo legale o il tuo commercialista.</p>
 """)
 
+# ------------------------------------------------------------ Family Office filantropico (bozza di Claude del 10.10, da rileggere con Elias)
+# Parla alle famiglie, come le altre schede parlano alla persona; le imprese hanno il loro piano nella pagina Per le aziende.
+# Confini: nessun consiglio sugli investimenti (riservati dal TUF, artt. 1 c. 5-septies e 18) e atti, successioni e imposte ai
+# professionisti; nessun costo né compenso finché la Fondazione non li decide. Niente collegamenti alle schede ancora vuote.
+TESTI["professionisti/family-office"] = dict(
+    sotto="Piani di dono su misura.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accompagna chi vuole che una parte di ciò che ha continui a fare del bene.</p>
+<p>Lo statuto (art. 14, comma 5) la costituisce anche per aiutare persone, famiglie e imprese a dare forma alla loro filantropia: a chi donare e con quale strumento, quale fondo aprire, come verificare che ciò che si dona arrivi davvero e serva. La Fondazione fa da ponte tra la volontà di chi dona e i bisogni della collettività. È ciò che chiamiamo Family Office filantropico.</p>
+<p>Pensiamo soprattutto alle famiglie che hanno costruito o ricevuto qualcosa di grande, un’azienda, una tenuta, un parco, una collezione, e si chiedono che cosa ne sarà. Un piano può mettere insieme più strumenti della Fondazione:</p>
+<ul class="stelle">
+<li><strong>un fondo di scopo</strong> con il nome della tua famiglia e una contabilità separata; se lo desideri, un comitato in cui la famiglia indica i progetti da sostenere (art. 8);</li>
+<li><strong>un <a class="link" href="{→lasciti/il-lascito-testamentario}">lascito</a>, o un vitalizio filantropico</strong>: chi cede un bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita (art. 14);</li>
+<li><strong>il fondo della memoria e i fondi di eredità solidale</strong>, che possono accogliere anche un’azienda: se chi dona lo chiede, può continuare a lavorare (art. 12);</li>
+<li><strong>il <a class="link" href="{→lasciti/dopo-di-noi}">Dopo di Noi</a></strong>, per un familiare fragile (art. 14);</li>
+<li><strong>il Fondo Terra Bene Comune</strong>, per terreni, tenute e borghi che restano bene comune (art. 13).</li>
+</ul>
+<p>Per molte famiglie un fondo con il proprio nome, dentro una fondazione che esiste già, è un’alternativa più semplice a costituirne una propria.</p>
+<p>Le verifiche si fanno prima e dopo. Prima di donare, su chi riceve. Dopo, su come è stato usato ciò che hai donato: per ogni fondo c’è un rendiconto separato, che puoi chiedere quando vuoi.</p>
+<p>Il piano si costruisce con i professionisti: i tuoi di fiducia, o gli studi partner della Fondazione. Il notaio, l’avvocato e il commercialista per gli atti, le successioni e le imposte; un consulente finanziario abilitato per il patrimonio. La Fondazione non dà consigli sugli investimenti e non sostituisce nessuno di loro: tiene insieme il disegno e ne custodisce lo scopo.</p>
+<p>Le imprese trovano il loro piano nella pagina <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>.</p>
+<p>La Fondazione è nata il 26 febbraio 2026 e stiamo costruendo adesso la rete degli studi partner. Se pensi a un piano, per te o per la tua famiglia, ne parliamo di persona, anche insieme al tuo notaio o al tuo commercialista.</p>
+""")
+
 for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-etica"):
     TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
 
