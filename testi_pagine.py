@@ -513,7 +513,7 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 <p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
 <p><strong>Attraverso una disposizione anticipata di trattamento puoi comunicare ai medici cosa desideri — o non desideri — finché sei in grado di farlo. Garantisci che i tuoi desideri più intimi e familiari vengano rispettati.</strong></p>
 <p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
-<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Non sostituisce il colloquio con il tuo medico.</p>
+<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Non sostituisce il colloquio con il tuo medico. Se ti serve aiuto per compilarlo o per trovare un notaio, <a class="link" href="{→contatti}">scrivici</a>.</p>
 <p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
