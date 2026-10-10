@@ -162,10 +162,10 @@
   var esito = modulo.querySelector('.esito');
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
-  function dici(testo, errore) {
+  function dici(testo, errore, posta) {
     esito.textContent = testo;
     esito.classList.toggle('errore', !!errore);
-    if (errore) {                                  /* l'alternativa sicura: scrivere per posta */
+    if (posta) {                                   /* l'alternativa sicura: scrivere per posta */
       var a = document.createElement('a');
       a.className = 'link';
       a.href = 'mailto:' + indirizzo;
@@ -185,6 +185,10 @@
     fetch(modulo.action, { method: 'POST', body: new FormData(modulo), headers: { 'Accept': 'application/json' } })
       .then(function (r) { return r.json(); })
       .then(function (risposta) {
+        if (risposta && risposta.error === 'FI_SCHEMA_FORMAT_EMAIL') {
+          dici('Controlla la tua email: l’indirizzo non sembra completo.', true);
+          return;
+        }
         if (!risposta || !risposta.success) throw new Error('non arrivato');
         modulo.reset();
         campi.hidden = true;
@@ -192,7 +196,7 @@
         esito.focus();
       })
       .catch(function () {
-        dici('Il messaggio non è partito. Riprova tra poco, oppure scrivici a', true);
+        dici('Il messaggio non è partito. Riprova tra poco, oppure scrivici a', true, true);
       })
       .then(function () {
         invia.disabled = false;

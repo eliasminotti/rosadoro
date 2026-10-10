@@ -56,8 +56,22 @@
 <section class="hero hero-avorio"><div class="riga"></div><div class="bordo"></div><div class="pagina"><p class="occhiello">La Fondazione</p><h1>Contatti</h1><hr class="filo"><p class="sotto">Per una domanda, una proposta o un primo colloquio.</p></div></section>
 <main class="corpo"><div class="pagina"><article class="testo">
 <p>Il modo più semplice per raggiungerci è scriverci qui sotto, oppure all’indirizzo della segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Leggiamo ogni messaggio e ti rispondiamo di persona.</p>
-<p><a class="vai" href="mailto:segreteria@larosadoro.org">Scrivici</a></p>
+<form class="modulo" id="modulo-contatti" action="https://forminit.com/f/0luhmnjylmz" method="post" data-indirizzo="segreteria@larosadoro.org">
+<div class="campi">
+<label for="mc-nome">Il tuo nome</label>
+<input id="mc-nome" name="fi-text-nome" type="text" autocomplete="name" required>
+<label for="mc-posta">La tua email</label>
+<input id="mc-posta" name="fi-sender-email" type="email" autocomplete="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required>
+<label for="mc-oggetto">Oggetto <span>facoltativo</span></label>
+<input id="mc-oggetto" name="fi-text-oggetto" type="text" placeholder="Una parola basta: lascito, progetto, donazione…">
+<label for="mc-messaggio">Il messaggio</label>
+<textarea id="mc-messaggio" name="fi-text-messaggio" rows="7" required></textarea>
+<input type="hidden" name="_gotcha" value="">
 <p class="nota">Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’<a class="link" href="../privacy/index.html">informativa sulla privacy</a>.</p>
+<button type="submit" class="invia">Scrivici</button>
+</div>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>
 
 <h3>Per che cosa puoi scriverci</h3>
 <ul class="stelle">
@@ -95,6 +109,6 @@ Codice fiscale 14629350969</p>
   </div>
 </footer>
 <nav class="barra-fissa" aria-label="Azioni principali"><a href="../chi-siamo/index.html" aria-label="Chi siamo">Chi siamo</a><a href="../news/index.html" aria-label="News">News</a><a class="dona" href="../dona/index.html" aria-label="Dona ora">Dona ora</a><a href="../cinque-per-mille/index.html" aria-label="5 per mille">5 per mille</a><a href="../lavora-con-noi/index.html" aria-label="Lavora con noi">Lavora con noi</a></nav>
-<script src="../js/sito.js?v=14274e2f"></script>
+<script src="../js/sito.js?v=b6a5f92a"></script>
 </body>
 </html>

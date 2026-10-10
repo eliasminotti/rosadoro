@@ -25,7 +25,7 @@ TESTATA_CENTRATA = True                   # prova del 15.9 (Dacia, ok Elias): lo
 LINK_PULITI = False                       # False: i collegamenti finiscono in «index.html», così il sito
                                           #        funziona anche aperto da una cartella sul computer.
                                           # True:  collegamenti puliti «/lasciti/», da attivare alla pubblicazione.
-FORMINIT = ""                             # il codice del modulo dei Contatti su Forminit (Form ID, dal pannello di Forminit).
+FORMINIT = "0luhmnjylmz"                  # il codice del modulo dei Contatti su Forminit (Form ID, dal pannello di Forminit).
                                           # Vuoto: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
 USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 
@@ -375,6 +375,7 @@ def gettoni(html, da):
 def modulo_contatti(da):
     """il modulo della pagina Contatti: il messaggio passa da Forminit, che lo recapita alla segreteria.
     Con JavaScript la risposta compare nella pagina (sito.js); senza, il modulo parte lo stesso.
+    Il nome va in un campo di testo libero: il campo «nome» di Forminit rifiuta parentesi, numeri e virgole.
     Il campo nascosto «_gotcha» è la trappola per i programmi che riempiono tutto da soli."""
     privacy = ('<p class="nota">Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’'
                '<a class="link" href="%s">informativa sulla privacy</a>.</p>' % verso(da, "privacy"))
@@ -383,9 +384,9 @@ def modulo_contatti(da):
     return """<form class="modulo" id="modulo-contatti" action="https://forminit.com/f/%s" method="post" data-indirizzo="%s">
 <div class="campi">
 <label for="mc-nome">Il tuo nome</label>
-<input id="mc-nome" name="fi-sender-fullName" type="text" autocomplete="name" required>
+<input id="mc-nome" name="fi-text-nome" type="text" autocomplete="name" required>
 <label for="mc-posta">La tua email</label>
-<input id="mc-posta" name="fi-sender-email" type="email" autocomplete="email" required>
+<input id="mc-posta" name="fi-sender-email" type="email" autocomplete="email" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required>
 <label for="mc-oggetto">Oggetto <span>facoltativo</span></label>
 <input id="mc-oggetto" name="fi-text-oggetto" type="text" placeholder="Una parola basta: lascito, progetto, donazione…">
 <label for="mc-messaggio">Il messaggio</label>
