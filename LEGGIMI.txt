@@ -9,6 +9,7 @@ Che cosa c'è
     font/            i caratteri ospitati nel sito (Cormorant Garamond, Instrument Sans), licenza OFL
     img/             le tavole incise, le quattro azioni dei funerali, la favicon
     audio/           il valzer op. 69 n. 1 di Chopin per il fondo di memoria (Luke Faulkner, Musopen, pubblico dominio)
+    allegati/        i documenti da scaricare: lo statuto con la carta intestata della Fondazione
   costruisci.py      l'assemblatore: la mappa del sito, genera tutte le pagine
   testi_pagine.py    i testi redazionati (la sezione «In memoria» è quella di Dacia)
   LEGGIMI.txt        questo file

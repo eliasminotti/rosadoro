@@ -697,6 +697,61 @@ TESTI["professionisti"] = dict(
 """)
 
 
+# ------------------------------------------------------------ Documenti e Contatti (9.10, bozze di Claude approvate da Elias)
+TESTI["documenti"] = dict(
+    sotto="Le regole che la Fondazione si è data, e i dati per riconoscerla.",
+    corpo="""
+<p>La Fondazione La Rosa d’Oro è un Ente del Terzo Settore. Le sue regole sono scritte nello statuto: qui lo trovi per intero, insieme ai dati con cui la Fondazione è iscritta nei registri pubblici.</p>
+
+<h3>Lo statuto</h3>
+<p>Lo statuto dice per che cosa la Fondazione è costituita e come funziona: gli scopi, gli organi, il modo in cui custodisce e impiega i beni che riceve. Descrive tutto ciò che la Fondazione può fare; quello che sta facendo oggi lo racconta il resto del sito.</p>
+<p><a class="vai" href="{file:statuto-fondazione-la-rosa-doro.pdf}">Scarica lo statuto (PDF)</a></p>
+
+<h3>L’atto costitutivo</h3>
+<p>La Fondazione è stata costituita il 26 febbraio 2026, con atto del notaio F. Franco (repertorio 8190, raccolta 4764). Il testo dello statuto fa parte dell’atto. Se ti serve una copia dell’atto completo, chiedila alla segreteria: <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
+
+<h3>L’iscrizione al Registro unico del Terzo settore</h3>
+<p>La Fondazione è iscritta al RUNTS, il Registro unico nazionale del Terzo settore, nella sezione g («altri enti del Terzo settore»), con il numero di repertorio 170120. Il registro è pubblico: chiunque può consultarlo sul sito del Ministero del Lavoro, nella <a class="link" href="https://servizi.lavoro.gov.it/runts/it-it/Ricerca-enti" rel="noopener">ricerca degli enti iscritti</a>, cercando la Fondazione con il suo codice fiscale, 14629350969.</p>
+
+<h3>Le informative</h3>
+<ul class="stelle">
+<li><a class="link" href="{→privacy}">Informativa sulla privacy</a></li>
+<li><a class="link" href="{→cookie}">Informativa sui cookie</a></li>
+</ul>
+
+<h3>Il bilancio</h3>
+<p>Il primo esercizio della Fondazione si chiude il 31 dicembre 2026. Quando il bilancio sarà approvato, lo troverai qui, insieme al rendiconto di come sono stati impiegati i fondi ricevuti.</p>
+""")
+
+TESTI["contatti"] = dict(
+    sotto="Per una domanda, una proposta o un primo colloquio.",
+    corpo="""
+<p>Il modo più semplice per raggiungerci è scrivere alla segreteria della Fondazione, all’indirizzo <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Leggiamo ogni messaggio e ti rispondiamo di persona.</p>
+<p><a class="vai" href="mailto:segreteria@larosadoro.org">Scrivici</a></p>
+
+<h3>Per che cosa puoi scriverci</h3>
+<ul class="stelle">
+<li>per te o per una persona cara: un lutto, un fondo di memoria, un ricordo nel Giardino, un funerale che diventa un’opera di bene, una casa da svuotare, una presenza accanto a chi si avvicina alla soglia;</li>
+<li>per il futuro: un lascito o un testamento, anche solo per capire da dove cominciare, le disposizioni anticipate di trattamento, il «Dopo di noi» per un familiare fragile;</li>
+<li>per sostenere la Fondazione: una donazione, una ricevuta, il 5 per mille;</li>
+<li>per collaborare: da professionista, da azienda, da istituzione o da ente non profit, oppure per lavorare o fare volontariato con noi;</li>
+<li>per proporre alla Fondazione un progetto.</li>
+</ul>
+<p>Nell’oggetto basta una parola, per esempio «lascito» o «progetto»: ci aiuta a far arrivare il messaggio alla persona giusta.</p>
+
+<h3>Se preferisci parlarne a voce</h3>
+<p>Scrivi nel messaggio un numero di telefono e l’orario in cui chiamarti: ti richiamiamo noi.</p>
+<p>Dopo una prima telefonata, se serve, ci incontriamo di persona: a Milano oppure dove sei tu, in Italia, in Svizzera, in Europa e, volendo, anche più lontano.</p>
+
+<h3>La sede legale</h3>
+<p>Fondazione La Rosa d’Oro ETS<br>
+Via Bianca di Savoia 17, 20122 Milano<br>
+Codice fiscale 14629350969</p>
+<p>È la sede legale della Fondazione, non un ufficio aperto al pubblico: per incontrarci, scrivici.</p>
+<p>Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’<a class="link" href="{→privacy}">informativa sulla privacy</a>.</p>
+""")
+
+
 # ------------------------------------------------------------ le descrizioni per i motori di ricerca (17.9, bozza di Claude; Dacia rilegge)
 # una frase per pagina, al massimo 155 caratteri: è la riga che Google mostra sotto il titolo
 DESCRIZIONI = {
@@ -727,8 +782,8 @@ DESCRIZIONI = {
     "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counsellor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
     "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
     "dona": "Sostieni la Fondazione La Rosa d'Oro con carta, bonifico o PayPal: ogni donazione va a un progetto preciso ed è fiscalmente detraibile o deducibile.",
-    "documenti": "Lo statuto, l'atto costitutivo e i documenti pubblici della Fondazione La Rosa d'Oro ETS.",
-    "contatti": "Scrivi alla Fondazione La Rosa d'Oro: sede a Milano, via Bianca di Savoia 17. Rispondiamo di persona.",
+    "documenti": "Lo statuto della Fondazione La Rosa d’Oro ETS, i dati della costituzione e dell’iscrizione al Registro unico del Terzo settore, le informative.",
+    "contatti": "Scrivi alla Fondazione La Rosa d’Oro: ti rispondiamo di persona e, se serve, ci incontriamo a Milano o dove sei tu.",
     "partnership": "Le realtà con cui la Fondazione La Rosa d'Oro collabora, e i siti amici.",
     "privacy": "Come la Fondazione La Rosa d'Oro tratta i tuoi dati: moduli, dediche, donazioni, ricevute, diritti. In parole semplici.",
     "cookie": "Questo sito non usa cookie di profilazione né strumenti di tracciamento. Ecco che cosa significa.",
