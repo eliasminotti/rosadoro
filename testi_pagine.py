@@ -838,6 +838,79 @@ TESTI["professionisti/riqualificazione-etica"] = dict(
 for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-etica"):
     TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
 
+# ------------------------------------------------------------ Per professionisti: le altre cinque schede (bozze di Claude del 10.10, da rileggere con Elias)
+# Stesso modello delle due schede qui sopra: parlano alla persona, dicono meccanismo e garanzie, nessuna promessa fiscale.
+# Riscontrate sul codice civile (artt. 700-712; massime sul vitalizio assistenziale all’art. 1872) e sulla L. 112/2016, art. 6.
+# Dopo di Noi e fondo della memoria affiancano le pagine gemelle di Dacia senza riscriverle: il rimando lo aggiunge costruisci.py.
+TESTI["professionisti/esecutore-testamentario"] = dict(
+    sotto="Le volontà, rispettate e garantite.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accompagna chi vuole che le proprie ultime volontà siano rispettate, anche quando non potrà più seguirle di persona.</p>
+<p>Lo statuto (art. 14, comma 2) le permette di accettare l’incarico di esecutore testamentario: chi il testatore sceglie, nel testamento, perché le sue disposizioni siano eseguite esattamente (artt. 700 e seguenti del codice civile). La legge permette di nominare anche chi riceve qualcosa dal testamento, quindi anche la Fondazione quando le lasci una parte dei tuoi beni (art. 701).</p>
+<p>Che cosa fa l’esecutore, secondo la legge:</p>
+<ul class="stelle">
+<li>cura che le tue disposizioni siano eseguite e, se non decidi diversamente, amministra i beni dell’eredità come un buon padre di famiglia, per un anno al massimo, che il giudice può prolungare di un altro anno solo se è davvero necessario; per vendere un bene chiede l’autorizzazione al giudice, che sente prima gli eredi (art. 703);</li>
+<li>fa redigere l’inventario quando la legge lo richiede, per esempio se tra gli eredi ci sono dei minori (art. 705);</li>
+<li>se non riceve nulla dal testamento, puoi affidargli anche la divisione dei beni tra gli eredi, che prima deve ascoltare (art. 706).</li>
+</ul>
+<p>Le garanzie sono quelle della legge. L’esecutore rende il conto della sua gestione alla fine, e già dopo un anno dalla morte se la gestione continua; risponde dei danni causati per sua colpa; il testatore non può esonerarlo da questi obblighi (art. 709). Chiunque vi abbia interesse può chiedere al giudice di sostituirlo, per gravi irregolarità o se viene meno la fiducia (art. 710). La Fondazione aggiunge ciò che una persona sola non può dare: non dipende dalla salute o dalla disponibilità di qualcuno, e sta fuori dalle relazioni della famiglia.</p>
+<p>Il testamento può affidarle anche un compito più lungo e più circoscritto, che lo statuto chiama custode di scopo: vegliare che un bene lasciato per uno scopo, per esempio una casa che deve diventare un luogo di accoglienza, sia usato come hai voluto. Che cosa può fare il custode, e per quanto tempo, lo scrivi nel testamento con il tuo notaio.</p>
+<p>Per legge l’incarico è gratuito, ma nel testamento puoi prevedere un compenso a carico dell’eredità (art. 711); le spese dell’esecutore sono a carico dell’eredità (art. 712). L’esecutore non sostituisce il notaio, l’avvocato o il commercialista degli eredi: lavora con loro.</p>
+<p>La Fondazione accetta l’incarico dopo l’apertura della successione, con una dichiarazione nella cancelleria del tribunale (art. 702), e può anche rinunciarvi. Per questo è meglio parlarne prima, mentre scrivi il testamento: così sappiamo che cosa ti aspetti e possiamo dirti se siamo in grado di farlo bene. Se ci stai pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il tuo notaio.</p>
+""")
+
+TESTI["professionisti/vitalizio-filantropico"] = dict(
+    sotto="Un bene per la cura.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accompagna le persone anche nell’ultima parte della vita, quando la cura conta più di ogni altra cosa.</p>
+<p>Lo statuto (art. 14, comma 3) le permette di stipulare un vitalizio filantropico. Cedi alla Fondazione un bene, per esempio la casa in cui vivi, in nuda proprietà o in piena proprietà. Tu continui ad abitarla, con il diritto di abitazione o con l’usufrutto, per tutta la vita; e la Fondazione si impegna a garantirti, per tutta la vita, i beni e i servizi che concordate per il tuo benessere: l’assistenza, le cure, l’aiuto di ogni giorno. Quando non ci sarai più, il bene diventa per intero della Fondazione, per i suoi progetti.</p>
+<p>Non è una donazione né una vendita. È un contratto con impegni da tutte e due le parti e un’incognita che entrambe accettano: la durata della vita. Se vivrai più a lungo del previsto, la Fondazione continuerà a darti tutto ciò che ha promesso. Se vivrai meno, il valore che resta sosterrà i progetti della Fondazione: lo sai e lo vuoi fin dall’inizio.</p>
+<p>Per questo il contratto deve essere equilibrato al momento della firma. I giudici lo considerano nullo se in quel momento la fine della vita era già prevedibile, per l’età o per una malattia, o se il valore del bene e quello delle prestazioni rendono certo, fin dall’inizio, chi ci guadagnerà.</p>
+<p>Le garanzie sono scritte nel contratto, che si firma dal notaio: che cosa ricevi, in che modo, chi te lo dà. Le cure e i servizi li danno professionisti e strutture autorizzati, con cui la Fondazione si accorda, come prevede lo statuto. Se la Fondazione non mantenesse i suoi impegni, potresti chiedere al giudice di sciogliere il contratto.</p>
+<p>Ne parli con il notaio anche per la tua famiglia. Se hai figli o un coniuge, un contratto molto sbilanciato potrebbe essere trattato come una donazione e toccare la loro quota di legittima. Anche le imposte dipendono dal bene e dal contratto: te le calcola il notaio prima della firma, e non possiamo prometterti agevolazioni.</p>
+<p>Ogni vitalizio è diverso, come ogni persona. Se ci stai pensando, per te o per un tuo familiare, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il tuo notaio.</p>
+""")
+
+TESTI["professionisti/dopo-di-noi"] = dict(
+    sotto="Trust e protezione dei fragili.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Sta accanto alle famiglie che hanno una persona cara con una disabilità grave e si chiedono chi se ne prenderà cura quando loro non potranno più farlo.</p>
+<p>La legge 112/2016, detta del «Dopo di Noi», permette alla famiglia di destinare dei beni al futuro di questa persona, quando la sua disabilità grave è accertata secondo la legge 104/1992: con un trust, con un vincolo di destinazione (art. 2645-ter del codice civile) o con un contratto di affidamento fiduciario. Lo statuto (art. 14, comma 4) permette alla Fondazione di avere in questi strumenti un ruolo di garanzia, in due modi:</p>
+<ul class="stelle">
+<li><strong>come trustee, o gestore</strong>: amministra i beni che la famiglia le affida, tenuti separati dal patrimonio della Fondazione, e li spende soltanto per il progetto di vita della persona: le cure, la casa, l’inclusione, il benessere di ogni giorno;</li>
+<li><strong>come guardiano</strong>: se la famiglia sceglie un altro gestore, la Fondazione controlla che rispetti le volontà dei genitori e che la persona viva come deve, e interviene, anche davanti al giudice, se non accade.</li>
+</ul>
+<p>Perché valgano le agevolazioni della legge (art. 6), l’atto deve rispettare condizioni precise, che sono anche garanzie per la persona. Si fa dal notaio, come atto pubblico. Dice con chiarezza chi fa che cosa, quali sono i bisogni della persona e le attività per lei, comprese quelle che riducono il rischio che finisca in un istituto. Indica come il gestore rende conto e nomina chi lo controlla. La persona con disabilità è l’unica beneficiaria, e i beni servono soltanto a lei. L’atto dura quanto la sua vita e stabilisce dove andrà ciò che resta. Se le agevolazioni valgano per il tuo caso lo verifica il notaio: non possiamo promettertelo.</p>
+<p>Ciò che resta va a chi la famiglia indica nell’atto. Se sceglie la Fondazione, lo statuto le chiede di destinarlo prima di tutto a progetti per persone nella stessa condizione, perché la memoria della persona e della sua famiglia continui in un aiuto ad altri.</p>
+<p>L’atto lo scrive il notaio con la famiglia. La Fondazione non sostituisce i servizi sociali e sanitari, né l’amministratore di sostegno: lavora con loro, e con una persona di fiducia che la famiglia può indicare perché ne conosce la storia. Se ci stai pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il tuo notaio.</p>
+""")
+
+TESTI["professionisti/fondi-di-scopo"] = dict(
+    sotto="Il nome e lo scopo di chi dona.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accoglie anche chi vuole donare con un nome e uno scopo suoi, senza dover costituire una fondazione propria.</p>
+<p>Lo statuto (art. 8) le permette di aprire al proprio interno dei fondi di scopo. Ogni fondo ha il nome che sceglie chi dona, per esempio «Fondo Famiglia Rossi» o «Fondo per i giovani artisti», purché non contrario all’ordine pubblico o all’immagine della Fondazione; e ha uno scopo preciso, tra le attività di interesse generale previste dallo statuto (art. 3). Può aprirlo una persona, una famiglia, un’azienda, uno studio professionale, un altro ente, anche straniero. Lo istituisce il consiglio di amministrazione, sulla volontà di chi dona.</p>
+<p>Il fondo non è un ente a sé: fa parte del patrimonio della Fondazione, con una contabilità separata. Ciò che riceve serve soltanto al suo scopo. La Fondazione ne rende conto a parte nel proprio bilancio, e ti mostra il rendiconto quando lo chiedi.</p>
+<p>Le regole del fondo possono stare in un regolamento, scritto sulla tua volontà e approvato dal consiglio di amministrazione: il nome, ciò che lo compone all’inizio e in seguito, lo scopo, la durata, fissa o senza scadenza. Il regolamento può prevedere anche un comitato del fondo, di cui puoi far parte tu o chi indichi, che consiglia la Fondazione sui progetti da sostenere. Se preferisci, puoi lasciare la gestione interamente alla Fondazione: lo scopo resta quello che hai scelto, e lei lo persegue con il minimo di adempimenti.</p>
+<p>Due cose da sapere prima. La Fondazione può trattenere una parte delle risorse del fondo per i costi di gestione, nella misura scritta nel regolamento o decisa dal consiglio di amministrazione. E quando il fondo si chiude, perché lo scopo è raggiunto, le risorse sono finite o la durata è scaduta, ciò che resta va alle attività generali della Fondazione, salvo che il regolamento disponga altrimenti.</p>
+<p>Un fondo si può aprire con una donazione in vita o con un lascito nel testamento. Una donazione a un fondo di scopo è una donazione alla Fondazione, con le stesse regole fiscali: le trovi in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Se pensi a un fondo con il tuo nome, o con quello della tua famiglia o del tuo studio, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona.</p>
+""")
+
+TESTI["professionisti/fondo-della-memoria"] = dict(
+    sotto="Ciò che continua a vivere di un’eredità.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Aiuta chi ha ricevuto un’eredità a trasformarne una parte in qualcosa che continua a fare del bene, in memoria di chi l’ha lasciata.</p>
+<p>Lo statuto (art. 12) prevede per gli eredi e i legatari il fondo della memoria e i fondi di eredità solidale: due strade, secondo l’entità di ciò che doni e la tua volontà.</p>
+<ul class="stelle">
+<li><strong>Il Fondo della Memoria</strong> è un fondo unico, che sostiene tutte le attività della Fondazione senza una destinazione precisa. Accoglie le donazioni piccole e medie che vengono da un’eredità o da un legato, i risparmi trovati in casa che non bastano per un fondo con un nome, i resti di conti dormienti o le piccole somme che gli eredi non si sono divisi. Lo statuto prevede un Libro della Memoria, in cui la Fondazione ricorda le persone di questo fondo.</li>
+<li><strong>Un fondo di eredità solidale con un nome</strong>, per esempio «Fondo in ricordo di…», si può aprire per le donazioni più importanti, sopra una soglia che il consiglio di amministrazione stabilisce e aggiorna. Ha un’identità sua, sostiene i progetti o gli ambiti che gli eredi scelgono insieme alla Fondazione, e il nome della persona ricordata compare nelle comunicazioni e nei rendiconti dei progetti che finanzia.</li>
+</ul>
+<p>Si può donare quasi tutto ciò che si trova in un’eredità: la liquidità, gli immobili, le opere d’arte, i gioielli e gli altri beni di valore, i titoli e le quote di società, un’azienda intera o un suo ramo, anche le cripto-attività, che vengono convertite subito in euro. Nei fondi entrano anche le somme di una polizza vita o di un fondo pensione che indicano la Fondazione come beneficiaria. Per gli immobili, le aziende e i beni di valore serve un atto del notaio.</p>
+<p>Salvo che tu chieda altro, i beni si intendono donati perché la Fondazione li venda al miglior valore possibile e destini il ricavato al fondo: così diventano subito utili. La Fondazione può anche tenerli, se servono alle sue attività. Se nell’eredità c’è un’azienda e lo chiedi, la Fondazione può valutare di tenerla, gestendola con una propria società, una S.r.l. o un’impresa sociale, che tiene il rischio d’impresa separato dal suo patrimonio. In questo caso si impegna a conservare l’azienda e le persone che ci lavorano, e a farla crescere secondo i valori che le indichi.</p>
+<p>Le regole sul denaro sono rigorose. La Fondazione non riceve contanti: gli eredi versano prima il contante in banca o alla posta, e lo donano con un bonifico o un altro mezzo tracciabile, da cui risulti che viene dall’eredità. Tutto si svolge nel rispetto delle leggi contro il riciclaggio e sull’uso del contante.</p>
+<p>Per chi dona valgono le regole fiscali delle donazioni alla Fondazione, che trovi in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Se hai ricevuto un’eredità e vuoi che una parte continui a vivere in un progetto, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il notaio o il commercialista che segue la successione.</p>
+""")
+
 # ------------------------------------------------------------ le descrizioni per i motori di ricerca (17.9, bozza di Claude; Dacia rilegge)
 # una frase per pagina, al massimo 155 caratteri: è la riga che Google mostra sotto il titolo
 DESCRIZIONI = {

@@ -404,7 +404,7 @@ def corpo_pagina(da, p):
     gemella = ""
     if p.get("gemella"):
         g = PAGINE[p["gemella"]]
-        gemella = '<p>È lo stesso strumento visto dal lato del professionista: la pagina per le persone è <a class="link" href="%s">%s</a>.</p>' % (verso(da, g["cartella"]), sfuggi(g["titolo"]))
+        gemella = '<p>Lo stesso strumento è raccontato anche nella pagina <a class="link" href="%s">%s</a>.</p>' % (verso(da, g["cartella"]), sfuggi(g["titolo"]))
     tavola = tavola_img(da, p["tavola"], TAVOLE_ALT[p["tavola"]], "tavola stretta") if p.get("tavola") else ""
     if da in TESTI and TESTI[da].get("corpo"):
         contenuto = gettoni(TESTI[da]["corpo"], da)
