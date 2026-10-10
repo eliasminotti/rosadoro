@@ -404,6 +404,7 @@ p:last-child{margin-bottom:0}
 /* ---------- testi impaginati: citazioni, box, elenchi ---------- */
 .citazione{font-family:var(--display);font-style:italic;font-weight:400;font-size:26px;line-height:1.4;color:var(--accento);max-width:40ch;margin:2em 0}
 .citazione.unica{max-width:none}          /* le frasi che Dacia vuole su una linea sola */
+.citazione.apre{margin-bottom:.5em}       /* la frase in oro che apre il paragrafo sotto */
 .testo>.citazione:first-child{margin-top:0}
 .testo ul{margin:0 0 1.2em;padding-left:1.15em}
 .testo ul li{margin:.45em 0}
