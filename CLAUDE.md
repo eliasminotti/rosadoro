@@ -16,6 +16,9 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
 - Dopo ogni modifica: `python3 costruisci.py`. Controlla anche il JavaScript
   con `node --check`; se segnala un errore, non si pubblica.
 - La costruzione aggiorna da sola le date in `sito/sitemap.xml`.
+- Il modulo della pagina Contatti passa da Forminit (account della segreteria):
+  `FORMINIT` in `costruisci.py` è il codice del modulo; se è vuoto, al posto
+  del modulo resta il pulsante «Scrivici» che apre la posta.
 
 ## Regole che non si discutono
 
