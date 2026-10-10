@@ -873,3 +873,29 @@ DESCRIZIONI = {
     "privacy": "Come la Fondazione La Rosa d'Oro tratta i tuoi dati: moduli, dediche, donazioni, ricevute, diritti. In parole semplici.",
     "cookie": "Questo sito non usa cookie di profilazione né strumenti di tracciamento. Ecco che cosa significa.",
 }
+
+# ------------------------------------------------------------ i titoli delle schede (10.10, bozza di Claude; Elias rilegge)
+# il titolo che compare nella scheda del browser e come riga blu nei risultati di Google.
+# Il titolo della pagina resta quello di Dacia: qui si mettono davanti le parole che le persone cercano.
+# Dopo il titolo l'assemblatore aggiunge « — Fondazione La Rosa d’Oro». Le pagine non elencate usano il loro titolo.
+TITOLI = {
+    "": "Fondazione La Rosa d’Oro ETS, Milano",
+    "in-memoria": "Donare in memoria di una persona cara",
+    "in-memoria/fondo-di-memoria": "Donazione in memoria: il fondo di memoria",
+    "in-memoria/giardino-dei-ricordi": "Il giardino dei ricordi: una dedica in memoria",
+    "in-memoria/funerali": "Funerali: non fiori ma opere di bene",
+    "in-memoria/svuota-e-sorridi": "Svuotare la casa di chi non c’è più",
+    "in-memoria/io-sono-qui-per-te": "Accompagnamento nel fine vita: Io sono qui per te",
+    "lasciti": "Lasciti testamentari",
+    "lasciti/il-lascito-testamentario": "Il lascito testamentario: così volli che fosse",
+    "lasciti/perche-donare": "Perché donare alla Rosa d’Oro, e i vantaggi fiscali",
+    "lasciti/il-tuo-testamento": "Come fare testamento: olografo, pubblico o segreto",
+    "lasciti/la-liberta-del-come": "Le DAT, il testamento biologico: guida e fac-simile",
+    "lasciti/dopo-di-noi": "Il Dopo di Noi, legge 112/2016",
+    "aziende-e-istituzioni/aziende": "Per le aziende: filantropia d’impresa e bene comune",
+    "aziende-e-istituzioni/istituzioni": "Per le istituzioni: il partenariato pubblico-privato",
+    "professionisti": "Per notai, avvocati e commercialisti: gli studi partner",
+    "professionisti/esecutore-testamentario": "Esecutore testamentario e custode",
+    "cinque-per-mille": "Il 5 per mille: codice fiscale 14629350969",
+    "documenti": "Lo statuto e i documenti",
+}

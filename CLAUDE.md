@@ -15,7 +15,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   tocca a mano, si cambia `costruisci.py` o `testi_pagine.py` e si ricostruisce.
 - Dopo ogni modifica: `python3 costruisci.py`. Controlla anche il JavaScript
   con `node --check`; se segnala un errore, non si pubblica.
-- La costruzione aggiorna da sola le date in `sito/sitemap.xml`.
+- La costruzione aggiorna da sola le date in `sito/sitemap.xml`. Le pagine che
+  mostrano ancora un segnaposto restano fuori dalla mappa e chiedono ai motori
+  di non indicizzarle; la costruzione le elenca alla fine.
+- Il titolo della scheda (e di Google) viene da `TITOLI` in `testi_pagine.py`
+  quando la pagina ha un titolo evocativo; altrimenti è il titolo della pagina.
 
 ## Regole che non si discutono
 
