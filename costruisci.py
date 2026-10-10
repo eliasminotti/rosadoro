@@ -548,6 +548,8 @@ def corpo_home(da, p):
 # la pagina intera
 # --------------------------------------------------------------------------
 IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno indicizzare e restano fuori dalla mappa
+# le pagine che non si offrono mai ai motori di ricerca: il giardino, come promette l'informativa sulla privacy
+NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi",)
 
 def pagina_html(da, p, extra_head=""):
     # il titolo della scheda è anche il titolo che Google mostra: per le pagine dal titolo evocativo
@@ -594,7 +596,7 @@ def pagina_html(da, p, extra_head=""):
         IN_ATTESA.append(da)
     if ANTEPRIMA:
         robots = '<meta name="robots" content="noindex, nofollow">\n'
-    elif attesa:
+    elif attesa or da in NON_INDICIZZARE:
         robots = '<meta name="robots" content="noindex, follow">\n'
     else:
         robots = ""
@@ -699,7 +701,7 @@ def costruisci():
     # la mappa del sito per i motori di ricerca: solo le pagine che hanno già il loro testo
     oggi = datetime.date.today().isoformat()
     voci = ["<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (DOMINIO + ("/" if not k else "/" + k + "/"), oggi)
-            for k in PAGINE if k not in IN_ATTESA]
+            for k in PAGINE if k not in IN_ATTESA and k not in NON_INDICIZZARE]
     with open(os.path.join(USCITA, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s\n</urlset>\n' % "\n".join(voci))
     if IN_ATTESA:
