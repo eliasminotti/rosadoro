@@ -388,7 +388,7 @@ def modulo_contatti(da):
 <label for="mc-posta">La tua email</label>
 <input id="mc-posta" name="fi-sender-email" type="email" autocomplete="email" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required>
 <label for="mc-oggetto">Oggetto <span>facoltativo</span></label>
-<input id="mc-oggetto" name="fi-text-oggetto" type="text" placeholder="Una parola basta: lascito, progetto, donazione…">
+<input id="mc-oggetto" name="fi-text-oggetto" type="text" placeholder="Per esempio: lascito, progetto">
 <label for="mc-messaggio">Il messaggio</label>
 <textarea id="mc-messaggio" name="fi-text-messaggio" rows="7" required></textarea>
 <input type="hidden" name="_gotcha" value="">
