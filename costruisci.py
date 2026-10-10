@@ -116,7 +116,7 @@ SEZIONI = [
              # a prestare, senza «deposito», «risparmio», «rimborso a richiesta» e senza promettere vantaggi fiscali
              dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="Un sostegno che può diventare dono", art="Statuto, art. 9"),
              dict(slug="riqualificazione-etica", voce="Fondi di riqualificazione etica", titolo="Fondi di riqualificazione etica", riga="Restituire alla collettività", art="Statuto, art. 11"),
-             # quando si scrive il testo di questa scheda, lo legge il notaio prima della pubblicazione (l'avviso non compare più nella pagina: Elias, 9.10)
+             # la scheda della riqualificazione etica è online dal 10.10 col sì di Elias; il notaio lo rilegge dopo, se serve (l'avviso non compare nella pagina: Elias, 9.10)
              dict(slug="fondo-della-memoria", voce="Fondo della memoria", titolo="Fondo della memoria ed eredità solidale", riga="Ciò che continua a vivere di un’eredità", art="Statuto, art. 12",
                   gemella="in-memoria/fondo-di-memoria"),
          ]),
