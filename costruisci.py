@@ -230,7 +230,6 @@ def apostrofi(html):
     pezzi = re.split(r"(<script\b.*?</script>|<style\b.*?</style>)", html, flags=re.S)
     return "".join(x if x.startswith(("<script", "<style")) else re.sub(r"(?<=\w)'(?=(?:<[^>]+>)*\w)", "’", x) for x in pezzi)
 
-
 # --------------------------------------------------------------------------
 # le parti comuni
 # --------------------------------------------------------------------------
@@ -575,6 +574,18 @@ def tavola_porta(da, s):
     classe = "tavola-porta intera" if s["casa"] in TAVOLE_ALTE else "tavola-porta"
     return '<figure class="%s"><img src="%s" alt="%s" loading="lazy"></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % s["casa"]), TAVOLE_ALT[s["casa"]])
 
+# le due introduzioni della home (bozza di Claude dell’11.10, dopo aver riletto il sito con «Fondi e strumenti» e il Family Office):
+# cosa siamo e che cosa facciamo adesso, poi che cosa la Fondazione è costituita per fare
+HOME_CHI_SIAMO = ("La Rosa d’Oro è nata per stare accanto alla vita in tutto il suo arco: la terra che ci nutre, le persone fragili che hanno "
+                  "bisogno di cura, chi si avvicina alla fine e chi resta. Non lo fa da sola: cerca medici, agricoltori, operatori del sociale "
+                  "e professionisti con cui lavorare, e persone che scelgano di affidarle una parte di ciò che hanno, in vita o con un lascito, "
+                  "perché continui a fare del bene.")
+HOME_COSA_OFFRIAMO = ("La Fondazione è costituita per due compiti che vanno insieme. Il primo è verso le persone: l’accompagnamento nel fine vita, "
+                      "il sostegno a chi è fragile, l’agricoltura sociale, l’ospitalità e l’orientamento, da realizzare con i partner del territorio. "
+                      "Il secondo è verso chi vuole che una parte di ciò che ha continui a fare del bene: un lascito, un fondo con il proprio nome, "
+                      "il vitalizio, il Dopo di Noi, un piano per tutta la famiglia, da costruire con i suoi professionisti di fiducia "
+                      "o con gli studi partner della Fondazione.")
+
 NUMERI = {5: "Cinque", 6: "Sei", 7: "Sette", 8: "Otto", 9: "Nove", 10: "Dieci"}
 
 def corpo_home(da, p):
@@ -607,7 +618,7 @@ def corpo_home(da, p):
         <p class="occhiello">Chi siamo</p>
         <h2>Una fondazione costituita nel 2026</h2>
         <p>La Fondazione La Rosa d'Oro è un Ente del Terzo Settore con sede a Milano, costituito il 26 febbraio 2026 e iscritto al Registro Unico Nazionale del Terzo Settore. Presidente Dacia Dalla Libera, vicepresidente Elias Minotti.</p>
-        <p class="segnaposto">%s</p>
+        <p>%s</p>
         <p><a class="vai" href="%s">Chi siamo</a></p>
       </div>
       <figure class="riquadro tavola-dentro"><img src="%s" alt="%s"><span class="squadra a"></span><span class="squadra b"></span></figure>
@@ -616,10 +627,10 @@ def corpo_home(da, p):
   <section class="sezione" id="cosa-offriamo">
     <div class="pagina"><div class="centrata">
       <p class="occhiello">Cosa offriamo</p>
-      <h2>Servizi alle persone, strumenti per chi le assiste</h2>
-      <p class="segnaposto">%s</p>
+      <h2>Servizi alle persone, strumenti per chi vuole fare del bene</h2>
+      <p>%s</p>
       <hr class="filo">
-      <div class="rimandi"><a class="vai" href="%s">Servizi alle persone</a><a class="vai" href="%s">Per professionisti</a></div>
+      <div class="rimandi"><a class="vai" href="%s">Servizi alle persone</a><a class="vai" href="%s">Fondi e strumenti</a><a class="vai" href="%s">Per professionisti</a></div>
     </div></div>
   </section>
   <section class="sezione" id="le-porte">
@@ -629,9 +640,9 @@ def corpo_home(da, p):
       <div class="porte">%s</div>
     </div>
   </section>
-</main>""" % (sfuggi("[Due o tre frasi si scrivono al punto 4.]"), verso(da, "chi-siamo"), risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"],
-              sfuggi("[L'introduzione si scrive al punto 4: che cosa la Fondazione è costituita per fare.]"),
-              verso(da, "servizi"), verso(da, "professionisti"), NUMERI[len(SEZIONI)], "".join(porte))
+</main>""" % (sfuggi(HOME_CHI_SIAMO), verso(da, "chi-siamo"), risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"],
+              sfuggi(HOME_COSA_OFFRIAMO),
+              verso(da, "servizi"), verso(da, "fondi-e-strumenti"), verso(da, "professionisti"), NUMERI[len(SEZIONI)], "".join(porte))
 
 # --------------------------------------------------------------------------
 # la pagina intera
