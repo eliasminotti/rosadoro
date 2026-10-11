@@ -116,11 +116,11 @@ p:last-child{margin-bottom:0}
 .lux .lux-nome{font-family:var(--display);font-size:21px;line-height:1;font-weight:600;letter-spacing:.04em;color:var(--accento);transition:color .2s}
 .lux .lux-riga{font-size:13px;line-height:20px;letter-spacing:.02em;color:var(--testo-60);transition:color .2s}
 .lux:hover .lux-nome,.lux:hover .lux-riga{color:var(--testo)}
-.testa-alta .lux{align-self:stretch;align-items:center;background:var(--nero);padding:0 16px;margin-bottom:-1px}
+.testa-alta .lux{align-self:center;align-items:center;background:var(--nero);padding:5px 16px}   /* staccato dai bordi, con l’avorio sopra e sotto (Elias, 11.10) */
 .testa-alta .lux .lux-nome{color:var(--oro)}
 .testa-alta .lux .lux-riga{color:rgba(255,255,255,.72)}
 .testa-alta .lux:hover .lux-nome,.testa-alta .lux:hover .lux-riga{color:#fff}
-.notte .testa-alta .lux{align-self:center;background:transparent;border:1px solid var(--oro);padding:5px 14px;margin-bottom:0}
+.notte .testa-alta .lux{background:transparent;border:1px solid var(--oro);padding:4px 15px}
 
 /* l'header intero è appiccicoso con il bordo superiore a -45px: la barra alta scorre via, quella bassa resta */
 .testa{position:sticky;top:calc(-1 * var(--testa-alta));z-index:50}
