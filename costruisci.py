@@ -13,7 +13,7 @@ pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
 import os, re, shutil, datetime, subprocess, hashlib
-from testi_pagine import TESTI, DESCRIZIONI
+from testi_pagine import TESTI, DESCRIZIONI, TITOLI
 import json
 
 # --------------------------------------------------------------------------
@@ -45,7 +45,7 @@ ENTE = {
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
-    "tagline": "Costituita per destinare patrimoni al lavoro della terra, alla cura delle persone e all’accompagnamento verso il fine vita.",   # Elias, 11.10; le alternative sono nel Claude Doc della Home
+    "tagline": "Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo, continui a fare del bene alla vita e nella vita: nel lavoro della terra, nella cura delle persone, nell’accompagnamento al fine vita.",   # scritta da Elias l’11.10; le alternative, per Dacia, sono nel Claude Doc della Home
 }
 
 SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei tre registri: cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.]"
@@ -695,8 +695,21 @@ def corpo_home(da, p):
 # --------------------------------------------------------------------------
 # la pagina intera
 # --------------------------------------------------------------------------
+IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno indicizzare e restano fuori dalla mappa
+# le pagine che non si offrono mai ai motori di ricerca: il giardino, come promette l'informativa sulla privacy;
+# le schede dei fondi convertibili e della riqualificazione etica, di cui si parla a tu per tu (Elias, 9.10): si leggono
+# dal sito, ma non si cercano su Google
+NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica")
+
 def pagina_html(da, p, extra_head=""):
-    scheda = ENTE["nome"] if da == "" else "%s — %s" % (p["titolo"], ENTE["nome"])
+    # il titolo della scheda è anche il titolo che Google mostra: per le pagine dal titolo evocativo
+    # porta davanti le parole che le persone cercano (TITOLI in testi_pagine.py)
+    if p["tipo"] == "404":
+        scheda = "%s — %s" % (p["titolo"], NOME_SCHEDA)
+    elif da in TITOLI:
+        scheda = TITOLI[da] if da == "" else "%s — %s" % (TITOLI[da], NOME_SCHEDA)
+    else:
+        scheda = ENTE["nome"] if da == "" else "%s — %s" % (p["titolo"], NOME_SCHEDA)
     descrizione = DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"]))
     url = DOMINIO + ("/" if da == "" else "/" + da + "/")
     if p["tipo"] == "home":
@@ -727,6 +740,19 @@ def pagina_html(da, p, extra_head=""):
     # il motto: la frase d'apertura tutta in un rigo, più grande ed evidente (Dacia, 6.9)
     classe_sotto = "sotto" + (" motto" if TESTI.get(da, {}).get("motto") else "") + (" unica" if TESTI.get(da, {}).get("unica") else "")
     classe_body = ' class="notte"' if p.get("notte") else ""
+    # una pagina ancora senza testo non si fa indicizzare: diventa visibile ai motori quando arriva il testo
+    attesa = p["tipo"] != "404" and ('class="segnaposto"' in corpo or "si scrive al punto 4" in sotto or "in costruzione" in sotto)
+    if attesa:
+        IN_ATTESA.append(da)
+    if ANTEPRIMA:
+        robots = '<meta name="robots" content="noindex, nofollow">\n'
+    elif attesa or da in NON_INDICIZZARE:
+        robots = '<meta name="robots" content="noindex, follow">\n'
+    else:
+        robots = ""
+    dati = DATI_STRUTTURATI
+    if p["tipo"] != "404" and da:
+        dati += '</script>\n<script type="application/ld+json">' + briciole(da, p)
     return """<!DOCTYPE html>
 <html lang="it">
 <head>
@@ -761,19 +787,39 @@ def pagina_html(da, p, extra_head=""):
 </body>
 </html>
 """ % (extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
-       ('<meta name="robots" content="noindex, nofollow">\n' if ANTEPRIMA else ''), DATI_STRUTTURATI,
+       robots, dati,
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
        SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
 
-# la scheda per i motori di ricerca: chi siamo, in forma leggibile dalle macchine (schema.org)
+# la scheda per i motori di ricerca: chi siamo, in forma leggibile dalle macchine (schema.org).
+# Serve anche agli assistenti di intelligenza artificiale per non confondere la Fondazione con altre «Rosa d’Oro».
 DATI_STRUTTURATI = json.dumps({
     "@context": "https://schema.org", "@type": "NGO",
-    "name": ENTE["nome"], "alternateName": ENTE["breve"], "url": DOMINIO + "/", "logo": DOMINIO + "/img/logo.jpg",
+    "name": ENTE["nome"], "legalName": ENTE["nome"], "alternateName": [ENTE["breve"], "Fondazione La Rosa d'Oro"],
+    "url": DOMINIO + "/", "logo": DOMINIO + "/img/logo.jpg",
     "email": ENTE["email"], "foundingDate": "2026-02-26", "taxID": ENTE["cf"].replace("C.F. ", ""),
     "address": {"@type": "PostalAddress", "streetAddress": "Via Bianca di Savoia 17", "postalCode": "20122", "addressLocality": "Milano", "addressCountry": "IT"},
     "identifier": {"@type": "PropertyValue", "propertyID": "RUNTS", "value": ENTE["runts"]},
     "areaServed": "IT", "description": DESCRIZIONI[""],
+    # gli argomenti di cui il sito parla davvero: devono corrispondere alle pagine pubblicate
+    "knowsAbout": ["lasciti testamentari", "donazioni in memoria", "testamento", "disposizioni anticipate di trattamento",
+                   "Dopo di Noi (legge 112/2016)", "accompagnamento nel fine vita", "elaborazione del lutto",
+                   "filantropia d'impresa", "fondi di scopo", "vitalizio filantropico", "esecutore testamentario",
+                   "Family Office filantropico"],
 }, ensure_ascii=False)
+NOME_SCHEDA = "Fondazione La Rosa d’Oro"   # la firma in coda al titolo delle schede
+
+def briciole(da, p):
+    """il percorso della pagina (Home › sezione › pagina), che Google può mostrare al posto dell'indirizzo"""
+    passi = [(ENTE["breve"], DOMINIO + "/")]
+    s = p.get("sezione")
+    if s and s != da:
+        passi.append((PAGINE[s]["titolo"], DOMINIO + "/" + s + "/"))
+    passi.append((p["titolo"], DOMINIO + "/" + da + "/"))
+    return json.dumps({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(passi)],
+    }, ensure_ascii=False)
 
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FAF6EE"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
 
@@ -789,12 +835,6 @@ def costruisci():
         f.write(FAVICON)
     with open(os.path.join(USCITA, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\n") + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
-    # la mappa del sito per i motori di ricerca
-    oggi = datetime.date.today().isoformat()
-    voci = ["<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (DOMINIO + ("/" if not k else "/" + k + "/"), oggi)
-            for k, q in PAGINE.items() if not q.get("nascosta") and not q.get("spenta")]
-    with open(os.path.join(USCITA, "sitemap.xml"), "w", encoding="utf-8") as f:
-        f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s\n</urlset>\n' % "\n".join(voci))
     # la pagina «non trovata»: GitHub Pages la serve da qualsiasi indirizzo, quindi i percorsi partono dalla radice del sito
     base = "<script>document.write('<base href=\"' + (location.hostname.slice(-9) === 'github.io' ? '/rosadoro/' : '/') + '\">')</script>"
     p404 = dict(cartella="", voce="", titolo="Pagina non trovata", occhiello="La Fondazione", hero="avorio", tipo="404", dove="", notte=False)
@@ -809,6 +849,16 @@ def costruisci():
             f.write(apostrofi(pagina_html(cartella, p)))
         conteggio += 1
     print("Scritte %d pagine in %s (%s)" % (conteggio, USCITA, datetime.date.today().isoformat()))
+    # la mappa del sito per i motori di ricerca: solo le pagine che hanno già il loro testo
+    oggi = datetime.date.today().isoformat()
+    voci = ["<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (DOMINIO + ("/" if not k else "/" + k + "/"), oggi)
+            for k, q in PAGINE.items() if not q.get("nascosta") and not q.get("spenta")
+            and k not in IN_ATTESA and k not in NON_INDICIZZARE]
+    with open(os.path.join(USCITA, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s\n</urlset>\n' % "\n".join(voci))
+    if IN_ATTESA:
+        print("Pagine ancora senza testo, fuori dalla mappa e non indicizzabili (%d): %s"
+              % (len(IN_ATTESA), ", ".join(k or "home" for k in IN_ATTESA)))
     # il JavaScript si controlla a ogni costruzione: un errore di sintassi spegne tutto il sito senza avvisare
     if shutil.which("node"):
         esito = subprocess.run(["node", "--check", os.path.join(USCITA, "js", "sito.js")], capture_output=True, text=True)
