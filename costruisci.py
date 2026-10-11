@@ -126,7 +126,10 @@ SEZIONI = [
     dict(chiave="professionisti", voce="Per professionisti", titolo="Per professionisti", hero="notte", notte=True, casa="emblema",
          intro="Cerchiamo studi partner: notai, avvocati, commercialisti e consulenti, con gli strumenti previsti dallo statuto.",
          # le schede parlano ai professionisti (Elias, 11.10); «gemella» è la pagina per i loro clienti, che la costruzione collega in fondo
+         # i fondi di scopo vengono per primi: sono una possibilità molto importante e apprezzata (Elias, 11.10)
          pagine=[
+             dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="Il nome e lo scopo di chi dona", art="Statuto, art. 8",
+                  gemella="fondi-e-strumenti/fondi-di-scopo"),
              dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="Mandato di esecutore testamentario e custode", riga="Le volontà, rispettate e garantite", art="Statuto, art. 14 · artt. 700 ss. c.c.",
                   gemella="fondi-e-strumenti/esecutore-testamentario"),
              dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="Un bene per la cura", art="Statuto, art. 14",
@@ -134,8 +137,6 @@ SEZIONI = [
              dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="Trust e protezione dei fragili", art="Statuto, art. 14 · L. 112/2016", gemella="lasciti/dopo-di-noi"),
              dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="Piani di dono su misura", art="Statuto, art. 14",
                   gemella="fondi-e-strumenti/family-office"),
-             dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="Il nome e lo scopo di chi dona", art="Statuto, art. 8",
-                  gemella="fondi-e-strumenti/fondi-di-scopo"),
              # i fondi convertibili si presentano con cautela (Elias, 9.10): se ne parla a tu per tu, senza moduli né inviti
              # a prestare, senza «deposito», «risparmio», «rimborso a richiesta» e senza promettere vantaggi fiscali
              dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="Un sostegno che può diventare dono", art="Statuto, art. 9"),
