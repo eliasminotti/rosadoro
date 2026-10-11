@@ -411,6 +411,12 @@ p:last-child{margin-bottom:0}
 .box{border:1px solid var(--filo-forte);background:var(--carta);padding:26px 30px;margin:2.2em 0;font-size:16px;max-width:60ch}
 .box p{margin:0 0 10px;max-width:none}
 .box p:last-child{margin:0}
+/* le coordinate del bonifico (pagina Dona): in evidenza come un riquadro, ma nel corpo normale del testo */
+.coordinate{border:1px solid var(--filo-forte);background:var(--carta);padding:22px 26px;margin:1.6em 0 2em;max-width:60ch}
+.coordinate p{margin:0 0 12px;max-width:none}
+.coordinate p:last-child{margin:0}
+.coordinate .iban{color:var(--testo);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.coordinate .iban span{white-space:nowrap}   /* sul telefono l’IBAN va a capo a metà, non sull’ultimo gruppo */
 
 /* l'elenco con le stelline (Perché donare alla Rosa d'Oro) */
 .testo ul.stelle{list-style:none;padding-left:1.4em}
@@ -528,4 +534,5 @@ a.azione:hover h4{color:var(--accento)}
   .logo .nome{font-size:17px}
   .apri-menu{padding:10px 12px;letter-spacing:.1em}
   .testa-bassa .pagina{gap:12px}
+  .coordinate{padding:18px}
 }
