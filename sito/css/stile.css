@@ -27,14 +27,16 @@
   --nero:#000000;
   --bianco:#FFFFFF;
 
-  /* i ruoli, sulle pagine chiare. Niente grigi: antracite a opacità decrescente */
+  /* i ruoli, sulle pagine chiare. Niente grigi: antracite a opacità decrescente.
+     I due più chiari sono stati scuriti l’11.10 (Elias): «-60» e «-45» ricordano i valori di partenza,
+     ma ora si leggono bene anche in piccolo (contrasto almeno 4,5 a 1 sull’avorio e sul bianco). */
   --fondo:var(--avorio);
   --carta:var(--bianco);
   --testo:var(--antracite);
   --testo-80:rgba(28,28,28,.8);
   --testo-70:rgba(28,28,28,.7);
-  --testo-60:rgba(28,28,28,.6);
-  --testo-45:rgba(28,28,28,.45);
+  --testo-60:rgba(28,28,28,.66);
+  --testo-45:rgba(28,28,28,.62);
   --accento:var(--oro-scuro);
   --secondario:var(--bordeaux);
   --filo:rgba(184,143,61,.15);
@@ -62,7 +64,7 @@
   --testo-80:rgba(255,255,255,.82);
   --testo-70:rgba(255,255,255,.72);
   --testo-60:rgba(255,255,255,.6);
-  --testo-45:rgba(255,255,255,.45);
+  --testo-45:rgba(255,255,255,.55);
   --accento:var(--oro);
   --secondario:#D9B86A;
   --filo:rgba(184,143,61,.22);
@@ -140,7 +142,7 @@ p:last-child{margin-bottom:0}
 .voce.pro .sottomenu{background:var(--nero);border-color:rgba(184,143,61,.55);right:0;left:auto}
 .voce.pro .sottomenu a{color:rgba(255,255,255,.82)}
 .voce.pro .sottomenu a:hover{color:#fff;background:rgba(184,143,61,.1)}
-.voce.pro .sottomenu .riga{color:rgba(255,255,255,.45)}
+.voce.pro .sottomenu .riga{color:rgba(255,255,255,.55)}
 .voce.pro .sottomenu .attuale>a{color:#fff}
 .notte .voce.pro>a{background:transparent;border:1px solid var(--oro);padding-top:9px;padding-bottom:9px}
 .notte .voce.pro>a:hover,.notte .voce.pro.attiva>a{border-color:var(--oro);color:#fff}
@@ -269,11 +271,11 @@ p:last-child{margin-bottom:0}
 .porta.nera .occhiello{color:var(--oro)}
 .porta.nera .intro{color:rgba(255,255,255,.6)}
 .porta.nera .tavola-porta{background:#0F0E0D;border-color:rgba(184,143,61,.45)}
-.porta.nera .etichetta{color:rgba(255,255,255,.45);border-bottom-color:rgba(184,143,61,.55)}
+.porta.nera .etichetta{color:rgba(255,255,255,.55);border-bottom-color:rgba(184,143,61,.55)}
 .porta.nera .sotto-voci li{border-bottom-color:rgba(184,143,61,.22)}
 .porta.nera .sotto-voci a{color:rgba(255,255,255,.72)}
 .porta.nera .sotto-voci a:hover{color:#fff}
-.porta.nera .sotto-voci .riga{color:rgba(255,255,255,.4)}
+.porta.nera .sotto-voci .riga{color:rgba(255,255,255,.55)}
 .porta.nera .vai{color:var(--oro)}
 .porta.nera .vai:hover{color:#fff}
 
@@ -337,6 +339,7 @@ p:last-child{margin-bottom:0}
 .barra-fissa .dona:hover{background:var(--nero);color:#fff}
 .notte .barra-fissa .dona{background:#fff;color:var(--nero)}
 .notte .barra-fissa .dona:hover{background:var(--oro);color:var(--nero)}
+.menu-sec-mobile .solo-telefono{display:none}   /* «Chi siamo» e «Lavora con noi» tra le voci rosse: solo sul telefono, dove escono dalla barra */
 
 /* ---------- sotto i 1024 px ---------- */
 @media (max-width:1023px){
@@ -406,8 +409,8 @@ p:last-child{margin-bottom:0}
   .pie .separatore{margin:48px 0 24px}
   .pie-dati{flex-direction:column}
 
-  /* i tre pulsanti della barra: etichetta sempre visibile, un terzo ciascuno */
-  .barra-fissa a{flex:1 1 0;min-width:0;padding:0 4px;font-size:10px;line-height:1.25;letter-spacing:.05em;text-align:center}
+  /* le voci della barra: etichetta sempre visibile, parti uguali */
+  .barra-fissa a{flex:1 1 0;min-width:0;padding:0 4px;font-size:12px;line-height:1.25;letter-spacing:.06em;text-align:center}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -549,4 +552,18 @@ a.azione:hover h4{color:var(--accento)}
   .apri-menu{padding:10px 12px;letter-spacing:.1em}
   .testa-bassa .pagina{gap:12px}
   .coordinate{padding:18px}
+}
+/* a 320 px l’apostrofo tipografico di «d’Oro», più largo, spingeva «Menu» fuori di un pixel */
+@media (max-width:360px){
+  .testa-bassa .pagina{gap:8px}
+}
+
+/* il telefono: la barra su una riga sola (Elias, 11.10). Tre voci, «Dona ora» al centro come sul computer;
+   «Chi siamo» e «Lavora con noi» escono dalla barra e stanno tra le voci rosse del menu. Il tablet tiene la barra intera. */
+@media (max-width:600px){
+  :root{--barra:56px}
+  .menu-sec-mobile .solo-telefono{display:list-item}
+  .barra-fissa .b-chi-siamo,.barra-fissa .b-lavora-con-noi{display:none}
+  .barra-fissa .b-news{border-left:0}
+  .barra-fissa a{font-size:13px;letter-spacing:.12em}
 }

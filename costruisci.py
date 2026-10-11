@@ -305,6 +305,9 @@ def header(da, pagina):
                     voci.append('<li class="voce sola%s"><a href="%s">%s</a></li>' % (" attiva" if da == p["cartella"] else "", verso(da, p["cartella"]), sfuggi(p["voce"])))
     secondari = "".join('<li><a href="%s">%s</a></li>' % (verso(da, p["cartella"]), sfuggi(p["voce"]))
                         for p in SERVIZIO if p["dove"] == "secondario")
+    # sul telefono «Chi siamo» e «Lavora con noi» lasciano la barra in basso e stanno qui, tra le voci rosse (Elias, 11.10)
+    secondari_telefono = ('<li class="solo-telefono"><a href="%s">Chi siamo</a></li>' % verso(da, "chi-siamo") + secondari
+                          + '<li class="solo-telefono"><a href="%s">Lavora con noi</a></li>' % verso(da, "lavora-con-noi"))
     return """<header class="testa%s">
   <div class="testa-alta"><div class="pagina"><nav aria-label="Menu secondario"><ul class="menu-sec">%s</ul></nav></div></div>
   <div class="testa-bassa"><div class="pagina">
@@ -315,12 +318,14 @@ def header(da, pagina):
       <ul class="menu-sec-mobile">%s</ul>
     </nav>
   </div></div>
-</header>""" % (" a-due-righe" if TESTATA_CENTRATA else "", secondari, logo(da), "".join(voci), secondari)
+</header>""" % (" a-due-righe" if TESTATA_CENTRATA else "", secondari, logo(da), "".join(voci), secondari_telefono)
 
 def barra(da):
+    # ogni voce porta la sua classe, così sul telefono il foglio di stile può tenerne tre su una riga (Elias, 11.10):
+    # News, «Dona ora» al centro, 5 per mille; «Chi siamo» e «Lavora con noi» passano tra le voci rosse del menu
     voci = []
     for etichetta, cartella in BARRA:
-        classe = ' class="dona"' if cartella == "dona" else ""
+        classe = ' class="b-%s%s"' % (cartella, " dona" if cartella == "dona" else "")
         voci.append('<a%s href="%s" aria-label="%s">%s</a>' % (classe, verso(da, cartella), sfuggi(etichetta), sfuggi(etichetta)))
     return '<nav class="barra-fissa" aria-label="Azioni principali">%s</nav>' % "".join(voci)
 
