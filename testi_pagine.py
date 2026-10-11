@@ -1212,7 +1212,33 @@ TITOLI = {
     "aziende-e-istituzioni/aziende": "Per le aziende: filantropia d’impresa e bene comune",
     "aziende-e-istituzioni/istituzioni": "Per le istituzioni: il partenariato pubblico-privato",
     "professionisti": "Per notai, avvocati e commercialisti: gli studi partner",
-    "professionisti/esecutore-testamentario": "Esecutore testamentario e custode",
     "cinque-per-mille": "Il 5 per mille: codice fiscale 14629350969",
     "documenti": "Lo statuto e i documenti",
+    "dona": "Fai una donazione, con bonifico o PayPal",
+    # Fondi e strumenti (11.10): le pagine per il pubblico
+    "fondi-e-strumenti": "Fondi e strumenti filantropici",
+    "fondi-e-strumenti/fondi-di-scopo": "Un fondo con il tuo nome, senza creare una fondazione",
+    "fondi-e-strumenti/family-office": "Family Office filantropico: piani di dono su misura",
+    "fondi-e-strumenti/vitalizio-filantropico": "Il vitalizio filantropico: assistenza e cure per tutta la vita",
+    "fondi-e-strumenti/dopo-di-noi": "Il trust del Dopo di Noi: la Fondazione gestore o guardiano",
+    "fondi-e-strumenti/eredita-solidale": "Donare una parte dell’eredità ricevuta: l’eredità solidale",
+    # le schede per i professionisti: lo stesso strumento delle pagine per il pubblico, detto nel titolo
+    "professionisti/esecutore-testamentario": "Esecutore testamentario e custode: per i professionisti",
+    "professionisti/vitalizio-filantropico": "Vitalizio filantropico: per i professionisti",
+    "professionisti/dopo-di-noi": "Dopo di Noi, trust e guardiano: per i professionisti",
+    "professionisti/family-office": "Family Office filantropico: per i professionisti",
+    "professionisti/fondi-di-scopo": "Fondi di scopo e veicoli filantropici: per i professionisti",
+    "professionisti/fondo-della-memoria": "Fondo della memoria ed eredità solidale: per i professionisti",
 }
+
+# le descrizioni delle pagine arrivate dopo il 17.9 (11.10, bozza di Claude): la riga sotto il titolo nei risultati di Google
+DESCRIZIONI.update({
+    "chi-siamo": "Nata da un incontro ad Assisi e costituita a Milano nel 2026, la Fondazione unisce agricoltura, medicina e accompagnamento. I valori, la storia, i fondatori.",
+    "fondi-e-strumenti/family-office": "Il Family Office filantropico della Rosa d’Oro: a chi donare e con quale strumento, quale fondo aprire, come verificare che il dono arrivi e serva davvero.",
+    "professionisti/dopo-di-noi": "Per i professionisti: la Fondazione come trustee, gestore o guardiano nei trust e negli affidamenti fiduciari del Dopo di Noi (legge 112/2016).",
+    "professionisti/esecutore-testamentario": "Per i professionisti: la Fondazione come esecutore testamentario o custode di scopo, quando le volontà del cliente vanno garantite nel tempo.",
+    "professionisti/family-office": "Per i professionisti: il Family Office filantropico, per il cliente che vuole destinare al bene una parte di un patrimonio, di un’azienda o di una collezione.",
+    "professionisti/fondi-di-scopo": "Per i professionisti: i fondi di scopo dentro la Fondazione, con un nome, uno scopo e una contabilità separata. Un’alternativa a una fondazione propria.",
+    "professionisti/fondo-della-memoria": "Per i professionisti: come eredi e legatari possono destinare alla Fondazione una parte della successione, nel Fondo della Memoria o in un fondo con un nome.",
+    "professionisti/vitalizio-filantropico": "Per i professionisti: il vitalizio filantropico, un bene alla Fondazione in cambio di assistenza e cure garantite al cliente per tutta la vita.",
+})

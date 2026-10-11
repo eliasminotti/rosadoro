@@ -653,8 +653,10 @@ def corpo_home(da, p):
 # la pagina intera
 # --------------------------------------------------------------------------
 IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno indicizzare e restano fuori dalla mappa
-# le pagine che non si offrono mai ai motori di ricerca: il giardino, come promette l'informativa sulla privacy
-NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi",)
+# le pagine che non si offrono mai ai motori di ricerca: il giardino, come promette l'informativa sulla privacy;
+# le schede dei fondi convertibili e della riqualificazione etica, di cui si parla a tu per tu (Elias, 9.10): si leggono
+# dal sito, ma non si cercano su Google
+NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica")
 
 def pagina_html(da, p, extra_head=""):
     # il titolo della scheda è anche il titolo che Google mostra: per le pagine dal titolo evocativo
@@ -696,7 +698,7 @@ def pagina_html(da, p, extra_head=""):
     classe_sotto = "sotto" + (" motto" if TESTI.get(da, {}).get("motto") else "") + (" unica" if TESTI.get(da, {}).get("unica") else "")
     classe_body = ' class="notte"' if p.get("notte") else ""
     # una pagina ancora senza testo non si fa indicizzare: diventa visibile ai motori quando arriva il testo
-    attesa = p["tipo"] != "404" and ('class="segnaposto"' in corpo or "si scrive al punto 4" in sotto)
+    attesa = p["tipo"] != "404" and ('class="segnaposto"' in corpo or "si scrive al punto 4" in sotto or "in costruzione" in sotto)
     if attesa:
         IN_ATTESA.append(da)
     if ANTEPRIMA:
@@ -759,7 +761,8 @@ DATI_STRUTTURATI = json.dumps({
     # gli argomenti di cui il sito parla davvero: devono corrispondere alle pagine pubblicate
     "knowsAbout": ["lasciti testamentari", "donazioni in memoria", "testamento", "disposizioni anticipate di trattamento",
                    "Dopo di Noi (legge 112/2016)", "accompagnamento nel fine vita", "elaborazione del lutto",
-                   "filantropia d'impresa", "agricoltura sociale"],
+                   "filantropia d'impresa", "fondi di scopo", "vitalizio filantropico", "esecutore testamentario",
+                   "Family Office filantropico"],
 }, ensure_ascii=False)
 NOME_SCHEDA = "Fondazione La Rosa d’Oro"   # la firma in coda al titolo delle schede
 
