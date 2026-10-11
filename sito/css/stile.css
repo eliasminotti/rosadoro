@@ -109,6 +109,18 @@ p:last-child{margin-bottom:0}
 .menu-sec{list-style:none;margin:0;padding:0;display:flex;gap:32px}
 .menu-sec a{font-size:13px;line-height:20px;letter-spacing:.02em;color:var(--secondario)}
 .menu-sec a:hover{color:var(--testo)}
+.testa-alta nav{margin-left:auto}
+/* Lux (Elias, 11.10): in alto a sinistra, sulla riga delle voci rosse, nero come «Per professionisti»,
+   così i due riquadri neri si rispondono in diagonale. Sulle pagine nere, come lì, diventa un filo d’oro */
+.lux{display:inline-flex;align-items:baseline;gap:12px;white-space:nowrap}
+.lux .lux-nome{font-family:var(--display);font-size:21px;line-height:1;font-weight:600;letter-spacing:.04em;color:var(--accento);transition:color .2s}
+.lux .lux-riga{font-size:13px;line-height:20px;letter-spacing:.02em;color:var(--testo-60);transition:color .2s}
+.lux:hover .lux-nome,.lux:hover .lux-riga{color:var(--testo)}
+.testa-alta .lux{align-self:stretch;align-items:center;background:var(--nero);padding:0 16px;margin-bottom:-1px}
+.testa-alta .lux .lux-nome{color:var(--oro)}
+.testa-alta .lux .lux-riga{color:rgba(255,255,255,.72)}
+.testa-alta .lux:hover .lux-nome,.testa-alta .lux:hover .lux-riga{color:#fff}
+.notte .testa-alta .lux{align-self:center;background:transparent;border:1px solid var(--oro);padding:5px 14px;margin-bottom:0}
 
 /* l'header intero è appiccicoso con il bordo superiore a -45px: la barra alta scorre via, quella bassa resta */
 .testa{position:sticky;top:calc(-1 * var(--testa-alta));z-index:50}
@@ -374,6 +386,13 @@ p:last-child{margin-bottom:0}
   .notte .voce.pro{border-color:var(--oro)}
   .menu>.menu-sec-mobile{display:flex;flex-direction:column;list-style:none;padding:20px var(--lato) 32px;margin:0;border-top:1px solid var(--filo-forte);gap:14px}
   .menu-sec-mobile a{font-size:14px;line-height:20px;color:var(--secondario)}
+  /* Lux chiude il menu, sotto le voci rosse, nel riquadro nero di «Per professionisti»: il nome e, sotto, la riga */
+  .menu-sec-mobile .lux-voce{margin-top:10px}
+  .menu-sec-mobile .lux{display:flex;flex-direction:column;align-items:flex-start;gap:6px;white-space:normal;background:var(--nero);border:1px solid rgba(184,143,61,.55);padding:16px 14px}
+  .menu-sec-mobile .lux .lux-nome{font-size:26px;color:var(--oro)}
+  .menu-sec-mobile .lux .lux-riga{font-size:14px;color:rgba(255,255,255,.72)}
+  .menu-sec-mobile .lux:hover .lux-nome,.menu-sec-mobile .lux:hover .lux-riga{color:#fff}
+  .notte .menu-sec-mobile .lux{border-color:var(--oro)}
 
   h2{font-size:40px}
   .hero{min-height:480px;padding:72px 0 64px}
