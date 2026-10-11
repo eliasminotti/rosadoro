@@ -38,7 +38,7 @@ ENTE = {
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
-    "tagline": "Costituita per destinare patrimoni al lavoro della terra, alla cura delle persone e all'accompagnamento.",
+    "tagline": "Costituita per destinare patrimoni al lavoro della terra, alla cura delle persone e all’accompagnamento verso il fine vita.",   # Elias, 11.10; le alternative sono nel Claude Doc della Home
 }
 
 SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei tre registri: cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.]"
@@ -574,10 +574,10 @@ def tavola_porta(da, s):
     classe = "tavola-porta intera" if s["casa"] in TAVOLE_ALTE else "tavola-porta"
     return '<figure class="%s"><img src="%s" alt="%s" loading="lazy"></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % s["casa"]), TAVOLE_ALT[s["casa"]])
 
-# le due introduzioni della home (bozza di Claude dell’11.10, dopo aver riletto il sito con «Fondi e strumenti» e il Family Office):
+# le due introduzioni della home (bozza di Claude dell’11.10 con le correzioni di Elias, dopo aver riletto il sito con «Fondi e strumenti» e il Family Office):
 # cosa siamo e che cosa facciamo adesso, poi che cosa la Fondazione è costituita per fare
 HOME_CHI_SIAMO = ("La Rosa d’Oro è nata per stare accanto alla vita in tutto il suo arco: la terra che ci nutre, le persone fragili che hanno "
-                  "bisogno di cura, chi si avvicina alla fine e chi resta. Non lo fa da sola: cerca medici, agricoltori, operatori del sociale "
+                  "bisogno di cura, chi si avvicina alla fine del suo cammino terreno e chi invece resta qui. Non lo fa da sola: cerca medici, agricoltori, operatori del sociale "
                   "e professionisti con cui lavorare, e persone che scelgano di affidarle una parte di ciò che hanno, in vita o con un lascito, "
                   "perché continui a fare del bene.")
 HOME_COSA_OFFRIAMO = ("La Fondazione è costituita per due compiti che vanno insieme. Il primo è verso le persone: l’accompagnamento nel fine vita, "
