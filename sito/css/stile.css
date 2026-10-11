@@ -27,14 +27,16 @@
   --nero:#000000;
   --bianco:#FFFFFF;
 
-  /* i ruoli, sulle pagine chiare. Niente grigi: antracite a opacità decrescente */
+  /* i ruoli, sulle pagine chiare. Niente grigi: antracite a opacità decrescente.
+     I due più chiari sono stati scuriti l’11.10 (Elias): «-60» e «-45» ricordano i valori di partenza,
+     ma ora si leggono bene anche in piccolo (contrasto almeno 4,5 a 1 sull’avorio e sul bianco). */
   --fondo:var(--avorio);
   --carta:var(--bianco);
   --testo:var(--antracite);
   --testo-80:rgba(28,28,28,.8);
   --testo-70:rgba(28,28,28,.7);
-  --testo-60:rgba(28,28,28,.6);
-  --testo-45:rgba(28,28,28,.45);
+  --testo-60:rgba(28,28,28,.66);
+  --testo-45:rgba(28,28,28,.62);
   --accento:var(--oro-scuro);
   --secondario:var(--bordeaux);
   --filo:rgba(184,143,61,.15);
@@ -62,7 +64,7 @@
   --testo-80:rgba(255,255,255,.82);
   --testo-70:rgba(255,255,255,.72);
   --testo-60:rgba(255,255,255,.6);
-  --testo-45:rgba(255,255,255,.45);
+  --testo-45:rgba(255,255,255,.55);
   --accento:var(--oro);
   --secondario:#D9B86A;
   --filo:rgba(184,143,61,.22);
@@ -140,7 +142,7 @@ p:last-child{margin-bottom:0}
 .voce.pro .sottomenu{background:var(--nero);border-color:rgba(184,143,61,.55);right:0;left:auto}
 .voce.pro .sottomenu a{color:rgba(255,255,255,.82)}
 .voce.pro .sottomenu a:hover{color:#fff;background:rgba(184,143,61,.1)}
-.voce.pro .sottomenu .riga{color:rgba(255,255,255,.45)}
+.voce.pro .sottomenu .riga{color:rgba(255,255,255,.55)}
 .voce.pro .sottomenu .attuale>a{color:#fff}
 .notte .voce.pro>a{background:transparent;border:1px solid var(--oro);padding-top:9px;padding-bottom:9px}
 .notte .voce.pro>a:hover,.notte .voce.pro.attiva>a{border-color:var(--oro);color:#fff}
@@ -269,11 +271,11 @@ p:last-child{margin-bottom:0}
 .porta.nera .occhiello{color:var(--oro)}
 .porta.nera .intro{color:rgba(255,255,255,.6)}
 .porta.nera .tavola-porta{background:#0F0E0D;border-color:rgba(184,143,61,.45)}
-.porta.nera .etichetta{color:rgba(255,255,255,.45);border-bottom-color:rgba(184,143,61,.55)}
+.porta.nera .etichetta{color:rgba(255,255,255,.55);border-bottom-color:rgba(184,143,61,.55)}
 .porta.nera .sotto-voci li{border-bottom-color:rgba(184,143,61,.22)}
 .porta.nera .sotto-voci a{color:rgba(255,255,255,.72)}
 .porta.nera .sotto-voci a:hover{color:#fff}
-.porta.nera .sotto-voci .riga{color:rgba(255,255,255,.4)}
+.porta.nera .sotto-voci .riga{color:rgba(255,255,255,.55)}
 .porta.nera .vai{color:var(--oro)}
 .porta.nera .vai:hover{color:#fff}
 
@@ -337,6 +339,7 @@ p:last-child{margin-bottom:0}
 .barra-fissa .dona:hover{background:var(--nero);color:#fff}
 .notte .barra-fissa .dona{background:#fff;color:var(--nero)}
 .notte .barra-fissa .dona:hover{background:var(--oro);color:var(--nero)}
+.menu-sec-mobile .solo-telefono{display:none}   /* «Chi siamo» tra le voci rosse: solo sul telefono, dove esce dalla barra */
 
 /* ---------- sotto i 1024 px ---------- */
 @media (max-width:1023px){
@@ -406,8 +409,8 @@ p:last-child{margin-bottom:0}
   .pie .separatore{margin:48px 0 24px}
   .pie-dati{flex-direction:column}
 
-  /* i tre pulsanti della barra: etichetta sempre visibile, un terzo ciascuno */
-  .barra-fissa a{flex:1 1 0;min-width:0;padding:0 4px;font-size:10px;line-height:1.25;letter-spacing:.05em;text-align:center}
+  /* le voci della barra: etichetta sempre visibile, parti uguali */
+  .barra-fissa a{flex:1 1 0;min-width:0;padding:0 4px;font-size:12px;line-height:1.25;letter-spacing:.06em;text-align:center}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -549,4 +552,20 @@ a.azione:hover h4{color:var(--accento)}
   .apri-menu{padding:10px 12px;letter-spacing:.1em}
   .testa-bassa .pagina{gap:12px}
   .coordinate{padding:18px}
+}
+
+/* il telefono: la barra a scalino (Elias, 11.10). In basso tre voci, «Dona ora» nero sopra «5 per mille»;
+   «Chi siamo» esce dalla barra e sta tra le voci rosse del menu. Il tablet tiene la barra intera. */
+@media (max-width:600px){
+  :root{--barra:52px;--scalino:44px}
+  body{padding-bottom:calc(var(--barra) + var(--scalino))}
+  .menu{padding-bottom:var(--scalino)}
+  .menu-sec-mobile .solo-telefono{display:list-item}
+  .barra-fissa{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:var(--scalino) var(--barra);height:auto;background:transparent;border-top:0;pointer-events:none}
+  .barra-fissa a{pointer-events:auto;background:var(--fondo);border-top:1px solid var(--filo-forte);padding:0 6px;font-size:12px;letter-spacing:.08em}
+  .barra-fissa .b-chi-siamo{display:none}
+  .barra-fissa .b-news{grid-area:2/1;border-left:0}
+  .barra-fissa .b-cinque-per-mille{grid-area:2/2}
+  .barra-fissa .b-lavora-con-noi{grid-area:2/3}
+  .barra-fissa .dona{grid-area:1/2;border:1px solid var(--filo-forte);border-bottom:0}   /* il filo d’oro lo stacca anche dalle foto scure */
 }
