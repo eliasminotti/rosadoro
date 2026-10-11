@@ -72,6 +72,20 @@ SEZIONI = [
              dict(slug="dopo-di-noi", voce="Il Dopo di Noi", titolo="Il Dopo di Noi", riga="La protezione dei fragili", art="Legge 112/2016"),
          ],
          rimandi=[dict(voce="Progetti", titolo="I progetti che un lascito può sostenere", verso="progetti")]),
+    # «Fondi e strumenti» (Elias, 11.10): le pagine per il pubblico degli strumenti dello statuto. Ognuna ha la sua scheda
+    # gemella sotto «Per professionisti». Il Dopo di Noi e il fondo di memoria restano le pagine di Dacia, nelle loro sezioni.
+    dict(chiave="fondi-e-strumenti", voce="Fondi e strumenti", titolo="Fondi e strumenti", hero="avorio", casa="tempio",
+         pagine=[
+             dict(slug="fondi-di-scopo", voce="Un fondo con il tuo nome", titolo="Un fondo con il tuo nome", riga="I fondi di scopo", art="Statuto, art. 8",
+                  gemella="professionisti/fondi-di-scopo"),
+             dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico", riga="Piani di dono su misura", art="Statuto, art. 14",
+                  gemella="professionisti/family-office"),
+             dict(slug="vitalizio-filantropico", voce="Il vitalizio filantropico", titolo="Il vitalizio filantropico", riga="Un bene per la cura", art="Statuto, art. 14",
+                  gemella="professionisti/vitalizio-filantropico"),
+             dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="L’esecutore testamentario e il custode", riga="Le tue volontà, rispettate",
+                  art="Statuto, art. 14 · artt. 700 ss. c.c.", gemella="professionisti/esecutore-testamentario"),
+         ],
+         rimandi=[dict(titolo="Il Dopo di Noi", verso="lasciti/dopo-di-noi"), dict(titolo="Il fondo di memoria", verso="in-memoria/fondo-di-memoria")]),
     dict(chiave="progetti", voce="Progetti", titolo="Progetti", hero="avorio", tavola="paesaggio", casa="paesaggio",
          intro="I progetti seguono un ciclo di vita — da avviare, da sostenere, in corso, realizzati — accanto alle realtà amiche e alla porta per proporre il tuo.",
          pagine=[
@@ -91,13 +105,16 @@ SEZIONI = [
              dict(slug="formazione-agricola", voce="Formazione agricola", titolo="Formazione agricola", riga=""),
              dict(slug="formazione-accompagnamento", voce="Formazione accompagnamento alla morte", titolo="Formazione accompagnamento alla morte", riga="", hero="lemniscata"),
          ]),
+    # Servizi resta nel menu con la sua pagina «in costruzione» (Elias, 11.10). Le quattro pagine sono spente: escono dal menu,
+    # dalla pagina della sezione, dalla home e dalla mappa per i motori di ricerca, ma restano nel sito (Chi siamo le collega).
+    # Per riaccenderne una, quando ha il suo testo, basta togliere «spenta=True».
     dict(chiave="servizi", voce="Servizi", titolo="Servizi alle persone", hero="veli", casa="spighe",
          intro="Le attività di interesse generale previste dallo statuto: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento.",
          pagine=[
-             dict(slug="persone-fragili", voce="Sostegno a persone fragili", titolo="Sostegno a persone fragili", riga="", art="Statuto, art. 3.1.b-c"),
-             dict(slug="agricoltura-sociale", voce="Agricoltura sociale e laboratori terapeutici", titolo="Agricoltura sociale e laboratori terapeutici", riga="", art="Statuto, art. 3.1.s e 3.3", tavola="spighe"),
-             dict(slug="ospitalita", voce="Ospitalità e residenzialità", titolo="Ospitalità e residenzialità", riga="", art="Statuto, art. 3.1.k, q"),
-             dict(slug="consulenza", voce="Consulenza e orientamento", titolo="Consulenza e orientamento", riga="", art="Statuto, art. 3.6.d-e"),
+             dict(slug="persone-fragili", voce="Sostegno a persone fragili", titolo="Sostegno a persone fragili", riga="", art="Statuto, art. 3.1.b-c", spenta=True),
+             dict(slug="agricoltura-sociale", voce="Agricoltura sociale e laboratori terapeutici", titolo="Agricoltura sociale e laboratori terapeutici", riga="", art="Statuto, art. 3.1.s e 3.3", tavola="spighe", spenta=True),
+             dict(slug="ospitalita", voce="Ospitalità e residenzialità", titolo="Ospitalità e residenzialità", riga="", art="Statuto, art. 3.1.k, q", spenta=True),
+             dict(slug="consulenza", voce="Consulenza e orientamento", titolo="Consulenza e orientamento", riga="", art="Statuto, art. 3.6.d-e", spenta=True),
          ],
          rimandi=[dict(voce="Accompagnamento e fine vita", titolo="Io sono qui per te", verso="in-memoria/io-sono-qui-per-te")]),
     dict(chiave="aziende-e-istituzioni", voce="Per aziende e istituzioni", titolo="Per aziende e istituzioni", hero="avorio", casa="portico",
@@ -108,12 +125,17 @@ SEZIONI = [
          ]),
     dict(chiave="professionisti", voce="Per professionisti", titolo="Per professionisti", hero="notte", notte=True, casa="emblema",
          intro="Cerchiamo studi partner: notai, avvocati, commercialisti e consulenti, con gli strumenti previsti dallo statuto.",
+         # le schede parlano ai professionisti (Elias, 11.10); «gemella» è la pagina per i loro clienti, che la costruzione collega in fondo
          pagine=[
-             dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="Mandato di esecutore testamentario e custode", riga="Le volontà, rispettate e garantite", art="Statuto, art. 14 · artt. 700 ss. c.c."),
-             dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="Un bene per la cura", art="Statuto, art. 14"),
+             dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="Mandato di esecutore testamentario e custode", riga="Le volontà, rispettate e garantite", art="Statuto, art. 14 · artt. 700 ss. c.c.",
+                  gemella="fondi-e-strumenti/esecutore-testamentario"),
+             dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="Un bene per la cura", art="Statuto, art. 14",
+                  gemella="fondi-e-strumenti/vitalizio-filantropico"),
              dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="Trust e protezione dei fragili", art="Statuto, art. 14 · L. 112/2016", gemella="lasciti/dopo-di-noi"),
-             dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="Piani di dono su misura", art="Statuto, art. 14"),
-             dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="Il nome e lo scopo di chi dona", art="Statuto, art. 8"),
+             dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="Piani di dono su misura", art="Statuto, art. 14",
+                  gemella="fondi-e-strumenti/family-office"),
+             dict(slug="fondi-di-scopo", voce="Fondi di scopo", titolo="Fondi di scopo e veicoli filantropici", riga="Il nome e lo scopo di chi dona", art="Statuto, art. 8",
+                  gemella="fondi-e-strumenti/fondi-di-scopo"),
              # i fondi convertibili si presentano con cautela (Elias, 9.10): se ne parla a tu per tu, senza moduli né inviti
              # a prestare, senza «deposito», «risparmio», «rimborso a richiesta» e senza promettere vantaggi fiscali
              dict(slug="fondi-convertibili", voce="Fondi convertibili", titolo="Fondi convertibili", riga="Un sostegno che può diventare dono", art="Statuto, art. 9"),
@@ -162,7 +184,7 @@ for s in SEZIONI:
         registra(cartella, voce=p["voce"], titolo=p["titolo"], occhiello=s["voce"], hero=p.get("hero", s["hero"]),
                  tipo="pagina", sezione=s["chiave"], notte=s.get("notte", False), art=p.get("art"), riga=p.get("riga", ""),
                  tavola=p.get("tavola"), avviso=p.get("avviso"), gemella=p.get("gemella"),
-                 testata=p.get("testata"), leggera=p.get("leggera", False))
+                 testata=p.get("testata"), leggera=p.get("leggera", False), spenta=p.get("spenta", False))
 
 for p in SERVIZIO:
     registra(p["cartella"], voce=p["voce"], titolo=p["titolo"], occhiello=p["occhiello"], hero=p["hero"],
@@ -227,9 +249,13 @@ def logo(da):
             '<span class="nome">Fondazione <b>La Rosa d\'<i>Oro</i></b></span></a>'
             % (verso(da, ""), sfuggi(ENTE["nome"]), '<img class="marchio" src="%s" alt="" width="96" height="96">' % risorsa(da, "img/logo-piccolo.png")))
 
+def visibili(s):
+    """le pagine della sezione che compaiono nei menu e nelle schede: non le spente (vedi Servizi)"""
+    return [p for p in s["pagine"] if not p.get("spenta")]
+
 def sottomenu(s, da):
     righe = []
-    for p in s["pagine"]:
+    for p in visibili(s):
         if p.get("nascosta"):
             continue
         if p.get("separa"):
@@ -249,12 +275,18 @@ def header(da, pagina):
             classi.append("pro")
         if pagina.get("sezione") == s["chiave"]:
             classi.append("attiva")
-        voci.append(
-            '<li class="%s" data-voce="%s"><a href="%s"%s>%s</a>'
-            '<button class="freccia" type="button" aria-expanded="false" aria-label="Apri il sottomenu di %s">▾</button>%s</li>'
-            % (" ".join(classi), s["chiave"], verso(da, s["chiave"]),
-               ' aria-current="true"' if pagina.get("sezione") == s["chiave"] else "",
-               sfuggi(s["voce"]), sfuggi(s["voce"]), sottomenu(s, da)))
+        if not any(not q.get("separa") and not q.get("nascosta") for q in visibili(s)):
+            classi.append("sola")                  # nessuna pagina accesa (Servizi, per ora): la voce porta solo alla sezione
+            voci.append('<li class="%s" data-voce="%s"><a href="%s"%s>%s</a></li>'
+                        % (" ".join(classi), s["chiave"], verso(da, s["chiave"]),
+                           ' aria-current="true"' if pagina.get("sezione") == s["chiave"] else "", sfuggi(s["voce"])))
+        else:
+            voci.append(
+                '<li class="%s" data-voce="%s"><a href="%s"%s>%s</a>'
+                '<button class="freccia" type="button" aria-expanded="false" aria-label="Apri il sottomenu di %s">▾</button>%s</li>'
+                % (" ".join(classi), s["chiave"], verso(da, s["chiave"]),
+                   ' aria-current="true"' if pagina.get("sezione") == s["chiave"] else "",
+                   sfuggi(s["voce"]), sfuggi(s["voce"]), sottomenu(s, da)))
         if s["chiave"] == "servizi":               # le pagine singole del menu (News), dopo Servizi
             for p in SERVIZIO:
                 if p["dove"] == "menu":
@@ -426,6 +458,8 @@ def lato(da, p):
             righe.append('<li class="separa" role="separator" aria-hidden="true"></li>')
             continue
         cartella = q["slug"] if q.get("radice") else s["chiave"] + "/" + q["slug"]
+        if q.get("spenta") and cartella != da:
+            continue
         righe.append('<li%s><a href="%s">%s</a></li>' % (' class="attuale"' if cartella == da else "", verso(da, cartella), sfuggi(q["titolo"])))
     return '<aside class="lato"><p class="occhiello">%s</p><ul>%s</ul></aside>' % (sfuggi(s["voce"]), "".join(righe))
 
@@ -434,13 +468,19 @@ def corpo_pagina(da, p):
     gemella = ""
     if p.get("gemella"):
         g = PAGINE[p["gemella"]]
-        gemella = '<p>Lo stesso strumento è raccontato anche nella pagina <a class="link" href="%s">%s</a>.</p>' % (verso(da, g["cartella"]), sfuggi(g["titolo"]))
+        if p.get("sezione") == "professionisti":
+            frase = 'La pagina per i tuoi clienti è <a class="link" href="%s">%s</a>.'
+        else:
+            frase = 'Per i professionisti c’è la scheda <a class="link" href="%s">%s</a>.'
+        gemella = '<p>%s</p>' % (frase % (verso(da, g["cartella"]), sfuggi(g["titolo"])))
     tavola = tavola_img(da, p["tavola"], TAVOLE_ALT[p["tavola"]], "tavola stretta") if p.get("tavola") else ""
     if da in TESTI and TESTI[da].get("corpo"):
         contenuto = gettoni(TESTI[da]["corpo"], da)
     else:
         contenuto = '<p class="segnaposto">%s</p>' % sfuggi(SEGNAPOSTO)
-    testo = '<article class="testo">%s%s%s%s</article>' % (avviso, contenuto, gemella, tavola)
+    # la premessa: una riga in corsivo prima del testo, che dice a chi è scritto (convertibili e riqualificazione, 11.10)
+    premessa = ('<p class="premessa">%s</p>' % sfuggi(TESTI[da]["premessa"])) if TESTI.get(da, {}).get("premessa") else ""
+    testo = '<article class="testo">%s%s%s%s%s</article>' % (avviso, premessa, contenuto, gemella, tavola)
     if p.get("sezione"):
         return '<main class="corpo"><div class="pagina"><div class="colonne">%s%s</div></div></main>' % (lato(da, p), testo)
     return '<main class="corpo"><div class="pagina">%s</div></main>' % testo
@@ -448,7 +488,7 @@ def corpo_pagina(da, p):
 def corpo_sezione(da, p):
     s = next(x for x in SEZIONI if x["chiave"] == p["sezione"])
     schede = []
-    for q in s["pagine"]:
+    for q in visibili(s):
         if q.get("separa"):
             continue
         cartella = q["slug"] if q.get("radice") else s["chiave"] + "/" + q["slug"]
@@ -457,19 +497,22 @@ def corpo_sezione(da, p):
         schede.append('<article class="scheda">%s<h3><a href="%s">%s</a></h3>%s<a class="vai" href="%s">Apri</a></article>'
                       % (fonte, verso(da, cartella), sfuggi(q["titolo"]), riga, verso(da, cartella)))
     for r in s.get("rimandi", []):
-        schede.append('<article class="scheda rimando"><h3><a href="%s">%s</a></h3><p>Nella sezione %s</p><a class="vai" href="%s">Vai alla sezione</a></article>'
-                      % (verso(da, r["verso"]), sfuggi(r["titolo"]), sfuggi(PAGINE[r["verso"]]["voce"]), verso(da, r["verso"])))
+        meta = PAGINE[r["verso"]]
+        schede.append('<article class="scheda rimando"><h3><a href="%s">%s</a></h3><p>Nella sezione %s</p><a class="vai" href="%s">%s</a></article>'
+                      % (verso(da, r["verso"]), sfuggi(r["titolo"]), sfuggi(meta["occhiello"]), verso(da, r["verso"]),
+                         "Vai alla sezione" if meta["tipo"] == "sezione" else "Vai alla pagina"))
     tavola = tavola_img(da, p["tavola"], TAVOLE_ALT[p["tavola"]], "tavola-fascia") if p.get("tavola") else ""
     if da in TESTI and TESTI[da].get("corpo"):
         intro = gettoni(TESTI[da]["corpo"], da)
     else:
         intro = '<p class="segnaposto">%s</p>' % sfuggi("[L'introduzione della sezione si scrive al punto 4.]")
+    # una sezione con tutte le pagine spente (Servizi, per ora) mostra solo l’introduzione, che ha già i suoi collegamenti
+    elenco = ('<h2 class="schede-titolo">In questa sezione</h2>\n  <div class="schede">%s</div>' % "".join(schede)) if visibili(s) else ""
     return """<main class="corpo"><div class="pagina">
   <div class="testo">%s</div>
   %s
-  <h2 class="schede-titolo">In questa sezione</h2>
-  <div class="schede">%s</div>
-</div></main>""" % (intro, tavola, "".join(schede))
+  %s
+</div></main>""" % (intro, tavola, elenco)
 
 def corpo_chi_siamo(da, p):
     if "chi-siamo" in TESTI:                       # il testo di Dacia (14.9): pagina intera, i dati in fondo
@@ -519,11 +562,13 @@ def tavola_porta(da, s):
     classe = "tavola-porta intera" if s["casa"] in TAVOLE_ALTE else "tavola-porta"
     return '<figure class="%s"><img src="%s" alt="%s" loading="lazy"></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % s["casa"]), TAVOLE_ALT[s["casa"]])
 
+NUMERI = {5: "Cinque", 6: "Sei", 7: "Sette", 8: "Otto", 9: "Nove", 10: "Dieci"}
+
 def corpo_home(da, p):
     porte = []
     for s in SEZIONI:
         voci = []
-        for q in s["pagine"]:
+        for q in visibili(s):
             if q.get("nascosta"):
                 continue
             if q.get("separa"):
@@ -536,11 +581,12 @@ def corpo_home(da, p):
         porte.append("""<section class="porta%s" data-spia="%s" id="porta-%s">
       <div class="dentro">%s<h3><a href="%s">%s</a></h3><p class="intro">%s</p><a class="vai" href="%s">Entra</a></div>
       %s
-      <div class="pagine-porta"><p class="etichetta">In questa sezione</p><ul class="sotto-voci">%s</ul></div>
+      <div class="pagine-porta"><p class="etichetta">In questa sezione</p>%s</div>
     </section>""" % (" nera" if s.get("notte") else "", s["chiave"], s["chiave"],
                      '<p class="occhiello">Per gli studi e i professionisti partner</p>' if s.get("notte") else "",
                      verso(da, s["chiave"]), sfuggi(s["titolo"]), sfuggi(intro), verso(da, s["chiave"]),
-                     tavola_porta(da, s), "".join(voci)))
+                     tavola_porta(da, s),
+                     ('<ul class="sotto-voci">%s</ul>' % "".join(voci)) if voci else '<p class="in-costruzione">Le pagine sono in costruzione.</p>'))
     return """<main>
   <section class="sezione" id="chi-siamo">
     <div class="pagina"><div class="due-colonne">
@@ -566,13 +612,13 @@ def corpo_home(da, p):
   <section class="sezione" id="le-porte">
     <div class="pagina">
       <p class="occhiello">Le porte del sito</p>
-      <h2>Sette sezioni</h2>
+      <h2>%s sezioni</h2>
       <div class="porte">%s</div>
     </div>
   </section>
 </main>""" % (sfuggi("[Due o tre frasi si scrivono al punto 4.]"), verso(da, "chi-siamo"), risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"],
               sfuggi("[L'introduzione si scrive al punto 4: che cosa la Fondazione è costituita per fare.]"),
-              verso(da, "servizi"), verso(da, "professionisti"), "".join(porte))
+              verso(da, "servizi"), verso(da, "professionisti"), NUMERI[len(SEZIONI)], "".join(porte))
 
 # --------------------------------------------------------------------------
 # la pagina intera
@@ -674,7 +720,7 @@ def costruisci():
     # la mappa del sito per i motori di ricerca
     oggi = datetime.date.today().isoformat()
     voci = ["<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (DOMINIO + ("/" if not k else "/" + k + "/"), oggi)
-            for k, q in PAGINE.items() if not q.get("nascosta")]
+            for k, q in PAGINE.items() if not q.get("nascosta") and not q.get("spenta")]
     with open(os.path.join(USCITA, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s\n</urlset>\n' % "\n".join(voci))
     # la pagina «non trovata»: GitHub Pages la serve da qualsiasi indirizzo, quindi i percorsi partono dalla radice del sito
