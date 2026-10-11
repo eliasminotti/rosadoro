@@ -841,7 +841,9 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 
 # ------------------------------------------------------------ Dona, Partnership, Progetti amici (bozze di Claude del 10.10, riviste da Elias l'11.10)
 # Dona segue la gerarchia decisa a settembre (briefing su Drive, §8): carta e wallet in cima, bonifico in evidenza per
-# gli importi importanti, PayPal per ultimo, nessuna frase sui costi. Finché Stripe e PayPal non ci sono, resta il bonifico.
+# gli importi importanti, PayPal per ultimo, nessuna frase sui costi. Stripe non c’è ancora. PayPal secondo i due aggiornamenti
+# dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, per la Svizzera il PayPal.me di Orizzonti
+# Celesti finché il loro «Dona» è bloccato (poi si cambia solo l’indirizzo). Semplici collegamenti, nessuno script PayPal.
 # I fondi convertibili restano fuori da questa pagina (Elias, 10.10). Chi dona dalla Svizzera passa per Orizzonti Celesti.
 TESTI["dona"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
@@ -855,6 +857,9 @@ TESTI["dona"] = dict(
 <p><strong>BIC</strong><br>SELBIT2BXXX</p>
 <p><strong>Causale</strong><br>«Donazione», oppure «Donazione per la medicina», «per l’agricoltura», «per il sociale», «per il fine vita», o «In memoria di» con il nome della persona.</p>
 </div>
+<h3>Con PayPal</h3>
+<p>Puoi donare anche con PayPal. Nel messaggio che PayPal ti propone puoi indicare un ambito o la persona che vuoi ricordare.</p>
+<p><a class="vai" href="https://www.paypal.com/donate/?hosted_button_id=PHVRQC92CVXRA" target="_blank" rel="noopener">Dona con PayPal</a></p>
 <h3>La ricevuta e i vantaggi fiscali</h3>
 <p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. Se ti serve anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 <h3>Se vivi in Svizzera</h3>
@@ -864,6 +869,8 @@ TESTI["dona"] = dict(
 <p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
 <p><strong>BIC</strong><br>POFICHBEXXX</p>
 </div>
+<p>Oppure con PayPal, in franchi svizzeri.</p>
+<p><a class="vai" href="https://www.paypal.me/orizzonticelesti" target="_blank" rel="noopener">Dona con PayPal in franchi</a></p>
 <h3>Altri modi di sostenerci</h3>
 <ul class="stelle">
 <li>il <a class="link" href="{→cinque-per-mille}">5 per mille</a>, con una firma nella dichiarazione dei redditi;</li>
@@ -936,7 +943,7 @@ DESCRIZIONI = {
     "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
     "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counsellor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
     "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
-    "dona": "Dona alla Fondazione La Rosa d’Oro con un bonifico, per un ambito o in memoria di una persona cara. Le donazioni sono detraibili o deducibili.",
+    "dona": "Dona alla Fondazione La Rosa d’Oro con un bonifico o con PayPal, per un ambito o in memoria di una persona cara. Le donazioni sono detraibili o deducibili.",
     "documenti": "Lo statuto della Fondazione La Rosa d’Oro ETS, i dati della costituzione e dell’iscrizione al Registro unico del Terzo settore, le informative.",
     "contatti": "Scrivi alla Fondazione La Rosa d’Oro: ti rispondiamo di persona e, se serve, ci incontriamo a Milano o dove sei tu.",
     "partnership": "Con chi lavora la Fondazione La Rosa d’Oro: studi professionali, aziende, istituzioni e realtà del sociale, la realtà collegata Orizzonti Celesti.",
