@@ -839,7 +839,7 @@ TESTI["professionisti/riqualificazione-etica"] = dict(
 # La pagina per le famiglie, nella sezione Fondi e strumenti (Elias, 11.10); la scheda per i professionisti è professionisti/family-office.
 # Le imprese hanno il loro piano nella pagina Per le aziende.
 # Confini: nessun consiglio sugli investimenti (riservati dal TUF, artt. 1 c. 5-septies e 18) e atti, successioni e imposte ai
-# professionisti; nessun costo né compenso finché la Fondazione non li decide. Niente collegamenti a pagine ancora vuote: quelli a Fondi e strumenti presuppongono la PR #14.
+# professionisti; nessun costo né compenso finché la Fondazione non li decide. Niente collegamenti a pagine ancora vuote.
 # Il vitalizio non è una donazione (contratto oneroso e aleatorio: Cass. 22009/2016 e 36082/2023): non chiamarlo dono (11.10).
 TESTI["fondi-e-strumenti/family-office"] = dict(
     sotto="Piani di dono su misura.",
