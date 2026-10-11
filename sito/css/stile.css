@@ -553,6 +553,10 @@ a.azione:hover h4{color:var(--accento)}
   .testa-bassa .pagina{gap:12px}
   .coordinate{padding:18px}
 }
+/* a 320 px l’apostrofo tipografico di «d’Oro», più largo, spingeva «Menu» fuori di un pixel */
+@media (max-width:360px){
+  .testa-bassa .pagina{gap:8px}
+}
 
 /* il telefono: la barra su una riga sola (Elias, 11.10). Tre voci, «Dona ora» al centro come sul computer;
    «Chi siamo» e «Lavora con noi» escono dalla barra e stanno tra le voci rosse del menu. Il tablet tiene la barra intera. */
