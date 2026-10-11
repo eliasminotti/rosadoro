@@ -687,6 +687,7 @@ TESTI["news"] = dict(
 
 # ------------------------------------------------------------ Per aziende e istituzioni: la pagina d'ingresso (citazione, Dacia 16.9)
 TESTI["aziende-e-istituzioni"] = dict(
+    sotto="Il bene comune si costruisce insieme.",   # scelto da Claude tra tre proposte, 11.10
     corpo="""
 <p>Le forme di collaborazione che lo statuto prevede per aziende e istituzioni: partecipazione, sostegno ai progetti, iniziative condivise.</p>
 <p class="citazione">«Il valore di un uomo si misura da ciò che dà, e non da ciò che è capace di ricevere.» — attribuita ad Albert Einstein</p>
@@ -865,6 +866,81 @@ TESTI["fondi-e-strumenti/family-office"] = dict(
 
 for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-etica"):
     TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
+
+# ------------------------------------------------------------ Dona, Partnership, Progetti amici (bozze di Claude del 10.10, riviste da Elias l'11.10)
+# Dona segue la gerarchia decisa a settembre (briefing su Drive, §8): carta e wallet in cima, bonifico in evidenza per
+# gli importi importanti, PayPal per ultimo, nessuna frase sui costi. Stripe non c’è ancora. PayPal secondo i due aggiornamenti
+# dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, per la Svizzera il PayPal.me di Orizzonti
+# Celesti finché il loro «Dona» è bloccato (poi si cambia solo l’indirizzo). Semplici collegamenti, nessuno script PayPal.
+# I fondi convertibili restano fuori da questa pagina (Elias, 10.10). Chi dona dalla Svizzera passa per Orizzonti Celesti.
+TESTI["dona"] = dict(
+    sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
+    corpo="""
+<p>Puoi sostenere la Fondazione tutta, perché impieghi il tuo dono dove c’è più bisogno, oppure scegliere un ambito: la medicina e la cura, l’agricoltura, il sociale, il fine vita. Puoi anche donare in memoria di una persona cara.</p>
+<h3>Con un bonifico</h3>
+<p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.</p>
+<div class="coordinate">
+<p><strong>Intestato a</strong><br>Fondazione La Rosa d’Oro ETS</p>
+<p><strong>IBAN</strong><br><span class="iban"><span>IT49 I032 6801 6030</span> <span>5295 8935 160</span></span></p>
+<p><strong>BIC</strong><br>SELBIT2BXXX</p>
+<p><strong>Causale</strong><br>«Donazione», oppure «Donazione per la medicina», «per l’agricoltura», «per il sociale», «per il fine vita», o «In memoria di» con il nome della persona.</p>
+</div>
+<h3>Con PayPal</h3>
+<p>Puoi donare anche con PayPal. Nel messaggio che PayPal ti propone puoi indicare un ambito o la persona che vuoi ricordare.</p>
+<p><a class="vai" href="https://www.paypal.com/donate/?hosted_button_id=PHVRQC92CVXRA" target="_blank" rel="noopener">Dona con PayPal</a></p>
+<h3>La ricevuta e i vantaggi fiscali</h3>
+<p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. Se ti serve anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
+<h3>Se vivi in Svizzera</h3>
+<p>Le donazioni dalla Svizzera passano per l’Associazione Orizzonti Celesti, la realtà collegata alla Fondazione che opera sul versante elvetico.</p>
+<div class="coordinate">
+<p><strong>Intestato a</strong><br>Orizzonti Celesti<br>Via Mezzavilla 12, 6503 Bellinzona</p>
+<p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
+<p><strong>BIC</strong><br>POFICHBEXXX</p>
+</div>
+<p>Oppure con PayPal, in franchi svizzeri.</p>
+<p><a class="vai" href="https://www.paypal.me/orizzonticelesti" target="_blank" rel="noopener">Dona con PayPal in franchi</a></p>
+<h3>Altri modi di sostenerci</h3>
+<ul class="stelle">
+<li>il <a class="link" href="{→cinque-per-mille}">5 per mille</a>, con una firma nella dichiarazione dei redditi;</li>
+<li>un <a class="link" href="{→lasciti}">lascito</a> nel testamento;</li>
+<li>una donazione in memoria, con il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a>;</li>
+<li>se hai un’azienda, <a class="link" href="{→aziende-e-istituzioni/aziende}">una parte per il bene comune</a>.</li>
+</ul>
+""")
+
+TESTI["partnership"] = dict(
+    sotto="Con chi lavoriamo, e come.",
+    corpo="""
+<p>La Fondazione La Rosa d’Oro non fa tutto da sola, e non vuole farlo. Molto di ciò che lo statuto le chiede passa per persone e realtà che lo sanno fare meglio di noi: studi professionali, aziende, istituzioni, associazioni, chi lavora nella cura, nel sociale e nella terra.</p>
+<p>Con loro cerchiamo un rapporto che vada nei due sensi. Ci indichiamo a vicenda le persone che possono trovare aiuto dall’altra parte, lavoriamo insieme ai progetti, e chi crede nel nostro lavoro può indicare la Fondazione come destinataria di una donazione o di un lascito.</p>
+<h3>Una realtà collegata: Orizzonti Celesti</h3>
+<p>L’Associazione Orizzonti Celesti è un ente distinto dalla Fondazione, con sede in Svizzera, che opera sul versante elvetico. Chi dona dalla Svizzera dona a Orizzonti Celesti.</p>
+<h3>La rete che stiamo costruendo</h3>
+<p>La Fondazione è nata nel 2026 e la sua rete è agli inizi: stiamo incontrando i primi studi, le prime aziende e le prime realtà del sociale. Le presenteremo qui quando il rapporto sarà avviato e loro saranno d’accordo.</p>
+<p>Per diventare partner, la porta è quella della tua categoria: <a class="link" href="{→professionisti}">Per professionisti</a>, <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>, <a class="link" href="{→aziende-e-istituzioni/istituzioni}">Per le istituzioni</a>. Se sei un’associazione o un ente del Terzo settore, scrivici.</p>
+<h3>Siti amici</h3>
+<p>Qui raccoglieremo, man mano, i siti di realtà che stimiamo e che lavorano su temi vicini ai nostri. Un sito amico non è un partner e non fa parte della Fondazione: è un indirizzo che ti consigliamo.</p>
+<p><a class="vai" href="{→contatti}">Scrivici</a></p>
+""")
+
+TESTI["progetti-amici"] = dict(
+    sotto="Realtà che stimiamo, nate e cresciute fuori dalla Fondazione.",
+    corpo="""
+<p>Accanto ai progetti della Fondazione ci sono progetti che non sono nostri, ma che sentiamo vicini: per ciò che fanno, per come lo fanno, per le persone che li portano avanti. Li presentiamo qui perché chi cerca aiuto, o vuole darne, possa conoscerli.</p>
+<h3>Come entra un progetto amico</h3>
+<ul class="stelle">
+<li>Lo propone chi lo porta avanti, oppure ce lo segnala qualcuno che lo conosce.</li>
+<li>Prima di presentarlo lo conosciamo di persona.</li>
+<li>La scelta è della Fondazione, che può anche dire di no.</li>
+<li>Se un progetto cambia strada, può uscire da questa pagina.</li>
+</ul>
+<h3>Che cosa vuol dire, e che cosa no</h3>
+<p>Un progetto amico resta di chi lo porta avanti: ha i suoi responsabili, i suoi conti e le sue regole. La Fondazione non lo gestisce, non raccoglie fondi per lui e non risponde del suo operato. Se vuoi sostenerlo, lo fai direttamente con chi lo porta avanti.</p>
+<h3>I progetti amici</h3>
+<p>Stiamo conoscendo i primi: li presenteremo qui.</p>
+<p>Se porti avanti un progetto che ti sembra vicino al nostro, scrivici. Se invece cerchi sostegno per un progetto nuovo, la porta giusta è <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a>.</p>
+<p><a class="vai" href="{→contatti}">Scrivici</a></p>
+""")
 
 # ------------------------------------------------------------ Per professionisti: la riga in cima alle due schede delicate (bozza di Claude dell’11.10, da confermare con Elias)
 # Le due schede restano rivolte alla persona e restano soltanto qui (ricerca del 9.10 e parere sullo statuto del 10.10):
@@ -1106,10 +1182,11 @@ DESCRIZIONI = {
     "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
     "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counsellor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
     "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
-    "dona": "Sostieni la Fondazione La Rosa d'Oro con carta, bonifico o PayPal: ogni donazione va a un progetto preciso ed è fiscalmente detraibile o deducibile.",
+    "dona": "Dona alla Fondazione La Rosa d’Oro con un bonifico o con PayPal, per un ambito o in memoria di una persona cara. Le donazioni sono detraibili o deducibili.",
     "documenti": "Lo statuto della Fondazione La Rosa d’Oro ETS, i dati della costituzione e dell’iscrizione al Registro unico del Terzo settore, le informative.",
     "contatti": "Scrivi alla Fondazione La Rosa d’Oro: ti rispondiamo di persona e, se serve, ci incontriamo a Milano o dove sei tu.",
-    "partnership": "Le realtà con cui la Fondazione La Rosa d'Oro collabora, e i siti amici.",
+    "partnership": "Con chi lavora la Fondazione La Rosa d’Oro: studi professionali, aziende, istituzioni e realtà del sociale, la realtà collegata Orizzonti Celesti.",
+    "progetti-amici": "I progetti amici della Fondazione La Rosa d’Oro: realtà che stimiamo, nate fuori dalla Fondazione, e il criterio con cui le presentiamo.",
     "privacy": "Come la Fondazione La Rosa d'Oro tratta i tuoi dati: moduli, dediche, donazioni, ricevute, diritti. In parole semplici.",
     "cookie": "Questo sito non usa cookie di profilazione né strumenti di tracciamento. Ecco che cosa significa.",
 }
