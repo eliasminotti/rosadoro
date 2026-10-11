@@ -532,6 +532,18 @@ a.azione:hover h4{color:var(--accento)}
 .modulo .campi[hidden]+.esito{margin-top:0}
 .modulo .esito.errore{border-left-color:var(--bordeaux)}
 .modulo .esito:focus{outline:none}
+.modulo label.consenso{display:flex;gap:12px;align-items:flex-start;margin:24px 0 0;font-size:17px;line-height:1.5;letter-spacing:0;text-transform:none;color:var(--testo);cursor:pointer}
+.modulo label.consenso input{width:20px;height:20px;flex:none;margin:3px 0 0;padding:0;accent-color:var(--oro)}
+.modulo label.consenso span{font-size:inherit;letter-spacing:0;color:inherit;margin:0}
+/* il riquadro «Confermo» per chi arriva dal collegamento dell'email di conferma delle notizie */
+.conferma-notizie{max-width:620px;margin:2em 0;border:1px solid var(--oro);background:var(--carta);padding:24px 28px}
+.conferma-notizie p{margin:0}
+.conferma-notizie .invia{display:inline-block;margin-top:20px;font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:15px 28px;border:1px solid var(--antracite);background:var(--antracite);color:var(--avorio);cursor:pointer;transition:background-color .15s,border-color .15s}
+.conferma-notizie .invia:hover{background:var(--nero);border-color:var(--nero)}
+.conferma-notizie .invia:disabled{opacity:.6;cursor:wait}
+.conferma-notizie .esito{border-left:1px solid var(--oro);padding:2px 0 2px 20px;margin:20px 0 0}
+.conferma-notizie .esito.errore{border-left-color:var(--bordeaux)}
+.conferma-notizie .esito:focus{outline:none}
 
 @media (max-width:1023px){
   .azioni{grid-template-columns:1fr}
