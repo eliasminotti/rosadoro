@@ -24,8 +24,8 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   Fondazione» quando `FOGLIO` in `costruisci.py` contiene l’indirizzo dello
   script del foglio (sorgenti/foglio-contatti.gs, pubblicato da Elias con il
   suo accesso Google; a ogni modifica si ripubblica come nuova versione).
-  Finché `FOGLIO` è vuoto passa da Forminit (account della segreteria,
-  `FORMINIT`); vuoti tutti e due, resta il pulsante «Scrivici» che apre la posta.
+  Forminit è spento dall’11.10.2026 (`FORMINIT` vuoto): se `FOGLIO` resta
+  vuoto, al posto del modulo c’è il pulsante «Scrivici» che apre la posta.
 
 ## Regole che non si discutono
 
