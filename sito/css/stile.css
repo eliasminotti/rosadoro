@@ -98,6 +98,8 @@ p:last-child{margin-bottom:0}
 .segnaposto{font-family:var(--display);font-style:italic;font-weight:300;font-size:22px;line-height:1.4;color:var(--secondario);max-width:52ch}
 .avviso{border:1px solid var(--bordeaux);color:var(--bordeaux);padding:14px 18px;font-size:14px;line-height:1.5;margin:0 0 32px;max-width:60ch}
 .notte .avviso{border-color:var(--secondario);color:var(--secondario)}
+/* la riga che dice a chi è scritta una scheda (convertibili e riqualificazione, 11.10) */
+.premessa{font-style:italic;color:var(--testo-60);padding-bottom:1em;border-bottom:1px solid var(--filo);margin-bottom:1.6em}
 
 /* ---------- header: due barre ---------- */
 .testa-alta{height:var(--testa-alta);border-bottom:1px solid var(--filo);background:var(--fondo)}
@@ -156,6 +158,17 @@ p:last-child{margin-bottom:0}
   .testa.a-due-righe .menu>ul{justify-content:center}
   .testa.a-due-righe .voce.pro>a{margin-left:14px}
   .testa.a-due-righe .voce.pro .sottomenu{right:auto;left:0}
+}
+/* con otto sezioni (11.10) il menu su una riga non entra fino a 1200 px: voci un poco più strette */
+@media (min-width:1024px) and (max-width:1199px){
+  .menu>ul{gap:0}
+  .voce>a{padding-left:5px;padding-right:5px;font-size:13.5px;letter-spacing:0}
+  .voce.pro>a,.notte .voce.pro>a{padding-left:9px;padding-right:9px}
+  .testa.a-due-righe .voce.pro>a{margin-left:8px}
+}
+/* e il pannello dell’ultima voce si apre verso sinistra, perché a destra non c’è posto */
+@media (min-width:1024px) and (max-width:1299px){
+  .testa.a-due-righe .voce.pro .sottomenu{right:0;left:auto}
 }
 
 /* ---------- hero ---------- */
@@ -248,6 +261,7 @@ p:last-child{margin-bottom:0}
 .porta .sotto-voci a{display:block;padding:11px 0;font-size:15px;line-height:22px;color:var(--testo-70)}
 .porta .sotto-voci a:hover{color:var(--testo);padding-left:12px;box-shadow:inset 1px 0 0 var(--oro)}
 .porta .sotto-voci .riga{display:block;font-size:13px;color:var(--testo-45)}
+.porta .in-costruzione{font-size:17px;line-height:1.55;color:var(--testo-60);margin:12px 0 0}
 .porta .sotto-voci .separa{height:1px;background:var(--oro);opacity:.6;margin:6px 0;border:0}
 .porta.nera{background:var(--nero);border-color:rgba(184,143,61,.35)}
 .porta.nera h3,.porta.nera h3 a{color:#fff}
