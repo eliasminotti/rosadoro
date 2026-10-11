@@ -224,6 +224,13 @@ def risorsa(da, percorso):
 def sfuggi(t):
     return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
+# l’apostrofo tipografico (regole di qualità, punto 1): nella pagina finita l’apostrofo dritto tra due lettere diventa ’,
+# fuori dagli script e dagli stili. Così vale per tutti i testi, anche quelli già scritti, senza riscriverli.
+def apostrofi(html):
+    pezzi = re.split(r"(<script\b.*?</script>|<style\b.*?</style>)", html, flags=re.S)
+    return "".join(x if x.startswith(("<script", "<style")) else re.sub(r"(?<=\w)'(?=(?:<[^>]+>)*\w)", "’", x) for x in pezzi)
+
+
 # --------------------------------------------------------------------------
 # le parti comuni
 # --------------------------------------------------------------------------
@@ -733,14 +740,14 @@ def costruisci():
     base = "<script>document.write('<base href=\"' + (location.hostname.slice(-9) === 'github.io' ? '/rosadoro/' : '/') + '\">')</script>"
     p404 = dict(cartella="", voce="", titolo="Pagina non trovata", occhiello="La Fondazione", hero="avorio", tipo="404", dove="", notte=False)
     with open(os.path.join(USCITA, "404.html"), "w", encoding="utf-8") as f:
-        f.write(pagina_html("", p404, extra_head="\n" + base))
+        f.write(apostrofi(pagina_html("", p404, extra_head="\n" + base)))
     open(os.path.join(USCITA, ".nojekyll"), "w").close()
     conteggio = 0
     for cartella, p in PAGINE.items():
         dove = os.path.join(USCITA, cartella) if cartella else USCITA
         os.makedirs(dove, exist_ok=True)
         with open(os.path.join(dove, "index.html"), "w", encoding="utf-8") as f:
-            f.write(pagina_html(cartella, p))
+            f.write(apostrofi(pagina_html(cartella, p)))
         conteggio += 1
     print("Scritte %d pagine in %s (%s)" % (conteggio, USCITA, datetime.date.today().isoformat()))
     # il JavaScript si controlla a ogni costruzione: un errore di sintassi spegne tutto il sito senza avvisare
