@@ -25,8 +25,15 @@ TESTATA_CENTRATA = True                   # prova del 15.9 (Dacia, ok Elias): lo
 LINK_PULITI = False                       # False: i collegamenti finiscono in «index.html», così il sito
                                           #        funziona anche aperto da una cartella sul computer.
                                           # True:  collegamenti puliti «/lasciti/», da attivare alla pubblicazione.
-FORMINIT = "0luhmnjylmz"                  # il codice del modulo dei Contatti su Forminit (Form ID, dal pannello di Forminit).
-                                          # Vuoto: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
+FOGLIO = "https://script.google.com/macros/s/AKfycbzHUOOLsgMRu-2wUcBNvVYjoTspg0-gBGaBlRkZylzz_JcDbbw1JZ_oSJMQDbj-R6xrBA/exec"                               # l'indirizzo dell'App web dello script del foglio «Contatti della Fondazione»
+                                          # (sorgenti/foglio-contatti.gs), quello che finisce in «/exec».
+                                          # Pieno: il modulo dei Contatti scrive nel foglio e Forminit non si usa più.
+FORMINIT = "0luhmnjylmz"                  # il codice del modulo dei Contatti su Forminit (Form ID, dal pannello di Forminit),
+                                          # usato finché FOGLIO è vuoto. Vuoti tutti e due: al posto del modulo resta
+                                          # il pulsante «Scrivici» che apre la posta.
+CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella delle notizie: se il testo cambia,
+    "Vorrei ricevere ogni tanto le notizie della Fondazione per email. Posso cancellarmi quando voglio.")
+                                          # cambia anche la versione, che il foglio registra accanto al consenso.
 USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 
 ENTE = {
@@ -422,14 +429,17 @@ def gettoni(html, da):
     return html
 
 def modulo_contatti(da):
-    """il modulo della pagina Contatti: il messaggio passa da Forminit, che lo recapita alla segreteria.
+    """il modulo della pagina Contatti. Con FOGLIO il messaggio va allo script del foglio «Contatti della
+    Fondazione», che lo scrive in una riga e avvisa la segreteria; altrimenti passa da Forminit.
     Con JavaScript la risposta compare nella pagina (sito.js); senza, il modulo parte lo stesso.
-    Il nome va in un campo di testo libero: il campo «nome» di Forminit rifiuta parentesi, numeri e virgole.
     Il campo nascosto «_gotcha» è la trappola per i programmi che riempiono tutto da soli."""
+    if FOGLIO:
+        return modulo_foglio(da)
     privacy = ('<p class="nota">Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’'
                '<a class="link" href="%s">informativa sulla privacy</a>.</p>' % verso(da, "privacy"))
     if not FORMINIT:
         return '<p><a class="vai" href="mailto:%s">Scrivici</a></p>\n%s' % (ENTE["email"], privacy)
+    # il nome va in un campo di testo libero: il campo «nome» di Forminit rifiuta parentesi, numeri e virgole
     return """<form class="modulo" id="modulo-contatti" action="https://forminit.com/f/%s" method="post" data-indirizzo="%s">
 <div class="campi">
 <label for="mc-nome">Il tuo nome</label>
@@ -446,6 +456,39 @@ def modulo_contatti(da):
 </div>
 <p class="esito" role="status" tabindex="-1" hidden></p>
 </form>""" % (sfuggi(FORMINIT), ENTE["email"], privacy)
+
+def modulo_foglio(da):
+    """il modulo dei Contatti che scrive nel foglio. In più rispetto a Forminit: la casella facoltativa delle
+    notizie (con la versione del testo), la pagina da cui arriva chi scrive e l'indirizzo del sito, che
+    sito.js riempie, e il riquadro «Confermo» per chi arriva dal collegamento dell'email di conferma."""
+    versione, testo = CONSENSO_NOTIZIE
+    privacy = ('<p class="nota">Usiamo i tuoi dati soltanto per risponderti e, se lo chiedi, per mandarti le notizie, '
+               'come spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>' % verso(da, "privacy"))
+    return """<div class="conferma-notizie" id="conferma-notizie" hidden>
+<p>Hai chiesto di ricevere le notizie della Fondazione per email. Tocca «Confermo» per confermare che l’indirizzo è tuo.</p>
+<button type="button" class="invia">Confermo</button>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</div>
+<form class="modulo" id="modulo-contatti" action="%s" method="post" data-indirizzo="%s">
+<div class="campi">
+<label for="mc-nome">Il tuo nome</label>
+<input id="mc-nome" name="nome" type="text" autocomplete="name" maxlength="200" required>
+<label for="mc-posta">La tua email</label>
+<input id="mc-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required>
+<label for="mc-oggetto">Oggetto <span>facoltativo</span></label>
+<input id="mc-oggetto" name="oggetto" type="text" maxlength="200" placeholder="Per esempio: lascito, progetto">
+<label for="mc-messaggio">Il messaggio</label>
+<textarea id="mc-messaggio" name="messaggio" rows="7" maxlength="8000" required></textarea>
+<label class="consenso" for="mc-notizie"><input id="mc-notizie" name="notizie" type="checkbox" value="si"> <span>%s</span></label>
+<input type="hidden" name="consenso" value="%s">
+<input type="hidden" name="pagina" value="">
+<input type="hidden" name="_sito" value="">
+<input type="hidden" name="_gotcha" value="">
+%s
+<button type="submit" class="invia">Scrivici</button>
+</div>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>""" % (sfuggi(FOGLIO), ENTE["email"], sfuggi(testo), sfuggi(versione), privacy)
 
 def tavola_img(da, nome, alt, classe="tavola"):
     return '<figure class="%s"><img src="%s" alt="%s"><figcaption>Tavola incisa</figcaption></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), sfuggi(alt))

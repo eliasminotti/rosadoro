@@ -7,7 +7,8 @@ Gettoni usati nei testi, sostituiti dall'assemblatore:
   {→cartella}        collegamento relativo alla pagina indicata
   {img:file.svg}     percorso di un'immagine in img/
   {file:nome.pdf}    percorso di un allegato da scaricare, in allegati/
-  {modulo-contatti}  il modulo dei Contatti (Forminit), o il pulsante «Scrivici» se il modulo non è ancora attivo
+  {modulo-contatti}  il modulo dei Contatti (il foglio della Fondazione, o Forminit finché il foglio non è acceso),
+                     o il pulsante «Scrivici» se il modulo non è ancora attivo
   {foto:NOME|didascalia|classe}   posto di una fotografia non ancora consegnata
 """
 
@@ -361,7 +362,8 @@ TESTI["privacy"] = dict(
 <p>Il sito è fatto di sole pagine statiche. Non usa cookie di profilazione, né strumenti di analisi del traffico, né contenuti incorporati da terzi. I caratteri tipografici sono ospitati sui nostri stessi server. L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita le pagine, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Servono a far funzionare il sito e a proteggerlo da abusi. La base giuridica è il nostro legittimo interesse alla sicurezza del sito. Questi registri sono conservati da GitHub secondo le sue regole, per il tempo necessario a questo scopo. Ne parla anche l'<a class="link" href="{→cookie}">informativa sui cookie</a>.</p>
 
 <h3>Quando ci scrivi</h3>
-<p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica e il messaggio. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. Conserviamo la corrispondenza per il tempo necessario a gestire la richiesta, e in seguito solo se ne nasce un rapporto con la Fondazione.</p>
+<p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica, il messaggio e la pagina del sito da cui hai aperto il modulo. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. I messaggi finiscono in un foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate di rispondere. Li conserviamo fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione.</p>
+<p>Se nel modulo spunti la casella delle notizie, ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento con una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 
 <h3>Quando ci presenti un progetto</h3>
 <p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presenta il tuo progetto</a> ci arrivano i dati di chi propone, la descrizione del progetto e il collegamento al documento che vuoi farci leggere. Li usiamo solo per valutare la proposta, e li conserviamo per la durata della valutazione; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
@@ -384,19 +386,20 @@ TESTI["privacy"] = dict(
 <p>Oltre alle persone della Fondazione, i tuoi dati sono trattati da alcuni fornitori, ciascuno per la sua parte:</p>
 <ul>
 <li><strong>GitHub</strong> (GitHub, Inc., Stati Uniti) ospita le pagine del sito e ne tiene i registri tecnici, per conto della Fondazione;</li>
-<li><strong>Forminit</strong> (UXPLUS Ltd, Regno Unito) riceve i messaggi dei moduli e ce li recapita, per conto della Fondazione; i dati sono conservati cifrati su server in Irlanda; %(V)s</li>
+<li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti: riceve i messaggi del modulo dei Contatti, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta, per conto della Fondazione;</li>
 <li><strong>Stripe</strong> e <strong>PayPal</strong> gestiscono i pagamenti come titolari autonomi, come detto sopra;</li>
 <li>la <strong>banca</strong> della Fondazione, per i bonifici.</li>
 </ul>
 <p>Non vendiamo, non cediamo e non diffondiamo i tuoi dati. Possiamo comunicarli solo a chi la legge ci obbliga a comunicarli: per esempio al commercialista e agli organi di controllo, per la tenuta dei conti e il bilancio.</p>
 
 <h3>Fuori dall'Unione europea</h3>
-<p>GitHub tratta i registri tecnici negli Stati Uniti. Il trasferimento è coperto dal Data Privacy Framework tra Unione europea e Stati Uniti (decisione di esecuzione (UE) 2023/1795), al quale GitHub aderisce, e dalle clausole contrattuali standard della Commissione europea (decisione 2021/914). Forminit tratta i dati nel Regno Unito, Paese che l'Unione europea riconosce come adeguato (decisione rinnovata il 19 dicembre 2025), e li conserva in Irlanda. Stripe e PayPal, come titolari autonomi, rispondono in proprio delle garanzie sui trasferimenti, descritte nelle loro informative.</p>
+<p>GitHub tratta i registri tecnici negli Stati Uniti. Il trasferimento è coperto dal Data Privacy Framework tra Unione europea e Stati Uniti (decisione di esecuzione (UE) 2023/1795), al quale GitHub aderisce, e dalle clausole contrattuali standard della Commissione europea (decisione 2021/914). Google può trattare i dati anche fuori dall’Unione europea, in particolare negli Stati Uniti: il trasferimento è coperto dal Data Privacy Framework, al quale Google LLC aderisce, e dalle clausole contrattuali standard previste dal contratto sul trattamento dei dati di Google Workspace. Stripe e PayPal, come titolari autonomi, rispondono in proprio delle garanzie sui trasferimenti, descritte nelle loro informative.</p>
 
 <h3>Per quanto tempo</h3>
 <ul>
 <li>registri tecnici del sito: per il tempo necessario alla sicurezza, secondo le regole di GitHub;</li>
-<li>messaggi dei moduli: per il tempo necessario a gestire la richiesta o la valutazione;</li>
+<li>messaggi del modulo dei Contatti: fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione;</li>
+<li>proposte di progetto e altri messaggi: per il tempo necessario a gestire la richiesta o la valutazione;</li>
 <li>dediche nel giardino: finché la pagina resta in linea, o finché non ne chiedi la rimozione;</li>
 <li>dati delle donazioni, ricevute e documenti contabili: dieci anni;</li>
 <li>consenso a ricevere notizie: finché non lo ritiri.</li>

@@ -20,9 +20,12 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   di non indicizzarle; la costruzione le elenca alla fine.
 - Il titolo della scheda (e di Google) viene da `TITOLI` in `testi_pagine.py`
   quando la pagina ha un titolo evocativo; altrimenti è il titolo della pagina.
-- Il modulo della pagina Contatti passa da Forminit (account della segreteria):
-  `FORMINIT` in `costruisci.py` è il codice del modulo; se è vuoto, al posto
-  del modulo resta il pulsante «Scrivici» che apre la posta.
+- Il modulo della pagina Contatti scrive nel foglio Google «Contatti della
+  Fondazione» quando `FOGLIO` in `costruisci.py` contiene l’indirizzo dello
+  script del foglio (sorgenti/foglio-contatti.gs, pubblicato da Elias con il
+  suo accesso Google; a ogni modifica si ripubblica come nuova versione).
+  Finché `FOGLIO` è vuoto passa da Forminit (account della segreteria,
+  `FORMINIT`); vuoti tutti e due, resta il pulsante «Scrivici» che apre la posta.
 
 ## Regole che non si discutono
 

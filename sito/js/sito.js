@@ -7,7 +7,7 @@
       - vince la sezione più vicina al centro della fascia visibile
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
    Nulla registra chi visita. Esce dal sito soltanto il messaggio del modulo
-   dei Contatti (5), quando chi scrive lo invia.
+   dei Contatti (5), quando chi scrive lo invia, con la pagina da cui arriva.
    ========================================================================== */
 (function () {
   'use strict';
@@ -151,9 +151,10 @@
   });
 })();
 
-/* ---- 5. il modulo dei Contatti: il messaggio va a Forminit, che lo recapita alla segreteria.
-        La risposta compare nella pagina; se qualcosa va storto, resta l'indirizzo di posta.
-        Senza questo codice il modulo parte lo stesso, e Forminit mostra la sua conferma ---- */
+/* ---- 5. il modulo dei Contatti: il messaggio va al foglio «Contatti della Fondazione» (lo script
+        Google del foglio lo scrive e avvisa la segreteria) oppure, finché il foglio non è acceso,
+        a Forminit. La risposta compare nella pagina; se qualcosa va storto, resta l'indirizzo di posta.
+        Senza questo codice il modulo parte lo stesso, e il servizio mostra la sua conferma ---- */
 (function () {
   'use strict';
   var modulo = document.getElementById('modulo-contatti');
@@ -162,19 +163,33 @@
   var esito = modulo.querySelector('.esito');
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
-  function dici(testo, errore, posta) {
-    esito.textContent = testo;
-    esito.classList.toggle('errore', !!errore);
+  var foglio = !!modulo.elements._sito;              /* il modulo del foglio ha i campi nascosti in più */
+
+  if (foglio) {
+    /* l'indirizzo del sito, per il collegamento di conferma delle notizie, e la pagina da cui
+       arriva chi scrive: la dice il browser stesso (document.referrer), solo se è una pagina del sito */
+    var sito = location.origin + location.pathname.replace(/contatti\/(index\.html)?$/, '');
+    modulo.elements._sito.value = sito;
+    if (document.referrer.indexOf(sito) === 0) {
+      var da = document.referrer.slice(sito.length).split(/[?#]/)[0]
+        .replace(/index\.html$/, '').replace(/\/$/, '');
+      if (da !== 'contatti') modulo.elements.pagina.value = da || 'home';
+    }
+  }
+
+  function dici(dove, testo, errore, posta) {
+    dove.textContent = testo;
+    dove.classList.toggle('errore', !!errore);
     if (posta) {                                   /* l'alternativa sicura: scrivere per posta */
       var a = document.createElement('a');
       a.className = 'link';
       a.href = 'mailto:' + indirizzo;
       a.textContent = indirizzo;
-      esito.appendChild(document.createTextNode(' '));
-      esito.appendChild(a);
-      esito.appendChild(document.createTextNode('.'));
+      dove.appendChild(document.createTextNode(' '));
+      dove.appendChild(a);
+      dove.appendChild(document.createTextNode('.'));
     }
-    esito.hidden = false;
+    dove.hidden = false;
   }
   modulo.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -182,25 +197,59 @@
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    fetch(modulo.action, { method: 'POST', body: new FormData(modulo), headers: { 'Accept': 'application/json' } })
+    var dati = new FormData(modulo);
+    if (foglio) dati.append('_js', '1');
+    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
       .then(function (r) { return r.json(); })
       .then(function (risposta) {
-        if (risposta && risposta.error === 'FI_SCHEMA_FORMAT_EMAIL') {
-          dici('Controlla la tua email: l’indirizzo non sembra completo.', true);
+        if (risposta && (risposta.error === 'FI_SCHEMA_FORMAT_EMAIL' || risposta.error === 'email')) {
+          dici(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
           return;
         }
         if (!risposta || !risposta.success) throw new Error('non arrivato');
         modulo.reset();
         campi.hidden = true;
-        dici('Grazie, il tuo messaggio è arrivato. Ti rispondiamo di persona, all’indirizzo che ci hai lasciato.');
+        dici(esito, 'Grazie, il tuo messaggio è arrivato. Ti rispondiamo di persona, all’indirizzo che ci hai lasciato.' +
+          (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' : ''));
         esito.focus();
       })
       .catch(function () {
-        dici('Il messaggio non è partito. Riprova tra poco, oppure scrivici a', true, true);
+        dici(esito, 'Il messaggio non è partito. Riprova tra poco, oppure scrivici a', true, true);
       })
       .then(function () {
         invia.disabled = false;
         invia.textContent = 'Scrivici';
+      });
+  });
+
+  /* chi apre il collegamento dell'email di conferma arriva qui con ?conferma=…: tocca «Confermo»
+     e il foglio segna la data. Il pulsante serve perché i programmi che controllano i collegamenti
+     nella posta non confermino al posto della persona */
+  var conferma = document.getElementById('conferma-notizie');
+  var codice = (location.search.match(/[?&]conferma=([A-Za-z0-9_.\-]+)/) || [])[1];
+  if (!foglio || !conferma || !codice) return;
+  var si = conferma.querySelector('.invia');
+  var esitoConferma = conferma.querySelector('.esito');
+  conferma.hidden = false;
+  si.addEventListener('click', function () {
+    if (si.disabled) return;
+    si.disabled = true;
+    si.textContent = 'Un momento…';
+    esitoConferma.hidden = true;
+    fetch(modulo.action + '?conferma=' + encodeURIComponent(codice))
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (!risposta || !risposta.testo) throw new Error('nessuna risposta');
+        dici(esitoConferma, risposta.testo, !risposta.success);
+        if (risposta.success) si.hidden = true;
+        esitoConferma.focus();
+      })
+      .catch(function () {
+        dici(esitoConferma, 'Non siamo riusciti a confermare. Riprova tra poco, oppure scrivici a', true, true);
+      })
+      .then(function () {
+        si.disabled = false;
+        si.textContent = 'Confermo';
       });
   });
 })();
