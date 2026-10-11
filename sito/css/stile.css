@@ -386,11 +386,13 @@ p:last-child{margin-bottom:0}
   .notte .voce.pro{border-color:var(--oro)}
   .menu>.menu-sec-mobile{display:flex;flex-direction:column;list-style:none;padding:20px var(--lato) 32px;margin:0;border-top:1px solid var(--filo-forte);gap:14px}
   .menu-sec-mobile a{font-size:14px;line-height:20px;color:var(--secondario)}
-  /* Lux chiude il menu, sotto le voci rosse: il nome e, sotto, la riga */
-  .menu-sec-mobile .lux-voce{margin-top:10px;padding-top:24px;border-top:1px solid var(--filo-forte)}
-  .menu-sec-mobile .lux{display:flex;flex-direction:column;align-items:flex-start;gap:6px;white-space:normal}
-  .menu-sec-mobile .lux .lux-nome{font-size:26px}
-  .menu-sec-mobile .lux .lux-riga{font-size:14px}
+  /* Lux chiude il menu, sotto le voci rosse, nel riquadro nero di «Per professionisti»: il nome e, sotto, la riga */
+  .menu-sec-mobile .lux-voce{margin-top:10px}
+  .menu-sec-mobile .lux{display:flex;flex-direction:column;align-items:flex-start;gap:6px;white-space:normal;background:var(--nero);border:1px solid rgba(184,143,61,.55);padding:16px 14px}
+  .menu-sec-mobile .lux .lux-nome{font-size:26px;color:var(--oro)}
+  .menu-sec-mobile .lux .lux-riga{font-size:14px;color:rgba(255,255,255,.72)}
+  .menu-sec-mobile .lux:hover .lux-nome,.menu-sec-mobile .lux:hover .lux-riga{color:#fff}
+  .notte .menu-sec-mobile .lux{border-color:var(--oro)}
 
   h2{font-size:40px}
   .hero{min-height:480px;padding:72px 0 64px}
