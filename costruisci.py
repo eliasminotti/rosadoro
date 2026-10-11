@@ -73,7 +73,8 @@ SEZIONI = [
          ],
          rimandi=[dict(voce="Progetti", titolo="I progetti che un lascito può sostenere", verso="progetti")]),
     # «Fondi e strumenti» (Elias, 11.10): le pagine per il pubblico degli strumenti dello statuto. Ognuna ha la sua scheda
-    # gemella sotto «Per professionisti». Il Dopo di Noi e il fondo di memoria restano le pagine di Dacia, nelle loro sezioni.
+    # gemella sotto «Per professionisti». Il Dopo di Noi e il fondo di memoria hanno anche le pagine di Dacia, nelle loro sezioni:
+    # qui ci sono lo strumento del Dopo di Noi e l’eredità solidale per gli eredi (art. 12), che si rimandano a vicenda con quelle.
     dict(chiave="fondi-e-strumenti", voce="Fondi e strumenti", titolo="Fondi e strumenti", hero="avorio", casa="tempio",
          pagine=[
              dict(slug="fondi-di-scopo", voce="Un fondo con il tuo nome", titolo="Un fondo con il tuo nome", riga="I fondi di scopo", art="Statuto, art. 8",
@@ -84,6 +85,10 @@ SEZIONI = [
                   gemella="professionisti/vitalizio-filantropico"),
              dict(slug="esecutore-testamentario", voce="Esecutore testamentario e custode", titolo="L’esecutore testamentario e il custode", riga="Le tue volontà, rispettate",
                   art="Statuto, art. 14 · artt. 700 ss. c.c.", gemella="professionisti/esecutore-testamentario"),
+             dict(slug="dopo-di-noi", voce="La gestione del Dopo di Noi", titolo="La gestione del Dopo di Noi", riga="Trust e protezione dei fragili",
+                  art="Statuto, art. 14 · L. 112/2016", gemella="professionisti/dopo-di-noi"),
+             dict(slug="eredita-solidale", voce="L’eredità solidale", titolo="L’eredità solidale", riga="Ciò che continua a vivere di un’eredità", art="Statuto, art. 12",
+                  gemella="professionisti/fondo-della-memoria"),
          ],
          rimandi=[dict(titolo="Il Dopo di Noi", verso="lasciti/dopo-di-noi"), dict(titolo="Il fondo di memoria", verso="in-memoria/fondo-di-memoria")]),
     dict(chiave="progetti", voce="Progetti", titolo="Progetti", hero="avorio", tavola="paesaggio", casa="paesaggio",
@@ -134,7 +139,7 @@ SEZIONI = [
                   gemella="fondi-e-strumenti/esecutore-testamentario"),
              dict(slug="vitalizio-filantropico", voce="Vitalizio filantropico", titolo="Vitalizio filantropico", riga="Un bene per la cura", art="Statuto, art. 14",
                   gemella="fondi-e-strumenti/vitalizio-filantropico"),
-             dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="Trust e protezione dei fragili", art="Statuto, art. 14 · L. 112/2016", gemella="lasciti/dopo-di-noi"),
+             dict(slug="dopo-di-noi", voce="Dopo di Noi", titolo="Gestione del «Dopo di Noi»", riga="Trust e protezione dei fragili", art="Statuto, art. 14 · L. 112/2016", gemella="fondi-e-strumenti/dopo-di-noi"),
              dict(slug="family-office", voce="Family Office filantropico", titolo="Family Office filantropico (Advisory)", riga="Piani di dono su misura", art="Statuto, art. 14",
                   gemella="fondi-e-strumenti/family-office"),
              # i fondi convertibili si presentano con cautela (Elias, 9.10): se ne parla a tu per tu, senza moduli né inviti
@@ -143,7 +148,7 @@ SEZIONI = [
              dict(slug="riqualificazione-etica", voce="Fondi di riqualificazione etica", titolo="Fondi di riqualificazione etica", riga="Restituire alla collettività", art="Statuto, art. 11"),
              # la scheda della riqualificazione etica è online dal 10.10 col sì di Elias; il notaio lo rilegge dopo, se serve (l'avviso non compare nella pagina: Elias, 9.10)
              dict(slug="fondo-della-memoria", voce="Fondo della memoria", titolo="Fondo della memoria ed eredità solidale", riga="Ciò che continua a vivere di un’eredità", art="Statuto, art. 12",
-                  gemella="in-memoria/fondo-di-memoria"),
+                  gemella="fondi-e-strumenti/eredita-solidale"),
          ]),
 ]
 
