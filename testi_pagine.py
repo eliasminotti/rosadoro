@@ -7,6 +7,7 @@ Gettoni usati nei testi, sostituiti dall'assemblatore:
   {→cartella}        collegamento relativo alla pagina indicata
   {img:file.svg}     percorso di un'immagine in img/
   {file:nome.pdf}    percorso di un allegato da scaricare, in allegati/
+  {modulo-contatti}  il modulo dei Contatti (Forminit), o il pulsante «Scrivici» se il modulo non è ancora attivo
   {foto:NOME|didascalia|classe}   posto di una fotografia non ancora consegnata
 """
 
@@ -512,7 +513,7 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 <p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
 <p><strong>Attraverso una disposizione anticipata di trattamento puoi comunicare ai medici cosa desideri — o non desideri — finché sei in grado di farlo. Garantisci che i tuoi desideri più intimi e familiari vengano rispettati.</strong></p>
 <p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
-<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Non sostituisce il colloquio con il tuo medico.</p>
+<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Non sostituisce il colloquio con il tuo medico. Se ti serve aiuto per compilarlo o per trovare un notaio, <a class="link" href="{→contatti}">scrivici</a>.</p>
 <p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
@@ -787,8 +788,8 @@ TESTI["documenti"] = dict(
 TESTI["contatti"] = dict(
     sotto="Per una domanda, una proposta o un primo colloquio.",
     corpo="""
-<p>Il modo più semplice per raggiungerci è scrivere alla segreteria della Fondazione, all’indirizzo <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Leggiamo ogni messaggio e ti rispondiamo di persona.</p>
-<p><a class="vai" href="mailto:segreteria@larosadoro.org">Scrivici</a></p>
+<p>Il modo più semplice per raggiungerci è scriverci qui sotto, oppure all’indirizzo della segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Leggiamo ogni messaggio e ti rispondiamo di persona.</p>
+{modulo-contatti}
 
 <h3>Per che cosa puoi scriverci</h3>
 <ul class="stelle">
@@ -809,7 +810,6 @@ TESTI["contatti"] = dict(
 Via Bianca di Savoia 17, 20122 Milano<br>
 Codice fiscale 14629350969</p>
 <p>È la sede legale della Fondazione, non un ufficio aperto al pubblico: per incontrarci, scrivici.</p>
-<p>Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’<a class="link" href="{→privacy}">informativa sulla privacy</a>.</p>
 """)
 
 # ------------------------------------------------------------ Per professionisti: le schede dei due fondi delicati (testi di Claude approvati da Elias il 10.10)
