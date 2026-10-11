@@ -35,6 +35,9 @@ CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella
     "Vorrei ricevere ogni tanto le notizie della Fondazione per email. Posso cancellarmi quando voglio.")
                                           # cambia anche la versione, che il foglio registra accanto al consenso.
 USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
+LUX = "https://lux.larosadoro.org/"       # il sito di Lux: la voce «Lux» in alto a sinistra e nel menu del telefono (Elias, 11.10).
+                                          # Vuoto: la voce sparisce, per esempio se all'apertura del sito al pubblico
+                                          # le donazioni di Lux non sono ancora aperte.
 
 ENTE = {
     "nome": "Fondazione La Rosa d'Oro ETS",
@@ -315,8 +318,14 @@ def header(da, pagina):
     # sul telefono «Chi siamo» e «Lavora con noi» lasciano la barra in basso e stanno qui, tra le voci rosse (Elias, 11.10)
     secondari_telefono = ('<li class="solo-telefono"><a href="%s">Chi siamo</a></li>' % verso(da, "chi-siamo") + secondari
                           + '<li class="solo-telefono"><a href="%s">Lavora con noi</a></li>' % verso(da, "lavora-con-noi"))
+    # Lux, il progetto della Fondazione per il digitale: in alto a sinistra, in diagonale con «Per professionisti»;
+    # sul telefono, dove la riga in alto non c'è, chiude il menu (Elias, 11.10)
+    lux = ('<a class="lux" href="%s"><span class="lux-nome">Lux</span> <span class="lux-riga">per un uso consapevole del digitale</span></a>'
+           % sfuggi(LUX)) if LUX else ""
+    if lux:
+        secondari_telefono += '<li class="lux-voce">%s</li>' % lux
     return """<header class="testa%s">
-  <div class="testa-alta"><div class="pagina"><nav aria-label="Menu secondario"><ul class="menu-sec">%s</ul></nav></div></div>
+  <div class="testa-alta"><div class="pagina">%s<nav aria-label="Menu secondario"><ul class="menu-sec">%s</ul></nav></div></div>
   <div class="testa-bassa"><div class="pagina">
     %s
     <button class="apri-menu" type="button" aria-expanded="false" aria-controls="menu-principale">Menu</button>
@@ -325,7 +334,7 @@ def header(da, pagina):
       <ul class="menu-sec-mobile">%s</ul>
     </nav>
   </div></div>
-</header>""" % (" a-due-righe" if TESTATA_CENTRATA else "", secondari, logo(da), "".join(voci), secondari_telefono)
+</header>""" % (" a-due-righe" if TESTATA_CENTRATA else "", lux, secondari, logo(da), "".join(voci), secondari_telefono)
 
 def barra(da):
     # ogni voce porta la sua classe, così sul telefono il foglio di stile può tenerne tre su una riga (Elias, 11.10):
