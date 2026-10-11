@@ -836,11 +836,12 @@ TESTI["professionisti/riqualificazione-etica"] = dict(
 """)
 
 # ------------------------------------------------------------ Family Office filantropico (bozza di Claude del 10.10, da rileggere con Elias)
-# Parla alle famiglie, come le altre schede parlano alla persona; le imprese hanno il loro piano nella pagina Per le aziende.
+# La pagina per le famiglie, nella sezione Fondi e strumenti (Elias, 11.10); la scheda per i professionisti è professionisti/family-office.
+# Le imprese hanno il loro piano nella pagina Per le aziende.
 # Confini: nessun consiglio sugli investimenti (riservati dal TUF, artt. 1 c. 5-septies e 18) e atti, successioni e imposte ai
-# professionisti; nessun costo né compenso finché la Fondazione non li decide. Niente collegamenti alle schede ancora vuote.
+# professionisti; nessun costo né compenso finché la Fondazione non li decide. Niente collegamenti a pagine ancora vuote: quelli a Fondi e strumenti presuppongono la PR #14.
 # Il vitalizio non è una donazione (contratto oneroso e aleatorio: Cass. 22009/2016 e 36082/2023): non chiamarlo dono (11.10).
-TESTI["professionisti/family-office"] = dict(
+TESTI["fondi-e-strumenti/family-office"] = dict(
     sotto="Piani di dono su misura.",
     corpo="""
 <p>La Rosa d’Oro è una fondazione del Terzo settore. Accompagna chi vuole che una parte di ciò che ha continui a fare del bene.</p>
@@ -850,10 +851,10 @@ TESTI["professionisti/family-office"] = dict(
 <li><strong>L’azienda.</strong> Se chi la dona lo chiede, la Fondazione può tenerla e farla continuare a lavorare, anche attraverso una società separata dal suo patrimonio, preservandone il lavoro, le persone e i valori indicati da chi la dona (art. 12, comma 10).</li>
 <li><strong>La terra.</strong> Terreni, tenute e borghi restano bene comune: la Fondazione ne conserva la proprietà e li affida a giovani agricoltori, cooperative e imprese sociali, con un’agricoltura biologica, biodinamica e rigenerativa (art. 13).</li>
 <li><strong>Gli immobili, le collezioni, i beni di valore.</strong> Di regola la Fondazione li vende e ne destina il ricavato ai progetti, nel fondo della memoria o in un fondo con il nome della famiglia. Se chi dona lo chiede, e il bene serve agli scopi della Fondazione, si può tenere (art. 12, commi 8 e 9).</li>
-<li><strong>La casa in cui vivi.</strong> Con il vitalizio filantropico, che non è una donazione ma un contratto, chi cede la casa o un altro bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita; alla sua scomparsa il bene resta alla Fondazione (art. 14, comma 3).</li>
-<li><strong>Le volontà.</strong> Un <a class="link" href="{→lasciti/il-lascito-testamentario}">lascito</a> alla Fondazione o a un suo fondo. E la Fondazione può essere esecutore testamentario e custode, perché ciò che è scritto nel testamento sia rispettato (art. 14, comma 2).</li>
+<li><strong>La casa in cui vivi.</strong> Con il <a class="link" href="{→fondi-e-strumenti/vitalizio-filantropico}">vitalizio filantropico</a>, che non è una donazione ma un contratto, chi cede la casa o un altro bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita; alla sua scomparsa il bene resta alla Fondazione (art. 14, comma 3).</li>
+<li><strong>Le volontà.</strong> Un <a class="link" href="{→lasciti/il-lascito-testamentario}">lascito</a> alla Fondazione o a un suo fondo. E la Fondazione può essere <a class="link" href="{→fondi-e-strumenti/esecutore-testamentario}">esecutore testamentario e custode</a>, perché ciò che è scritto nel testamento sia rispettato (art. 14, comma 2).</li>
 <li><strong>Un familiare fragile.</strong> Con il <a class="link" href="{→lasciti/dopo-di-noi}">Dopo di Noi</a> la Fondazione può gestire o sorvegliare il trust che la famiglia istituisce, perché la cura continui anche quando i genitori non ci saranno più (art. 14, comma 4).</li>
-<li><strong>Il nome e lo scopo della famiglia.</strong> Un fondo di scopo con il nome della famiglia e una contabilità separata, anche senza scadenza; se lo desideri, un comitato in cui la famiglia indica i progetti da sostenere (art. 8).</li>
+<li><strong>Il nome e lo scopo della famiglia.</strong> Un <a class="link" href="{→fondi-e-strumenti/fondi-di-scopo}">fondo di scopo</a> con il nome della famiglia e una contabilità separata, anche senza scadenza; se lo desideri, un comitato in cui la famiglia indica i progetti da sostenere (art. 8).</li>
 </ul>
 <p>Per molte famiglie un fondo con il proprio nome, dentro una fondazione che esiste già, è un’alternativa più semplice a costituirne una propria.</p>
 <p>Le verifiche si fanno prima e dopo. Prima di donare, su chi riceve. Dopo, su come è stato usato ciò che hai donato: per ogni fondo c’è un rendiconto separato, che puoi chiedere quando vuoi.</p>
