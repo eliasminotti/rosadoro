@@ -27,14 +27,16 @@
   --nero:#000000;
   --bianco:#FFFFFF;
 
-  /* i ruoli, sulle pagine chiare. Niente grigi: antracite a opacità decrescente */
+  /* i ruoli, sulle pagine chiare. Niente grigi: antracite a opacità decrescente.
+     I due più chiari sono stati scuriti l’11.10 (Elias): «-60» e «-45» ricordano i valori di partenza,
+     ma ora si leggono bene anche in piccolo (contrasto almeno 4,5 a 1 sull’avorio e sul bianco). */
   --fondo:var(--avorio);
   --carta:var(--bianco);
   --testo:var(--antracite);
   --testo-80:rgba(28,28,28,.8);
   --testo-70:rgba(28,28,28,.7);
-  --testo-60:rgba(28,28,28,.6);
-  --testo-45:rgba(28,28,28,.45);
+  --testo-60:rgba(28,28,28,.66);
+  --testo-45:rgba(28,28,28,.62);
   --accento:var(--oro-scuro);
   --secondario:var(--bordeaux);
   --filo:rgba(184,143,61,.15);
@@ -62,7 +64,7 @@
   --testo-80:rgba(255,255,255,.82);
   --testo-70:rgba(255,255,255,.72);
   --testo-60:rgba(255,255,255,.6);
-  --testo-45:rgba(255,255,255,.45);
+  --testo-45:rgba(255,255,255,.55);
   --accento:var(--oro);
   --secondario:#D9B86A;
   --filo:rgba(184,143,61,.22);
@@ -98,6 +100,8 @@ p:last-child{margin-bottom:0}
 .segnaposto{font-family:var(--display);font-style:italic;font-weight:300;font-size:22px;line-height:1.4;color:var(--secondario);max-width:52ch}
 .avviso{border:1px solid var(--bordeaux);color:var(--bordeaux);padding:14px 18px;font-size:14px;line-height:1.5;margin:0 0 32px;max-width:60ch}
 .notte .avviso{border-color:var(--secondario);color:var(--secondario)}
+/* la riga che dice a chi è scritta una scheda (convertibili e riqualificazione, 11.10) */
+.premessa{font-style:italic;color:var(--testo-60);padding-bottom:1em;border-bottom:1px solid var(--filo);margin-bottom:1.6em}
 
 /* ---------- header: due barre ---------- */
 .testa-alta{height:var(--testa-alta);border-bottom:1px solid var(--filo);background:var(--fondo)}
@@ -138,7 +142,7 @@ p:last-child{margin-bottom:0}
 .voce.pro .sottomenu{background:var(--nero);border-color:rgba(184,143,61,.55);right:0;left:auto}
 .voce.pro .sottomenu a{color:rgba(255,255,255,.82)}
 .voce.pro .sottomenu a:hover{color:#fff;background:rgba(184,143,61,.1)}
-.voce.pro .sottomenu .riga{color:rgba(255,255,255,.45)}
+.voce.pro .sottomenu .riga{color:rgba(255,255,255,.55)}
 .voce.pro .sottomenu .attuale>a{color:#fff}
 .notte .voce.pro>a{background:transparent;border:1px solid var(--oro);padding-top:9px;padding-bottom:9px}
 .notte .voce.pro>a:hover,.notte .voce.pro.attiva>a{border-color:var(--oro);color:#fff}
@@ -156,6 +160,17 @@ p:last-child{margin-bottom:0}
   .testa.a-due-righe .menu>ul{justify-content:center}
   .testa.a-due-righe .voce.pro>a{margin-left:14px}
   .testa.a-due-righe .voce.pro .sottomenu{right:auto;left:0}
+}
+/* con otto sezioni (11.10) il menu su una riga non entra fino a 1200 px: voci un poco più strette */
+@media (min-width:1024px) and (max-width:1199px){
+  .menu>ul{gap:0}
+  .voce>a{padding-left:5px;padding-right:5px;font-size:13.5px;letter-spacing:0}
+  .voce.pro>a,.notte .voce.pro>a{padding-left:9px;padding-right:9px}
+  .testa.a-due-righe .voce.pro>a{margin-left:8px}
+}
+/* e il pannello dell’ultima voce si apre verso sinistra, perché a destra non c’è posto */
+@media (min-width:1024px) and (max-width:1299px){
+  .testa.a-due-righe .voce.pro .sottomenu{right:0;left:auto}
 }
 
 /* ---------- hero ---------- */
@@ -248,6 +263,7 @@ p:last-child{margin-bottom:0}
 .porta .sotto-voci a{display:block;padding:11px 0;font-size:15px;line-height:22px;color:var(--testo-70)}
 .porta .sotto-voci a:hover{color:var(--testo);padding-left:12px;box-shadow:inset 1px 0 0 var(--oro)}
 .porta .sotto-voci .riga{display:block;font-size:13px;color:var(--testo-45)}
+.porta .in-costruzione{font-size:17px;line-height:1.55;color:var(--testo-60);margin:12px 0 0}
 .porta .sotto-voci .separa{height:1px;background:var(--oro);opacity:.6;margin:6px 0;border:0}
 .porta.nera{background:var(--nero);border-color:rgba(184,143,61,.35)}
 .porta.nera h3,.porta.nera h3 a{color:#fff}
@@ -255,11 +271,11 @@ p:last-child{margin-bottom:0}
 .porta.nera .occhiello{color:var(--oro)}
 .porta.nera .intro{color:rgba(255,255,255,.6)}
 .porta.nera .tavola-porta{background:#0F0E0D;border-color:rgba(184,143,61,.45)}
-.porta.nera .etichetta{color:rgba(255,255,255,.45);border-bottom-color:rgba(184,143,61,.55)}
+.porta.nera .etichetta{color:rgba(255,255,255,.55);border-bottom-color:rgba(184,143,61,.55)}
 .porta.nera .sotto-voci li{border-bottom-color:rgba(184,143,61,.22)}
 .porta.nera .sotto-voci a{color:rgba(255,255,255,.72)}
 .porta.nera .sotto-voci a:hover{color:#fff}
-.porta.nera .sotto-voci .riga{color:rgba(255,255,255,.4)}
+.porta.nera .sotto-voci .riga{color:rgba(255,255,255,.55)}
 .porta.nera .vai{color:var(--oro)}
 .porta.nera .vai:hover{color:#fff}
 
@@ -323,6 +339,7 @@ p:last-child{margin-bottom:0}
 .barra-fissa .dona:hover{background:var(--nero);color:#fff}
 .notte .barra-fissa .dona{background:#fff;color:var(--nero)}
 .notte .barra-fissa .dona:hover{background:var(--oro);color:var(--nero)}
+.menu-sec-mobile .solo-telefono{display:none}   /* «Chi siamo» e «Lavora con noi» tra le voci rosse: solo sul telefono, dove escono dalla barra */
 
 /* ---------- sotto i 1024 px ---------- */
 @media (max-width:1023px){
@@ -392,8 +409,8 @@ p:last-child{margin-bottom:0}
   .pie .separatore{margin:48px 0 24px}
   .pie-dati{flex-direction:column}
 
-  /* i tre pulsanti della barra: etichetta sempre visibile, un terzo ciascuno */
-  .barra-fissa a{flex:1 1 0;min-width:0;padding:0 4px;font-size:10px;line-height:1.25;letter-spacing:.05em;text-align:center}
+  /* le voci della barra: etichetta sempre visibile, parti uguali */
+  .barra-fissa a{flex:1 1 0;min-width:0;padding:0 4px;font-size:12px;line-height:1.25;letter-spacing:.06em;text-align:center}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -404,12 +421,19 @@ p:last-child{margin-bottom:0}
 /* ---------- testi impaginati: citazioni, box, elenchi ---------- */
 .citazione{font-family:var(--display);font-style:italic;font-weight:400;font-size:26px;line-height:1.4;color:var(--accento);max-width:40ch;margin:2em 0}
 .citazione.unica{max-width:none}          /* le frasi che Dacia vuole su una linea sola */
+.citazione.apre{margin-bottom:.5em}       /* la frase in oro che apre il paragrafo sotto */
 .testo>.citazione:first-child{margin-top:0}
 .testo ul{margin:0 0 1.2em;padding-left:1.15em}
 .testo ul li{margin:.45em 0}
 .box{border:1px solid var(--filo-forte);background:var(--carta);padding:26px 30px;margin:2.2em 0;font-size:16px;max-width:60ch}
 .box p{margin:0 0 10px;max-width:none}
 .box p:last-child{margin:0}
+/* le coordinate del bonifico (pagina Dona): in evidenza come un riquadro, ma nel corpo normale del testo */
+.coordinate{border:1px solid var(--filo-forte);background:var(--carta);padding:22px 26px;margin:1.6em 0 2em;max-width:60ch}
+.coordinate p{margin:0 0 12px;max-width:none}
+.coordinate p:last-child{margin:0}
+.coordinate .iban{color:var(--testo);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.coordinate .iban span{white-space:nowrap}   /* sul telefono l’IBAN va a capo a metà, non sull’ultimo gruppo */
 
 /* l'elenco con le stelline (Perché donare alla Rosa d'Oro) */
 .testo ul.stelle{list-style:none;padding-left:1.4em}
@@ -494,6 +518,24 @@ a.azione:hover h4{color:var(--accento)}
 .dialogo .invia{background:var(--antracite);color:var(--avorio);border-color:var(--antracite)}
 .dialogo .invia:hover{background:var(--nero);color:#fff}
 
+/* il modulo dei Contatti: gli stessi campi e lo stesso pulsante della finestra della dedica */
+.modulo{max-width:620px;margin:2em 0 2.4em}
+.modulo label{display:block;font-family:var(--sans);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--accento);margin:22px 0 8px}
+.modulo label:first-child{margin-top:0}
+.modulo label span{font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--testo-45);margin-left:8px}
+.modulo input,.modulo textarea{display:block;width:100%;border:1px solid var(--filo-forte);border-radius:0;background:var(--bianco);font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--antracite);padding:12px 14px;transition:border-color .15s}
+.modulo textarea{min-height:190px;resize:vertical}
+.modulo input:focus,.modulo textarea:focus{border-color:var(--oro)}
+.modulo ::placeholder{color:var(--testo-45);opacity:1}
+.modulo .nota{font-size:17px;color:var(--testo-60);margin:18px 0 0}
+.modulo .invia{display:inline-block;margin-top:24px;font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:15px 28px;border:1px solid var(--antracite);background:var(--antracite);color:var(--avorio);cursor:pointer;transition:background-color .15s,border-color .15s}
+.modulo .invia:hover{background:var(--nero);border-color:var(--nero)}
+.modulo .invia:disabled{opacity:.6;cursor:wait}
+.modulo .esito{color:var(--testo);border-left:1px solid var(--oro);padding:2px 0 2px 20px;margin:24px 0 0}
+.modulo .campi[hidden]+.esito{margin-top:0}
+.modulo .esito.errore{border-left-color:var(--bordeaux)}
+.modulo .esito:focus{outline:none}
+
 @media (max-width:1023px){
   .azioni{grid-template-columns:1fr}
   .citazione{font-size:22px}
@@ -509,4 +551,19 @@ a.azione:hover h4{color:var(--accento)}
   .logo .nome{font-size:17px}
   .apri-menu{padding:10px 12px;letter-spacing:.1em}
   .testa-bassa .pagina{gap:12px}
+  .coordinate{padding:18px}
+}
+/* a 320 px l’apostrofo tipografico di «d’Oro», più largo, spingeva «Menu» fuori di un pixel */
+@media (max-width:360px){
+  .testa-bassa .pagina{gap:8px}
+}
+
+/* il telefono: la barra su una riga sola (Elias, 11.10). Tre voci, «Dona ora» al centro come sul computer;
+   «Chi siamo» e «Lavora con noi» escono dalla barra e stanno tra le voci rosse del menu. Il tablet tiene la barra intera. */
+@media (max-width:600px){
+  :root{--barra:56px}
+  .menu-sec-mobile .solo-telefono{display:list-item}
+  .barra-fissa .b-chi-siamo,.barra-fissa .b-lavora-con-noi{display:none}
+  .barra-fissa .b-news{border-left:0}
+  .barra-fissa a{font-size:13px;letter-spacing:.12em}
 }

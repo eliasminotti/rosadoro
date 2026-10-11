@@ -7,6 +7,7 @@ Gettoni usati nei testi, sostituiti dall'assemblatore:
   {→cartella}        collegamento relativo alla pagina indicata
   {img:file.svg}     percorso di un'immagine in img/
   {file:nome.pdf}    percorso di un allegato da scaricare, in allegati/
+  {modulo-contatti}  il modulo dei Contatti (Forminit), o il pulsante «Scrivici» se il modulo non è ancora attivo
   {foto:NOME|didascalia|classe}   posto di una fotografia non ancora consegnata
 """
 
@@ -73,7 +74,7 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 <h3>I vantaggi fiscali</h3>
 <p>I contributi versati a un fondo di memoria della Fondazione sono detraibili o deducibili secondo l'art. 83 del Codice del Terzo Settore (D.Lgs. 117/2017). Per le persone: <strong>detrazione IRPEF del 30%</strong> dell'importo donato, su un massimo di 30.000 euro l'anno (vantaggio fino a 9.000 euro); in alternativa, <strong>deduzione dal reddito fino al 10%</strong> del reddito complessivo; se la deduzione supera il reddito dell'anno, la parte che eccede si deduce nei quattro periodi d'imposta successivi. La scelta tra detrazione e deduzione vale per tutte le donazioni analoghe dell'anno, non solo per questa. Per aziende e società: deduzione delle erogazioni in denaro o in natura fino al 10% del reddito dichiarato. Perché il beneficio valga, la donazione in denaro va fatta con strumenti tracciabili: bonifico, carta, assegno bancario o circolare, bollettino postale; il contante non dà diritto all'agevolazione.</p>
 <p class="citazione unica">Onoriamo la memoria di ieri dando ali ai sogni di domani.</p>
-<p>Il fondo di memoria è previsto dallo statuto della Fondazione (art. 12, «Fondo della memoria ed eredità solidale»): lo trovi nella pagina <a class="link" href="{→documenti}">Documenti</a>; per i professionisti c'è la <a class="link" href="{→professionisti/fondo-della-memoria}">scheda dedicata</a>.</p>
+<p>Il fondo di memoria è previsto dallo statuto della Fondazione: un fondo con il nome e lo scopo che scegli tu è un fondo di scopo (art. 8); se a donare sono gli eredi, con ciò che hanno ricevuto, valgono le regole del «Fondo della memoria e fondi di eredità solidale» (art. 12). Lo statuto lo trovi nella pagina <a class="link" href="{→documenti}">Documenti</a>; per i professionisti c'è la <a class="link" href="{→professionisti/fondo-della-memoria}">scheda dedicata</a>.</p>
 <p>Ci sono anche altri modi per sostenere chi affronta un lutto: <a class="link" href="{→in-memoria/giardino-dei-ricordi}">il Giardino dei ricordi</a>, i <a class="link" href="{→in-memoria/funerali}">Funerali</a>, <a class="link" href="{→in-memoria/svuota-e-sorridi}">gli Svuota e Sorridi</a> e <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Io sono qui per te</a>.</p>
 """)
 
@@ -239,9 +240,9 @@ TESTI["lasciti/il-lascito-testamentario"] = dict(
 <p><strong>Fare un lascito testamentario significa operare con libertà e coscienza.</strong> Un testamento è un modo sicuro per garantire che i tuoi desideri vengano rispettati e che i tuoi ideali continuino a realizzarsi anche dopo di te.</p>
 <p class="citazione">Dona a ciò che per te è vita.</p>
 {foto:ROSA|Una rosa|ritratto}
-<p>Esprimere le proprie ultime volontà con un lascito è un gesto semplice, privo di vincoli e sempre modificabile, che assicura il rispetto dei propri desideri e dei propri progetti. Ciò conta ancora di più in un momento difficile e di vulnerabilità, come una malattia: scegliere con libertà e coscienza come disporre delle proprie volontà e del proprio patrimonio, per quanto piccolo sia, risveglia e rafforza l'Io e promuove forze di guarigione. Studi dimostrano inoltre come la pianificazione anticipata delle cure (<em>Advance Care Planning</em>) riduca l'ansia e la depressione nei pazienti affetti da patologie gravi e croniche. Sentirsi parte di una comunità più grande — ampliando lo sguardo alla realtà sociale e spirituale che ci circonda e ci riguarda, in quanto esseri umani che hanno camminato su questa terra — aiuta a non sentirsi soli e isolati, ma parte di un tutto, eterno.</p>
+<p>Esprimere le proprie ultime volontà con un lascito è un gesto semplice, privo di vincoli e sempre modificabile, che assicura il rispetto dei propri desideri e dei propri progetti. Ciò conta ancora di più in un momento difficile e di vulnerabilità, come una malattia: scegliere con libertà e coscienza come disporre delle proprie volontà e del proprio patrimonio, per quanto piccolo sia, risveglia e rafforza l’Io e promuove forze di guarigione. Alcuni studi indicano inoltre che la pianificazione anticipata delle cure (<em>Advance Care Planning</em>) può ridurre l’ansia e la depressione nei pazienti affetti da patologie gravi e croniche. Sentirsi parte di una comunità più grande — ampliando lo sguardo alla realtà sociale e spirituale che ci circonda e ci riguarda, in quanto esseri umani che hanno camminato su questa terra — aiuta a non sentirsi soli e isolati, ma parte di un tutto, eterno.</p>
 <p class="citazione">«Nessun atto di gentilezza, per piccolo che sia, va mai perduto.» — Esopo</p>
-<p>Uno studio pubblicato sul <em>New England Journal of Medicine</em> riporta inoltre che i familiari costretti a prendere decisioni di fine vita senza la guida di disposizioni anticipate hanno riportato tassi più elevati di depressione, ansia e sintomi da stress post-traumatico rispetto a coloro che disponevano di indicazioni chiare da seguire. {verifica} Facendo un testamento e compilando le DAT <strong>sollevi concretamente i tuoi cari</strong> da questo peso, dando loro la certezza di rispettare le tue volontà anziché dover intuire cosa potresti desiderare.</p>
+<p>Uno studio pubblicato nel 2010 sul <em>British Medical Journal</em>, condotto su pazienti anziani ricoverati in ospedale, riporta inoltre che, dopo il lutto, i familiari di chi aveva pianificato in anticipo le proprie cure hanno sofferto meno di stress, ansia e depressione rispetto ai familiari degli altri pazienti. Facendo un testamento e compilando le DAT <strong>sollevi concretamente i tuoi cari</strong> da questo peso, dando loro la certezza di rispettare le tue volontà anziché dover intuire cosa potresti desiderare.</p>
 <p class="citazione">Un lascito testamentario è un segno tangibile del tuo impegno verso gli altri.</p>
 <h3>Che cosa puoi lasciare</h3>
 <p>Un lascito solidale non richiede grandi patrimoni. Puoi lasciare:</p>
@@ -287,7 +288,7 @@ TESTI["lasciti/perche-donare"] = dict(
 <li><strong>Perché in futuro agricoltura, medicina e sociale possano funzionare meglio, e perché li vediamo come pilastri interconnessi di un unico ecosistema.</strong> Crediamo che il futuro risieda nella loro convergenza: coltivare la terra in modo sostenibile, curare la persona nella sua interezza e rigenerare i legami comunitari, per il benessere collettivo.</li>
 <li><strong>Perché i progetti sono personalizzati (<em>tailor-made</em>) e su misura, costruiti sulla persona e sul territorio.</strong> Crediamo che la reale efficacia di un progetto risieda nella sua capacità di adattarsi plasticamente alle esigenze della comunità e alle vocazioni del luogo, il <em>genius loci</em>. Attraverso un'analisi profonda del contesto e una co-progettazione con gli attori locali, trasformiamo i bisogni specifici in opportunità di sviluppo uniche, sostenibili e durature, garantendo l'impatto a lungo termine dei progetti e integrandoli armoniosamente nel tessuto sociale ed economico locale.</li>
 <li><strong>Perché, se lo vorrai, saremo onorati di celebrare il tuo sostegno</strong> — o di rendere omaggio alla memoria del tuo lascito — attraverso il nostro sito istituzionale e i canali ufficiali, perché tu sia ricordato, magari con una tua frase. Desideriamo esprimerti gratitudine, e soprattutto che il tuo impegno diventi una testimonianza viva per la comunità e trasmetta alle future generazioni il valore del tuo impatto sul territorio.</li>
-<li><strong>Perché lavoriamo con notai e professionisti che condividono i nostri valori</strong>: lo statuto stesso della Fondazione è stato rivisto con loro. {verifica}</li>
+<li><strong>Perché lavoriamo con notai e professionisti che condividono i nostri valori</strong>: lo statuto stesso della Fondazione è stato rivisto con loro.</li>
 <li><strong>Perché siamo una Fondazione con una struttura leggera e focalizzata su ciò che conta</strong>: la parte di ciò che doni e che va a finire in amministrazione è contenuta, e il bilancio — depositato ogni anno al Registro del Terzo settore, e quindi pubblico — lo mostra.</li>
 <li><strong>Perché la tua donazione è meritevole e come tale gode di vantaggi fiscali.</strong> Tutte le donazioni sono fiscalmente deducibili o detraibili nei limiti previsti dalla legge. Conservando la ricevuta del pagamento tracciabile, potrai ridurre il tuo carico fiscale in sede di dichiarazione dei redditi.</li>
 </ul>
@@ -322,8 +323,8 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
 <h3>La libertà del come</h3>
 <p>Al testamento puoi affiancare le <strong>Disposizioni anticipate di trattamento</strong> (DAT), che riguardano le cure e non i beni: spesso si decidono nello stesso momento. Ne parliamo in una pagina a sé, <a class="link" href="{→lasciti/la-liberta-del-come}">La libertà del come</a>, dove trovi anche il fac-simile da scaricare.</p>
 <div class="box">
-<p><strong>Chi lascia, e perché.</strong> Un sondaggio italiano sul lascito solidale — «La prima cosa bella: cosa rende bella la vita e cosa far durare per sempre», del Comitato Testamento Solidale — racconta che ciò che si vorrebbe durasse per sempre sono i legami affettivi (67,7% delle indicazioni) e il sentirsi una brava persona (45,5%); che per lasciare un ricordo di sé quasi un intervistato su quattro pensa al lascito solidale (24,4%), con un picco tra i 25 e i 34 anni (30%); e che tra gli oggetti da tramandare vince l'album di fotografie (44%), poi una lettera scritta a mano (37%). {verifica}</p>
-<p>Nel Regno Unito una parte sempre più significativa di chi fa testamento destina una quota a enti benefici: campagne di sensibilizzazione, agevolazioni fiscali, la fiducia nel non profit, e avvocati e notai che parlano del testamento solidale ai loro clienti. Secondo Rob Cope, direttore di Remember A Charity — un consorzio di oltre duecento enti benefici britannici — la chiave è stato il lavoro congiunto tra le organizzazioni, che ha trasformato il testamento solidale in una norma sociale. La Fondazione rema in questo senso. {verifica}</p>
+<p><strong>Chi lascia, e perché.</strong> Un’indagine di AstraRicerche per il Comitato Testamento Solidale, condotta nel 2025 su oltre mille italiani tra i 25 e i 70 anni — «La prima cosa bella: cosa rende bella la vita e cosa far durare per sempre» — racconta che ciò che si vorrebbe durasse per sempre sono i legami affettivi (67,7% delle indicazioni) e il sentirsi una brava persona (45,5%); che per lasciare un ricordo di sé quasi un intervistato su quattro pensa al lascito solidale (24,4%), con un picco tra i 25 e i 34 anni (30%); e che tra gli oggetti con cui restare nel ricordo vince l’album di fotografie (44%), poi una lettera scritta a mano (37%).</p>
+<p>Nel Regno Unito una parte sempre più significativa di chi fa testamento destina una quota a enti benefici: vi contribuiscono le campagne di sensibilizzazione, le agevolazioni fiscali e gli avvocati e i consulenti che, quando preparano un testamento, ricordano ai clienti questa possibilità. Secondo Rob Cope, che fino al 2022 ha diretto Remember A Charity — un consorzio di circa duecento enti benefici britannici — la chiave è stato il lavoro congiunto tra le organizzazioni, con l’obiettivo comune di fare del testamento solidale una norma sociale. La Fondazione rema in questo senso.</p>
 <p><a class="link" href="{→contatti}">Sei un'organizzazione non profit e vorresti collaborare? Scrivici.</a> &nbsp;·&nbsp; <a class="link" href="{→contatti}">Sei un notaio o un avvocato e vuoi lavorare con noi? Scrivici.</a></p>
 </div>
 """)
@@ -512,7 +513,7 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 <p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
 <p><strong>Attraverso una disposizione anticipata di trattamento puoi comunicare ai medici cosa desideri — o non desideri — finché sei in grado di farlo. Garantisci che i tuoi desideri più intimi e familiari vengano rispettati.</strong></p>
 <p class="citazione unica">Esprimi le tue volontà in merito alle cure di fine vita.</p>
-<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Non sostituisce il colloquio con il tuo medico.</p>
+<p>La Fondazione ha preparato un fac-simile per le DAT, da compilare e portare al notaio o al Comune: <a class="link" href="{file:DAT-fac-simile.pdf}">scarica il fac-simile (PDF)</a>. Non sostituisce il colloquio con il tuo medico. Se ti serve aiuto per compilarlo o per trovare un notaio, <a class="link" href="{→contatti}">scrivici</a>.</p>
 <p class="citazione">Hai dubbi su cosa decidere? Scrivici e chiedi un confronto con un medico.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
@@ -552,9 +553,10 @@ TESTI["aziende-e-istituzioni/aziende"] = dict(
 <p class="citazione">Promuovi il benessere olistico dei dipendenti, integrando salute fisica, mentale, emotiva, sociale e finanziaria, attraverso strategie di welfare evolute.</p>
 <h3>Che cosa mette a disposizione la Fondazione</h3>
 <p>Lo statuto della Fondazione prevede strumenti pensati anche per le imprese. Ciascuno si costruisce insieme, caso per caso, con l’aiuto di notai, commercialisti e avvocati.</p>
+<p class="citazione apre">Un piano per la filantropia della tua impresa.</p>
+<p>Con professionisti partner, la Fondazione è costituita per aiutare un’impresa a mettere insieme le proposte di questa pagina in un piano solo: quale parte destinare al bene comune, quale fondo aprire, quali progetti sostenere, come verificarne l’impatto. (Statuto, art. 14, comma 5)</p>
 <ul class="stelle">
-<li><strong>Un piano per la filantropia della tua impresa.</strong> Con professionisti partner, la Fondazione è costituita per aiutare un’impresa a dare forma alla sua filantropia: quale fondo aprire, quali progetti sostenere, come verificarne l’impatto. È il <a class="link" href="{→professionisti/family-office}">Family Office filantropico</a>. (Statuto, art. 14, comma 5)</li>
-<li><strong>Un fondo con il nome della tua azienda.</strong> È un <a class="link" href="{→professionisti/fondi-di-scopo}">fondo di scopo</a>: ha il nome che scegli, uno scopo preso tra le attività della Fondazione e una contabilità separata, con un rendiconto che puoi chiedere quando vuoi. Se lo desideri, un comitato con persone della tua azienda indica i progetti da sostenere. Per i costi di gestione la Fondazione trattiene una quota, fissata nel regolamento del fondo. (Statuto, art. 8)</li>
+<li><strong>Un fondo con il nome della tua azienda.</strong> È un <a class="link" href="{→fondi-e-strumenti/fondi-di-scopo}">fondo di scopo</a>: ha il nome che scegli, uno scopo preso tra le attività della Fondazione e una contabilità separata, con un rendiconto che puoi chiedere quando vuoi. Se lo desideri, un comitato con persone della tua azienda indica i progetti da sostenere. Per i costi di gestione la Fondazione trattiene una quota, fissata nel regolamento del fondo. (Statuto, art. 8)</li>
 <li><strong>Entrare a far parte della Fondazione.</strong> Un’azienda può diventarne Sostenitore, con un contributo che vale un anno. Oppure Partecipante, impegnandosi per più anni con denaro, beni o prestazioni d’opera, cioè anche con il lavoro e le competenze delle sue persone. Le imprese che portano un contributo di grande valore possono diventare Partecipanti istituzionali: possono sedere ai tavoli in cui si definiscono le linee di sviluppo, indicare persone negli organi consultivi e dare il loro nome ai luoghi recuperati con il loro aiuto. L’ammissione la decide il Consiglio di amministrazione. (Statuto, artt. 17, 18 e 19)</li>
 <li><strong>Sostenere senza decidere subito.</strong> I <a class="link" href="{→professionisti/fondi-convertibili}">fondi convertibili</a>: un prestito senza interessi a un progetto della Fondazione, regolato da una convenzione scritta, che diventa una donazione se alla scadenza l’azienda sceglie di lasciarlo alla Fondazione. Non è un servizio aperto al pubblico: se ne parla a tu per tu, caso per caso. (Statuto, art. 9)</li>
 <li><strong>Il futuro della tua impresa.</strong> Un imprenditore può destinare alla Fondazione la sua azienda, un ramo o delle quote con un lascito; possono farlo anche i suoi eredi. Se chi dona lo chiede, la Fondazione può tenere l’azienda e valutare di gestirla con una società strumentale, custodendone il lavoro e le persone secondo i valori che le ha indicato. È una scelta da preparare per tempo, con il notaio e il commercialista. (Statuto, art. 12, commi 8 e 10)</li>
@@ -685,6 +687,7 @@ TESTI["news"] = dict(
 
 # ------------------------------------------------------------ Per aziende e istituzioni: la pagina d'ingresso (citazione, Dacia 16.9)
 TESTI["aziende-e-istituzioni"] = dict(
+    sotto="Il bene comune si costruisce insieme.",   # scelto da Claude tra tre proposte, 11.10
     corpo="""
 <p>Le forme di collaborazione che lo statuto prevede per aziende e istituzioni: partecipazione, sostegno ai progetti, iniziative condivise.</p>
 <p class="citazione">«Il valore di un uomo si misura da ciò che dà, e non da ciò che è capace di ricevere.» — attribuita ad Albert Einstein</p>
@@ -786,8 +789,8 @@ TESTI["documenti"] = dict(
 TESTI["contatti"] = dict(
     sotto="Per una domanda, una proposta o un primo colloquio.",
     corpo="""
-<p>Il modo più semplice per raggiungerci è scrivere alla segreteria della Fondazione, all’indirizzo <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Leggiamo ogni messaggio e ti rispondiamo di persona.</p>
-<p><a class="vai" href="mailto:segreteria@larosadoro.org">Scrivici</a></p>
+<p>Il modo più semplice per raggiungerci è scriverci qui sotto, oppure all’indirizzo della segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Leggiamo ogni messaggio e ti rispondiamo di persona.</p>
+{modulo-contatti}
 
 <h3>Per che cosa puoi scriverci</h3>
 <ul class="stelle">
@@ -808,7 +811,6 @@ TESTI["contatti"] = dict(
 Via Bianca di Savoia 17, 20122 Milano<br>
 Codice fiscale 14629350969</p>
 <p>È la sede legale della Fondazione, non un ufficio aperto al pubblico: per incontrarci, scrivici.</p>
-<p>Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’<a class="link" href="{→privacy}">informativa sulla privacy</a>.</p>
 """)
 
 # ------------------------------------------------------------ Per professionisti: le schede dei due fondi delicati (testi di Claude approvati da Elias il 10.10)
@@ -834,8 +836,316 @@ TESTI["professionisti/riqualificazione-etica"] = dict(
 <p>In cambio la Fondazione non dà nulla. Rilascia la ricevuta, e nel bilancio dà conto di quanto riceve e di come lo usa. Se lo chiedi, e il consiglio di amministrazione è d’accordo, il fondo può essere intitolato alla memoria di una persona o a una causa che indichi tu. La Fondazione non offre consulenza fiscale o legale e non promette alcun effetto, né fiscale né giudiziario: ogni passo lo fai con il tuo legale o il tuo commercialista.</p>
 """)
 
+# ------------------------------------------------------------ Family Office filantropico (bozza di Claude del 10.10, da rileggere con Elias)
+# La pagina per le famiglie, nella sezione Fondi e strumenti (Elias, 11.10); la scheda per i professionisti è professionisti/family-office.
+# Le imprese hanno il loro piano nella pagina Per le aziende.
+# Confini: nessun consiglio sugli investimenti (riservati dal TUF, artt. 1 c. 5-septies e 18) e atti, successioni e imposte ai
+# professionisti; nessun costo né compenso finché la Fondazione non li decide. Niente collegamenti a pagine ancora vuote.
+# Il vitalizio non è una donazione (contratto oneroso e aleatorio: Cass. 22009/2016 e 36082/2023): non chiamarlo dono (11.10).
+TESTI["fondi-e-strumenti/family-office"] = dict(
+    sotto="Piani di dono su misura.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accompagna chi vuole che una parte di ciò che ha continui a fare del bene in modo chiaro ed efficace.</p>
+<p>Lo statuto (art. 14, comma 5) la costituisce anche per aiutare persone, famiglie e imprese a dare forma alla loro filantropia: a chi donare e con quale strumento, quale fondo aprire, come verificare che ciò che si dona arrivi davvero e soprattutto serva e venga valorizzato davvero là dove arriva. La Fondazione fa da ponte tra la volontà di chi dona e i bisogni della collettività. È ciò che chiamiamo Family Office filantropico.</p>
+<p>Pensiamo soprattutto alle famiglie e alle persone che hanno costruito o ricevuto qualcosa di grande, un’eredità, un’azienda, una tenuta, una collezione, e si chiedono che cosa ne sarà. Molte hanno una paura precisa: che ciò che hanno costruito non abbia un seguito. Lo statuto della Fondazione prevede uno strumento per ogni cosa a cui si voglia dare continuità, e un piano può metterli insieme:</p>
+<ul class="stelle">
+<li><strong>L’azienda.</strong> Se chi la dona lo chiede, la Fondazione può tenerla e farla continuare a lavorare, se serve attraverso una società separata dal suo patrimonio, preservandone il lavoro, le persone e i valori indicati da chi la dona (art. 12, comma 10).</li>
+<li><strong>La terra.</strong> Terreni, tenute e borghi restano bene comune: la Fondazione ne conserva la proprietà e li affida a giovani agricoltori, cooperative e imprese sociali, con un’agricoltura biologica, biodinamica e rigenerativa (art. 13).</li>
+<li><strong>Gli immobili, le collezioni, i beni di valore.</strong> Di regola la Fondazione li vende e ne destina il ricavato ai progetti, nel <a class="link" href="{→fondi-e-strumenti/eredita-solidale}">Fondo della Memoria</a> o in un fondo con il nome della famiglia. Se chi dona lo chiede, e il bene serve agli scopi della Fondazione, quest’ultima lo può tenere e gestire (art. 12, commi 8 e 9). Per le collezioni d’arte e i beni simili resta aperta anche un’altra strada: tenerli e valorizzarli, perché tutelare e valorizzare il patrimonio culturale è tra gli scopi della Fondazione (art. 3). Si valuta caso per caso.</li>
+<li><strong>La casa o l’azienda agricola in cui vivi.</strong> Con il <a class="link" href="{→fondi-e-strumenti/vitalizio-filantropico}">vitalizio filantropico</a>, che non è una donazione ma un contratto, chi cede la casa o un altro bene ne conserva l’uso e riceve in cambio cura e assistenza per tutta la vita; alla sua scomparsa il bene resta alla Fondazione (art. 14, comma 3).</li>
+<li><strong>Le volontà.</strong> Un <a class="link" href="{→lasciti/il-lascito-testamentario}">lascito</a> alla Fondazione o a un suo fondo. E la Fondazione può essere <a class="link" href="{→fondi-e-strumenti/esecutore-testamentario}">esecutore testamentario e custode</a>, perché ciò che è scritto nel testamento sia rispettato (art. 14, comma 2).</li>
+<li><strong>Un familiare fragile.</strong> Con il <a class="link" href="{→fondi-e-strumenti/dopo-di-noi}">Dopo di Noi</a> la Fondazione può gestire o sorvegliare il trust che la famiglia istituisce, perché la cura continui anche quando i genitori non ci saranno più (art. 14, comma 4).</li>
+<li><strong>Il nome e lo scopo della famiglia.</strong> Un <a class="link" href="{→fondi-e-strumenti/fondi-di-scopo}">fondo di scopo</a> con il nome della famiglia e una contabilità separata, anche senza scadenza; se lo desideri, un comitato in cui la famiglia indica i progetti da sostenere (art. 8).</li>
+</ul>
+<p>Per molte famiglie un fondo con il proprio nome, dentro una fondazione che esiste già, è un’alternativa più semplice a costituirne una propria.</p>
+<p>Le verifiche si fanno prima e dopo. Prima di donare, su chi riceve. Dopo, su come è stato usato ciò che hai donato: per ogni fondo c’è un rendiconto separato, che puoi chiedere quando vuoi.</p>
+<p>Il piano si costruisce con i professionisti: i tuoi di fiducia, o gli studi partner della Fondazione. Il notaio, l’avvocato e il commercialista per gli atti, le successioni e le imposte; un consulente finanziario abilitato per il patrimonio. La Fondazione non dà consigli sugli investimenti e non sostituisce nessuno di loro: tiene insieme il disegno e ne custodisce lo scopo.</p>
+<p>Le imprese trovano il loro piano nella pagina <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>.</p>
+<p>La Fondazione è nata il 26 febbraio 2026 e stiamo costruendo adesso la rete degli studi partner. Se pensi a un piano, per te o per la tua famiglia, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche insieme al tuo notaio o al tuo commercialista.</p>
+""")
+
 for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-etica"):
     TESTI[k]["corpo"] = TESTI[k]["corpo"].replace("{verifica}", V)
+
+# ------------------------------------------------------------ Dona, Partnership, Progetti amici (bozze di Claude del 10.10, riviste da Elias l'11.10)
+# Dona segue la gerarchia decisa a settembre (briefing su Drive, §8): carta e wallet in cima, bonifico in evidenza per
+# gli importi importanti, PayPal per ultimo, nessuna frase sui costi. Stripe non c’è ancora. PayPal secondo i due aggiornamenti
+# dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, per la Svizzera il PayPal.me di Orizzonti
+# Celesti finché il loro «Dona» è bloccato (poi si cambia solo l’indirizzo). Semplici collegamenti, nessuno script PayPal.
+# I fondi convertibili restano fuori da questa pagina (Elias, 10.10). Chi dona dalla Svizzera passa per Orizzonti Celesti.
+TESTI["dona"] = dict(
+    sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
+    corpo="""
+<p>Puoi sostenere la Fondazione tutta, perché impieghi il tuo dono dove c’è più bisogno, oppure scegliere un ambito: la medicina e la cura, l’agricoltura, il sociale, il fine vita. Puoi anche donare in memoria di una persona cara.</p>
+<h3>Con un bonifico</h3>
+<p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.</p>
+<div class="coordinate">
+<p><strong>Intestato a</strong><br>Fondazione La Rosa d’Oro ETS</p>
+<p><strong>IBAN</strong><br><span class="iban"><span>IT49 I032 6801 6030</span> <span>5295 8935 160</span></span></p>
+<p><strong>BIC</strong><br>SELBIT2BXXX</p>
+<p><strong>Causale</strong><br>«Donazione», oppure «Donazione per la medicina», «per l’agricoltura», «per il sociale», «per il fine vita», o «In memoria di» con il nome della persona.</p>
+</div>
+<h3>Con PayPal</h3>
+<p>Puoi donare anche con PayPal. Nel messaggio che PayPal ti propone puoi indicare un ambito o la persona che vuoi ricordare.</p>
+<p><a class="vai" href="https://www.paypal.com/donate/?hosted_button_id=PHVRQC92CVXRA" target="_blank" rel="noopener">Dona con PayPal</a></p>
+<h3>La ricevuta e i vantaggi fiscali</h3>
+<p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. Se ti serve anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
+<h3>Se vivi in Svizzera</h3>
+<p>Le donazioni dalla Svizzera passano per l’Associazione Orizzonti Celesti, la realtà collegata alla Fondazione che opera sul versante elvetico.</p>
+<div class="coordinate">
+<p><strong>Intestato a</strong><br>Orizzonti Celesti<br>Via Mezzavilla 12, 6503 Bellinzona</p>
+<p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
+<p><strong>BIC</strong><br>POFICHBEXXX</p>
+</div>
+<p>Oppure con PayPal, in franchi svizzeri.</p>
+<p><a class="vai" href="https://www.paypal.me/orizzonticelesti" target="_blank" rel="noopener">Dona con PayPal in franchi</a></p>
+<h3>Altri modi di sostenerci</h3>
+<ul class="stelle">
+<li>il <a class="link" href="{→cinque-per-mille}">5 per mille</a>, con una firma nella dichiarazione dei redditi;</li>
+<li>un <a class="link" href="{→lasciti}">lascito</a> nel testamento;</li>
+<li>una donazione in memoria, con il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a>;</li>
+<li>se hai un’azienda, <a class="link" href="{→aziende-e-istituzioni/aziende}">una parte per il bene comune</a>.</li>
+</ul>
+""")
+
+TESTI["partnership"] = dict(
+    sotto="Con chi lavoriamo, e come.",
+    corpo="""
+<p>La Fondazione La Rosa d’Oro non fa tutto da sola, e non vuole farlo. Molto di ciò che lo statuto le chiede passa per persone e realtà che lo sanno fare meglio di noi: studi professionali, aziende, istituzioni, associazioni, chi lavora nella cura, nel sociale e nella terra.</p>
+<p>Con loro cerchiamo un rapporto che vada nei due sensi. Ci indichiamo a vicenda le persone che possono trovare aiuto dall’altra parte, lavoriamo insieme ai progetti, e chi crede nel nostro lavoro può indicare la Fondazione come destinataria di una donazione o di un lascito.</p>
+<h3>Una realtà collegata: Orizzonti Celesti</h3>
+<p>L’Associazione Orizzonti Celesti è un ente distinto dalla Fondazione, con sede in Svizzera, che opera sul versante elvetico. Chi dona dalla Svizzera dona a Orizzonti Celesti.</p>
+<h3>La rete che stiamo costruendo</h3>
+<p>La Fondazione è nata nel 2026 e la sua rete è agli inizi: stiamo incontrando i primi studi, le prime aziende e le prime realtà del sociale. Le presenteremo qui quando il rapporto sarà avviato e loro saranno d’accordo.</p>
+<p>Per diventare partner, la porta è quella della tua categoria: <a class="link" href="{→professionisti}">Per professionisti</a>, <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>, <a class="link" href="{→aziende-e-istituzioni/istituzioni}">Per le istituzioni</a>. Se sei un’associazione o un ente del Terzo settore, scrivici.</p>
+<h3>Siti amici</h3>
+<p>Qui raccoglieremo, man mano, i siti di realtà che stimiamo e che lavorano su temi vicini ai nostri. Un sito amico non è un partner e non fa parte della Fondazione: è un indirizzo che ti consigliamo.</p>
+<p><a class="vai" href="{→contatti}">Scrivici</a></p>
+""")
+
+TESTI["progetti-amici"] = dict(
+    sotto="Realtà che stimiamo, nate e cresciute fuori dalla Fondazione.",
+    corpo="""
+<p>Accanto ai progetti della Fondazione ci sono progetti che non sono nostri, ma che sentiamo vicini: per ciò che fanno, per come lo fanno, per le persone che li portano avanti. Li presentiamo qui perché chi cerca aiuto, o vuole darne, possa conoscerli.</p>
+<h3>Come entra un progetto amico</h3>
+<ul class="stelle">
+<li>Lo propone chi lo porta avanti, oppure ce lo segnala qualcuno che lo conosce.</li>
+<li>Prima di presentarlo lo conosciamo di persona.</li>
+<li>La scelta è della Fondazione, che può anche dire di no.</li>
+<li>Se un progetto cambia strada, può uscire da questa pagina.</li>
+</ul>
+<h3>Che cosa vuol dire, e che cosa no</h3>
+<p>Un progetto amico resta di chi lo porta avanti: ha i suoi responsabili, i suoi conti e le sue regole. La Fondazione non lo gestisce, non raccoglie fondi per lui e non risponde del suo operato. Se vuoi sostenerlo, lo fai direttamente con chi lo porta avanti.</p>
+<h3>I progetti amici</h3>
+<p>Stiamo conoscendo i primi: li presenteremo qui.</p>
+<p>Se porti avanti un progetto che ti sembra vicino al nostro, scrivici. Se invece cerchi sostegno per un progetto nuovo, la porta giusta è <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a>.</p>
+<p><a class="vai" href="{→contatti}">Scrivici</a></p>
+""")
+
+# ------------------------------------------------------------ Per professionisti: la riga in cima alle due schede delicate (bozza di Claude dell’11.10, da confermare con Elias)
+# Le due schede restano rivolte alla persona e restano soltanto qui (ricerca del 9.10 e parere sullo statuto del 10.10):
+# la riga dice al professionista perché, senza toccare il testo approvato.
+TESTI["professionisti/fondi-convertibili"]["premessa"] = "Questa scheda è scritta per la persona che presta. Non è uno strumento da proporre ai clienti e non ha una pagina per il pubblico: se ne parla solo a tu per tu, caso per caso."
+TESTI["professionisti/riqualificazione-etica"]["premessa"] = "Questa scheda è scritta per la persona che dona. A questi fondi si arriva con il proprio legale o commercialista, e per questo non hanno una pagina per il pubblico."
+
+# ================================================================ FONDI E STRUMENTI
+# La sezione per il pubblico degli strumenti dello statuto (Elias, 11.10). Le pagine vengono dalle bozze di Claude del 10.10,
+# riscontrate sul codice civile (artt. 700-712; massime sul vitalizio assistenziale all’art. 1872): parlano alla persona,
+# dicono meccanismo e garanzie, nessuna promessa fiscale. Il testo del Family Office è del thread «Pagina Aziende» (PR #12).
+# In fondo a ogni pagina costruisci.py aggiunge il rimando alla scheda per i professionisti.
+TESTI["fondi-e-strumenti"] = dict(
+    sotto="Gli strumenti dello statuto per chi vuole che una parte di ciò che ha continui a fare del bene in un modo preciso, chiaro ed efficace.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Oltre al dono e al lascito, il suo statuto prevede strumenti per chi vuole che una parte di ciò che ha continui a fare del bene in un modo preciso: con il proprio nome e uno scopo scelto, secondo un piano per la famiglia, in cambio di cura per tutta la vita, con qualcuno che vegli sulle proprie volontà, per il futuro di un familiare fragile o con una parte di ciò che si è ricevuto in eredità.</p>
+<p>In queste pagine trovi come funziona ognuno e quali garanzie ha. Ogni strumento si costruisce caso per caso, di persona, con i professionisti che servono: i tuoi di fiducia o gli studi partner della Fondazione. Il Dopo di Noi e il fondo di memoria hanno anche le loro pagine, tra i Lasciti e nella sezione In memoria.</p>
+<p>La Fondazione è nata il 26 febbraio 2026, e stiamo costruendo adesso la rete degli studi e dei partner con cui accompagnarti. Se uno di questi strumenti fa per te, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona.</p>
+""")
+
+TESTI["fondi-e-strumenti/fondi-di-scopo"] = dict(
+    sotto="Il nome e lo scopo di chi dona.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accoglie anche chi vuole donare con un nome e uno scopo suoi, senza dover costituire una fondazione propria.</p>
+<p>Lo statuto (art. 8) le permette di aprire al proprio interno dei fondi di scopo. Ogni fondo ha il nome che sceglie chi dona, per esempio «Fondo Famiglia Rossi» o «Fondo per i giovani artisti», purché non contrario all’ordine pubblico o all’immagine della Fondazione; e ha uno scopo preciso, tra le attività di interesse generale previste dallo statuto (art. 3). Può aprirlo una persona, una famiglia, un’azienda, uno studio professionale, un altro ente, anche straniero. Lo istituisce il consiglio di amministrazione, sulla volontà di chi dona.</p>
+<p>Il fondo non è un ente a sé: fa parte del patrimonio della Fondazione, con una contabilità separata. Ciò che riceve serve soltanto al suo scopo. La Fondazione ne rende conto a parte nel proprio bilancio, e ti mostra il rendiconto quando lo chiedi.</p>
+<p>Le regole del fondo possono stare in un regolamento, scritto sulla tua volontà e approvato dal consiglio di amministrazione: il nome, ciò che lo compone all’inizio e in seguito, lo scopo, la durata, fissa o senza scadenza. Il regolamento può prevedere anche un comitato del fondo, di cui puoi far parte tu o chi indichi, che consiglia la Fondazione sui progetti da sostenere. Se preferisci, puoi lasciare la gestione interamente alla Fondazione: lo scopo resta quello che hai scelto, e lei lo persegue con il minimo di adempimenti.</p>
+<p>Due cose da sapere prima. Per i costi di gestione la Fondazione trattiene una quota, fissata nel regolamento del fondo o, se il fondo non ne ha uno, dal consiglio di amministrazione. E quando il fondo si chiude, perché lo scopo è raggiunto, le risorse sono finite o la durata è scaduta, ciò che resta va alle attività generali della Fondazione, salvo che il regolamento disponga altrimenti.</p>
+<p>Un fondo si può aprire con una donazione in vita o con un lascito nel testamento. Una donazione a un fondo di scopo è una donazione alla Fondazione, con le stesse regole fiscali: le trovi in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Se pensi a un fondo con il tuo nome, o con quello della tua famiglia o del tuo studio, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona.</p>
+""")
+
+TESTI["fondi-e-strumenti/vitalizio-filantropico"] = dict(
+    sotto="Un bene per la cura.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accompagna le persone anche nell’ultima parte della vita, quando la cura conta più di ogni altra cosa.</p>
+<p>Lo statuto (art. 14, comma 3) le permette di stipulare un vitalizio filantropico. Cedi alla Fondazione un bene, mobile o immobile, di qualsiasi tipo, per esempio un’azienda agricola o la casa in cui vivi, in nuda proprietà o in piena proprietà. Se è la casa, continui ad abitarla per tutta la vita, con il diritto di abitazione o con l’usufrutto; se è un’azienda, puoi tenerne l’usufrutto. E la Fondazione si impegna a garantirti, vita natural durante, i beni e i servizi che concordate per il tuo benessere, compresi quelli assistenziali, socio-assistenziali, medici e terapeutici, e l’aiuto di ogni giorno. Quando non ci sarai più, il bene diventa per intero della Fondazione e viene usato, direttamente o indirettamente, per i suoi progetti.</p>
+<p>Non è una donazione né una vendita. È un contratto con impegni da tutte e due le parti e un’incognita che entrambe accettano: la durata della vita. Se vivrai più a lungo del previsto, la Fondazione continuerà a darti tutto ciò che ha promesso. Se vivrai meno, il valore che resta sosterrà i progetti della Fondazione: lo sai e lo vuoi fin dall’inizio.</p>
+<p>Per questo il contratto deve essere equilibrato al momento della firma. I giudici lo considerano nullo se in quel momento la fine della vita era già prevedibile, per l’età o per una malattia, o se il valore del bene e quello delle prestazioni rendono certo, fin dall’inizio, chi ci guadagnerà.</p>
+<p>Le garanzie sono scritte nel contratto, che si firma dal notaio: che cosa ricevi, in che modo, chi te lo dà. Le cure e i servizi li danno professionisti e strutture autorizzati, con cui la Fondazione si accorda, come prevede lo statuto. Se la Fondazione non mantenesse i suoi impegni, potresti chiedere al giudice di sciogliere il contratto.</p>
+<p>Ne parli con il notaio anche per la tua famiglia. Se hai figli o un coniuge, un contratto molto sbilanciato potrebbe essere trattato come una donazione e toccare la loro quota di legittima. E poiché non è una donazione, non dà le detrazioni o le deduzioni delle donazioni: si pagano le imposte di una cessione, che dipendono dal bene e dal contratto. Te le calcola il notaio prima della firma, e non possiamo prometterti agevolazioni.</p>
+<p><strong>Se vuoi soltanto lasciare la casa alla Fondazione e continuare ad abitarla, senza chiedere cure e assistenza in cambio, non serve un vitalizio: basta una donazione in cui tieni per te l’usufrutto o l’abitazione, oppure un <a class="link" href="{→lasciti/il-lascito-testamentario}">lascito nel testamento</a>.</strong></p>
+<p>Ogni vitalizio è diverso, come ogni persona. Se ci stai pensando, per te o per un tuo familiare, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il tuo notaio.</p>
+""")
+
+TESTI["fondi-e-strumenti/esecutore-testamentario"] = dict(
+    sotto="Le tue volontà, rispettate e garantite.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Accompagna e assiste chi vuole che le proprie ultime volontà siano rispettate, anche quando non potrà più seguirle di persona.</p>
+<p>Lo statuto (art. 14, comma 2) le permette di accettare l’incarico di esecutore testamentario: chi il testatore sceglie, nel testamento, perché le sue disposizioni siano eseguite esattamente (artt. 700 e seguenti del codice civile). La legge permette di nominare anche chi riceve qualcosa dal testamento, quindi anche la Fondazione quando le lasci una parte dei tuoi beni (art. 701).</p>
+<p>Che cosa fa l’esecutore, secondo la legge:</p>
+<ul class="stelle">
+<li>cura che le tue disposizioni siano eseguite e, se non decidi diversamente, amministra i beni dell’eredità come un buon padre di famiglia, per un anno al massimo, che il giudice può prolungare di un altro anno solo se è davvero necessario; per vendere un bene chiede l’autorizzazione al giudice, che sente prima gli eredi (art. 703);</li>
+<li>fa redigere l’inventario quando la legge lo richiede, per esempio se tra gli eredi ci sono dei minori (art. 705);</li>
+<li>se non riceve nulla dal testamento, puoi affidargli anche la divisione dei beni tra gli eredi, che prima deve ascoltare (art. 706).</li>
+</ul>
+<p>Le garanzie sono quelle della legge. L’esecutore rende il conto della sua gestione alla fine, e già dopo un anno dalla morte se la gestione continua; risponde dei danni causati per sua colpa; il testatore non può esonerarlo da questi obblighi (art. 709). Chiunque vi abbia interesse può chiedere al giudice di sostituirlo, per gravi irregolarità o se viene meno la fiducia (art. 710). La Fondazione aggiunge e garantisce ciò che una persona sola non può dare: non dipende dalla salute o dalla disponibilità di qualcuno, e sta fuori dalle relazioni della famiglia.</p>
+<p>Il testamento può affidarle anche un compito più lungo e più circoscritto, che lo statuto chiama custode di scopo: vegliare che un bene lasciato per uno scopo, per esempio una casa che deve diventare un luogo di accoglienza, sia usato come hai voluto. Che cosa può fare il custode, e per quanto tempo, lo scrivi nel testamento con il tuo notaio.</p>
+<p>Per legge l’incarico è gratuito, ma nel testamento puoi prevedere un compenso a carico dell’eredità (art. 711); le spese dell’esecutore sono a carico dell’eredità (art. 712). L’esecutore non sostituisce il notaio, l’avvocato o il commercialista degli eredi: lavora con loro.</p>
+<p>La Fondazione accetta l’incarico dopo l’apertura della successione, con una dichiarazione nella cancelleria del tribunale (art. 702), e può anche rinunciarvi. Per questo è meglio parlarne prima, mentre scrivi il testamento: così sappiamo per tempo che cosa ti aspetti. Se ci stai pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il tuo notaio.</p>
+""")
+
+# ------------------------------------------------------------ Per professionisti: le schede degli strumenti (bozze di Claude dell’11.10, da rileggere con Elias)
+# Parlano ai professionisti (Elias, 11.10): il ruolo della Fondazione, che cosa conviene scrivere nell’atto, che cosa resta
+# allo studio. Danno per noti i principi di legge e citano gli articoli; fonti: statuto artt. 3, 8, 12, 14; c.c. artt. 700-712;
+# massime sul vitalizio assistenziale (art. 1872); L. 112/2016, art. 6, c. 3; artt. 82 e 83 del Codice del Terzo settore.
+# Le pagine per i clienti sono in «Fondi e strumenti» e, per Dopo di Noi e fondo di memoria, quelle di Dacia.
+TESTI["fondi-e-strumenti/dopo-di-noi"] = dict(
+    sotto="Trust e protezione dei fragili.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Sta accanto alle famiglie che hanno una persona cara con una disabilità grave e si chiedono chi se ne prenderà cura quando loro non potranno più farlo. Che cosa la Fondazione fa per lei, ogni giorno, lo racconta la pagina <a class="link" href="{→lasciti/dopo-di-noi}">Il Dopo di Noi</a>; qui trovi come funziona lo strumento.</p>
+<p>La legge 112/2016, detta del «Dopo di Noi», permette alla famiglia di destinare dei beni al futuro di questa persona, quando la sua disabilità grave è accertata secondo la legge 104/1992: con un trust, con un vincolo di destinazione (art. 2645-ter del codice civile) o con un contratto di affidamento fiduciario. Lo statuto (art. 14, comma 4) permette alla Fondazione di avere in questi strumenti un ruolo di garanzia, in due modi:</p>
+<ul class="stelle">
+<li><strong>come gestore</strong>, o trustee: amministra i beni che la famiglia le affida, tenuti separati dal patrimonio della Fondazione, e li spende soltanto per il progetto di vita della persona: le cure, la casa, l’inclusione, il benessere di ogni giorno;</li>
+<li><strong>come guardiano</strong>: se la famiglia sceglie un altro gestore, la Fondazione controlla che rispetti le volontà dei genitori e che la persona viva come deve, e interviene, anche davanti al giudice, se non accade.</li>
+</ul>
+<p>Il ruolo può cominciare quando i genitori ci sono ancora, il «durante noi», e continuare dopo.</p>
+<p>Perché valgano le agevolazioni della legge (art. 6), l’atto deve rispettare condizioni precise, che sono anche garanzie per la persona. Si fa dal notaio, come atto pubblico. Dice con chiarezza chi fa che cosa, quali sono i bisogni della persona e le attività per lei, comprese quelle che riducono il rischio che finisca in un istituto. Indica come il gestore rende conto e nomina chi lo controlla. La persona con disabilità è l’unica beneficiaria, e i beni servono soltanto a lei. L’atto dura quanto la sua vita e stabilisce dove andrà ciò che resta. Se le agevolazioni valgano per il tuo caso lo verifica il notaio: non possiamo promettertelo.</p>
+<p>Ciò che resta va a chi la famiglia indica nell’atto. Se sceglie la Fondazione, lo statuto le chiede di destinarlo prima di tutto a progetti per persone nella stessa condizione, perché la memoria della persona e della sua famiglia continui in un aiuto ad altri.</p>
+<p>L’atto lo scrive il notaio con la famiglia. La Fondazione non sostituisce i servizi sociali e sanitari, né l’amministratore di sostegno: lavora con loro, e con una persona di fiducia che la famiglia può indicare perché ne conosce la storia. Se ci stai pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il tuo notaio.</p>
+""")
+
+TESTI["fondi-e-strumenti/eredita-solidale"] = dict(
+    sotto="Ciò che continua a vivere di un’eredità.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Aiuta chi ha ricevuto un’eredità a trasformarne una parte in qualcosa che continua a fare del bene, in memoria di chi l’ha lasciata.</p>
+<p>Lo statuto (art. 12) prevede per gli eredi e i legatari due strade, secondo l’entità di ciò che doni e la tua volontà:</p>
+<ul class="stelle">
+<li><strong>il Fondo della Memoria</strong>, un fondo unico, che sostiene tutte le attività della Fondazione senza una destinazione precisa. Accoglie le donazioni piccole e medie che vengono da un’eredità o da un legato, e anche quelle più grandi, se preferisci non aprire un fondo con un nome; i risparmi trovati in casa che non bastano per un fondo con un nome; i resti di conti dormienti o le piccole somme che gli eredi non si sono divisi. Lo statuto prevede un Libro della Memoria, in cui la Fondazione ricorda le persone di questo fondo;</li>
+<li><strong>un fondo di eredità solidale con un nome</strong>, per esempio «Fondo in ricordo di…», per le donazioni più importanti, sopra una soglia che il consiglio di amministrazione stabilisce e aggiorna: la soglia c’è soltanto perché un fondo con un nome ha una gestione sua, e i costi devono restare contenuti rispetto a ciò che riceve per non renderlo inefficace e inefficiente. Il fondo sostiene i progetti o gli ambiti che gli eredi scelgono insieme alla Fondazione, e il nome della persona ricordata compare nelle comunicazioni e nei rendiconti dei progetti che finanzia.</li>
+</ul>
+<p>Il Fondo della Memoria non è il fondo di memoria che racconta la pagina <a class="link" href="{→in-memoria/fondo-di-memoria}">Il fondo di memoria</a>: quello lo può aprire chiunque voglia ricordare una persona cara, anche senza un’eredità, con il nome e lo scopo che sceglie. Questa pagina parla a chi ha ricevuto un’eredità e vuole donarne una parte.</p>
+<p>Si può donare quasi tutto ciò che si trova in un’eredità: la liquidità, gli immobili, le opere d’arte, le collezioni, i gioielli, le automobili e gli altri beni di valore, i titoli e le quote di società, un’azienda intera o un suo ramo, anche le cripto-attività, che vengono convertite subito in euro. Per gli immobili, le aziende e i beni di valore serve un atto del notaio.</p>
+<p><strong>Polizze vita e fondi pensione.</strong> Nei fondi entrano anche le somme di una polizza vita o di un fondo pensione che indicano la Fondazione come beneficiaria. È una strada semplice, e spesso dimenticata, anche per chi pensa a ciò che lascerà: la Fondazione si può indicare come beneficiaria, anche per una parte, nel contratto, con una dichiarazione scritta all’assicuratore o nel testamento. La somma le spetta per diritto proprio e non entra nell’eredità (art. 1920 del codice civile); per i premi pagati restano salvi i diritti dei familiari a cui spetta la legittima.</p>
+<p>Salvo che tu chieda altro, i beni si intendono donati perché la Fondazione li venda al miglior valore possibile e destini il ricavato al fondo: così diventano subito utili. La Fondazione può anche tenerli, se servono alle sue attività. Se nell’eredità c’è un’azienda e lo chiedi, la Fondazione può valutare di tenerla. Se l’azienda non è già una società di capitali, per esempio una ditta individuale o un’azienda agricola condotta in proprio, può gestirla con una società sua, una S.r.l. o un’impresa sociale, che tiene il rischio d’impresa separato dal suo patrimonio. In questo caso si impegna a conservare l’azienda e le persone che ci lavorano e, se può, a farla crescere, secondo i valori che le indichi.</p>
+<p>Le regole sul denaro sono rigorose. La Fondazione non riceve contanti: gli eredi versano prima il contante in banca o alla posta, e lo donano con un bonifico o un altro mezzo tracciabile, da cui risulti che viene dall’eredità. Tutto si svolge nel rispetto delle leggi contro il riciclaggio e sull’uso del contante.</p>
+<p>Per chi dona valgono le regole fiscali delle donazioni alla Fondazione, che trovi in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Se hai ricevuto un’eredità e vuoi che una parte continui a vivere in un progetto, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche con il notaio o il commercialista che segue la successione.</p>
+""")
+
+TESTI["professionisti/esecutore-testamentario"] = dict(
+    sotto="Le volontà, rispettate e garantite.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Lo statuto (art. 14, comma 2) le permette di accettare l’incarico di esecutore testamentario (artt. 700 e seguenti del codice civile) o di custode di scopo, con la terzietà di un ente.</p>
+<p>Puoi proporla al tuo cliente quando teme che le sue volontà non vengano eseguite come le ha scritte: perché la famiglia è divisa, perché la persona di fiducia potrebbe non esserci più, perché il testamento destina dei beni a uno scopo che va seguito nel tempo. Un ente può dare delle garanzie di continuità nel tempo, perché non dipende dalla salute o dalla disponibilità di una persona, e sta fuori dalle relazioni della famiglia.</p>
+<p>Nella clausola conviene tenere presenti tre cose:</p>
+<ul class="stelle">
+<li>la Fondazione può essere nominata anche se il testamento le lascia una parte dei beni (art. 701), ma in quel caso la divisione tra gli eredi non le si può affidare (art. 706);</li>
+<li>l’incarico è gratuito, salvo che il testamento preveda un compenso a carico dell’eredità (art. 711);</li>
+<li>il custode di scopo veglia che un bene lasciato per uno scopo sia usato come il testatore ha voluto: che cosa può fare, e per quanto tempo, va scritto nella clausola.</li>
+</ul>
+<p>Per il resto valgono le regole della legge: salvo diversa volontà del testatore, possesso e amministrazione dei beni per un anno al massimo, che il giudice può prolungare di un altro anno solo per evidente necessità (art. 703); inventario quando la legge lo richiede (art. 705); rendiconto e responsabilità, da cui il testatore non può esonerare (art. 709); sostituzione da parte del giudice per gravi irregolarità o se viene meno la fiducia (art. 710); spese a carico dell’eredità (art. 712).</p>
+<p>La Fondazione accetta l’incarico dopo l’apertura della successione, con la dichiarazione nella cancelleria del tribunale (art. 702), e può rinunciarvi. Per questo ti chiediamo di parlarne con noi prima che il testamento sia firmato: vediamo insieme la clausola e che cosa il cliente si aspetta. Non sostituiamo il notaio, l’avvocato o il commercialista degli eredi: lavoriamo con loro.</p>
+<p>Stiamo costruendo adesso la rete degli studi partner. Se un tuo cliente ci sta pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo con te, e con lui se lo desidera.</p>
+""")
+
+TESTI["professionisti/vitalizio-filantropico"] = dict(
+    sotto="Un bene per la cura.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Lo statuto (art. 14, comma 3) le permette di stipulare vitalizi filantropici. Il tuo cliente le trasferisce la nuda o la piena proprietà di un immobile, di un’azienda, per esempio agricola, di altri beni o di un capitale; se cede un immobile o un’azienda, ne conserva l’abitazione o l’usufrutto per tutta la vita; e la Fondazione si obbliga a garantirgli, per tutta la vita, i beni e i servizi concordati per il suo benessere, compresi quelli assistenziali, socio-assistenziali, medici e terapeutici, direttamente o tramite partner convenzionati. Alla sua morte la piena proprietà resta alla Fondazione, per i suoi scopi.</p>
+<p>È un vitalizio assistenziale: un contratto atipico, oneroso e aleatorio, che i giudici avvicinano alla rendita vitalizia (art. 1872 del codice civile). Non è una donazione. I punti da curare nell’atto:</p>
+<ul class="stelle">
+<li><strong>l’alea</strong>: il contratto è nullo se alla firma la fine della vita era prevedibile, per l’età o per una malattia, o se il rapporto tra il valore del bene e quello delle prestazioni toglie ogni incertezza (Cass. 19214/2016, 8116/2024, 26823/2025);</li>
+<li><strong>la legittima</strong>: una sproporzione macroscopica tra bene e prestazioni può far qualificare il contratto come donazione, con le conseguenze per i legittimari (Cass. 15904/2016);</li>
+<li><strong>le prestazioni</strong>: l’atto dice che cosa riceve il cliente, in che modo e chi gli presta l’assistenza (Cass. 1080/2020); se la Fondazione non adempie, il cliente può chiedere la risoluzione (Cass. Sez. Unite 8432/1990).</li>
+</ul>
+<p>Sul fisco: poiché non è una donazione, il vitalizio non dà al cliente le detrazioni o le deduzioni delle erogazioni liberali, e il trasferimento sconta le imposte di un atto a titolo oneroso. Le imposte di registro, ipotecaria e catastale in misura fissa (art. 82, comma 4, del Codice del Terzo settore) spettano solo se la Fondazione usa direttamente il bene per le sue attività entro cinque anni. La valutazione sul caso concreto resta ai professionisti che seguono il cliente.</p>
+<p><strong>Se il cliente non ha bisogno di assistenza e vuole soltanto conservare l’uso del bene, lo strumento giusto è un altro: una donazione con riserva di usufrutto (art. 796 del codice civile) o del diritto di abitazione, oppure un lascito.</strong> Lì valgono le regole delle erogazioni alla Fondazione.</p>
+<p>Ogni vitalizio si valuta caso per caso, con il notaio del cliente. La Fondazione lo stipula solo se può garantire le prestazioni dove il cliente vive, e può anche dire di no. Stiamo costruendo adesso la rete dei partner con cui farlo. Se un tuo cliente ci sta pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo con te, e con lui se lo desidera.</p>
+""")
+
+TESTI["professionisti/dopo-di-noi"] = dict(
+    sotto="Trust e protezione dei fragili.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Nei trust, nei vincoli di destinazione (art. 2645-ter del codice civile) e nei contratti di affidamento fiduciario istituiti secondo la legge 112/2016 a favore di una persona con disabilità grave (art. 3, comma 3, della legge 104/1992), lo statuto (art. 14, comma 4) le permette di assumere due ruoli:</p>
+<ul class="stelle">
+<li><strong>trustee o gestore</strong>: amministra i beni come patrimonio separato dal proprio e li impiega soltanto per il progetto di vita del beneficiario;</li>
+<li><strong>guardiano</strong>: se il gestore è un altro, ne controlla l’operato e interviene, anche in giudizio, quando le volontà dei genitori non sono rispettate.</li>
+</ul>
+<p>Il ruolo può cominciare mentre i genitori ci sono ancora, «durante noi», e continuare dopo.</p>
+<p>Per le agevolazioni dell’art. 6, l’atto deve avere i requisiti del comma 3: atto pubblico; soggetti e ruoli identificati con chiarezza; bisogni della persona e attività assistenziali, comprese quelle che riducono il rischio di istituzionalizzazione; obblighi del gestore e modalità di rendiconto; la persona con disabilità come unica beneficiaria; beni destinati esclusivamente alle finalità assistenziali; il soggetto che controlla il gestore; durata fino alla morte del beneficiario; destinazione del patrimonio residuo. La verifica sul caso concreto resta ai professionisti che seguono l’atto.</p>
+<p>Sul residuo: se l’atto lo destina alla Fondazione, lo statuto le chiede di impiegarlo prima di tutto in progetti per persone nella stessa condizione del beneficiario.</p>
+<p>Accanto al ruolo nell’atto, la Fondazione è costituita per accompagnare la persona nel percorso con i servizi sociali e sanitari, nelle soluzioni abitative e nelle cure, d’intesa con una persona di fiducia indicata dalla famiglia: è ciò che racconta alle famiglie la pagina <a class="link" href="{→lasciti/dopo-di-noi}">Il Dopo di Noi</a>. Non sostituisce i servizi sociali né l’amministratore di sostegno: lavora con loro.</p>
+<p>Stiamo costruendo adesso la rete degli studi partner. Se segui una famiglia che ci sta pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo con te, e con la famiglia se lo desidera.</p>
+""")
+
+TESTI["professionisti/fondi-di-scopo"] = dict(
+    sotto="Il nome e lo scopo di chi dona.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Lo statuto (art. 8) le permette di istituire al proprio interno fondi di scopo: patrimoni destinati, senza personalità giuridica, con gestione contabile separata, che il consiglio di amministrazione istituisce sulla volontà di chi dona. Per un cliente che vuole dare un nome e uno scopo alla propria filantropia sono un’alternativa più semplice a una fondazione propria. Può aprirli una persona, una famiglia, un’impresa, un ente, anche straniero; e anche il tuo studio.</p>
+<p>Il regolamento del fondo, scritto sulla volontà di chi dona e approvato dal consiglio, può fissare:</p>
+<ul class="stelle">
+<li>la denominazione, purché non contraria all’ordine pubblico o all’immagine della Fondazione;</li>
+<li>la dotazione, iniziale e successiva;</li>
+<li>lo scopo, tra le attività di interesse generale dell’art. 3;</li>
+<li>la durata, determinata o indeterminata;</li>
+<li>un comitato consultivo, con chi dona o i suoi rappresentanti, che indica i progetti da sostenere.</li>
+</ul>
+<p>In alternativa agli organi del fondo, chi dona può rimettere la gestione per intero alla Fondazione, fermo il vincolo di scopo: è la gestione fiduciaria semplificata (art. 8, comma 7).</p>
+<p>Le garanzie sono la tracciabilità dei flussi e il rendiconto separato nel bilancio della Fondazione, che chi dona può chiedere quando vuole. Due condizioni da dire al cliente: una quota per i costi di gestione, fissata nel regolamento del fondo o, se il fondo non ne ha uno, dal consiglio di amministrazione; e, quando il fondo si estingue, il residuo va alle finalità generali della Fondazione, salvo diversa previsione del regolamento.</p>
+<p>Il fondo si apre con una donazione o con un lascito. Il regime fiscale è quello delle erogazioni alla Fondazione (artt. 82 e 83 del Codice del Terzo settore), riassunto in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>; la valutazione sul caso concreto resta tua.</p>
+<p>Stiamo costruendo adesso la rete degli studi partner. Se un tuo cliente pensa a un fondo con il suo nome, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo con te, e con lui se lo desidera.</p>
+""")
+
+TESTI["professionisti/fondo-della-memoria"] = dict(
+    sotto="Ciò che continua a vivere di un’eredità.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Lo statuto (art. 12) le permette di accogliere da eredi e legatari ciò che si trova in una successione, beni e valori di ogni tipo, perché continui in progetti di utilità sociale, in memoria della famiglia o di chi l’ha lasciato. Le strade sono due, secondo l’entità dell’apporto e la volontà di chi dona:</p>
+<ul class="stelle">
+<li><strong>il Fondo della Memoria</strong>, un fondo unico, senza destinazione specifica, che sostiene tutte le attività della Fondazione. Accoglie le donazioni di modesta o media entità da eredità o legati, il risparmio domestico che non raggiunge la soglia di un fondo con un nome, i resti di conti dormienti e le piccole somme non divise. Sopra la soglia il fondo con un nome è una possibilità, non un obbligo: chi dona di più può scegliere anche il Fondo della Memoria. I defunti sono ricordati nel Libro della Memoria;</li>
+<li><strong>i fondi nominativi di eredità solidale</strong>, per gli apporti sopra la soglia che il consiglio di amministrazione fissa periodicamente: la soglia c’è soltanto perché un fondo con un nome ha una gestione sua, e i costi devono restare contenuti rispetto a ciò che riceve per non renderlo inefficace e inefficiente. Hanno un nome («Fondo in ricordo di…»), una destinazione concordata tra gli eredi e la Fondazione, e il nome del defunto compare nelle comunicazioni e nei rendiconti dei progetti che finanziano.</li>
+</ul>
+<p>Un fondo in ricordo di una persona aperto fuori da una successione, per esempio da amici o familiari con una raccolta, è invece un <a class="link" href="{→professionisti/fondi-di-scopo}">fondo di scopo</a> (art. 8), uno dei tanti che lo statuto permette: alle famiglie lo racconta la pagina <a class="link" href="{→in-memoria/fondo-di-memoria}">Il fondo di memoria</a>.</p>
+<p>I fondi accolgono anche beni in natura: immobili e diritti reali, opere d’arte, collezioni, gioielli e automobili, strumenti finanziari e partecipazioni, aziende e rami d’azienda, cripto-attività convertite subito in euro, e le somme di polizze vita e fondi pensione che designano la Fondazione come beneficiaria. Salvo diversa volontà di chi dona, i beni si intendono conferiti con mandato di alienazione al miglior valore; la Fondazione può tenerli se servono alle sue attività. Per un’azienda, se chi dona lo chiede, può valutare di mantenerla e gestirla tramite una società strumentale, che separa il rischio d’impresa dal suo patrimonio (art. 12, commi 8-10): precauzione che serve soprattutto quando l’azienda non è già una società di capitali, quindi, per esempio, per una ditta individuale o un’azienda agricola condotta in proprio.</p>
+<p><strong>Polizze vita e fondi pensione.</strong> Sono una strada semplice, e spesso dimenticata. Il tuo cliente può designare la Fondazione come beneficiaria, anche per una parte: la somma le spetta per diritto proprio e non entra nell’asse ereditario (art. 1920, comma 3, del codice civile); per la previdenza complementare lo consente l’art. 14, comma 3, del D.Lgs. 252/2005. La designazione si fa nel contratto, con una dichiarazione scritta all’assicuratore o nel testamento (art. 1920, comma 2), e di regola si può revocare (art. 1921). Restano salvi, per i premi pagati, i diritti dei legittimari (art. 1923, comma 2).</p>
+<p>La tracciabilità è una condizione: la Fondazione non riceve contanti. Gli eredi versano prima il contante su un conto e lo donano con bonifico o altro mezzo tracciabile da cui risulti la provenienza ereditaria, nel rispetto delle norme contro il riciclaggio e sull’uso del contante.</p>
+<p>Il regime fiscale è quello delle erogazioni e dei trasferimenti alla Fondazione (artt. 82 e 83 del Codice del Terzo settore), riassunto in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>; la valutazione sul caso concreto resta tua.</p>
+<p>Stiamo costruendo adesso la rete degli studi partner. Se segui una successione in cui gli eredi vogliono destinare una parte al bene comune, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo con te, e con loro se lo desiderano.</p>
+""")
+
+# Il Family Office per le famiglie è il testo del thread «Pagina Aziende» (PR #12), in «fondi-e-strumenti/family-office».
+# Elias (11.10): anche il Family Office ha bisogno dei professionisti, e lo statuto lo dice («anche avvalendosi di professionisti
+# interni o delegati», art. 14, c. 5). Confini come nella pagina per le famiglie: nessun consiglio sugli investimenti, nessun costo.
+TESTI["professionisti/family-office"] = dict(
+    sotto="Piani di dono su misura.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore. Lo statuto (art. 14, comma 5) le permette di aiutare persone, famiglie e imprese a strutturare piani filantropici complessi, a costituire fondi dedicati e a verificare l’impatto delle erogazioni, «anche avvalendosi di professionisti interni o delegati». È il Family Office filantropico: la Fondazione fa da ponte tra la volontà di chi dona e i bisogni della collettività.</p>
+<p>Puoi proporlo al tuo cliente quando un patrimonio importante, un’azienda, una tenuta o una collezione, così come qualsiasi altro bene, mobile o immobile, sta per cambiare di mano, e la famiglia vuole che una parte continui a fare del bene ma non sa a chi destinarla né con quale strumento. Per un’impresa il punto di partenza è la pagina <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>.</p>
+<p>Il lavoro si divide così:</p>
+<ul class="stelle">
+<li><strong>la Fondazione</strong> disegna con la famiglia il piano filantropico e sceglie con lei gli strumenti dello statuto: fondi di scopo (art. 8), fondi di eredità solidale e continuità dell’azienda (art. 12), Fondo Terra Bene Comune per terreni e tenute (art. 13), vitalizio, esecuzione testamentaria, Dopo di Noi (art. 14). Costituisce i fondi, verifica prima chi riceve e poi come è stato usato ciò che è stato donato, con un rendiconto separato per ogni fondo;</li>
+<li><strong>lo studio</strong> segue gli atti, le successioni, le imposte e la pianificazione del patrimonio. La consulenza sugli investimenti resta a chi è abilitato a darla (artt. 18 e seguenti del Testo unico della finanza): la Fondazione non la dà.</li>
+</ul>
+<p>I professionisti di cui parla lo statuto sono quelli di fiducia della famiglia o gli studi partner della Fondazione. Ognuno resta nel proprio ruolo e risponde al proprio cliente.</p>
+<p>Stiamo costruendo adesso la rete degli studi partner. Se segui una famiglia che ci sta pensando, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo con te, e con la famiglia se lo desidera.</p>
+""")
+
+# ================================================================ SERVIZI
+# La pagina «in costruzione» (Elias, 11.10: «il pubblico vedrà una pagina in costruzione, e mano a mano che mettiamo i servizi
+# viene aggiornata»). Bozza di Claude, provvisoria; le quattro pagine sono spente in costruisci.py.
+TESTI["servizi"] = dict(
+    sotto="I servizi alle persone che la Fondazione è costituita per offrire. Questa sezione è in costruzione.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore, nata il 26 febbraio 2026.</p>
+<p>Lo statuto la costituisce anche per offrire servizi alle persone (art. 3): il sostegno a chi è fragile, l’agricoltura sociale e i laboratori terapeutici, l’ospitalità, la consulenza e l’orientamento.</p>
+<p>Questa sezione è in costruzione: le pagine arriveranno a mano a mano che i servizi prendono forma. Intanto l’accompagnamento nel fine vita, <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Io sono qui per te</a>, lo trovi nella sezione In memoria. Se cerchi un aiuto che qui non vedi, <a class="link" href="{→contatti}">scrivici</a>.</p>
+""")
 
 # ------------------------------------------------------------ le descrizioni per i motori di ricerca (17.9, bozza di Claude; Dacia rilegge)
 # una frase per pagina, al massimo 155 caratteri: è la riga che Google mostra sotto il titolo
@@ -858,7 +1168,13 @@ DESCRIZIONI = {
     "progetti": "I progetti della Fondazione La Rosa d'Oro: da avviare, da sostenere, in corso, realizzati. E come presentare il tuo.",
     "eventi-e-formazione": "Incontri e percorsi di formazione della Fondazione: medico-terapeutica, agricola, accompagnamento alla morte.",
     "eventi-e-formazione/formazione-accompagnamento": "Formazione all'accompagnamento alla morte: percorsi per professionisti sanitari, volontari e cittadini, per stare accanto a chi vive l'ultimo tratto della vita.",
-    "servizi": "I servizi alle persone della Fondazione: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento.",
+    "servizi": "I servizi alle persone della Fondazione: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento. Sezione in costruzione.",
+    "fondi-e-strumenti": "Gli strumenti della Rosa d’Oro: un fondo con il tuo nome, il Family Office, il vitalizio, l’esecutore testamentario, il Dopo di Noi, l’eredità solidale.",
+    "fondi-e-strumenti/dopo-di-noi": "Il Dopo di Noi (legge 112/2016): la Fondazione come gestore o guardiano del trust per un familiare con disabilità grave. Come funziona.",
+    "fondi-e-strumenti/eredita-solidale": "Hai ricevuto un’eredità e vuoi donarne una parte? Il Fondo della Memoria e i fondi di eredità solidale con un nome: come funzionano.",
+    "fondi-e-strumenti/fondi-di-scopo": "Un fondo con il tuo nome dentro la Fondazione: uno scopo scelto da te, una contabilità separata e un rendiconto, senza costituire una fondazione propria.",
+    "fondi-e-strumenti/vitalizio-filantropico": "Il vitalizio filantropico: cedi un bene alla Fondazione, ne conservi l’uso e ricevi assistenza e cure per tutta la vita. Come funziona e quali garanzie ha.",
+    "fondi-e-strumenti/esecutore-testamentario": "La Fondazione come esecutore testamentario o custode di scopo, perché le tue ultime volontà siano eseguite come le hai scritte, con le garanzie di legge.",
     "aziende-e-istituzioni": "Come aziende e istituzioni possono collaborare con la Fondazione La Rosa d'Oro: sostegno ai progetti, partenariati, iniziative condivise.",
     "aziende-e-istituzioni/aziende": "Per le aziende: una parte delle vendite o degli utili per il bene comune, un fondo con il proprio nome, welfare, Lux, vantaggi fiscali, e le aziende partner.",
     "aziende-e-istituzioni/istituzioni": "Per le istituzioni: il partenariato pubblico-privato sociale con la Fondazione, dalla rigenerazione urbana al welfare di comunità e alla formazione.",
@@ -866,10 +1182,11 @@ DESCRIZIONI = {
     "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
     "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counsellor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
     "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
-    "dona": "Sostieni la Fondazione La Rosa d'Oro con carta, bonifico o PayPal: ogni donazione va a un progetto preciso ed è fiscalmente detraibile o deducibile.",
+    "dona": "Dona alla Fondazione La Rosa d’Oro con un bonifico o con PayPal, per un ambito o in memoria di una persona cara. Le donazioni sono detraibili o deducibili.",
     "documenti": "Lo statuto della Fondazione La Rosa d’Oro ETS, i dati della costituzione e dell’iscrizione al Registro unico del Terzo settore, le informative.",
     "contatti": "Scrivi alla Fondazione La Rosa d’Oro: ti rispondiamo di persona e, se serve, ci incontriamo a Milano o dove sei tu.",
-    "partnership": "Le realtà con cui la Fondazione La Rosa d'Oro collabora, e i siti amici.",
+    "partnership": "Con chi lavora la Fondazione La Rosa d’Oro: studi professionali, aziende, istituzioni e realtà del sociale, la realtà collegata Orizzonti Celesti.",
+    "progetti-amici": "I progetti amici della Fondazione La Rosa d’Oro: realtà che stimiamo, nate fuori dalla Fondazione, e il criterio con cui le presentiamo.",
     "privacy": "Come la Fondazione La Rosa d'Oro tratta i tuoi dati: moduli, dediche, donazioni, ricevute, diritti. In parole semplici.",
     "cookie": "Questo sito non usa cookie di profilazione né strumenti di tracciamento. Ecco che cosa significa.",
 }

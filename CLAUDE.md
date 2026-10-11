@@ -20,6 +20,9 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   di non indicizzarle; la costruzione le elenca alla fine.
 - Il titolo della scheda (e di Google) viene da `TITOLI` in `testi_pagine.py`
   quando la pagina ha un titolo evocativo; altrimenti è il titolo della pagina.
+- Il modulo della pagina Contatti passa da Forminit (account della segreteria):
+  `FORMINIT` in `costruisci.py` è il codice del modulo; se è vuoto, al posto
+  del modulo resta il pulsante «Scrivici» che apre la posta.
 
 ## Regole che non si discutono
 
