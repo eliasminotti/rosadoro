@@ -15,7 +15,8 @@ Che cosa c'è
   sorgenti/          il sorgente HTML del fac-simile delle DAT; il PDF si rifà con
                      node sorgenti/stampa-pdf.js sorgenti/DAT-fac-simile.html sito/allegati/DAT-fac-simile.pdf
                      e foglio-contatti.gs, lo script del foglio Google «Contatti della Fondazione»
-                     che riceve il modulo dei Contatti (si copia nel foglio, da Estensioni → Apps Script)
+                     che riceve il modulo dei Contatti (si copia nel foglio, da Estensioni → Apps Script),
+                     con il suo manifesto foglio-contatti-appsscript.json (va in appsscript.json)
   LEGGIMI.txt        questo file
 
 Dove si vede

@@ -7,7 +7,7 @@ Gettoni usati nei testi, sostituiti dall'assemblatore:
   {→cartella}        collegamento relativo alla pagina indicata
   {img:file.svg}     percorso di un'immagine in img/
   {file:nome.pdf}    percorso di un allegato da scaricare, in allegati/
-  {modulo-contatti}  il modulo dei Contatti (il foglio della Fondazione, o Forminit finché il foglio non è acceso),
+  {modulo-contatti}  il modulo dei Contatti, che scrive nel foglio della Fondazione,
                      o il pulsante «Scrivici» se il modulo non è ancora attivo
   {foto:NOME|didascalia|classe}   posto di una fotografia non ancora consegnata
 """

@@ -28,9 +28,9 @@ LINK_PULITI = False                       # False: i collegamenti finiscono in �
 FOGLIO = "https://script.google.com/macros/s/AKfycbzHUOOLsgMRu-2wUcBNvVYjoTspg0-gBGaBlRkZylzz_JcDbbw1JZ_oSJMQDbj-R6xrBA/exec"                               # l'indirizzo dell'App web dello script del foglio «Contatti della Fondazione»
                                           # (sorgenti/foglio-contatti.gs), quello che finisce in «/exec».
                                           # Pieno: il modulo dei Contatti scrive nel foglio e Forminit non si usa più.
-FORMINIT = "0luhmnjylmz"                  # il codice del modulo dei Contatti su Forminit (Form ID, dal pannello di Forminit),
-                                          # usato finché FOGLIO è vuoto. Vuoti tutti e due: al posto del modulo resta
-                                          # il pulsante «Scrivici» che apre la posta.
+FORMINIT = ""                             # il codice di un modulo su Forminit (Form ID), usato solo se FOGLIO è vuoto.
+                                          # Il modulo di prima («Contatti del sito», 0luhmnjylmz) è cancellato dall’11.10.2026.
+                                          # Vuoti tutti e due: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
 CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella delle notizie: se il testo cambia,
     "Vorrei ricevere ogni tanto le notizie della Fondazione per email. Posso cancellarmi quando voglio.")
                                           # cambia anche la versione, che il foglio registra accanto al consenso.

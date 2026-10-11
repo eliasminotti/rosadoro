@@ -17,12 +17,15 @@
  * matita → Versione: nuova versione. L’indirizzo resta lo stesso.
  *
  * L’originale sta nel repository del sito, in sorgenti/foglio-contatti.gs:
- * si cambia lì e si ricopia qui.
+ * si cambia lì e si ricopia qui. Accanto c’è foglio-contatti-appsscript.json,
+ * il manifesto del progetto (permessi e servizio Gmail), che va in appsscript.json.
  */
 
 var SCHEDA = 'Contatti';                          // il nome della scheda dove arrivano le righe
 var AVVISI_A = 'segreteria@larosadoro.org';       // chi riceve l’avviso di ogni messaggio
 var MITTENTE = 'Fondazione La Rosa d’Oro';        // il nome che compare come mittente
+var DA = 'segreteria@larosadoro.org';             // l’indirizzo da cui partono le email di conferma: deve essere
+                                                  // tra gli indirizzi «Invia come» della posta del proprietario del foglio
 var SITI = ['https://larosadoro.org/', 'https://eliasminotti.github.io/rosadoro/'];   // i soli indirizzi del sito
                                                   // a cui portano i collegamenti di conferma; il primo vale se il modulo non dice da dove arriva
 var FUSO = 'Europe/Rome';
@@ -55,7 +58,7 @@ function doPost(e) {
     var versione = pulisci(p.consenso, MASSIMO.versione);
     var sito = SITI.indexOf(p._sito) >= 0 ? p._sito : SITI[0];
 
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return rispondi(conJs, { success: false, error: 'email' });
+    if (!/^[^@\s,;<>"()\[\]]+@[^@\s,;<>"()\[\]]+\.[^@\s,;<>"()\[\]]+$/.test(email)) return rispondi(conJs, { success: false, error: 'email' });
     if (!nome || !messaggio) return rispondi(conJs, { success: false, error: 'campi' });
 
     var adesso = new Date();
@@ -136,10 +139,8 @@ function chiediConferma(email, sito) {
   var quando = String(Math.floor(Date.now() / 1000));
   var codice = base64url(email) + '.' + quando + '.' + firma(email + '|' + quando);
   var collegamento = sito + 'contatti/index.html?conferma=' + codice;
-  MailApp.sendEmail({
+  manda({
     to: email,
-    replyTo: AVVISI_A,
-    name: MITTENTE,
     subject: 'Conferma la tua email per le notizie della Fondazione',
     body: [
       'Buongiorno,',
@@ -248,6 +249,35 @@ function pagina(titolo, corpo) {
     '<body><main><h1>' + titolo + '</h1>' + corpo + '<p><small>Fondazione La Rosa d’Oro ETS</small></p></main></body></html>';
   return HtmlService.createHtmlOutput(html).setTitle(titolo)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+/* manda un’email a chi ha scritto, dall’indirizzo DA, con il servizio Gmail (permesso: solo inviare).
+   Se il servizio non è acceso o l’invio non riesce, parte come prima, dal proprietario del foglio,
+   con le risposte che vanno ad AVVISI_A: la conferma arriva comunque */
+function manda(m) {
+  if (typeof Gmail !== 'undefined') {
+    try {
+      var b64 = function (t) { return Utilities.base64Encode(t, Utilities.Charset.UTF_8); };
+      // nelle intestazioni le lettere accentate e l’apostrofo ’ viaggiano in codice
+      var parole = function (t) { return /^[ -~]*$/.test(t) ? t : '=?UTF-8?B?' + b64(t) + '?='; };
+      var intestazioni = [
+        'From: ' + parole(MITTENTE) + ' <' + DA + '>',
+        'To: ' + m.to,
+        'Reply-To: ' + AVVISI_A,
+        'Subject: ' + parole(m.subject),
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: base64'
+      ];
+      var corpo = b64(m.body).replace(/(.{76})/g, '$1\r\n');
+      var grezzo = intestazioni.join('\r\n') + '\r\n\r\n' + corpo;
+      Gmail.Users.Messages.send({ raw: Utilities.base64EncodeWebSafe(grezzo) }, 'me');
+      return;
+    } catch (errore) {
+      console.error(errore);
+    }
+  }
+  MailApp.sendEmail({ to: m.to, replyTo: AVVISI_A, name: MITTENTE, subject: m.subject, body: m.body });
 }
 
 /* toglie gli spazi in eccesso e taglia i testi troppo lunghi */
