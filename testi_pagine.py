@@ -860,7 +860,7 @@ TESTI["fondi-e-strumenti/family-office"] = dict(
 <p>Le verifiche si fanno prima e dopo. Prima di donare, su chi riceve. Dopo, su come è stato usato ciò che hai donato: per ogni fondo c’è un rendiconto separato, che puoi chiedere quando vuoi.</p>
 <p>Il piano si costruisce con i professionisti: i tuoi di fiducia, o gli studi partner della Fondazione. Il notaio, l’avvocato e il commercialista per gli atti, le successioni e le imposte; un consulente finanziario abilitato per il patrimonio. La Fondazione non dà consigli sugli investimenti e non sostituisce nessuno di loro: tiene insieme il disegno e ne custodisce lo scopo.</p>
 <p>Le imprese trovano il loro piano nella pagina <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>.</p>
-<p>La Fondazione è nata il 26 febbraio 2026 e stiamo costruendo adesso la rete degli studi partner. Se pensi a un piano, per te o per la tua famiglia, ne parliamo di persona, anche insieme al tuo notaio o al tuo commercialista.</p>
+<p>La Fondazione è nata il 26 febbraio 2026 e stiamo costruendo adesso la rete degli studi partner. Se pensi a un piano, per te o per la tua famiglia, <a class="link" href="{→contatti}">scrivici</a>: ne parliamo di persona, anche insieme al tuo notaio o al tuo commercialista.</p>
 """)
 
 for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-etica"):
