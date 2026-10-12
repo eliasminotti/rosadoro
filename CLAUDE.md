@@ -26,6 +26,12 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   suo accesso Google; a ogni modifica si ripubblica come nuova versione).
   Forminit è spento dall’11.10.2026 (`FORMINIT` vuoto): se `FOGLIO` resta
   vuoto, al posto del modulo c’è il pulsante «Scrivici» che apre la posta.
+- Le dediche del giardino dei ricordi vanno allo stesso script, nella scheda
+  «Dediche» del foglio. Entrano nel giardino quando Elias o Dacia spuntano la
+  casella «Nel giardino»: ogni ora la pubblicazione (`sorgenti/giardino.py`)
+  le scrive in `dediche.json` accanto alla pagina. Non stanno nel repository.
+- L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
+  `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 
 ## Regole che non si discutono
 

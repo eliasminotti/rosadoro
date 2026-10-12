@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# le dediche del giardino: le scrive la pubblicazione (sorgenti/giardino.py), non entrano mai nel repository
+sito/in-memoria/giardino-dei-ricordi/dediche.json

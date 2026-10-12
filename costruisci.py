@@ -435,6 +435,8 @@ def gettoni(html, da):
     html = re.sub(r"\{foto:([^|}]+)\|([^|}]*)\|([^}]*)\}", foto, html)
     if "{modulo-contatti}" in html:
         html = html.replace("{modulo-contatti}", modulo_contatti(da))
+    # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
+    html = html.replace("{foglio}", sfuggi(FOGLIO))
     return html
 
 def modulo_contatti(da):
@@ -843,7 +845,9 @@ def costruisci():
     with open(os.path.join(USCITA, "img", "favicon.svg"), "w", encoding="utf-8") as f:
         f.write(FAVICON)
     with open(os.path.join(USCITA, "robots.txt"), "w", encoding="utf-8") as f:
-        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\n") + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
+        # le dediche del giardino (dediche.json, che la pubblicazione scrive accanto alla pagina) non si offrono ai motori
+        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\nDisallow: /in-memoria/giardino-dei-ricordi/dediche.json\n")
+                + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
     # la pagina «non trovata»: GitHub Pages la serve da qualsiasi indirizzo, quindi i percorsi partono dalla radice del sito
     base = "<script>document.write('<base href=\"' + (location.hostname.slice(-9) === 'github.io' ? '/rosadoro/' : '/') + '\">')</script>"
     p404 = dict(cartella="", voce="", titolo="Pagina non trovata", occhiello="La Fondazione", hero="avorio", tipo="404", dove="", notte=False)

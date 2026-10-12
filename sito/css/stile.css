@@ -598,3 +598,29 @@ a.azione:hover h4{color:var(--accento)}
   .barra-fissa .b-news{border-left:0}
   .barra-fissa a{font-size:13px;letter-spacing:.12em}
 }
+
+/* il giardino dei ricordi: i nomi posati (sito.js li legge da dediche.json) e la finestra della dedica,
+   che con i tuoi recapiti è più lunga e sul telefono scorre al suo interno */
+.nel-giardino{margin:2.6em 0}
+.dediche{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:36px 28px;margin-top:1.4em}
+.dedica{margin:0}
+.dedica .foto{margin:0 0 14px}
+.dedica figcaption{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70)}
+.dedica figcaption strong{display:block;font-style:normal;font-weight:600;font-size:22px;line-height:1.25;color:var(--testo);margin-bottom:4px}
+.dedica figcaption span{white-space:pre-line}
+.velo-dialogo{overflow-y:auto;margin:0}   /* il margine dei paragrafi del testo spostava il velo di 22 px dal bordo in alto */
+.dialogo{max-height:100%;overflow-y:auto}
+.dialogo .righe .invia{background:var(--antracite);color:var(--avorio);border-color:var(--antracite)}   /* il pulsante principale, nero come nei Contatti */
+.dialogo .righe .invia:hover{background:var(--nero);border-color:var(--nero);color:#fff}
+.dialogo .righe .invia:disabled{opacity:.6;cursor:wait}
+.dialogo .esito{font-size:17px;color:var(--testo);border-left:1px solid var(--oro);padding:2px 0 2px 20px;margin:8px 0 0}
+.dialogo .esito.errore{border-left-color:var(--bordeaux)}
+.dialogo .esito:focus{outline:none}
+.dialogo .campi[hidden]+.esito{margin-top:16px}
+@media (max-width:600px){
+  .velo-dialogo{padding:12px}
+  .dialogo{padding:24px 20px}
+  .dediche{grid-template-columns:1fr 1fr;gap:28px 16px}
+  .dedica figcaption{font-size:17px}
+  .dedica figcaption strong{font-size:19px}
+}

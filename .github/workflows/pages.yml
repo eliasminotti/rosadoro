@@ -1,6 +1,12 @@
-# Pubblica la cartella «sito/» su GitHub Pages a ogni push.
+# Pubblica la cartella «sito/» su GitHub Pages a ogni push, e ogni ora per le dediche del giardino.
 # L'indirizzo di anteprima è https://eliasminotti.github.io/rosadoro/
 # Le pagine chiedono ai motori di ricerca di non indicizzarle (ANTEPRIMA = True in costruisci.py).
+#
+# Le dediche del giardino dei ricordi stanno nel foglio «Contatti della Fondazione»: entrano nel sito
+# quando si spunta la loro casella «Nel giardino». Ogni ora sorgenti/giardino.py chiede al foglio quelle
+# spuntate e, se sono cambiate, il sito si ripubblica con il loro elenco (dediche.json accanto alla pagina).
+# Le dediche non entrano mai nel repository. GitHub sospende i lavori di ogni ora se il repository
+# resta fermo per sessanta giorni: si riaccendono dalla scheda Actions.
 name: Pubblica il sito
 
 on:
@@ -8,6 +14,8 @@ on:
     branches:
       - claude/rosadoro-foundation-site-6hc5hu
       - main
+  schedule:
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -20,22 +28,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  prepara:
+    runs-on: ubuntu-latest
+    outputs:
+      pubblica: ${{ steps.giardino.outputs.pubblica }}
+    steps:
+      - name: Scarica il repository
+        uses: actions/checkout@v4
+      - name: Configura Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Raccogli le dediche del giardino
+        id: giardino
+        run: python3 sorgenti/giardino.py "${{ steps.pages.outputs.base_url }}" "${{ github.sha }}" "${{ github.event_name }}"
+      - name: Impacchetta la cartella sito/
+        if: steps.giardino.outputs.pubblica == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: sito
+
   pubblica:
+    needs: prepara
+    if: needs.prepara.outputs.pubblica == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - name: Scarica il repository
-        uses: actions/checkout@v4
-      - name: Configura Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Impacchetta la cartella sito/
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: sito
       - name: Pubblica
         id: deploy
         uses: actions/deploy-pages@v4

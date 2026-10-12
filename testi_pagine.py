@@ -115,6 +115,10 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   {foto:FOTO APE|L'ape sul fiore, l'immagine dell'esempio|}
   <figcaption><strong>Nonna Clelia</strong><br>«Ci hai insegnato la laboriosità delle api e la bellezza paziente dello sbocciare dei fiori.» — <em>un esempio: il nome, e la dedica se si vuole</em></figcaption>
 </figure>
+<section class="nel-giardino" id="nel-giardino" hidden>
+<h3>I nomi posati nel giardino</h3>
+<div class="dediche"></div>
+</section>
 <h3>Contattaci inoltre per</h3>
 <ul>
 <li><strong>un crowdfunding commemorativo</strong>: la donazione a progetti in memoria attraverso l'unione delle forze — basta una piccola donazione di ognuno per ricreare ciò che la persona scomparsa avrebbe voluto fare;</li>
@@ -126,20 +130,31 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 <p><a class="vai" href="{→contatti}">Contattaci</a></p>
 
 <div class="velo-dialogo" id="velo-dedica" role="dialog" aria-modal="true" aria-labelledby="dedica-titolo" hidden>
-  <div class="dialogo">
+  <form class="dialogo" id="modulo-dedica" action="{foglio}" method="post" data-indirizzo="segreteria@larosadoro.org" novalidate>
     <h3 id="dedica-titolo">Chi vuoi ricordare</h3>
+    <div class="campi">
     <p class="dedica-foto"></p>
     <label for="dedica-nome">Il nome</label>
-    <input id="dedica-nome" type="text" autocomplete="off" placeholder="Il nome, o come lo chiamavi">
+    <input id="dedica-nome" name="ricordo" type="text" autocomplete="off" maxlength="120" placeholder="Il nome, o come lo chiamavi">
     <label for="dedica-testo">Una dedica <span>facoltativa</span></label>
-    <textarea id="dedica-testo" placeholder="Poche parole, o nessuna"></textarea>
-    <label class="consenso" for="dedica-consenso"><input id="dedica-consenso" type="checkbox"> <span>Sono un familiare, o comunque una persona che ha titolo a ricordarla, e acconsento a che il nome e la dedica siano posati nel giardino, visibili a chi lo visita.</span></label>
-    <p class="nota">Il nome arriva alla Fondazione come messaggio e viene posato nel giardino a cura nostra: il sito non conserva nulla. Puoi chiederci in ogni momento di toglierlo, scrivendo a segreteria@larosadoro.org. Non scrivere recapiti o dati di altre persone. Il modulo è per chi ha almeno 14 anni. <a class="link" href="{→privacy}">Come trattiamo i dati</a>.</p>
+    <textarea id="dedica-testo" name="dedica" maxlength="600" placeholder="Poche parole, o nessuna"></textarea>
+    <label for="dedica-mittente">Il tuo nome <span>non lo pubblichiamo</span></label>
+    <input id="dedica-mittente" name="nome" type="text" autocomplete="name" maxlength="200">
+    <label for="dedica-posta">La tua email <span>per risponderti, non la pubblichiamo</span></label>
+    <input id="dedica-posta" name="email" type="email" autocomplete="email" maxlength="254">
+    <label class="consenso" for="dedica-consenso"><input id="dedica-consenso" name="consenso" type="checkbox" value="si"> <span>Sono un familiare, o comunque una persona che ha titolo a ricordarla, e acconsento a che il nome e la dedica siano posati nel giardino, visibili a chi lo visita.</span></label>
+    <input type="hidden" name="immagine" value="">
+    <input type="hidden" name="tipo" value="dedica">
+    <input type="hidden" name="_gotcha" value="">
+    <p class="nota">La dedica arriva alla Fondazione, che la legge e la posa nel giardino. Pubblichiamo solo il nome e la dedica, mai i tuoi recapiti. Puoi chiederci in ogni momento di toglierla, scrivendo a segreteria@larosadoro.org. Non scrivere recapiti o dati di altre persone. Il modulo è per chi ha almeno 14 anni. <a class="link" href="{→privacy}">Come trattiamo i dati</a>.</p>
     <div class="righe">
       <button type="button" class="chiudi-dialogo">Annulla</button>
-      <a class="invia" data-mailto="segreteria@larosadoro.org" href="#">Invia</a>
+      <button type="submit" class="invia">Manda la dedica</button>
     </div>
-  </div>
+    </div>
+    <p class="esito" role="status" tabindex="-1" hidden></p>
+    <div class="righe dopo" hidden><button type="button" class="chiudi-dialogo">Chiudi</button></div>
+  </form>
 </div>
 """)
 
@@ -369,7 +384,7 @@ TESTI["privacy"] = dict(
 <p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presenta il tuo progetto</a> ci arrivano i dati di chi propone, la descrizione del progetto e il collegamento al documento che vuoi farci leggere. Li usiamo solo per valutare la proposta, e li conserviamo per la durata della valutazione; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
 
 <h3>Quando dedichi un ricordo nel giardino</h3>
-<p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Il messaggio arriva alla Fondazione per posta elettronica e il nome viene posato nel giardino a cura nostra: il sito non conserva nulla da sé. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
+<p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Ci lasci anche il tuo nome e il tuo indirizzo di posta elettronica, che usiamo solo per risponderti o per chiederti qualcosa sulla dedica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate; il nome e la dedica entrano nel giardino dopo che li abbiamo letti. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
 <p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi chiedere in ogni momento di togliere una dedica, la tua o quella di un tuo caro scritta da altri, scrivendo a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
 
 <h3>Quando fai una donazione</h3>
@@ -386,7 +401,7 @@ TESTI["privacy"] = dict(
 <p>Oltre alle persone della Fondazione, i tuoi dati sono trattati da alcuni fornitori, ciascuno per la sua parte:</p>
 <ul>
 <li><strong>GitHub</strong> (GitHub, Inc., Stati Uniti) ospita le pagine del sito e ne tiene i registri tecnici, per conto della Fondazione;</li>
-<li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti: riceve i messaggi del modulo dei Contatti, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta, per conto della Fondazione;</li>
+<li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti: riceve i messaggi del modulo dei Contatti e le dediche del giardino, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta, per conto della Fondazione;</li>
 <li><strong>Stripe</strong> e <strong>PayPal</strong> gestiscono i pagamenti come titolari autonomi, come detto sopra;</li>
 <li>la <strong>banca</strong> della Fondazione, per i bonifici.</li>
 </ul>
@@ -400,7 +415,7 @@ TESTI["privacy"] = dict(
 <li>registri tecnici del sito: per il tempo necessario alla sicurezza, secondo le regole di GitHub;</li>
 <li>messaggi del modulo dei Contatti: fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione;</li>
 <li>proposte di progetto e altri messaggi: per il tempo necessario a gestire la richiesta o la valutazione;</li>
-<li>dediche nel giardino: finché la pagina resta in linea, o finché non ne chiedi la rimozione;</li>
+<li>dediche nel giardino: finché la pagina resta in linea, o finché non ne chiedi la rimozione; i tuoi recapiti, per lo stesso tempo;</li>
 <li>dati delle donazioni, ricevute e documenti contabili: dieci anni;</li>
 <li>consenso a ricevere notizie: finché non lo ritiri.</li>
 </ul>

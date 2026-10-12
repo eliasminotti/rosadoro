@@ -9,6 +9,11 @@
  *   - se la persona ha chiesto le notizie, le manda un’email per confermare
  *     l’indirizzo (doppia conferma): il collegamento porta alla pagina Contatti
  *     del sito, dove si tocca «Confermo». Le notizie vanno solo a chi conferma.
+ * Riceve anche le dediche del giardino dei ricordi, nella scheda «Dediche»
+ * (la crea da sé al primo arrivo), e avvisa la segreteria. Una dedica entra nel
+ * giardino quando si spunta la sua casella «Nel giardino»: il sito chiede ogni
+ * ora le dediche spuntate (?giardino=1) e le posa nella pagina. Togliendo la
+ * spunta, la dedica esce dal giardino alla pubblicazione successiva.
  *
  * Dove sta: nel foglio, dal menu Estensioni → Apps Script. Si pubblica come
  * «App web», eseguita come il proprietario del foglio, accessibile a chiunque:
@@ -39,7 +44,17 @@ var C = {
   confermata: 'Email confermata il', ente: 'Ente', stato: 'Stato'
 };
 
-var MASSIMO = { nome: 200, email: 254, oggetto: 200, messaggio: 8000, pagina: 200, versione: 60 };
+var MASSIMO = { nome: 200, email: 254, oggetto: 200, messaggio: 8000, pagina: 200, versione: 60,
+                ricordo: 120, dedica: 600, immagine: 80 };
+
+// la scheda delle dediche del giardino dei ricordi, con i nomi delle sue colonne
+var SCHEDA_DEDICHE = 'Dediche';
+var D = {
+  arrivata: 'Arrivata il', ricordo: 'In memoria di', dedica: 'Dedica', immagine: 'Immagine',
+  nome: 'Chi scrive', email: 'Email', consenso: 'Consenso', giardino: 'Nel giardino'
+};
+
+var EMAIL = /^[^@\s,;<>"()\[\]]+@[^@\s,;<>"()\[\]]+\.[^@\s,;<>"()\[\]]+$/;
 
 
 /* ---- 1. il messaggio che arriva dal sito ---- */
@@ -48,7 +63,8 @@ function doPost(e) {
   var p = (e && e.parameter) || {};
   var conJs = p._js === '1';                       // il sito con JavaScript vuole una risposta JSON
   try {
-    if (p._gotcha) return rispondi(conJs, { success: true });     // la trappola: si finge di accettare
+    if (p._gotcha) return rispondi(conJs, { success: true, dedica: p.tipo === 'dedica' });   // la trappola: si finge di accettare
+    if (p.tipo === 'dedica') return riceviDedica(p, conJs);
     var nome = pulisci(p.nome, MASSIMO.nome);
     var email = pulisci(p.email, MASSIMO.email).toLowerCase();
     var oggetto = pulisci(p.oggetto, MASSIMO.oggetto);
@@ -58,7 +74,7 @@ function doPost(e) {
     var versione = pulisci(p.consenso, MASSIMO.versione);
     var sito = SITI.indexOf(p._sito) >= 0 ? p._sito : SITI[0];
 
-    if (!/^[^@\s,;<>"()\[\]]+@[^@\s,;<>"()\[\]]+\.[^@\s,;<>"()\[\]]+$/.test(email)) return rispondi(conJs, { success: false, error: 'email' });
+    if (!EMAIL.test(email)) return rispondi(conJs, { success: false, error: 'email' });
     if (!nome || !messaggio) return rispondi(conJs, { success: false, error: 'campi' });
 
     var adesso = new Date();
@@ -128,7 +144,115 @@ function avvisaLaSegreteria(m) {
 }
 
 
-/* ---- 2. la conferma dell’indirizzo per le notizie ---- */
+/* ---- 2. la dedica del giardino dei ricordi ---- */
+
+function riceviDedica(p, conJs) {
+  var ricordo = pulisci(p.ricordo, MASSIMO.ricordo);
+  var dedica = pulisci(p.dedica, MASSIMO.dedica, true);
+  var immagine = pulisci(p.immagine, MASSIMO.immagine);
+  var nome = pulisci(p.nome, MASSIMO.nome);
+  var email = pulisci(p.email, MASSIMO.email).toLowerCase();
+  if (!EMAIL.test(email)) return rispondi(conJs, { success: false, error: 'email', dedica: true });
+  if (!ricordo || !nome || p.consenso !== 'si') return rispondi(conJs, { success: false, error: 'campi', dedica: true });
+
+  var adesso = new Date();
+  var riga = {};
+  riga[D.arrivata] = adesso;
+  riga[D.ricordo] = testo(ricordo);
+  riga[D.dedica] = testo(dedica);
+  riga[D.immagine] = testo(immagine);
+  riga[D.nome] = testo(nome);
+  riga[D.email] = testo(email);
+  riga[D.consenso] = 'sì';
+  riga[D.giardino] = false;                       // la casella: la spunta chi legge la dedica
+  scriviDedica(riga);
+
+  avvisaPerLaDedica({ ricordo: ricordo, dedica: dedica, immagine: immagine, nome: nome, email: email, quando: adesso });
+  return rispondi(conJs, { success: true, dedica: true });
+}
+
+/* la scheda «Dediche»: se non c’è ancora, nasce qui, con i titoli delle colonne */
+function schedaDediche() {
+  var libro = SpreadsheetApp.getActive();
+  var foglio = libro.getSheetByName(SCHEDA_DEDICHE);
+  if (foglio) return foglio;
+  foglio = libro.insertSheet(SCHEDA_DEDICHE);
+  var titoli = Object.keys(D).map(function (k) { return D[k]; });
+  foglio.getRange(1, 1, 1, titoli.length).setValues([titoli]).setFontWeight('bold');
+  foglio.setFrozenRows(1);
+  return foglio;
+}
+
+function scriviDedica(riga) {
+  var blocco = LockService.getScriptLock();
+  blocco.waitLock(20000);
+  try {
+    var foglio = schedaDediche();
+    var titoli = foglio.getRange(1, 1, 1, foglio.getLastColumn()).getValues()[0];
+    var valori = titoli.map(function (t) { return riga.hasOwnProperty(t) ? riga[t] : ''; });
+    var n = foglio.getLastRow() + 1;
+    foglio.getRange(n, 1, 1, valori.length).setValues([valori]);
+    var cGiardino = titoli.indexOf(D.giardino);
+    if (cGiardino >= 0) foglio.getRange(n, cGiardino + 1).insertCheckboxes();
+    SpreadsheetApp.flush();
+  } finally {
+    blocco.releaseLock();
+  }
+}
+
+function avvisaPerLaDedica(m) {
+  var righe = [
+    'Nuova dedica dal giardino dei ricordi del sito.',
+    '',
+    'In memoria di: ' + m.ricordo,
+    'Immagine scelta: ' + (m.immagine || '(nessuna)'),
+    'Dedica: ' + (m.dedica || '(senza dedica)'),
+    '',
+    'Chi scrive: ' + m.nome + ', ' + m.email,
+    'Ha dichiarato di essere un familiare, o comunque una persona che ha titolo a ricordarla, e ha acconsentito alla pubblicazione del nome e della dedica.',
+    'Quando: ' + Utilities.formatDate(m.quando, FUSO, 'dd/MM/yyyy HH:mm'),
+    '',
+    '—',
+    'La dedica entra nel giardino quando spunti la sua casella «Nel giardino», nella scheda «Dediche» del foglio: il sito la mostra entro un’ora. Per toglierla, togli la spunta.',
+    'Per rispondere a chi ha scritto basta «Rispondi»: la risposta va a ' + m.email + '.',
+    'Il foglio: ' + SpreadsheetApp.getActive().getUrl()
+  ];
+  MailApp.sendEmail({
+    to: AVVISI_A,
+    replyTo: m.email,
+    name: 'Sito della Fondazione',
+    subject: 'Dedica per il giardino: ' + m.ricordo,
+    body: righe.join('\n')
+  });
+}
+
+/* le dediche con la casella «Nel giardino» spuntata, le più recenti prima: solo il nome ricordato,
+   la dedica e l’immagine, mai chi scrive. Le chiede il sito, a ogni pubblicazione e ogni ora */
+function dedicheNelGiardino() {
+  var foglio = SpreadsheetApp.getActive().getSheetByName(SCHEDA_DEDICHE);
+  if (!foglio || foglio.getLastRow() < 2) return { success: true, dediche: [] };
+  var dati = foglio.getDataRange().getValues();
+  var titoli = dati[0];
+  var cRicordo = titoli.indexOf(D.ricordo), cDedica = titoli.indexOf(D.dedica),
+      cImmagine = titoli.indexOf(D.immagine), cGiardino = titoli.indexOf(D.giardino);
+  if (cRicordo < 0 || cGiardino < 0) return { success: true, dediche: [] };
+  var dediche = [];
+  for (var i = dati.length - 1; i >= 1; i--) {
+    var spunta = dati[i][cGiardino];
+    if (spunta !== true && String(spunta).trim().toLowerCase() !== 'sì') continue;
+    var ricordo = String(dati[i][cRicordo]).trim();
+    if (!ricordo) continue;
+    dediche.push({
+      nome: ricordo.slice(0, MASSIMO.ricordo),
+      dedica: cDedica < 0 ? '' : String(dati[i][cDedica]).trim().slice(0, MASSIMO.dedica),
+      immagine: cImmagine < 0 ? '' : String(dati[i][cImmagine]).trim().slice(0, MASSIMO.immagine)
+    });
+  }
+  return { success: true, dediche: dediche };
+}
+
+
+/* ---- 3. la conferma dell’indirizzo per le notizie ---- */
 
 function chiediConferma(email, sito) {
   // senza il nome di chi scrive: il modulo è aperto a tutti, e l’email di conferma non deve portare
@@ -159,9 +283,13 @@ function chiediConferma(email, sito) {
   return true;
 }
 
-/* la pagina Contatti del sito, quando si tocca «Confermo», chiede qui con ?conferma=… */
+/* la pagina Contatti del sito, quando si tocca «Confermo», chiede qui con ?conferma=…;
+   la pubblicazione del sito chiede le dediche del giardino con ?giardino=1 */
 function doGet(e) {
   var p = (e && e.parameter) || {};
+  if (p.giardino) {
+    return ContentService.createTextOutput(JSON.stringify(dedicheNelGiardino())).setMimeType(ContentService.MimeType.JSON);
+  }
   if (p.conferma) {
     var esito = confermaNotizie(String(p.conferma));
     return ContentService.createTextOutput(JSON.stringify(esito)).setMimeType(ContentService.MimeType.JSON);
@@ -207,7 +335,7 @@ function confermaNotizie(codice) {
 }
 
 
-/* ---- 3. da eseguire una volta dall’editor, prima di pubblicare ---- */
+/* ---- 4. da eseguire una volta dall’editor, prima di pubblicare ---- */
 
 function prepara() {
   segreto();
@@ -217,15 +345,26 @@ function prepara() {
   var mancano = Object.keys(C).map(function (k) { return C[k]; })
                       .filter(function (t) { return titoli.indexOf(t) < 0; });
   if (mancano.length) throw new Error('Nella prima riga mancano le colonne: ' + mancano.join(', '));
+  schedaDediche();
   console.log('Tutto pronto: ora si pubblica come App web.');
 }
 
 
-/* ---- 4. gli attrezzi ---- */
+/* ---- 5. gli attrezzi ---- */
 
 function rispondi(conJs, dati) {
   if (conJs) return ContentService.createTextOutput(JSON.stringify(dati)).setMimeType(ContentService.MimeType.JSON);
   // senza JavaScript il browser mostra questa pagina
+  if (dati.dedica) {
+    if (dati.success) {
+      return pagina('Grazie', '<p>La tua dedica è arrivata. La leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.</p>' +
+        '<p>Per tornare al sito usa il tasto «Indietro» del browser.</p>');
+    }
+    return pagina('La dedica non è partita', '<p>' + (dati.error === 'email'
+      ? 'Controlla la tua email: l’indirizzo non sembra completo.'
+      : 'Controlla di aver scritto il nome da ricordare, il tuo nome e la tua email, e di aver spuntato la casella.') +
+      ' Torna indietro con il tasto «Indietro» del browser, oppure scrivici a ' + AVVISI_A + '.</p>');
+  }
   if (dati.success) {
     return pagina('Grazie', '<p>Il tuo messaggio è arrivato. Ti rispondiamo di persona, all’indirizzo che ci hai lasciato.</p>' +
       (dati.conferma ? '<p>Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».</p>' : '') +
