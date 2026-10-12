@@ -14,6 +14,8 @@
  * giardino quando si spunta la sua casella «Nel giardino»: il sito chiede ogni
  * ora le dediche spuntate (?giardino=1) e le posa nella pagina. Togliendo la
  * spunta, la dedica esce dal giardino alla pubblicazione successiva.
+ * Riceve infine i progetti della pagina «Presentaci il tuo progetto», nella
+ * scheda «Progetti» (anche questa nasce da sé), e avvisa la segreteria.
  *
  * Dove sta: nel foglio, dal menu Estensioni → Apps Script. Si pubblica come
  * «App web», eseguita come il proprietario del foglio, accessibile a chiunque:
@@ -45,13 +47,21 @@ var C = {
 };
 
 var MASSIMO = { nome: 200, email: 254, oggetto: 200, messaggio: 8000, pagina: 200, versione: 60,
-                ricordo: 120, dedica: 600, immagine: 80 };
+                ricordo: 120, dedica: 600, immagine: 80,
+                progetto: 200, descrizione: 8000, bisogno: 2000, documento: 500, ente: 200 };
 
 // la scheda delle dediche del giardino dei ricordi, con i nomi delle sue colonne
 var SCHEDA_DEDICHE = 'Dediche';
 var D = {
   arrivata: 'Arrivata il', ricordo: 'In memoria di', dedica: 'Dedica', immagine: 'Immagine',
   nome: 'Chi scrive', email: 'Email', consenso: 'Consenso', giardino: 'Nel giardino'
+};
+
+// la scheda dei progetti proposti dal sito, con i nomi delle sue colonne
+var SCHEDA_PROGETTI = 'Progetti';
+var P = {
+  arrivato: 'Arrivato il', progetto: 'Progetto', descrizione: 'Che cosa fa', bisogno: 'Di che cosa ha bisogno',
+  documento: 'Documento', nome: 'Chi lo propone', ente: 'Ente o gruppo', email: 'Email', stato: 'Stato'
 };
 
 var EMAIL = /^[^@\s,;<>"()\[\]]+@[^@\s,;<>"()\[\]]+\.[^@\s,;<>"()\[\]]+$/;
@@ -63,8 +73,9 @@ function doPost(e) {
   var p = (e && e.parameter) || {};
   var conJs = p._js === '1';                       // il sito con JavaScript vuole una risposta JSON
   try {
-    if (p._gotcha) return rispondi(conJs, { success: true, dedica: p.tipo === 'dedica' });   // la trappola: si finge di accettare
+    if (p._gotcha) return rispondi(conJs, { success: true, dedica: p.tipo === 'dedica', progetto: p.tipo === 'progetto' });   // la trappola: si finge di accettare
     if (p.tipo === 'dedica') return riceviDedica(p, conJs);
+    if (p.tipo === 'progetto') return riceviProgetto(p, conJs);
     var nome = pulisci(p.nome, MASSIMO.nome);
     var email = pulisci(p.email, MASSIMO.email).toLowerCase();
     var oggetto = pulisci(p.oggetto, MASSIMO.oggetto);
@@ -165,35 +176,40 @@ function riceviDedica(p, conJs) {
   riga[D.email] = testo(email);
   riga[D.consenso] = 'sì';
   riga[D.giardino] = false;                       // la casella: la spunta chi legge la dedica
-  scriviDedica(riga);
+  scriviNellaScheda(SCHEDA_DEDICHE, D, riga, D.giardino);
 
   avvisaPerLaDedica({ ricordo: ricordo, dedica: dedica, immagine: immagine, nome: nome, email: email, quando: adesso });
   return rispondi(conJs, { success: true, dedica: true });
 }
 
-/* la scheda «Dediche»: se non c’è ancora, nasce qui, con i titoli delle colonne */
-function schedaDediche() {
+/* una scheda del foglio («Dediche», «Progetti»): se non c’è ancora, nasce qui, con i titoli delle colonne */
+function scheda(nome, colonne) {
   var libro = SpreadsheetApp.getActive();
-  var foglio = libro.getSheetByName(SCHEDA_DEDICHE);
+  var foglio = libro.getSheetByName(nome);
   if (foglio) return foglio;
-  foglio = libro.insertSheet(SCHEDA_DEDICHE);
-  var titoli = Object.keys(D).map(function (k) { return D[k]; });
+  foglio = libro.insertSheet(nome);
+  var titoli = Object.keys(colonne).map(function (k) { return colonne[k]; });
   foglio.getRange(1, 1, 1, titoli.length).setValues([titoli]).setFontWeight('bold');
   foglio.setFrozenRows(1);
   return foglio;
 }
 
-function scriviDedica(riga) {
+function schedaDediche() {
+  return scheda(SCHEDA_DEDICHE, D);
+}
+
+/* scrive la riga in fondo alla scheda; con «casella», quella colonna diventa una casella da spuntare */
+function scriviNellaScheda(nome, colonne, riga, casella) {
   var blocco = LockService.getScriptLock();
   blocco.waitLock(20000);
   try {
-    var foglio = schedaDediche();
+    var foglio = scheda(nome, colonne);
     var titoli = foglio.getRange(1, 1, 1, foglio.getLastColumn()).getValues()[0];
     var valori = titoli.map(function (t) { return riga.hasOwnProperty(t) ? riga[t] : ''; });
     var n = foglio.getLastRow() + 1;
     foglio.getRange(n, 1, 1, valori.length).setValues([valori]);
-    var cGiardino = titoli.indexOf(D.giardino);
-    if (cGiardino >= 0) foglio.getRange(n, cGiardino + 1).insertCheckboxes();
+    var c = casella ? titoli.indexOf(casella) : -1;
+    if (c >= 0) foglio.getRange(n, c + 1).insertCheckboxes();
     SpreadsheetApp.flush();
   } finally {
     blocco.releaseLock();
@@ -252,7 +268,67 @@ function dedicheNelGiardino() {
 }
 
 
-/* ---- 3. la conferma dell’indirizzo per le notizie ---- */
+/* ---- 3. il progetto proposto dalla pagina «Presentaci il tuo progetto» ---- */
+
+function riceviProgetto(p, conJs) {
+  var progetto = pulisci(p.progetto, MASSIMO.progetto);
+  var descrizione = pulisci(p.descrizione, MASSIMO.descrizione, true);
+  var bisogno = pulisci(p.bisogno, MASSIMO.bisogno, true);
+  var documento = pulisci(p.documento, MASSIMO.documento);
+  var nome = pulisci(p.nome, MASSIMO.nome);
+  var ente = pulisci(p.ente, MASSIMO.ente);
+  var email = pulisci(p.email, MASSIMO.email).toLowerCase();
+  if (!EMAIL.test(email)) return rispondi(conJs, { success: false, error: 'email', progetto: true });
+  if (!progetto || !descrizione || !nome) return rispondi(conJs, { success: false, error: 'campi', progetto: true });
+
+  var adesso = new Date();
+  var riga = {};
+  riga[P.arrivato] = adesso;
+  riga[P.progetto] = testo(progetto);
+  riga[P.descrizione] = testo(descrizione);
+  riga[P.bisogno] = testo(bisogno);
+  riga[P.documento] = testo(documento);
+  riga[P.nome] = testo(nome);
+  riga[P.ente] = testo(ente);
+  riga[P.email] = testo(email);
+  riga[P.stato] = 'da leggere';
+  scriviNellaScheda(SCHEDA_PROGETTI, P, riga);
+
+  avvisaPerIlProgetto({ progetto: progetto, descrizione: descrizione, bisogno: bisogno, documento: documento,
+                        nome: nome, ente: ente, email: email, quando: adesso });
+  return rispondi(conJs, { success: true, progetto: true });
+}
+
+function avvisaPerIlProgetto(m) {
+  var righe = [
+    'Nuovo progetto dalla pagina «Presentaci il tuo progetto» del sito.',
+    '',
+    'Progetto: ' + m.progetto,
+    'Chi lo propone: ' + m.nome + (m.ente ? ' (' + m.ente + ')' : '') + ', ' + m.email,
+    m.documento ? 'Documento: ' + m.documento : null,
+    'Quando: ' + Utilities.formatDate(m.quando, FUSO, 'dd/MM/yyyy HH:mm'),
+    '',
+    'Che cosa fa:',
+    m.descrizione,
+    m.bisogno ? '' : null,
+    m.bisogno ? 'Di che cosa ha bisogno:' : null,
+    m.bisogno || null,
+    '',
+    '—',
+    'Per rispondere basta «Rispondi»: la risposta va a ' + m.email + '.',
+    'Il progetto è anche nella scheda «Progetti» del foglio: ' + SpreadsheetApp.getActive().getUrl()
+  ].filter(function (r) { return r !== null; });
+  MailApp.sendEmail({
+    to: AVVISI_A,
+    replyTo: m.email,
+    name: 'Sito della Fondazione',
+    subject: 'Progetto dal sito: ' + m.progetto,
+    body: righe.join('\n')
+  });
+}
+
+
+/* ---- 4. la conferma dell’indirizzo per le notizie ---- */
 
 function chiediConferma(email, sito) {
   // senza il nome di chi scrive: il modulo è aperto a tutti, e l’email di conferma non deve portare
@@ -295,7 +371,7 @@ function doGet(e) {
     return ContentService.createTextOutput(JSON.stringify(esito)).setMimeType(ContentService.MimeType.JSON);
   }
   return pagina('Il modulo del sito',
-    '<p>Questo indirizzo riceve i messaggi del modulo dei Contatti. Per scriverci, passa dal <a href="' + SITI[0] + '">sito della Fondazione</a>.</p>');
+    '<p>Questo indirizzo riceve i messaggi dei moduli del sito. Per scriverci, passa dal <a href="' + SITI[0] + '">sito della Fondazione</a>.</p>');
 }
 
 function confermaNotizie(codice) {
@@ -335,7 +411,7 @@ function confermaNotizie(codice) {
 }
 
 
-/* ---- 4. da eseguire una volta dall’editor, prima di pubblicare ---- */
+/* ---- 5. da eseguire una volta dall’editor, prima di pubblicare ---- */
 
 function prepara() {
   segreto();
@@ -346,11 +422,12 @@ function prepara() {
                       .filter(function (t) { return titoli.indexOf(t) < 0; });
   if (mancano.length) throw new Error('Nella prima riga mancano le colonne: ' + mancano.join(', '));
   schedaDediche();
+  scheda(SCHEDA_PROGETTI, P);
   console.log('Tutto pronto: ora si pubblica come App web.');
 }
 
 
-/* ---- 5. gli attrezzi ---- */
+/* ---- 6. gli attrezzi ---- */
 
 function rispondi(conJs, dati) {
   if (conJs) return ContentService.createTextOutput(JSON.stringify(dati)).setMimeType(ContentService.MimeType.JSON);
@@ -363,6 +440,16 @@ function rispondi(conJs, dati) {
     return pagina('La dedica non è partita', '<p>' + (dati.error === 'email'
       ? 'Controlla la tua email: l’indirizzo non sembra completo.'
       : 'Controlla di aver scritto il nome da ricordare, il tuo nome e la tua email, e di aver spuntato la casella.') +
+      ' Torna indietro con il tasto «Indietro» del browser, oppure scrivici a ' + AVVISI_A + '.</p>');
+  }
+  if (dati.progetto) {
+    if (dati.success) {
+      return pagina('Grazie', '<p>Il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.</p>' +
+        '<p>Per tornare al sito usa il tasto «Indietro» del browser.</p>');
+    }
+    return pagina('Il progetto non è partito', '<p>' + (dati.error === 'email'
+      ? 'Controlla la tua email: l’indirizzo non sembra completo.'
+      : 'Controlla di aver scritto il nome del progetto, che cosa fa, il tuo nome e la tua email.') +
       ' Torna indietro con il tasto «Indietro» del browser, oppure scrivici a ' + AVVISI_A + '.</p>');
   }
   if (dati.success) {

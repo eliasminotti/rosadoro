@@ -30,6 +30,8 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   «Dediche» del foglio. Entrano nel giardino quando Elias o Dacia spuntano la
   casella «Nel giardino»: ogni ora la pubblicazione (`sorgenti/giardino.py`)
   le scrive in `dediche.json` accanto alla pagina. Non stanno nel repository.
+- Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
+  «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
 - L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
   `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 

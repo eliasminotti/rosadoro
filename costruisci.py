@@ -435,6 +435,8 @@ def gettoni(html, da):
     html = re.sub(r"\{foto:([^|}]+)\|([^|}]*)\|([^}]*)\}", foto, html)
     if "{modulo-contatti}" in html:
         html = html.replace("{modulo-contatti}", modulo_contatti(da))
+    if "{modulo-progetto}" in html:
+        html = html.replace("{modulo-progetto}", modulo_progetto(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
     return html
@@ -500,6 +502,38 @@ def modulo_foglio(da):
 </div>
 <p class="esito" role="status" tabindex="-1" hidden></p>
 </form>""" % (sfuggi(FOGLIO), ENTE["email"], sfuggi(testo), sfuggi(versione), privacy)
+
+def modulo_progetto(da):
+    """il modulo della pagina «Presentaci il tuo progetto»: va allo stesso script del foglio, che scrive il
+    progetto nella scheda «Progetti» e avvisa la segreteria. Senza FOGLIO resta il pulsante della posta."""
+    privacy = ('<p class="nota">Usiamo i tuoi dati soltanto per leggere la proposta e risponderti, come spiega l’'
+               '<a class="link" href="%s">informativa sulla privacy</a>. Non scrivere dati di altre persone '
+               'senza il loro consenso.</p>' % verso(da, "privacy"))
+    if not FOGLIO:
+        return '<p><a class="vai" href="mailto:%s">Scrivici</a></p>\n%s' % (ENTE["email"], privacy)
+    return """<form class="modulo" id="modulo-progetto" action="%s" method="post" data-indirizzo="%s">
+<div class="campi">
+<label for="mp-progetto">Il nome del progetto</label>
+<input id="mp-progetto" name="progetto" type="text" maxlength="200" required>
+<label for="mp-descrizione">Che cosa fa, per chi e dove</label>
+<textarea id="mp-descrizione" name="descrizione" rows="7" maxlength="8000" placeholder="Poche righe chiare bastano" required></textarea>
+<label for="mp-bisogno">Di che cosa ha bisogno <span>facoltativo</span></label>
+<textarea id="mp-bisogno" class="breve" name="bisogno" rows="3" maxlength="2000" placeholder="Persone, competenze, un luogo, un sostegno economico"></textarea>
+<label for="mp-documento">Un documento da leggere <span>facoltativo</span></label>
+<input id="mp-documento" name="documento" type="text" inputmode="url" maxlength="500" placeholder="Il collegamento, se ce l’hai">
+<label for="mp-nome">Il tuo nome</label>
+<input id="mp-nome" name="nome" type="text" autocomplete="name" maxlength="200" required>
+<label for="mp-ente">Ente o gruppo <span>facoltativo</span></label>
+<input id="mp-ente" name="ente" type="text" autocomplete="organization" maxlength="200">
+<label for="mp-posta">La tua email</label>
+<input id="mp-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required>
+<input type="hidden" name="tipo" value="progetto">
+<input type="hidden" name="_gotcha" value="">
+%s
+<button type="submit" class="invia">Manda il progetto</button>
+</div>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>""" % (sfuggi(FOGLIO), ENTE["email"], privacy)
 
 def tavola_img(da, nome, alt, classe="tavola"):
     return '<figure class="%s"><img src="%s" alt="%s"><figcaption>Tavola incisa</figcaption></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), sfuggi(alt))

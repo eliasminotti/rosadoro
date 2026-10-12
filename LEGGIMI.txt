@@ -19,6 +19,7 @@ Che cosa c'è
                      con il suo manifesto foglio-contatti-appsscript.json (va in appsscript.json);
                      lo stesso script riceve le dediche del giardino dei ricordi, e giardino.py,
                      a ogni pubblicazione e ogni ora, porta nel sito quelle spuntate «Nel giardino»;
+                     e i progetti della pagina «Presentaci il tuo progetto», nella scheda «Progetti»;
                      condivisione.html, l'immagine che compare quando si condivide il sito, si rifà con
                      node sorgenti/fotografa.js sorgenti/condivisione.html sito/img/condivisione.jpg
   LEGGIMI.txt        questo file

@@ -368,31 +368,35 @@ TESTI["lasciti/dopo-di-noi"] = dict(
 TESTI["privacy"] = dict(
     sotto="Come trattiamo i tuoi dati, in parole semplici.",
     corpo="""
-<p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, dedichi un ricordo o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
+<p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, dedichi un ricordo, ci presenti un progetto, ci mandi la tua candidatura o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
 
 <h3>Chi è il titolare</h3>
 <p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
 
 <h3>Quando visiti il sito</h3>
-<p>Il sito è fatto di sole pagine statiche. Non usa cookie di profilazione, né strumenti di analisi del traffico, né contenuti incorporati da terzi. I caratteri tipografici sono ospitati sui nostri stessi server. L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita le pagine, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Servono a far funzionare il sito e a proteggerlo da abusi. La base giuridica è il nostro legittimo interesse alla sicurezza del sito. Questi registri sono conservati da GitHub secondo le sue regole, per il tempo necessario a questo scopo. Ne parla anche l'<a class="link" href="{→cookie}">informativa sui cookie</a>.</p>
+<p>Il sito è fatto di sole pagine statiche. Non usa cookie, né strumenti di analisi del traffico, né contenuti incorporati da terzi, e non salva nulla nel tuo browser. I caratteri tipografici sono ospitati sui nostri stessi server. L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita le pagine, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Servono a far funzionare il sito e a proteggerlo da abusi. Questi registri li tiene GitHub, secondo la sua <a class="link" href="https://docs.github.com/it/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">informativa</a>. Ne parla anche l'<a class="link" href="{→cookie}">informativa sui cookie</a>.</p>
 
 <h3>Quando ci scrivi</h3>
-<p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica, il messaggio e la pagina del sito da cui hai aperto il modulo. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. I messaggi finiscono in un foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate di rispondere. Li conserviamo fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione.</p>
+<p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica, il messaggio e la pagina del sito da cui hai aperto il modulo. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. I messaggi finiscono in un foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate di rispondere. Li conserviamo fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione. Lo stesso vale per i messaggi che ci mandi per posta elettronica.</p>
 <p>Se nel modulo spunti la casella delle notizie, ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento con una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 
 <h3>Quando ci presenti un progetto</h3>
-<p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presenta il tuo progetto</a> ci arrivano i dati di chi propone, la descrizione del progetto e il collegamento al documento che vuoi farci leggere. Li usiamo solo per valutare la proposta, e li conserviamo per la durata della valutazione; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
+<p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a> ci arrivano il nome e la descrizione del progetto, ciò di cui ha bisogno e il collegamento a un documento, se ce lo lasci, insieme al tuo nome, all'ente o al gruppo che indichi e al tuo indirizzo di posta elettronica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate. Li usiamo solo per leggere la proposta, valutarla e risponderti. La base giuridica è la tua richiesta di valutare il progetto. Li conserviamo per la durata della valutazione e fino a due anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
+
+<h3>Quando ci mandi la tua candidatura</h3>
+<p>Da <a class="link" href="{→lavora-con-noi}">Lavora con noi</a> puoi mandarci il tuo curriculum e una lettera di presentazione, per collaborare con la Fondazione o come volontario. Li usiamo solo per valutare la candidatura e per rispondere. Per i curriculum mandati di propria iniziativa la legge non chiede il consenso (art. 111-bis del Codice in materia di protezione dei dati personali). Scrivi solo ciò che serve: non mettere nel curriculum dati sulla salute, sulle opinioni o sulla religione, se non sono necessari. Conserviamo le candidature per dodici mesi; più a lungo solo se ne nasce una collaborazione, o se ce lo chiedi tu.</p>
 
 <h3>Quando dedichi un ricordo nel giardino</h3>
 <p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Ci lasci anche il tuo nome e il tuo indirizzo di posta elettronica, che usiamo solo per risponderti o per chiederti qualcosa sulla dedica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate; il nome e la dedica entrano nel giardino dopo che li abbiamo letti. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
 <p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi chiedere in ogni momento di togliere una dedica, la tua o quella di un tuo caro scritta da altri, scrivendo a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
 
 <h3>Quando fai una donazione</h3>
-<p>Se doni con carta, Apple Pay o Google Pay, il pagamento avviene sulle pagine sicure di <strong>Stripe</strong> (Stripe Payments Europe Ltd, Irlanda). Se scegli PayPal, sulle pagine di <strong>PayPal</strong> (PayPal Europe S.à r.l. et Cie, S.C.A., Lussemburgo). In entrambi i casi il nostro sito non vede né conserva i dati della tua carta o del tuo conto: li raccolgono direttamente Stripe e PayPal, che trattano i dati del pagamento come titolari autonomi, secondo le loro informative (<a class="link" href="https://stripe.com/it/privacy" rel="noopener">Stripe</a>, <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">PayPal</a>). Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e la causale che hai scelto, oltre a un eventuale messaggio. Se doni con bonifico, ci arrivano i dati che la tua banca trasmette con il pagamento.</p>
+<p>Puoi donare con un bonifico o con PayPal. Con il bonifico ci arrivano i dati che la tua banca trasmette con il pagamento: il nome, il conto da cui parte, l'importo, la data e la causale. Se scegli PayPal, il pagamento avviene sulle pagine di <strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A., Lussemburgo): il nostro sito non vede né conserva i dati della tua carta o del tuo conto, che PayPal tratta come titolare autonomo, secondo la sua <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">informativa</a>. Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e un eventuale messaggio.</p>
 <p>La base giuridica è il rapporto di donazione che scegli di avviare e gli obblighi di legge che ne derivano per la Fondazione, in particolare la tenuta delle scritture contabili e la rendicontazione della raccolta fondi prevista per gli enti del Terzo settore.</p>
+<p>Le donazioni dalla Svizzera vanno all'<strong>Associazione Orizzonti Celesti</strong>, a Bellinzona: un ente distinto dalla Fondazione, che riceve i tuoi dati, con il bonifico o con PayPal, come titolare autonomo e secondo le sue regole. Se Orizzonti Celesti ci comunica il tuo nome, per esempio per ringraziarti o per rendere conto di come è stata usata la donazione, lo usiamo solo per questo.</p>
 
 <h3>La ricevuta e il codice fiscale</h3>
-<p>Le donazioni alla Fondazione danno diritto a una detrazione o a una deduzione fiscale (art. 83 del Codice del Terzo settore). Per emettere la ricevuta che ti serve, ti chiediamo separatamente il codice fiscale, insieme al nome e all'indirizzo: la ricevuta è un obbligo nostro, non una condizione del pagamento, e per questo il codice fiscale non passa da Stripe né da PayPal. La base giuridica è l'obbligo di legge. Le ricevute e i documenti contabili sono conservati per <strong>dieci anni</strong>, come prevede il codice civile per le scritture contabili.</p>
+<p>Le donazioni alla Fondazione danno diritto a una detrazione o a una deduzione fiscale (art. 83 del Codice del Terzo settore). Per emettere la ricevuta che ti serve, ti chiediamo separatamente il codice fiscale, insieme al nome e all'indirizzo: la ricevuta è un obbligo nostro, non una condizione del pagamento, e per questo il codice fiscale non passa da PayPal. La base giuridica è l'obbligo di legge. Le ricevute e i documenti contabili sono conservati per <strong>dieci anni</strong>, come prevede il codice civile per le scritture contabili.</p>
 
 <h3>Quando ti scriviamo noi</h3>
 <p>A chi ha donato possiamo scrivere per ringraziare e per rendere conto di come è stato usato ciò che ha donato. Per altri messaggi, come le notizie sulle attività della Fondazione, ti chiediamo prima il consenso, e puoi ritirarlo in ogni momento con una riga di risposta.</p>
@@ -400,21 +404,22 @@ TESTI["privacy"] = dict(
 <h3>Chi tratta i dati insieme a noi</h3>
 <p>Oltre alle persone della Fondazione, i tuoi dati sono trattati da alcuni fornitori, ciascuno per la sua parte:</p>
 <ul>
-<li><strong>GitHub</strong> (GitHub, Inc., Stati Uniti) ospita le pagine del sito e ne tiene i registri tecnici, per conto della Fondazione;</li>
-<li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti: riceve i messaggi del modulo dei Contatti e le dediche del giardino, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta, per conto della Fondazione;</li>
-<li><strong>Stripe</strong> e <strong>PayPal</strong> gestiscono i pagamenti come titolari autonomi, come detto sopra;</li>
+<li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti, per conto della Fondazione: riceve la posta elettronica, i messaggi del modulo dei Contatti, le dediche del giardino e i progetti proposti, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta. Quando mandi un modulo, il tuo browser lo spedisce direttamente a questo servizio;</li>
+<li><strong>GitHub</strong> (GitHub, Inc., Stati Uniti) ospita le pagine del sito e ne tiene i registri tecnici, come detto sopra;</li>
+<li><strong>PayPal</strong> gestisce i pagamenti come titolare autonomo, come detto sopra;</li>
 <li>la <strong>banca</strong> della Fondazione, per i bonifici.</li>
 </ul>
 <p>Non vendiamo, non cediamo e non diffondiamo i tuoi dati. Possiamo comunicarli solo a chi la legge ci obbliga a comunicarli: per esempio al commercialista e agli organi di controllo, per la tenuta dei conti e il bilancio.</p>
 
 <h3>Fuori dall'Unione europea</h3>
-<p>GitHub tratta i registri tecnici negli Stati Uniti. Il trasferimento è coperto dal Data Privacy Framework tra Unione europea e Stati Uniti (decisione di esecuzione (UE) 2023/1795), al quale GitHub aderisce, e dalle clausole contrattuali standard della Commissione europea (decisione 2021/914). Google può trattare i dati anche fuori dall’Unione europea, in particolare negli Stati Uniti: il trasferimento è coperto dal Data Privacy Framework, al quale Google LLC aderisce, e dalle clausole contrattuali standard previste dal contratto sul trattamento dei dati di Google Workspace. Stripe e PayPal, come titolari autonomi, rispondono in proprio delle garanzie sui trasferimenti, descritte nelle loro informative.</p>
+<p>GitHub tratta i registri tecnici negli Stati Uniti. Il trasferimento è coperto dal Data Privacy Framework tra Unione europea e Stati Uniti (decisione di esecuzione (UE) 2023/1795), al quale GitHub aderisce. Google può trattare i dati anche fuori dall’Unione europea, in particolare negli Stati Uniti: il trasferimento è coperto dal Data Privacy Framework, al quale Google LLC aderisce, e dalle clausole contrattuali standard previste dal contratto sul trattamento dei dati di Google Workspace. PayPal, come titolare autonomo, risponde in proprio delle garanzie sui trasferimenti, descritte nella sua informativa. La Svizzera, dove ha sede Orizzonti Celesti, è riconosciuta dalla Commissione europea come un Paese che protegge i dati in modo adeguato.</p>
 
 <h3>Per quanto tempo</h3>
 <ul>
 <li>registri tecnici del sito: per il tempo necessario alla sicurezza, secondo le regole di GitHub;</li>
-<li>messaggi del modulo dei Contatti: fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione;</li>
-<li>proposte di progetto e altri messaggi: per il tempo necessario a gestire la richiesta o la valutazione;</li>
+<li>messaggi del modulo dei Contatti e della posta: fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione;</li>
+<li>progetti proposti: per la durata della valutazione e fino a due anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto;</li>
+<li>candidature: dodici mesi, più a lungo solo se ne nasce una collaborazione o se ce lo chiedi;</li>
 <li>dediche nel giardino: finché la pagina resta in linea, o finché non ne chiedi la rimozione; i tuoi recapiti, per lo stesso tempo;</li>
 <li>dati delle donazioni, ricevute e documenti contabili: dieci anni;</li>
 <li>consenso a ricevere notizie: finché non lo ritiri.</li>
@@ -427,16 +432,16 @@ TESTI["privacy"] = dict(
 <p>Il sito non si rivolge ai bambini e parla di temi che riguardano la perdita e la fine della vita. I moduli sono per chi ha almeno quattordici anni; per i più piccoli occorre l'intervento di chi esercita la responsabilità genitoriale (art. 2-quinquies del Codice in materia di protezione dei dati personali).</p>
 
 <h3>Questa informativa</h3>
-<p>È stata scritta l'8 settembre 2026, prima dell'apertura del sito, e verrà aggiornata quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
+<p>È stata aggiornata il 12 ottobre 2026, prima dell'apertura del sito, e verrà aggiornata ancora quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
 """ % dict(V=V))
 
 TESTI["cookie"] = dict(
     sotto="Questo sito non usa cookie. Ecco che cosa significa.",
     corpo="""
-<p>Questo sito è composto solo da pagine statiche e <strong>non utilizza cookie di profilazione né altri strumenti di tracciamento</strong>. Per questo non trovi un banner da accettare: la legge lo richiede solo a chi traccia.</p>
+<p>Questo sito è composto solo da pagine statiche e <strong>non usa cookie né altri strumenti di tracciamento</strong>, e non salva nulla nel tuo browser. Per questo non trovi un banner da accettare: la legge lo richiede solo a chi traccia.</p>
 <p>Non usiamo sistemi di analisi del traffico, né contenuti incorporati da terzi come video, mappe o pulsanti dei social. I caratteri tipografici sono ospitati sui nostri stessi server, così nessun altro sa che stai leggendo queste pagine.</p>
 <p>L'unico dato raccolto automaticamente è quello dei normali registri tecnici del servizio che ospita il sito, GitHub Pages: indirizzo IP, data e ora, pagina richiesta, tipo di browser. Serve alla sola sicurezza del sito ed è trattato sulla base del nostro legittimo interesse, come previsto dalle linee guida del Garante per la protezione dei dati personali del 10 giugno 2021.</p>
-<p>Quando doni con carta o con PayPal, il pagamento avviene sulle pagine di Stripe o di PayPal, che hanno le loro regole sui cookie: le trovi nelle loro informative, prima di pagare.</p>
+<p>Quando mandi un modulo, i dati vanno direttamente al servizio di Google che la Fondazione usa per riceverli, come spiega l’<a class="link" href="{→privacy}">informativa sulla privacy</a>. Quando doni con PayPal, il pagamento avviene sulle pagine di PayPal, che ha le sue regole sui cookie: le trovi nella sua informativa, prima di pagare.</p>
 <p>Se un giorno aggiungeremo strumenti che richiedono il consenso, questa pagina cambierà e comparirà il banner. Per tutto il resto, leggi l'<a class="link" href="{→privacy}">informativa sulla privacy</a>.</p>
 """)
 
@@ -958,6 +963,23 @@ TESTI["progetti-amici"] = dict(
 <p>Stiamo conoscendo i primi: li presenteremo qui.</p>
 <p>Se porti avanti un progetto che ti sembra vicino al nostro, scrivici. Se invece cerchi sostegno per un progetto nuovo, la porta giusta è <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a>.</p>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
+""")
+
+# ------------------------------------------------------------ Presentaci il tuo progetto (bozza provvisoria di Claude del 12.10, da rivedere con Dacia)
+# Il modulo ({modulo-progetto}, in costruisci.py) scrive nella scheda «Progetti» del foglio «Contatti della Fondazione»
+# e avvisa la segreteria (Elias, 12.10: «per il modulo che manca dobbiamo assolutamente predisporlo»).
+TESTI["progetti/presenta-il-tuo-progetto"] = dict(
+    sotto="Hai un sogno che va nella nostra direzione? Raccontacelo.",
+    corpo="""
+<p>La Fondazione ha progetti propri e ne sostiene altri in linea con i suoi valori: nel lavoro della terra, nella cura delle persone, nell’accompagnamento al fine vita. Se porti avanti un progetto che va in questa direzione, o vuoi farlo nascere, raccontacelo qui.</p>
+<h3>Come lo leggiamo</h3>
+<ul class="stelle">
+<li>Leggiamo ogni proposta e rispondiamo di persona.</li>
+<li>Se il progetto ci sembra vicino, ci sentiamo per conoscerci e ne valutiamo insieme la fattibilità.</li>
+<li>La scelta è della Fondazione, che può anche dire di no.</li>
+</ul>
+<p>Non servono documenti elaborati: bastano poche righe chiare. Se hai già una presentazione, lasciaci il collegamento.</p>
+{modulo-progetto}
 """)
 
 # ------------------------------------------------------------ Per professionisti: la riga in cima alle due schede delicate (bozza di Claude dell’11.10, da confermare con Elias)

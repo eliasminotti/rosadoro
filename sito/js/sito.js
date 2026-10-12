@@ -6,8 +6,9 @@
       - ogni voce ha una propria sezione osservata (data-spia)
       - vince la sezione più vicina al centro della fascia visibile
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
-   Nulla registra chi visita. Escono dal sito soltanto la dedica del giardino (4)
-   e il messaggio del modulo dei Contatti (5), quando chi scrive li manda.
+   Nulla registra chi visita. Escono dal sito soltanto la dedica del giardino (4),
+   il messaggio del modulo dei Contatti (5) e il progetto proposto (6), quando
+   chi scrive li manda.
    ========================================================================== */
 (function () {
   'use strict';
@@ -354,6 +355,49 @@ function scriviEsito(dove, testo, errore, indirizzo) {
       .then(function () {
         si.disabled = false;
         si.textContent = 'Confermo';
+      });
+  });
+})();
+
+/* ---- 6. il modulo «Presentaci il tuo progetto»: il progetto va allo stesso script del foglio,
+        nella scheda «Progetti», e la risposta compare nella pagina. Se qualcosa va storto,
+        resta l'indirizzo di posta. Senza questo codice il modulo parte lo stesso ---- */
+(function () {
+  'use strict';
+  var modulo = document.getElementById('modulo-progetto');
+  if (!modulo || !window.fetch || !window.FormData) return;
+  var campi = modulo.querySelector('.campi');
+  var esito = modulo.querySelector('.esito');
+  var invia = modulo.querySelector('.invia');
+  var indirizzo = modulo.getAttribute('data-indirizzo');
+
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (invia.disabled) return;
+    invia.disabled = true;
+    invia.textContent = 'Un momento…';
+    esito.hidden = true;
+    var dati = new FormData(modulo);
+    dati.append('_js', '1');
+    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (risposta && risposta.error === 'email') {
+          scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
+          return;
+        }
+        if (!risposta || !risposta.success) throw new Error('non arrivato');
+        modulo.reset();
+        campi.hidden = true;
+        scriviEsito(esito, 'Grazie, il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.');
+        esito.focus({ preventScroll: true });
+      })
+      .catch(function () {
+        scriviEsito(esito, 'Il progetto non è partito. Riprova tra poco, oppure scrivici a', true, indirizzo);
+      })
+      .then(function () {
+        invia.disabled = false;
+        invia.textContent = 'Manda il progetto';
       });
   });
 })();
