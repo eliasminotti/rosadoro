@@ -606,7 +606,7 @@ a.azione:hover h4{color:var(--accento)}
 .dedica{margin:0}
 .dedica .foto{margin:0 0 14px}
 .dedica figcaption{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70)}
-.dedica figcaption strong{display:block;font-style:normal;font-weight:600;font-size:22px;line-height:1.25;color:var(--testo);margin-bottom:4px}
+.dedica figcaption strong{display:block;color:var(--testo)}   /* come «Nonna Clelia», l’esempio qui sopra */
 .dedica figcaption span{white-space:pre-line}
 .velo-dialogo{overflow-y:auto;margin:0}   /* il margine dei paragrafi del testo spostava il velo di 22 px dal bordo in alto */
 .dialogo{max-height:100%;overflow-y:auto}
@@ -622,5 +622,4 @@ a.azione:hover h4{color:var(--accento)}
   .dialogo{padding:24px 20px}
   .dediche{grid-template-columns:1fr 1fr;gap:28px 16px}
   .dedica figcaption{font-size:17px}
-  .dedica figcaption strong{font-size:19px}
 }
