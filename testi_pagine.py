@@ -368,7 +368,7 @@ TESTI["lasciti/dopo-di-noi"] = dict(
 TESTI["privacy"] = dict(
     sotto="Come trattiamo i tuoi dati, in parole semplici.",
     corpo="""
-<p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, dedichi un ricordo, ci presenti un progetto, ci mandi la tua candidatura o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
+<p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, ne chiedi le notizie, dedichi un ricordo, ci presenti un progetto, ci mandi la tua candidatura o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
 
 <h3>Chi è il titolare</h3>
 <p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
@@ -378,7 +378,8 @@ TESTI["privacy"] = dict(
 
 <h3>Quando ci scrivi</h3>
 <p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica, il messaggio e la pagina del sito da cui hai aperto il modulo. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. I messaggi finiscono in un foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate di rispondere. Li conserviamo fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione. Lo stesso vale per i messaggi che ci mandi per posta elettronica.</p>
-<p>Se nel modulo spunti la casella delle notizie, ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento con una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
+<h3>Quando chiedi le notizie</h3>
+<p>Puoi chiedere le notizie della Fondazione dal riquadro in fondo alle pagine, oppure spuntando la casella nel modulo dei Contatti o in quello dei progetti. Dal riquadro ci arriva soltanto il tuo indirizzo di posta elettronica, con la pagina da cui ti iscrivi. Ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento con una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 
 <h3>Quando ci presenti un progetto</h3>
 <p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a> ci arrivano il nome e la descrizione del progetto, ciò di cui ha bisogno e il collegamento a un documento, se ce lo lasci, insieme al tuo nome, all'ente o al gruppo che indichi e al tuo indirizzo di posta elettronica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate. Li usiamo solo per leggere la proposta, valutarla e risponderti. La base giuridica è la tua richiesta di valutare il progetto. Li conserviamo per la durata della valutazione e fino a due anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
@@ -405,7 +406,7 @@ TESTI["privacy"] = dict(
 <p>Oltre alle persone della Fondazione, i tuoi dati sono trattati da alcuni fornitori, ciascuno per la sua parte:</p>
 <ul>
 <li><strong>GitHub</strong> (GitHub, Inc., Stati Uniti) ospita le pagine del sito e ne tiene i registri tecnici come titolare autonomo, come detto sopra;</li>
-<li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti, per conto della Fondazione: riceve la posta elettronica, i messaggi del modulo dei Contatti, le dediche del giardino e i progetti proposti, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta. Quando mandi un modulo, il tuo browser lo spedisce direttamente a questo servizio;</li>
+<li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti, per conto della Fondazione: riceve la posta elettronica, i messaggi del modulo dei Contatti, le dediche del giardino, i progetti proposti e le richieste delle notizie, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta. Quando mandi un modulo, il tuo browser lo spedisce direttamente a questo servizio;</li>
 <li><strong>PayPal</strong> gestisce i pagamenti come titolare autonomo, come detto sopra;</li>
 <li>la <strong>banca</strong> della Fondazione, per i bonifici.</li>
 </ul>

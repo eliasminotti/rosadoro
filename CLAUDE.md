@@ -32,6 +32,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   le scrive in `dediche.json` accanto alla pagina. Non stanno nel repository.
 - Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
   «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
+- Il riquadro «Le notizie della Fondazione» in fondo a ogni pagina (`riquadro_notizie`
+  in `costruisci.py`) e la casella delle notizie nel modulo dei progetti vanno allo stesso
+  script: una riga «notizie» nella scheda dei Contatti e la stessa email di conferma.
+  Solo le notizie della Fondazione: quelle di Orizzonti Celesti si chiedono solo a chi
+  dona dalla Svizzera, nel ringraziamento.
 - L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
   `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 

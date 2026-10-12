@@ -7,8 +7,8 @@
       - vince la sezione più vicina al centro della fascia visibile
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
    Nulla registra chi visita. Escono dal sito soltanto la dedica del giardino (4),
-   il messaggio del modulo dei Contatti (5) e il progetto proposto (6), quando
-   chi scrive li manda.
+   il messaggio del modulo dei Contatti (5), il progetto proposto (6) e l'email
+   del riquadro delle notizie in fondo alle pagine (7), quando chi scrive li manda.
    ========================================================================== */
 (function () {
   'use strict';
@@ -93,6 +93,13 @@
       suono.addEventListener('ended', function () { b.classList.remove('suona'); b.textContent = 'Ascolta · Chopin, valzer op. 69'; });
     })(bottoni[i]);
   }
+})();
+
+/* l'indirizzo del sito, letto da quello di questo file (…/js/sito.js): lo script del foglio lo usa per
+   il collegamento dell'email di conferma delle notizie, e lo accetta solo se è uno dei due indirizzi del sito */
+var RADICE = (function () {
+  var s = document.currentScript;
+  return s && s.src ? s.src.replace(/js\/sito\.js(\?.*)?$/, '') : '';
 })();
 
 /* l'esito di un modulo, sotto il pulsante: con un indirizzo, la frase finisce con l'email da scrivere a mano,
@@ -370,6 +377,7 @@ function scriviEsito(dove, testo, errore, indirizzo) {
   var esito = modulo.querySelector('.esito');
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
+  if (modulo.elements._sito) modulo.elements._sito.value = RADICE;
 
   modulo.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -389,7 +397,8 @@ function scriviEsito(dove, testo, errore, indirizzo) {
         if (!risposta || !risposta.success) throw new Error('non arrivato');
         modulo.reset();
         campi.hidden = true;
-        scriviEsito(esito, 'Grazie, il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.');
+        scriviEsito(esito, 'Grazie, il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.' +
+          (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' : ''));
         esito.focus({ preventScroll: true });
       })
       .catch(function () {
@@ -398,6 +407,55 @@ function scriviEsito(dove, testo, errore, indirizzo) {
       .then(function () {
         invia.disabled = false;
         invia.textContent = 'Manda il progetto';
+      });
+  });
+})();
+
+/* ---- 7. il riquadro «Le notizie della Fondazione» in fondo alle pagine: l'email va allo script del
+        foglio, che scrive la richiesta nella scheda dei Contatti e manda l'email di conferma. Senza
+        questo codice il modulo parte lo stesso ---- */
+(function () {
+  'use strict';
+  var modulo = document.getElementById('modulo-notizie');
+  if (!modulo || !window.fetch || !window.FormData) return;
+  var campi = modulo.querySelector('.campi');
+  var esito = modulo.querySelector('.esito');
+  var invia = modulo.querySelector('.invia');
+  var indirizzo = modulo.getAttribute('data-indirizzo');
+  modulo.elements._sito.value = RADICE;
+  /* la pagina da cui ci si iscrive, per sapere quali punti del sito funzionano */
+  if (RADICE && location.href.indexOf(RADICE) === 0) {
+    var qui = location.href.slice(RADICE.length).split(/[?#]/)[0].replace(/index\.html$/, '').replace(/\/$/, '');
+    modulo.elements.pagina.value = qui || 'home';
+  }
+
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (invia.disabled) return;
+    invia.disabled = true;
+    invia.textContent = 'Un momento…';
+    esito.hidden = true;
+    var dati = new FormData(modulo);
+    dati.append('_js', '1');
+    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (risposta && risposta.error === 'email') {
+          scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
+          return;
+        }
+        if (!risposta || !risposta.success) throw new Error('non arrivato');
+        modulo.reset();
+        campi.hidden = true;
+        scriviEsito(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.');
+        esito.focus({ preventScroll: true });
+      })
+      .catch(function () {
+        scriviEsito(esito, 'L’iscrizione non è partita. Riprova tra poco, oppure scrivici a', true, indirizzo);
+      })
+      .then(function () {
+        invia.disabled = false;
+        invia.textContent = 'Iscrivimi';
       });
   });
 })();

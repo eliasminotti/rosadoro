@@ -345,6 +345,32 @@ def barra(da):
         voci.append('<a%s href="%s" aria-label="%s">%s</a>' % (classe, verso(da, cartella), sfuggi(etichetta), sfuggi(etichetta)))
     return '<nav class="barra-fissa" aria-label="Azioni principali">%s</nav>' % "".join(voci)
 
+def riquadro_notizie(da):
+    """il riquadro «Le notizie della Fondazione» in fondo a ogni pagina: basta l'email, poi la stessa email
+    di conferma dei Contatti. Il testo è quello della casella delle notizie, con la sua versione.
+    Senza FOGLIO non c'è: le notizie si chiedono dai Contatti."""
+    if not FOGLIO:
+        return ""
+    versione, testo = CONSENSO_NOTIZIE
+    return """    <div class="pie-notizie">
+      <div><h4>Le notizie della Fondazione</h4><p>%s</p></div>
+      <form class="modulo" id="modulo-notizie" action="%s" method="post" data-indirizzo="%s">
+        <div class="campi">
+          <label for="mn-posta">La tua email</label>
+          <div class="in-riga"><input id="mn-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required><button type="submit" class="invia">Iscrivimi</button></div>
+          <input type="hidden" name="tipo" value="notizie">
+          <input type="hidden" name="notizie" value="si">
+          <input type="hidden" name="consenso" value="%s">
+          <input type="hidden" name="pagina" value="">
+          <input type="hidden" name="_sito" value="">
+          <input type="hidden" name="_gotcha" value="">
+          <p class="nota">Ti mandiamo un’email per confermare l’indirizzo. Come usiamo i dati lo spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>
+        </div>
+        <p class="esito" role="status" tabindex="-1" hidden></p>
+      </form>
+    </div>
+""" % (sfuggi(testo), sfuggi(FOGLIO), ENTE["email"], sfuggi(versione), verso(da, "privacy"))
+
 def footer(da):
     sito = "".join('<li><a href="%s">%s</a></li>' % (verso(da, s["chiave"]), sfuggi(s["voce"])) for s in SEZIONI)
     fond = "".join('<li><a href="%s">%s</a></li>' % (verso(da, p["cartella"]), sfuggi(p["voce"]))
@@ -359,13 +385,13 @@ def footer(da):
       <div><h4>La Fondazione</h4><ul>%s</ul></div>
       <div><h4>Scrivere</h4><ul><li><a href="mailto:%s">%s</a></li><li>%s</li></ul></div>
     </div>
-    <hr class="separatore">
+%s    <hr class="separatore">
     <div class="pie-dati">
       <p>%s · %s · %s · %s · %s</p>
       <p>%s</p>
     </div>
   </div>
-</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], sfuggi(ENTE["sede"]),
+</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], sfuggi(ENTE["sede"]), riquadro_notizie(da),
                 sfuggi(ENTE["nome"]), sfuggi(ENTE["forma"]), sfuggi(ENTE["cf"]), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]), legali)
 
 # --------------------------------------------------------------------------
@@ -505,10 +531,12 @@ def modulo_foglio(da):
 
 def modulo_progetto(da):
     """il modulo della pagina «Presentaci il tuo progetto»: va allo stesso script del foglio, che scrive il
-    progetto nella scheda «Progetti» e avvisa la segreteria. Senza FOGLIO resta il pulsante della posta."""
-    privacy = ('<p class="nota">Usiamo i tuoi dati soltanto per leggere la proposta e risponderti, come spiega l’'
-               '<a class="link" href="%s">informativa sulla privacy</a>. Non scrivere dati di altre persone '
-               'senza il loro consenso.</p>' % verso(da, "privacy"))
+    progetto nella scheda «Progetti» e avvisa la segreteria. Con la casella delle notizie, come nei Contatti,
+    arriva anche l'email di conferma. Senza FOGLIO resta il pulsante della posta."""
+    privacy = ('<p class="nota">Usiamo i tuoi dati soltanto per leggere la proposta e risponderti e, se lo chiedi, '
+               'per mandarti le notizie, come spiega l’<a class="link" href="%s">informativa sulla privacy</a>. '
+               'Non scrivere dati di altre persone senza il loro consenso.</p>' % verso(da, "privacy"))
+    versione, testo = CONSENSO_NOTIZIE
     if not FOGLIO:
         return '<p><a class="vai" href="mailto:%s">Scrivici</a></p>\n%s' % (ENTE["email"], privacy)
     return """<form class="modulo" id="modulo-progetto" action="%s" method="post" data-indirizzo="%s">
@@ -527,13 +555,16 @@ def modulo_progetto(da):
 <input id="mp-ente" name="ente" type="text" autocomplete="organization" maxlength="200">
 <label for="mp-posta">La tua email</label>
 <input id="mp-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required>
+<label class="consenso" for="mp-notizie"><input id="mp-notizie" name="notizie" type="checkbox" value="si"> <span>%s</span></label>
+<input type="hidden" name="consenso" value="%s">
 <input type="hidden" name="tipo" value="progetto">
+<input type="hidden" name="_sito" value="">
 <input type="hidden" name="_gotcha" value="">
 %s
 <button type="submit" class="invia">Manda il progetto</button>
 </div>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(FOGLIO), ENTE["email"], privacy)
+</form>""" % (sfuggi(FOGLIO), ENTE["email"], sfuggi(testo), sfuggi(versione), privacy)
 
 def tavola_img(da, nome, alt, classe="tavola"):
     return '<figure class="%s"><img src="%s" alt="%s"><figcaption>Tavola incisa</figcaption></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), sfuggi(alt))
