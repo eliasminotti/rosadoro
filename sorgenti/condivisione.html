@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- L’immagine che compare quando si condivide un indirizzo del sito (WhatsApp, Facebook, LinkedIn):
+     sito/img/condivisione.jpg, 1200 × 630. Si rifà con
+     node sorgenti/fotografa.js sorgenti/condivisione.html sito/img/condivisione.jpg
+     Il sottotitolo è quello della Fondazione (ENTE["tagline"] in costruisci.py): se cambia lì, cambia anche qui. -->
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>L’immagine per le condivisioni</title>
+<style>
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:400;src:url("../sito/font/cormorant-garamond-latin-400-italic.woff2") format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:400;src:url("../sito/font/cormorant-garamond-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:600;src:url("../sito/font/cormorant-garamond-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:500;src:url("../sito/font/instrument-sans-latin-500-normal.woff2") format("woff2")}
+html,body{margin:0;width:1200px;height:630px;background:#FAF6EE;overflow:hidden}
+.tela{display:flex;align-items:center;gap:42px;height:630px;padding:0 64px 0 37px;box-sizing:border-box}
+.marchio{width:326px;height:326px;flex:none}
+.testo{flex:1;min-width:0}
+h1{margin:0;font-family:"Cormorant Garamond";font-weight:400;font-size:56px;line-height:1.05;color:#1C1C1C;white-space:nowrap}
+h1 b{font-weight:600}
+h1 i{font-style:normal;color:#8D6E2A}
+.filo{width:140px;height:1px;background:#B88F3D;margin:26px 0 22px}
+p{margin:0;font-family:"Cormorant Garamond";font-style:italic;font-weight:400;font-size:28px;line-height:1.38;color:rgba(28,28,28,.72);text-wrap:pretty}
+.ente{margin-top:24px;font-family:"Instrument Sans";font-weight:500;font-size:14px;letter-spacing:.24em;text-transform:uppercase;color:#8D6E2A}
+</style>
+</head>
+<body>
+<div class="tela">
+  <img class="marchio" src="../sito/img/logo.jpg" alt="">
+  <div class="testo">
+    <h1>Fondazione <b>La Rosa d’<i>Oro</i></b></h1>
+    <div class="filo"></div>
+    <p>Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo, continui a fare del bene alla vita e nella vita: nel lavoro della terra, nella cura delle persone, nell’accompagnamento al fine vita.</p>
+    <div class="ente">Ente del Terzo settore · Milano</div>
+  </div>
+</div>
+</body>
+</html>

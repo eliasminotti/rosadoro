@@ -6,8 +6,9 @@
       - ogni voce ha una propria sezione osservata (data-spia)
       - vince la sezione più vicina al centro della fascia visibile
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
-   Nulla registra chi visita. Esce dal sito soltanto il messaggio del modulo
-   dei Contatti (5), quando chi scrive lo invia, con la pagina da cui arriva.
+   Nulla registra chi visita. Escono dal sito soltanto la dedica del giardino (4),
+   il messaggio del modulo dei Contatti (5), il progetto proposto (6) e l'email
+   del riquadro delle notizie in fondo alle pagine (7), quando chi scrive li manda.
    ========================================================================== */
 (function () {
   'use strict';
@@ -94,61 +95,222 @@
   }
 })();
 
+/* l'indirizzo del sito, letto da quello di questo file (…/js/sito.js): lo script del foglio lo usa per
+   il collegamento dell'email di conferma delle notizie, e lo accetta solo se è uno dei due indirizzi del sito */
+var RADICE = (function () {
+  var s = document.currentScript;
+  return s && s.src ? s.src.replace(/js\/sito\.js(\?.*)?$/, '') : '';
+})();
+
+/* l'esito di un modulo, sotto il pulsante: con un indirizzo, la frase finisce con l'email da scrivere a mano,
+   l'alternativa sicura quando l'invio non riesce */
+function scriviEsito(dove, testo, errore, indirizzo) {
+  dove.textContent = testo;
+  dove.classList.toggle('errore', !!errore);
+  if (indirizzo) {
+    var a = document.createElement('a');
+    a.className = 'link';
+    a.href = 'mailto:' + indirizzo;
+    a.textContent = indirizzo;
+    dove.appendChild(document.createTextNode(' '));
+    dove.appendChild(a);
+    dove.appendChild(document.createTextNode('.'));
+  }
+  dove.hidden = false;
+}
+
+/* chi apre un collegamento delle nostre email arriva su una pagina con ?conferma=…, ?cancella=… o ?togli=…:
+   compare il riquadro, e la richiesta allo script del foglio parte solo quando la persona tocca il pulsante,
+   perché i programmi che controllano i collegamenti nella posta non lo facciano al posto suo */
+function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
+  var codice = (location.search.match(new RegExp('[?&]' + parametro + '=([A-Za-z0-9_.\\-]+)')) || [])[1];
+  if (!riquadro || !codice || !foglio || !window.fetch) return;
+  var pulsante = riquadro.querySelector('.invia');
+  var esito = riquadro.querySelector('.esito');
+  var etichetta = pulsante.textContent;
+  riquadro.hidden = false;
+  riquadro.scrollIntoView({ block: 'center' });     /* sul telefono il riquadro starebbe sotto il menu della sezione */
+  pulsante.addEventListener('click', function () {
+    if (pulsante.disabled) return;
+    pulsante.disabled = true;
+    pulsante.textContent = 'Un momento…';
+    esito.hidden = true;
+    fetch(foglio + '?' + parametro + '=' + encodeURIComponent(codice))
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (!risposta || !risposta.testo) throw new Error('nessuna risposta');
+        scriviEsito(esito, risposta.testo, !risposta.success);
+        if (risposta.success) pulsante.hidden = true;
+        esito.focus();
+      })
+      .catch(function () {
+        scriviEsito(esito, seNonRiesce, true, indirizzo);
+      })
+      .then(function () {
+        pulsante.disabled = false;
+        pulsante.textContent = etichetta;
+      });
+  });
+}
+
 /* ---- 4. il giardino dei ricordi: si sceglie l'immagine e si scrive il nome; la dedica è
-        facoltativa. Il messaggio parte come email, il sito non conserva nulla ---- */
+        facoltativa. Il modulo la manda allo script del foglio della Fondazione, come i Contatti;
+        se il foglio non è acceso, o il browser è troppo vecchio, si apre la posta.
+        I nomi che la Fondazione ha posato nel giardino arrivano da dediche.json, accanto alla
+        pagina: lo scrive la pubblicazione del sito (sorgenti/giardino.py). Chi ha scritto una dedica
+        la toglie dal collegamento dell'email che riceve (?togli=…) ---- */
 (function () {
   'use strict';
   var velo = document.getElementById('velo-dedica');
-  if (!velo) return;
+  var modulo = document.getElementById('modulo-dedica');
+  if (!velo || !modulo) return;
+  document.body.appendChild(velo);                 /* fuori dal testo della pagina, così il velo copre anche la barra in basso */
   var scelta = '';
-  var campoFoto = velo.querySelector('.dedica-foto');
-  var campoNome = velo.querySelector('#dedica-nome');
-  var campoTesto = velo.querySelector('#dedica-testo');
-  var consenso = velo.querySelector('#dedica-consenso');
-  var rigaConsenso = consenso ? consenso.parentNode : null;
-  var invia = velo.querySelector('.invia');
+  var campi = modulo.querySelector('.campi');
+  var esito = modulo.querySelector('.esito');
+  var dopo = modulo.querySelector('.righe.dopo');
+  var campoFoto = modulo.querySelector('.dedica-foto');
+  var campoNome = modulo.elements.ricordo;
+  var campoTesto = modulo.elements.dedica;
+  var campoMittente = modulo.elements.nome;
+  var campoPosta = modulo.elements.email;
+  var consenso = modulo.elements.consenso;
+  var rigaConsenso = consenso.parentNode;
+  var invia = modulo.querySelector('.invia');
+  var indirizzo = modulo.getAttribute('data-indirizzo');
+  var foglio = modulo.getAttribute('action');
+  var conFoglio = !!(foglio && window.fetch && window.FormData);
+  if (modulo.elements._sito) modulo.elements._sito.value = RADICE;   /* per il collegamento che toglie la dedica */
+  if (conFoglio) daCollegamento(document.getElementById('togli-dedica'), 'togli', foglio, indirizzo,
+    'Non siamo riusciti a toglierla. Riprova tra poco, oppure scrivici a');
+
   var bottoni = document.querySelectorAll('.pianta button[data-foto]');
   for (var i = 0; i < bottoni.length; i++) {
     bottoni[i].addEventListener('click', function (e) {
       scelta = e.currentTarget.getAttribute('data-foto');
       campoFoto.textContent = 'Immagine scelta: ' + scelta;
-      campoNome.value = '';
+      modulo.elements.immagine.value = scelta;
+      campoNome.value = '';                        /* il tuo nome e la tua email restano, per una seconda dedica */
       campoTesto.value = '';
-      campoNome.classList.remove('manca');
-      if (consenso) { consenso.checked = false; rigaConsenso.classList.remove('manca'); }
+      consenso.checked = false;
+      [campoNome, campoMittente, campoPosta].forEach(function (c) { c.classList.remove('manca'); });
+      rigaConsenso.classList.remove('manca');
+      campi.hidden = false;
+      esito.hidden = true;
+      dopo.hidden = true;
       velo.hidden = false;
       campoNome.focus();
     });
   }
-  velo.querySelector('.chiudi-dialogo').addEventListener('click', function () { velo.hidden = true; });
+  var chiudi = velo.querySelectorAll('.chiudi-dialogo');
+  for (var j = 0; j < chiudi.length; j++) chiudi[j].addEventListener('click', function () { velo.hidden = true; });
   var freccia = document.querySelector('.scorri-freccia'), striscia = document.querySelector('.giardino');
   if (freccia && striscia) freccia.addEventListener('click', function () { striscia.scrollBy({ left: striscia.clientWidth * 0.8, behavior: 'smooth' }); });
   velo.addEventListener('click', function (e) { if (e.target === velo) velo.hidden = true; });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') velo.hidden = true; });
-  campoNome.addEventListener('input', function () { campoNome.classList.remove('manca'); });
-  if (consenso) consenso.addEventListener('change', function () { rigaConsenso.classList.remove('manca'); });
-  invia.addEventListener('click', function (e) {
-    var nome = campoNome.value.trim();
-    if (!nome) {                                   /* il nome è l'unica cosa che serve */
-      e.preventDefault();
-      campoNome.classList.add('manca');
-      campoNome.focus();
-      return;
-    }
-    if (consenso && !consenso.checked) {           /* e il consenso alla pubblicazione */
-      e.preventDefault();
-      rigaConsenso.classList.add('manca');
-      consenso.focus();
-      return;
-    }
-    var dedica = campoTesto.value.trim();
-    var indirizzo = invia.getAttribute('data-mailto');
-    invia.href = 'mailto:' + indirizzo +
+  [campoNome, campoMittente, campoPosta].forEach(function (c) {
+    c.addEventListener('input', function () { c.classList.remove('manca'); });
+  });
+  consenso.addEventListener('change', function () { rigaConsenso.classList.remove('manca'); });
+
+  /* senza il foglio: la dedica parte come email, dal programma di posta di chi scrive */
+  function perPosta(nome, dedica) {
+    location.href = 'mailto:' + indirizzo +
       '?subject=' + encodeURIComponent('Giardino dei ricordi — ' + nome) +
       '&body=' + encodeURIComponent('In memoria di: ' + nome + '\nImmagine scelta: ' + scelta +
         (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)') +
+        '\n\nChi scrive: ' + campoMittente.value.trim() + ', ' + campoPosta.value.trim() +
         '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.');
+  }
+
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (invia.disabled) return;
+    var primo = null;
+    function controlla(campo, giusto) {
+      campo.classList.toggle('manca', !giusto);
+      if (!giusto && !primo) primo = campo;
+    }
+    var nome = campoNome.value.trim(), dedica = campoTesto.value.trim();
+    controlla(campoNome, !!nome);                   /* il nome è la cosa che serve */
+    controlla(campoMittente, !!campoMittente.value.trim());
+    controlla(campoPosta, /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(campoPosta.value.trim()));
+    rigaConsenso.classList.toggle('manca', !consenso.checked);    /* e il consenso alla pubblicazione */
+    if (!consenso.checked && !primo) primo = consenso;
+    if (primo) { primo.focus(); return; }
+    if (!conFoglio) { perPosta(nome, dedica); return; }
+
+    invia.disabled = true;
+    invia.textContent = 'Un momento…';
+    esito.hidden = true;
+    var dati = new FormData(modulo);
+    dati.append('_js', '1');
+    fetch(foglio, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (risposta && risposta.error === 'email') {
+          scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
+          return;
+        }
+        if (!risposta || !risposta.success) throw new Error('non arrivata');
+        campi.hidden = true;
+        dopo.hidden = false;
+        scriviEsito(esito, 'Grazie. La dedica per ' + nome + ' è arrivata: la leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.' +
+          (risposta.ricevuta ? ' Ti abbiamo mandato un’email con il collegamento per toglierla, se un giorno vorrai.' : ''));
+        esito.focus({ preventScroll: true });
+      })
+      .catch(function () {
+        scriviEsito(esito, 'La dedica non è partita. Riprova tra poco, oppure scrivici a', true, indirizzo);
+      })
+      .then(function () {
+        invia.disabled = false;
+        invia.textContent = 'Manda la dedica';
+      });
   });
+
+  /* i nomi posati nel giardino, ciascuno con l'immagine scelta: le più recenti prima */
+  var sezione = document.getElementById('nel-giardino');
+  if (!sezione || !window.fetch) return;
+  var immagini = {};
+  var piante = document.querySelectorAll('.pianta');
+  for (var k = 0; k < piante.length; k++) {
+    var b = piante[k].querySelector('button[data-foto]'), img = piante[k].querySelector('img');
+    if (b && img) immagini[b.getAttribute('data-foto')] = img.getAttribute('src');
+  }
+  fetch('dediche.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (dati) {
+      var dediche = (dati && dati.dediche) || [];
+      var lista = sezione.querySelector('.dediche');
+      dediche.forEach(function (d) {
+        if (!d || !d.nome) return;
+        var figura = document.createElement('figure');
+        figura.className = 'dedica';
+        if (immagini[d.immagine]) {
+          var cornice = document.createElement('div');
+          cornice.className = 'foto quadra';
+          var foto = document.createElement('img');
+          foto.src = immagini[d.immagine];
+          foto.alt = d.immagine;
+          foto.loading = 'lazy';
+          cornice.appendChild(foto);
+          figura.appendChild(cornice);
+        }
+        var dida = document.createElement('figcaption');
+        var nome = document.createElement('strong');
+        nome.textContent = d.nome;
+        dida.appendChild(nome);
+        if (d.dedica) {
+          var parole = document.createElement('span');
+          parole.textContent = '«' + d.dedica + '»';
+          dida.appendChild(parole);
+        }
+        figura.appendChild(dida);
+        lista.appendChild(figura);
+      });
+      if (lista.children.length) sezione.hidden = false;
+    })
+    .catch(function () { /* senza le dediche il giardino resta com'è */ });
 })();
 
 /* ---- 5. il modulo dei Contatti: il messaggio va al foglio «Contatti della Fondazione» (lo script
@@ -178,18 +340,7 @@
   }
 
   function dici(dove, testo, errore, posta) {
-    dove.textContent = testo;
-    dove.classList.toggle('errore', !!errore);
-    if (posta) {                                   /* l'alternativa sicura: scrivere per posta */
-      var a = document.createElement('a');
-      a.className = 'link';
-      a.href = 'mailto:' + indirizzo;
-      a.textContent = indirizzo;
-      dove.appendChild(document.createTextNode(' '));
-      dove.appendChild(a);
-      dove.appendChild(document.createTextNode('.'));
-    }
-    dove.hidden = false;
+    scriviEsito(dove, testo, errore, posta ? indirizzo : '');
   }
   modulo.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -222,34 +373,105 @@
       });
   });
 
-  /* chi apre il collegamento dell'email di conferma arriva qui con ?conferma=…: tocca «Confermo»
-     e il foglio segna la data. Il pulsante serve perché i programmi che controllano i collegamenti
-     nella posta non confermino al posto della persona */
-  var conferma = document.getElementById('conferma-notizie');
-  var codice = (location.search.match(/[?&]conferma=([A-Za-z0-9_.\-]+)/) || [])[1];
-  if (!foglio || !conferma || !codice) return;
-  var si = conferma.querySelector('.invia');
-  var esitoConferma = conferma.querySelector('.esito');
-  conferma.hidden = false;
-  si.addEventListener('click', function () {
-    if (si.disabled) return;
-    si.disabled = true;
-    si.textContent = 'Un momento…';
-    esitoConferma.hidden = true;
-    fetch(modulo.action + '?conferma=' + encodeURIComponent(codice))
+  /* dai collegamenti delle email delle notizie: «Confermo» segna la data della conferma nel foglio,
+     «Cancellami» ritira il consenso */
+  if (!foglio) return;
+  daCollegamento(document.getElementById('conferma-notizie'), 'conferma', modulo.action, indirizzo,
+    'Non siamo riusciti a confermare. Riprova tra poco, oppure scrivici a');
+  daCollegamento(document.getElementById('cancella-notizie'), 'cancella', modulo.action, indirizzo,
+    'Non siamo riusciti a cancellarti. Riprova tra poco, oppure scrivici a');
+})();
+
+/* ---- 6. il modulo «Presentaci il tuo progetto»: il progetto va allo stesso script del foglio,
+        nella scheda «Progetti», e la risposta compare nella pagina. Se qualcosa va storto,
+        resta l'indirizzo di posta. Senza questo codice il modulo parte lo stesso ---- */
+(function () {
+  'use strict';
+  var modulo = document.getElementById('modulo-progetto');
+  if (!modulo || !window.fetch || !window.FormData) return;
+  var campi = modulo.querySelector('.campi');
+  var esito = modulo.querySelector('.esito');
+  var invia = modulo.querySelector('.invia');
+  var indirizzo = modulo.getAttribute('data-indirizzo');
+  if (modulo.elements._sito) modulo.elements._sito.value = RADICE;
+
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (invia.disabled) return;
+    invia.disabled = true;
+    invia.textContent = 'Un momento…';
+    esito.hidden = true;
+    var dati = new FormData(modulo);
+    dati.append('_js', '1');
+    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
       .then(function (r) { return r.json(); })
       .then(function (risposta) {
-        if (!risposta || !risposta.testo) throw new Error('nessuna risposta');
-        dici(esitoConferma, risposta.testo, !risposta.success);
-        if (risposta.success) si.hidden = true;
-        esitoConferma.focus();
+        if (risposta && risposta.error === 'email') {
+          scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
+          return;
+        }
+        if (!risposta || !risposta.success) throw new Error('non arrivato');
+        modulo.reset();
+        campi.hidden = true;
+        scriviEsito(esito, 'Grazie, il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.' +
+          (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' : ''));
+        esito.focus({ preventScroll: true });
       })
       .catch(function () {
-        dici(esitoConferma, 'Non siamo riusciti a confermare. Riprova tra poco, oppure scrivici a', true, true);
+        scriviEsito(esito, 'Il progetto non è partito. Riprova tra poco, oppure scrivici a', true, indirizzo);
       })
       .then(function () {
-        si.disabled = false;
-        si.textContent = 'Confermo';
+        invia.disabled = false;
+        invia.textContent = 'Manda il progetto';
+      });
+  });
+})();
+
+/* ---- 7. il riquadro «Le notizie della Fondazione» in fondo alle pagine: l'email va allo script del
+        foglio, che scrive la richiesta nella scheda dei Contatti e manda l'email di conferma. Senza
+        questo codice il modulo parte lo stesso ---- */
+(function () {
+  'use strict';
+  var modulo = document.getElementById('modulo-notizie');
+  if (!modulo || !window.fetch || !window.FormData) return;
+  var campi = modulo.querySelector('.campi');
+  var esito = modulo.querySelector('.esito');
+  var invia = modulo.querySelector('.invia');
+  var indirizzo = modulo.getAttribute('data-indirizzo');
+  modulo.elements._sito.value = RADICE;
+  /* la pagina da cui ci si iscrive, per sapere quali punti del sito funzionano */
+  if (RADICE && location.href.indexOf(RADICE) === 0) {
+    var qui = location.href.slice(RADICE.length).split(/[?#]/)[0].replace(/index\.html$/, '').replace(/\/$/, '');
+    modulo.elements.pagina.value = qui || 'home';
+  }
+
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (invia.disabled) return;
+    invia.disabled = true;
+    invia.textContent = 'Un momento…';
+    esito.hidden = true;
+    var dati = new FormData(modulo);
+    dati.append('_js', '1');
+    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (risposta && risposta.error === 'email') {
+          scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
+          return;
+        }
+        if (!risposta || !risposta.success) throw new Error('non arrivato');
+        modulo.reset();
+        campi.hidden = true;
+        scriviEsito(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.');
+        esito.focus({ preventScroll: true });
+      })
+      .catch(function () {
+        scriviEsito(esito, 'L’iscrizione non è partita. Riprova tra poco, oppure scrivici a', true, indirizzo);
+      })
+      .then(function () {
+        invia.disabled = false;
+        invia.textContent = 'Iscrivimi';
       });
   });
 })();

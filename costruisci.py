@@ -31,6 +31,8 @@ FOGLIO = "https://script.google.com/macros/s/AKfycbzHUOOLsgMRu-2wUcBNvVYjoTspg0-
 FORMINIT = ""                             # il codice di un modulo su Forminit (Form ID), usato solo se FOGLIO è vuoto.
                                           # Il modulo di prima («Contatti del sito», 0luhmnjylmz) è cancellato dall’11.10.2026.
                                           # Vuoti tutti e due: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
+FASI = ("Un’idea", "Un progetto in corso di realizzazione", "Un progetto che esiste già",   # «A che punto è», nel modulo dei
+        "Una realtà consolidata che cerca nuovi sviluppi")                                 # progetti: le stesse in FASI dello script
 CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella delle notizie: se il testo cambia,
     "Vorrei ricevere ogni tanto le notizie della Fondazione per email. Posso cancellarmi quando voglio.")
                                           # cambia anche la versione, che il foglio registra accanto al consenso.
@@ -345,6 +347,32 @@ def barra(da):
         voci.append('<a%s href="%s" aria-label="%s">%s</a>' % (classe, verso(da, cartella), sfuggi(etichetta), sfuggi(etichetta)))
     return '<nav class="barra-fissa" aria-label="Azioni principali">%s</nav>' % "".join(voci)
 
+def riquadro_notizie(da):
+    """il riquadro «Le notizie della Fondazione» in fondo a ogni pagina: basta l'email, poi la stessa email
+    di conferma dei Contatti. Il testo è quello della casella delle notizie, con la sua versione.
+    Senza FOGLIO non c'è: le notizie si chiedono dai Contatti."""
+    if not FOGLIO:
+        return ""
+    versione, testo = CONSENSO_NOTIZIE
+    return """    <div class="pie-notizie">
+      <div><h4>Le notizie della Fondazione</h4><p>%s</p></div>
+      <form class="modulo" id="modulo-notizie" action="%s" method="post" data-indirizzo="%s">
+        <div class="campi">
+          <label for="mn-posta">La tua email</label>
+          <div class="in-riga"><input id="mn-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required><button type="submit" class="invia">Iscrivimi</button></div>
+          <input type="hidden" name="tipo" value="notizie">
+          <input type="hidden" name="notizie" value="si">
+          <input type="hidden" name="consenso" value="%s">
+          <input type="hidden" name="pagina" value="">
+          <input type="hidden" name="_sito" value="">
+          <input type="hidden" name="_gotcha" value="">
+          <p class="nota">Ti mandiamo un’email per confermare l’indirizzo. Come usiamo i dati lo spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>
+        </div>
+        <p class="esito" role="status" tabindex="-1" hidden></p>
+      </form>
+    </div>
+""" % (sfuggi(testo), sfuggi(FOGLIO), ENTE["email"], sfuggi(versione), verso(da, "privacy"))
+
 def footer(da):
     sito = "".join('<li><a href="%s">%s</a></li>' % (verso(da, s["chiave"]), sfuggi(s["voce"])) for s in SEZIONI)
     fond = "".join('<li><a href="%s">%s</a></li>' % (verso(da, p["cartella"]), sfuggi(p["voce"]))
@@ -359,13 +387,13 @@ def footer(da):
       <div><h4>La Fondazione</h4><ul>%s</ul></div>
       <div><h4>Scrivere</h4><ul><li><a href="mailto:%s">%s</a></li><li>%s</li></ul></div>
     </div>
-    <hr class="separatore">
+%s    <hr class="separatore">
     <div class="pie-dati">
       <p>%s · %s · %s · %s · %s</p>
       <p>%s</p>
     </div>
   </div>
-</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], sfuggi(ENTE["sede"]),
+</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], sfuggi(ENTE["sede"]), riquadro_notizie(da),
                 sfuggi(ENTE["nome"]), sfuggi(ENTE["forma"]), sfuggi(ENTE["cf"]), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]), legali)
 
 # --------------------------------------------------------------------------
@@ -435,6 +463,10 @@ def gettoni(html, da):
     html = re.sub(r"\{foto:([^|}]+)\|([^|}]*)\|([^}]*)\}", foto, html)
     if "{modulo-contatti}" in html:
         html = html.replace("{modulo-contatti}", modulo_contatti(da))
+    if "{modulo-progetto}" in html:
+        html = html.replace("{modulo-progetto}", modulo_progetto(da))
+    # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
+    html = html.replace("{foglio}", sfuggi(FOGLIO))
     return html
 
 def modulo_contatti(da):
@@ -469,13 +501,18 @@ def modulo_contatti(da):
 def modulo_foglio(da):
     """il modulo dei Contatti che scrive nel foglio. In più rispetto a Forminit: la casella facoltativa delle
     notizie (con la versione del testo), la pagina da cui arriva chi scrive e l'indirizzo del sito, che
-    sito.js riempie, e il riquadro «Confermo» per chi arriva dal collegamento dell'email di conferma."""
+    sito.js riempie, e i riquadri «Confermo» e «Cancellami» per chi arriva dai collegamenti delle email."""
     versione, testo = CONSENSO_NOTIZIE
     privacy = ('<p class="nota">Usiamo i tuoi dati soltanto per risponderti e, se lo chiedi, per mandarti le notizie, '
                'come spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>' % verso(da, "privacy"))
-    return """<div class="conferma-notizie" id="conferma-notizie" hidden>
+    return """<div class="da-collegamento" id="conferma-notizie" hidden>
 <p>Hai chiesto di ricevere le notizie della Fondazione per email. Tocca «Confermo» per confermare che l’indirizzo è tuo.</p>
 <button type="button" class="invia">Confermo</button>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</div>
+<div class="da-collegamento" id="cancella-notizie" hidden>
+<p>Non vuoi più ricevere le notizie della Fondazione? Tocca «Cancellami» e non ti scriveremo più.</p>
+<button type="button" class="invia">Cancellami</button>
 <p class="esito" role="status" tabindex="-1" hidden></p>
 </div>
 <form class="modulo" id="modulo-contatti" action="%s" method="post" data-indirizzo="%s">
@@ -498,6 +535,49 @@ def modulo_foglio(da):
 </div>
 <p class="esito" role="status" tabindex="-1" hidden></p>
 </form>""" % (sfuggi(FOGLIO), ENTE["email"], sfuggi(testo), sfuggi(versione), privacy)
+
+def modulo_progetto(da):
+    """il modulo della pagina «Presentaci il tuo progetto»: va allo stesso script del foglio, che scrive il
+    progetto nella scheda «Progetti» e avvisa la segreteria. Con la casella delle notizie, come nei Contatti,
+    arriva anche l'email di conferma. Senza FOGLIO resta il pulsante della posta."""
+    privacy = ('<p class="nota">Usiamo i tuoi dati soltanto per leggere la proposta e risponderti e, se lo chiedi, '
+               'per mandarti le notizie, come spiega l’<a class="link" href="%s">informativa sulla privacy</a>. '
+               'Non scrivere dati di altre persone senza il loro consenso.</p>' % verso(da, "privacy"))
+    versione, testo = CONSENSO_NOTIZIE
+    if not FOGLIO:
+        return '<p><a class="vai" href="mailto:%s">Scrivici</a></p>\n%s' % (ENTE["email"], privacy)
+    fasi = "\n".join('<label class="consenso" for="mp-fase-%d"><input id="mp-fase-%d" name="fase" type="radio" value="%s"%s> <span>%s</span></label>'
+                     % (i, i, sfuggi(f), " required" if i == 1 else "", sfuggi(f)) for i, f in enumerate(FASI, 1))
+    return """<form class="modulo" id="modulo-progetto" action="%s" method="post" data-indirizzo="%s">
+<div class="campi">
+<label for="mp-progetto">Il nome del progetto</label>
+<input id="mp-progetto" name="progetto" type="text" maxlength="200" required>
+<fieldset class="scelta">
+<legend>A che punto è</legend>
+%s
+</fieldset>
+<label for="mp-descrizione">Che cosa fa, per chi e dove</label>
+<textarea id="mp-descrizione" name="descrizione" rows="7" maxlength="8000" placeholder="Poche righe chiare bastano" required></textarea>
+<label for="mp-bisogno">Di che cosa ha bisogno <span>facoltativo</span></label>
+<textarea id="mp-bisogno" class="breve" name="bisogno" rows="3" maxlength="2000" placeholder="Persone, competenze, un luogo, un sostegno economico"></textarea>
+<label for="mp-documento">Un documento da leggere <span>facoltativo</span></label>
+<input id="mp-documento" name="documento" type="text" inputmode="url" maxlength="500" placeholder="Il collegamento, se ce l’hai">
+<label for="mp-nome">Il tuo nome</label>
+<input id="mp-nome" name="nome" type="text" autocomplete="name" maxlength="200" required>
+<label for="mp-ente">Ente o gruppo <span>facoltativo</span></label>
+<input id="mp-ente" name="ente" type="text" autocomplete="organization" maxlength="200">
+<label for="mp-posta">La tua email</label>
+<input id="mp-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required>
+<label class="consenso" for="mp-notizie"><input id="mp-notizie" name="notizie" type="checkbox" value="si"> <span>%s</span></label>
+<input type="hidden" name="consenso" value="%s">
+<input type="hidden" name="tipo" value="progetto">
+<input type="hidden" name="_sito" value="">
+<input type="hidden" name="_gotcha" value="">
+%s
+<button type="submit" class="invia">Manda il progetto</button>
+</div>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>""" % (sfuggi(FOGLIO), ENTE["email"], fasi, sfuggi(testo), sfuggi(versione), privacy)
 
 def tavola_img(da, nome, alt, classe="tavola"):
     return '<figure class="%s"><img src="%s" alt="%s"><figcaption>Tavola incisa</figcaption></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), sfuggi(alt))
@@ -843,7 +923,9 @@ def costruisci():
     with open(os.path.join(USCITA, "img", "favicon.svg"), "w", encoding="utf-8") as f:
         f.write(FAVICON)
     with open(os.path.join(USCITA, "robots.txt"), "w", encoding="utf-8") as f:
-        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\n") + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
+        # le dediche del giardino (dediche.json, che la pubblicazione scrive accanto alla pagina) non si offrono ai motori
+        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\nDisallow: /in-memoria/giardino-dei-ricordi/dediche.json\n")
+                + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
     # la pagina «non trovata»: GitHub Pages la serve da qualsiasi indirizzo, quindi i percorsi partono dalla radice del sito
     base = "<script>document.write('<base href=\"' + (location.hostname.slice(-9) === 'github.io' ? '/rosadoro/' : '/') + '\">')</script>"
     p404 = dict(cartella="", voce="", titolo="Pagina non trovata", occhiello="La Fondazione", hero="avorio", tipo="404", dove="", notte=False)

@@ -16,7 +16,12 @@ Che cosa c'è
                      node sorgenti/stampa-pdf.js sorgenti/DAT-fac-simile.html sito/allegati/DAT-fac-simile.pdf
                      e foglio-contatti.gs, lo script del foglio Google «Contatti della Fondazione»
                      che riceve il modulo dei Contatti (si copia nel foglio, da Estensioni → Apps Script),
-                     con il suo manifesto foglio-contatti-appsscript.json (va in appsscript.json)
+                     con il suo manifesto foglio-contatti-appsscript.json (va in appsscript.json);
+                     lo stesso script riceve le dediche del giardino dei ricordi, e giardino.py,
+                     a ogni pubblicazione e ogni ora, porta nel sito quelle spuntate «Nel giardino»;
+                     e i progetti della pagina «Presentaci il tuo progetto», nella scheda «Progetti»;
+                     condivisione.html, l'immagine che compare quando si condivide il sito, si rifà con
+                     node sorgenti/fotografa.js sorgenti/condivisione.html sito/img/condivisione.jpg
   LEGGIMI.txt        questo file
 
 Dove si vede

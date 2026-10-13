@@ -26,6 +26,24 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   suo accesso Google; a ogni modifica si ripubblica come nuova versione).
   Forminit è spento dall’11.10.2026 (`FORMINIT` vuoto): se `FOGLIO` resta
   vuoto, al posto del modulo c’è il pulsante «Scrivici» che apre la posta.
+- Le dediche del giardino dei ricordi vanno allo stesso script, nella scheda
+  «Dediche» del foglio. Entrano nel giardino quando Elias o Dacia spuntano la
+  casella «Nel giardino»: ogni ora la pubblicazione (`sorgenti/giardino.py`)
+  le scrive in `dediche.json` accanto alla pagina. Non stanno nel repository.
+- Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
+  «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
+- Il riquadro «Le notizie della Fondazione» in fondo a ogni pagina (`riquadro_notizie`
+  in `costruisci.py`) e la casella delle notizie nel modulo dei progetti vanno allo stesso
+  script: una riga «notizie» nella scheda dei Contatti e la stessa email di conferma.
+  Solo le notizie della Fondazione: quelle di Orizzonti Celesti si chiedono solo a chi
+  dona dalla Svizzera, nel ringraziamento.
+- Due cose vanno da sole, senza la segreteria (Elias, 13.10): chi riceve le notizie si
+  cancella con «Cancellami» (`?cancella=` sulla pagina Contatti; il collegamento di ciascuno
+  è nella colonna «Per cancellarsi», da mettere in fondo a ogni email delle notizie), e chi
+  scrive una dedica riceve un’email con il collegamento per toglierla (`?togli=` sulla pagina
+  del giardino). Le colonne nuove del foglio le aggiunge lo script da sé.
+- L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
+  `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 
 ## Regole che non si discutono
 
