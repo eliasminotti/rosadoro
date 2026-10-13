@@ -904,6 +904,7 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 # dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, un semplice collegamento, nessuno
 # script PayPal. Per la Svizzera solo il bonifico a Orizzonti Celesti: il loro PayPal.me non si pubblica finché Elias non
 # chiarisce con PayPal lo stato del conto dell’associazione (Elias, 13.10).
+# Accanto all’IBAN di Orizzonti Celesti c’è la QR-fattura (Elias, 13.10 sera): il codice si rifà con sorgenti/qr-svizzera.py.
 # I fondi convertibili restano fuori da questa pagina (Elias, 10.10). Chi dona dalla Svizzera passa per Orizzonti Celesti.
 TESTI["dona"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
@@ -929,6 +930,10 @@ TESTI["dona"] = dict(
 <p><strong>Intestato a</strong><br>Orizzonti Celesti<br>Via Mezzavilla 12, 6503 Bellinzona</p>
 <p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
 <p><strong>BIC</strong><br>POFICHBEXXX</p>
+</div>
+<div class="qr-fattura">
+<img src="{img:qr-orizzonti-celesti.svg}" width="200" height="200" alt="Il codice QR della QR-fattura di Orizzonti Celesti, per il bonifico">
+<p>Oppure inquadra questo codice con l’app della tua banca: i dati del bonifico si compilano da soli, e l’importo lo scegli tu.</p>
 </div>
 <h3>Altri modi di sostenerci</h3>
 <ul class="stelle">

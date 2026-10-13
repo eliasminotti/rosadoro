@@ -463,6 +463,10 @@ p:last-child{margin-bottom:0}
 .coordinate p:last-child{margin:0}
 .coordinate .iban{color:var(--testo);letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .coordinate .iban span{white-space:nowrap}   /* sul telefono l’IBAN va a capo a metà, non sull’ultimo gruppo */
+/* la QR-fattura di Orizzonti Celesti, sotto le sue coordinate: il codice sempre nero su bianco, perché le banche lo leggano */
+.qr-fattura{display:flex;gap:26px;align-items:center;margin:-.4em 0 2em;max-width:60ch}
+.qr-fattura img{width:200px;height:200px;flex:none;border:1px solid var(--filo-forte)}
+.qr-fattura p{margin:0}
 
 /* l'elenco con le stelline (Perché donare alla Rosa d'Oro) */
 .testo ul.stelle{list-style:none;padding-left:1.4em}
@@ -598,6 +602,7 @@ a.azione:hover h4{color:var(--accento)}
   .apri-menu{padding:10px 12px;letter-spacing:.1em}
   .testa-bassa .pagina{gap:12px}
   .coordinate{padding:18px}
+  .qr-fattura{flex-direction:column;align-items:flex-start;gap:16px}
 }
 /* a 320 px l’apostrofo tipografico di «d’Oro», più largo, spingeva «Menu» fuori di un pixel */
 @media (max-width:360px){
