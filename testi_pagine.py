@@ -66,7 +66,7 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 <h3>Perché con la Rosa d'Oro</h3>
 <ul>
 <li>perché hai vantaggi fiscali, come persona e come azienda;</li>
-<li>perché la nostra rete è ampia, e ampi gli aiuti;</li>
+<li>perché costruiamo una rete ampia, per aiuti ampi;</li>
 <li>perché personalizziamo gli aiuti secondo le <em>tue</em> esigenze;</li>
 <li>perché siamo affidabili e professionali;</li>
 <li>perché sei tu a scegliere cosa e come;</li>
@@ -195,7 +195,7 @@ TESTI["in-memoria/svuota-e-sorridi"] = dict(
 <p>Svuotare la casa di una persona cara che non c'è più è uno dei momenti più intensi del lutto, e ha un profondo potere terapeutico: un atto pratico che fa da ponte tra il dolore e l'accettazione, trasformando un gesto materiale in un vero processo psicologico.</p>
 <p class="citazione">Ogni scatola riempita è un piccolo rituale di congedo.</p>
 <p>Farlo da soli, però, richiede spesso troppe energie: le case contengono gli oggetti di una vita intera, ed è difficile scegliere che cosa tenere e che cosa lasciare andare.</p>
-<h3>Come funziona</h3>
+<h3>Come funzionerà</h3>
 <p>Un'équipe di volontari, empatici e delicati, arriva con un furgone direttamente alla casa e aiuta a creare un nuovo ordine: catalogare gli oggetti, alleggerire dal superfluo, fare spazio — fino allo smaltimento ecologico, alla pulizia profonda, all'imbiancare o allo spostare mobili. E ciò che può avere una seconda vita viene donato, perché abbia uno scopo: è da qui che nasce il sorriso del nome.</p>
 <p>L'équipe si sta formando in queste settimane: <a class="link" href="{→contatti}">scrivici</a> per essere tra i primi a ricevere il servizio — o per unirti tu stesso ai volontari.</p>
 <figure class="tavola"><img src="{img:tavola-interno.svg}" alt="La luce entra da una finestra ad arco in un interno inciso"><figcaption>Il nuovo che arriva</figcaption></figure>
@@ -210,8 +210,8 @@ TESTI["in-memoria/io-sono-qui-per-te"] = dict(
 <p><strong>Siamo qui per sostenere le persone nel fine vita, le loro famiglie e i loro cari, in modo concreto e spirituale, prendendo in considerazione tutto quanto è attorno a te.</strong></p>
 <p>Siamo qui per orientarti tra le decisioni e le scelte della fase finale della vita: dal funerale al testamento, fino a decidere chi si occuperà del tuo cane e del tuo gatto.</p>
 <p>Hai voglia di liberare casa, destinare i vari oggetti, ma non ne hai la forza? Siamo qui per aiutarti a svuotare casa: il «riordino svedese» (Margareta Magnusson, <em>The Gentle Art of Swedish Death Cleaning</em>) accompagna un distacco graduale e sereno, e gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a> possono darti una mano concreta.</p>
-<h3>Un percorso con un counsellor</h3>
-<p>Fai fatica a uscire dal lutto e a elaborarlo? <strong>Siamo qui per aiutarti. Contattaci per un percorso con uno dei nostri counsellor.</strong> Il counsellor non cura — il lutto non è una malattia, è un processo naturale — ma offre uno spazio protetto, sicuro e non giudicante per esplorare le emozioni e ricostruire una quotidianità interrotta. Secondo le tue inclinazioni puoi scegliere chi lavora con piccole strategie di adattamento, con la meditazione, con l'arteterapia o con la scrittura espressiva. Sarai sostenuto in tutti i passaggi verso il futuro, per ricominciare a vivere.</p>
+<h3>Un percorso con un counselor</h3>
+<p>Fai fatica a uscire dal lutto e a elaborarlo? <strong>Siamo qui per aiutarti. Contattaci per un percorso con uno dei nostri counselor.</strong> Il counselor non cura — il lutto non è una malattia, è un processo naturale — ma offre uno spazio protetto, sicuro e non giudicante per esplorare le emozioni e ricostruire una quotidianità interrotta. Secondo le tue inclinazioni puoi scegliere chi lavora con piccole strategie di adattamento, con la meditazione, con l'arteterapia o con la scrittura espressiva. Sarai sostenuto in tutti i passaggi verso il futuro, per ricominciare a vivere.</p>
 <p><a class="vai" href="{→contatti}">Avvia la procedura per essere messo in contatto</a></p>
 <p>Possiamo rispondere anche a qualsiasi altra domanda tu abbia riguardo alla morte, al morire e alle malattie. Non sei solo.</p>
 <h3>Incontri e workshop</h3>
@@ -297,7 +297,7 @@ TESTI["lasciti/il-lascito-testamentario"] = dict(
 <li>conserva il testamento in un luogo sicuro — depositato dal notaio, e affidato a una persona di fiducia — perché sia facilmente reperibile;</li>
 <li>se vuoi, comunicaci il tuo impegno: ci dà l'opportunità di esprimerti la nostra gratitudine mentre sei in vita e di discutere i dettagli della tua visione. Su richiesta, inviamo il modulo di impegno da compilare.</li>
 </ol>
-<p>Molte persone evitano la pianificazione anticipata delle cure a causa del disagio nel discutere del tema della morte. È il tuo caso? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Contatta uno dei nostri counsellor</a>.</p>
+<p>Molte persone evitano la pianificazione anticipata delle cure a causa del disagio nel discutere del tema della morte. È il tuo caso? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Contatta uno dei nostri counselor</a>.</p>
 """)
 
 TESTI["lasciti/perche-donare"] = dict(
@@ -305,18 +305,18 @@ TESTI["lasciti/perche-donare"] = dict(
     corpo="""
 <ul class="stelle">
 <li><strong>Perché donare è posare la prima pietra: apre la strada a molte nuove vie.</strong> La tua donazione può finanziare un progetto preciso e locale, e fare una differenza tangibile: i tuoi familiari e amici avranno l'opportunità di visitare i progetti, dialogare con i responsabili e verificare direttamente l'impiego dei fondi. Non confluisce in un bilancio grande, generico e senza luogo, sottratto a ogni riscontro.</li>
-<li><strong>Perché promuoviamo la pluralità e l'inclusione attiva.</strong> Crediamo che l'identità umana si declini al plurale: cresciamo nel confronto, ci evolviamo nella relazione e nelle sinergie. La Rosa d'Oro ha progetti propri e ne sostiene altri in linea con i suoi valori: chi ha un sogno in un dato ambito può <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentare il proprio progetto</a>, che viene valutato con un'analisi di fattibilità. Guarda i <a class="link" href="{→progetti}">progetti</a>.</li>
+<li><strong>Perché promuoviamo la pluralità e l'inclusione attiva.</strong> Crediamo che l'identità umana si declini al plurale: cresciamo nel confronto, ci evolviamo nella relazione e nelle sinergie. La Rosa d'Oro nasce per avere progetti propri e sostenerne altri in linea con i suoi valori: chi ha un sogno in un dato ambito può <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentare il proprio progetto</a>, che viene valutato con un'analisi di fattibilità. Guarda i <a class="link" href="{→progetti}">progetti</a>.</li>
 <li><strong>Perché lavoriamo sul campo e con il cuore</strong>: per sostenere la cultura del dono e comunità che crescono, e arrivare dove lo Stato spesso non arriva, rispondendo alle domande che ci vengono incontro dalle necessità concrete delle persone che incontriamo o che si rivolgono alla Fondazione.</li>
 <li><strong>Perché favoriamo i giovani</strong>, catalizzatori del cambiamento sociale e dell'innovazione culturale. Promuovere il loro potenziale significa alimentare quell'identità plurale e aperta al futuro, fondamentale per l'evoluzione dell'umanità. Attraverso l'ascolto attivo e l'inclusione, trasformiamo le loro aspirazioni in concrete opportunità di crescita condivisa.</li>
 <li><strong>Perché in futuro agricoltura, medicina e sociale possano funzionare meglio, e perché li vediamo come pilastri interconnessi di un unico ecosistema.</strong> Crediamo che il futuro risieda nella loro convergenza: coltivare la terra in modo sostenibile, curare la persona nella sua interezza e rigenerare i legami comunitari, per il benessere collettivo.</li>
 <li><strong>Perché i progetti sono personalizzati (<em>tailor-made</em>) e su misura, costruiti sulla persona e sul territorio.</strong> Crediamo che la reale efficacia di un progetto risieda nella sua capacità di adattarsi plasticamente alle esigenze della comunità e alle vocazioni del luogo, il <em>genius loci</em>. Attraverso un'analisi profonda del contesto e una co-progettazione con gli attori locali, trasformiamo i bisogni specifici in opportunità di sviluppo uniche, sostenibili e durature, garantendo l'impatto a lungo termine dei progetti e integrandoli armoniosamente nel tessuto sociale ed economico locale.</li>
 <li><strong>Perché, se lo vorrai, saremo onorati di celebrare il tuo sostegno</strong> — o di rendere omaggio alla memoria del tuo lascito — attraverso il nostro sito istituzionale e i canali ufficiali, perché tu sia ricordato, magari con una tua frase. Desideriamo esprimerti gratitudine, e soprattutto che il tuo impegno diventi una testimonianza viva per la comunità e trasmetta alle future generazioni il valore del tuo impatto sul territorio.</li>
 <li><strong>Perché lavoriamo con notai e professionisti che condividono i nostri valori</strong>: lo statuto stesso della Fondazione è stato rivisto con loro.</li>
-<li><strong>Perché siamo una Fondazione con una struttura leggera e focalizzata su ciò che conta</strong>: la parte di ciò che doni e che va a finire in amministrazione è contenuta, e il bilancio — depositato ogni anno al Registro del Terzo settore, e quindi pubblico — lo mostra.</li>
+<li><strong>Perché siamo una Fondazione con una struttura leggera e focalizzata su ciò che conta</strong>: la parte di ciò che doni e che va a finire in amministrazione è contenuta. I costi di funzionamento e di raccolta restano entro il trenta per cento di quanto si raccoglie in un anno, e il bilancio — depositato ogni anno al Registro del Terzo settore, e quindi pubblico — lo mostrerà.</li>
 <li><strong>Perché la tua donazione è meritevole e come tale gode di vantaggi fiscali.</strong> Tutte le donazioni sono fiscalmente deducibili o detraibili nei limiti previsti dalla legge. Conservando la ricevuta del pagamento tracciabile, potrai ridurre il tuo carico fiscale in sede di dichiarazione dei redditi.</li>
 </ul>
 <p>Vuoi condividere la tua storia? Vuoi conoscere la storia di chi ha già fatto questa scelta? <a class="link" href="{→contatti}">Scrivici</a>.</p>
-<p>Vuoi iniziare un percorso biografico con uno dei nostri consulenti, per superare la paura della morte, sciogliere nodi, capire meglio quale può essere il tuo valore nel futuro e se, e che cosa, vuoi davvero donare? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Il percorso con i nostri counsellor</a>.</p>
+<p>Vuoi iniziare un percorso biografico con uno dei nostri counselor, per superare la paura della morte, sciogliere nodi, capire meglio quale può essere il tuo valore nel futuro e se, e che cosa, vuoi davvero donare? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Il percorso con i nostri counselor</a>.</p>
 <p>Il rendiconto dei lasciti ricevuti, e di come sono stati impiegati, è in corso d'opera: sarà pubblicato in questa pagina.</p>
 <h3>I vantaggi fiscali</h3>
 <p>I lasciti e le donazioni a favore degli enti del Terzo settore iscritti al RUNTS, come la Fondazione, <strong>non sono soggetti all'imposta sulle successioni e donazioni</strong>, né alle imposte ipotecaria e catastale, a condizione che siano usati per l'attività statutaria, con esclusivo perseguimento di finalità civiche, solidaristiche e di utilità sociale (art. 82, commi 1 e 2, del Codice del Terzo Settore, D.Lgs. 117/2017). La Fondazione, inoltre, non risponde in solido dell'imposta dovuta dagli altri eredi (art. 36, comma 5-bis, D.Lgs. 346/1990). Per gli altri beneficiari si applicano aliquote e franchigie che variano con il grado di parentela (artt. 7 e 56 del D.Lgs. 346/1990): il 4% per il coniuge e i parenti in linea retta, con una franchigia di un milione di euro per ciascun beneficiario; il 6% per fratelli e sorelle, con franchigia di 100.000 euro; il 6% senza franchigia per gli altri parenti fino al quarto grado, gli affini in linea retta e gli affini in linea collaterale fino al terzo grado; l'8% senza franchigia per tutti gli altri. Se il beneficiario è una persona con disabilità grave, la franchigia sale a 1.500.000 euro.</p>
@@ -363,7 +363,7 @@ TESTI["lasciti/dopo-di-noi"] = dict(
 <p class="citazione">La tutela delle fasce più vulnerabili è il pilastro su cui poggia una comunità solidale, equa e coesa.</p>
 <p class="citazione">Accudire la fragilità è come prendersi cura di un germoglio.</p>
 <p>Lo strumento è previsto dallo statuto della Fondazione (art. 14): lo trovi nella pagina <a class="link" href="{→documenti}">Documenti</a>. Per i professionisti c'è la <a class="link" href="{→professionisti/dopo-di-noi}">scheda sulla gestione del Dopo di Noi</a>.</p>
-<p>Vuoi attivare un'équipe olistica per il tuo caro con disabilità? <a class="link" href="{→contatti}">Scrivici</a> e attiveremo i terapeuti più vicini a te.</p>
+<p>Vuoi un'équipe olistica per il tuo caro con disabilità? <a class="link" href="{→contatti}">Scrivici</a>: cercheremo insieme i terapeuti più vicini a te.</p>
 <p><a class="vai" href="{→contatti}">Vuoi saperne di più? Contattaci</a></p>
 """)
 
@@ -473,7 +473,8 @@ TESTI["chi-siamo"] = dict(
 <p class="citazione">Coltiviamo la terra, accogliamo la vita, custodiamo il cammino fino alla fine.</p>
 <p class="tre-parole">Fede, Amore e Speranza</p>
 <p>La Fondazione non ha scopo di lucro e persegue finalità civiche, solidaristiche e di utilità sociale, con attività in ambito sociale e sociosanitario. Ha carattere <strong>operativo</strong>, in quanto promuove, crea e gestisce progetti offrendo beni e servizi in prima persona, ed <strong>erogativo</strong>, in quanto fornisce consulenze e risorse, materiali o immateriali, a terzi.</p>
-<h3>Cosa offriamo</h3>
+<h3>Che cosa la Fondazione è nata per fare</h3>
+<p>Sono le attività che lo statuto le affida, e prendono forma un passo alla volta, con i partner che servono.</p>
 <div class="offerte">
 <div class="box">
 <h4>Assistenza alle persone</h4>
@@ -500,11 +501,11 @@ TESTI["chi-siamo"] = dict(
 <div class="box">
 <h4>Ricerca e promozione del futuro</h4>
 <p>Ricerche sulle potenzialità di nuove piante medicinali e sull'effetto di nuove modalità di cura, per esempio in ambienti naturali e nel paesaggio; la valutazione del valore dell'assistenza medica con un approccio su corpo, mente e spirito, anche con pratiche artistiche o olistiche; la valutazione dell'impatto sociale degli interventi di riqualificazione.</p>
-<p>Incubare, sostenere e promuovere progetti di altre realtà con una visione comune, con l'erogazione di beni e servizi. Sosteniamo in particolare il talento e la determinazione dei giovani: borse di studio e laboratori per le idee della prossima generazione, per aiutare a costruire i leader e i ricercatori del futuro.</p>
+<p>Incubare, sostenere e promuovere progetti di altre realtà con una visione comune, con l'erogazione di beni e servizi. Vogliamo sostenere in particolare il talento e la determinazione dei giovani: borse di studio e laboratori per le idee della prossima generazione, per aiutare a costruire i leader e i ricercatori del futuro.</p>
 <p><a class="vai" href="{→progetti}">I progetti</a></p>
 </div>
 </div>
-<p><a class="vai" href="{→progetti/da-sostenere}">Scopri i progetti che stiamo finanziando, e come puoi fare la tua parte</a></p>
+<p><a class="vai" href="{→progetti/da-sostenere}">Scopri i progetti della Fondazione, e come puoi fare la tua parte</a></p>
 <h3>La nostra storia</h3>
 {foto:ASSISI 2025|La basilica di San Francesco ad Assisi, settembre 2025|ritratto oro}
 <p>Tutto nasce ad Assisi, durante la festa di Michele, nel settembre del 2025. Si trovano lì un agricoltore, consulente bioforestale, e un medico, a parlare delle gioie e delle difficoltà nei reciproci campi. Osservano come sia la medicina sia l'agricoltura si trovino in uno spazio di transizione, in cui tanto deve essere fatto perché le due discipline lavorino davvero a favore dell'umano e per l'umano. Nello stesso tempo, dalle necessità portate dalle persone con cui entrambi hanno a che fare, arriva la domanda di aiuto: creare un ponte tra passato e futuro, facilitare la nascita di progetti e tutte quelle situazioni legate al lutto e alla successione, spesso complicate sul piano pratico e poco in linea con i desideri di chi non c'è più. Mentre camminano dalla basilica di San Francesco verso la Porziuncola, tra gli ulivi, il progetto sottilmente si crea.</p>
@@ -538,7 +539,7 @@ TESTI["lasciti/la-liberta-del-come"] = dict(
 <p>Consigliamo inoltre di specificare:</p>
 <ul class="stelle">
 <li>dove desideri soggiornare durante le cure di fine vita: in un hospice (puoi scrivere anche quale), in una struttura di cure palliative, a casa con o senza cure palliative, o in un altro luogo — per esempio quanto previsto dal progetto «Pianeta Verde», quando sarà attivo;</li>
-<li>se richiedi un'assistenza spirituale: puoi indicare anche la Fondazione e la sua équipe del Pianeta Verde;</li>
+<li>se richiedi un'assistenza spirituale: puoi indicare anche la Fondazione, e l'équipe del Pianeta Verde quando sarà attiva;</li>
 <li>se consenti qualsiasi visitatore, o limiti l'accesso ad alcuni cari o a nessuno, nel momento del passaggio della soglia e nelle settimane che lo precedono.</li>
 </ul>
 <p>Se una malattia cronica, progressiva e invalidante è già presente, lo strumento complementare è la <strong>Pianificazione condivisa delle cure</strong> (art. 5 della stessa legge): un dialogo continuativo tra il paziente, il medico curante e, se lo desidera, i familiari o il fiduciario, per definire insieme un percorso di cura proporzionato alle fasi della malattia.</p>
@@ -566,7 +567,7 @@ TESTI["aziende-e-istituzioni/aziende"] = dict(
 <p>Sei tu a scegliere dove va:</p>
 <ul class="stelle">
 <li><strong>alla Fondazione tutta,</strong> perché la impieghi dove c’è più bisogno;</li>
-<li><strong>a un progetto</strong> che esiste già e che vuoi veder crescere;</li>
+<li><strong>a un progetto</strong> che vuoi veder crescere, tra quelli che la Fondazione avvia o sostiene;</li>
 <li><strong>a un ambito</strong> tra quelli della Fondazione: il sociale, la medicina e la cura, l’agricoltura, l’arte e la cultura, l’educazione;</li>
 <li><strong>a un territorio:</strong> una regione, una città, un paese. Anche dove oggi non c’è ancora un nostro progetto ma servirebbe qualcosa, per le persone, il lavoro, la salute, l’arte, la pedagogia o la terra: lì il tuo sostegno può essere l’inizio di un progetto nuovo, da costruire con chi ci vive.</li>
 </ul>
@@ -578,7 +579,7 @@ TESTI["aziende-e-istituzioni/aziende"] = dict(
 <li><strong>Donazioni in natura</strong>: dona i prodotti invenduti, le eccedenze di magazzino o gli oggetti provenienti da eventi e allestimenti, per sostenere i progetti e le iniziative.</li>
 <li><strong>Il benessere delle persone</strong>: rafforza le relazioni e il benessere della comunità aziendale con iniziative di formazione, consulenza alla persona e volontariato aziendale.</li>
 <li><strong>Il team building solidale</strong>, per rafforzare il senso di appartenenza: attività di gruppo — uscite con famiglie e bambini (eventi culturali, sportivi, nella natura) o visite alle strutture della Fondazione; e il donare insieme — sostegno a distanza, <em>match giving</em>, <em>payroll giving</em>, raccolte di doni (Back to School, Uovo Sospeso e altre).</li>
-<li><strong>Consulenza e sostegno psicologico</strong> per le persone dell’azienda, sui temi dell’adolescenza, della genitorialità, del contrasto alla violenza di genere, del benessere digitale, del benessere alimentare in <em>smart working</em>. Alcune azioni possibili: counselling e coaching per l’empowerment relazionale, familiare e lavorativo; uno sportello online dedicato; corsi di leadership per sviluppare una leadership positiva, comunicazioni autentiche e un ambiente di lavoro sereno.</li>
+<li><strong>Consulenza e sostegno psicologico</strong> per le persone dell’azienda, sui temi dell’adolescenza, della genitorialità, del contrasto alla violenza di genere, del benessere digitale, del benessere alimentare in <em>smart working</em>. Alcune azioni possibili: counseling e coaching per l’empowerment relazionale, familiare e lavorativo; uno sportello online dedicato; corsi di leadership per sviluppare una leadership positiva, comunicazioni autentiche e un ambiente di lavoro sereno.</li>
 </ul>
 <p>Tutto questo si riflette sulla reputazione del marchio: la percezione che il pubblico ha della tua azienda.</p>
 <p class="citazione">Promuovi il benessere olistico dei dipendenti, integrando salute fisica, mentale, emotiva, sociale e finanziaria, attraverso strategie di welfare evolute.</p>
@@ -733,7 +734,7 @@ TESTI["lavora-con-noi"] = dict(
 <p>Siamo alla ricerca delle seguenti figure:</p>
 <ul class="stelle">
 <li><strong>avvocati, notai, commercialisti</strong> — vedi i <a class="link" href="{→professionisti}">progetti dedicati</a>;</li>
-<li><strong>counsellor</strong> — vedi i <a class="link" href="{→in-memoria/io-sono-qui-per-te}">progetti dedicati</a>;</li>
+<li><strong>counselor</strong> — vedi i <a class="link" href="{→in-memoria/io-sono-qui-per-te}">progetti dedicati</a>;</li>
 <li><strong>celebranti laici di funerali</strong> — vedi i <a class="link" href="{→in-memoria/funerali}">progetti dedicati</a>;</li>
 <li><strong>team per i traslochi</strong> — vedi i <a class="link" href="{→in-memoria/svuota-e-sorridi}">progetti dedicati</a>;</li>
 <li><strong>volontari</strong> — operatori socio-sanitari, infermieri, medici, fisioterapisti, psicologi, <em>quietude practitioner</em> — interessati e qualificati per assistere nel delicato momento del fine vita.</li>
@@ -769,7 +770,7 @@ TESTI["professionisti"] = dict(
 <ul class="stelle">
 <li><strong>per i patrimoni e le successioni</strong>: avvocati esperti di famiglia, terzo settore e diritto tributario; consulenti finanziari abilitati e intermediari assicurativi, per le polizze vita e i fondi pensione che indicano la Fondazione come beneficiaria; amministratori di sostegno;</li>
 <li><strong>per i beni che arrivano</strong>: periti ed esperti d’arte, di gioielli e d’antiquariato, case d’asta, agenti immobiliari e tecnici; agronomi e dottori forestali per terreni e boschi; consulenti d’impresa per le aziende che continuano a vivere;</li>
-<li><strong>per le persone</strong>: assistenti sociali, educatori e operatori del sociale e del disagio; medici, palliativisti, psicologi e counsellor; mediatori familiari, perché un’eredità è anche una famiglia; imprese di onoranze funebri e celebranti, che incontrano le famiglie nel momento del distacco.</li>
+<li><strong>per le persone</strong>: assistenti sociali, educatori e operatori del sociale e del disagio; medici, palliativisti, psicologi e counselor; mediatori familiari, perché un’eredità è anche una famiglia; imprese di onoranze funebri e celebranti, che incontrano le famiglie nel momento del distacco.</li>
 </ul>
 <h3>Come funziona lo scambio</h3>
 <ul class="stelle">
@@ -984,7 +985,7 @@ TESTI["progetti-amici"] = dict(
 TESTI["progetti/presenta-il-tuo-progetto"] = dict(
     sotto="Hai un progetto concreto o un sogno che va nella nostra direzione? Raccontacelo.",
     corpo="""
-<p>La Fondazione si occupa sia di progetti propri sia di sostenerne altri in linea con i suoi valori. Se porti avanti un progetto che tende al bene, o vuoi farlo nascere e crescere, raccontacelo qui.</p>
+<p>La Fondazione nasce per avere progetti propri e per sostenerne altri in linea con i suoi valori. Se porti avanti un progetto che tende al bene, o vuoi farlo nascere e crescere, raccontacelo qui.</p>
 <p>Se il progetto ci sembra in linea con i nostri scopi e valori, ci sentiamo per conoscerci e valutiamo insieme possibilità e fattibilità.</p>
 <p>Non servono documenti troppo lunghi ed elaborati: bastano poche righe chiare. Se hai già una presentazione, lasciaci il collegamento.</p>
 {modulo-progetto}
@@ -1058,7 +1059,7 @@ TESTI["fondi-e-strumenti/esecutore-testamentario"] = dict(
 TESTI["fondi-e-strumenti/dopo-di-noi"] = dict(
     sotto="Trust e protezione dei fragili.",
     corpo="""
-<p>La Rosa d’Oro è una fondazione del Terzo settore. Sta accanto alle famiglie che hanno una persona cara con una disabilità grave e si chiedono chi se ne prenderà cura quando loro non potranno più farlo. Che cosa la Fondazione fa per lei, ogni giorno, lo racconta la pagina <a class="link" href="{→lasciti/dopo-di-noi}">Il Dopo di Noi</a>; qui trovi come funziona lo strumento.</p>
+<p>La Rosa d’Oro è una fondazione del Terzo settore. È nata per stare accanto alle famiglie che hanno una persona cara con una disabilità grave e si chiedono chi se ne prenderà cura quando loro non potranno più farlo. Che cosa la Fondazione può fare per lei, ogni giorno, lo racconta la pagina <a class="link" href="{→lasciti/dopo-di-noi}">Il Dopo di Noi</a>; qui trovi come funziona lo strumento.</p>
 <p>La legge 112/2016, detta del «Dopo di Noi», permette alla famiglia di destinare dei beni al futuro di questa persona, quando la sua disabilità grave è accertata secondo la legge 104/1992: con un trust, con un vincolo di destinazione (art. 2645-ter del codice civile) o con un contratto di affidamento fiduciario. Lo statuto (art. 14, comma 4) permette alla Fondazione di avere in questi strumenti un ruolo di garanzia, in due modi:</p>
 <ul class="stelle">
 <li><strong>come gestore</strong>, o trustee: amministra i beni che la famiglia le affida, tenuti separati dal patrimonio della Fondazione, e li spende soltanto per il progetto di vita della persona: le cure, la casa, l’inclusione, il benessere di ogni giorno;</li>
@@ -1205,7 +1206,7 @@ DESCRIZIONI = {
     "in-memoria/giardino-dei-ricordi": "Il giardino dei ricordi: scegli un'immagine, scrivi il nome di chi vuoi ricordare e, se vuoi, una dedica. Lo posiamo nel giardino della Fondazione.",
     "in-memoria/funerali": "Non fiori ma opere di bene: al funerale si raccolgono fondi per un progetto. Accendi una candela, pianta un albero, fai sbocciare un fiore.",
     "in-memoria/svuota-e-sorridi": "Gli Svuota e Sorridi: l'aiuto pratico della Fondazione per svuotare la casa di chi non c'è più, con rispetto, dando nuova vita agli oggetti.",
-    "in-memoria/io-sono-qui-per-te": "Io sono qui per te: l'accompagnamento della Fondazione a chi si avvicina alla fine della vita e a chi gli sta accanto, con medici e counsellor.",
+    "in-memoria/io-sono-qui-per-te": "Io sono qui per te: l'accompagnamento della Fondazione a chi si avvicina alla fine della vita e a chi gli sta accanto, con medici e counselor.",
     "in-memoria/elaborare-il-lutto": "Elaborare il lutto: perché ricordare aiuta, e come un gesto concreto in memoria di una persona cara sostiene chi resta.",
     "lasciti": "Lasciti testamentari alla Fondazione La Rosa d'Oro: che cosa si può lasciare, come si fa, i vantaggi fiscali, il testamento, le DAT, il Dopo di Noi.",
     "lasciti/il-lascito-testamentario": "Il lascito testamentario: un gesto semplice e sempre modificabile che destina una parte del patrimonio a ciò che per te è vita. Quota disponibile, forme, passi.",
@@ -1228,7 +1229,7 @@ DESCRIZIONI = {
     "aziende-e-istituzioni/istituzioni": "Per le istituzioni: il partenariato pubblico-privato sociale con la Fondazione, dalla rigenerazione urbana al welfare di comunità e alla formazione.",
     "professionisti": "Cerchiamo studi partner: notai, avvocati, commercialisti, consulenti. Gli strumenti della Fondazione per lasciti ed eredità, e come lavoriamo insieme.",
     "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
-    "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counsellor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
+    "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counselor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
     "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
     "dona": "Dona alla Fondazione La Rosa d’Oro con un bonifico o con PayPal, per un ambito o in memoria di una persona cara. Le donazioni sono detraibili o deducibili.",
     "documenti": "Lo statuto della Fondazione La Rosa d’Oro ETS, i dati della costituzione e dell’iscrizione al Registro unico del Terzo settore, le informative.",
