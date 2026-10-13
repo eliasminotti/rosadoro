@@ -123,6 +123,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 <section class="nel-giardino" id="nel-giardino" hidden>
 <h3>I nomi posati nel giardino</h3>
 <div class="dediche"></div>
+<p>Una dedica ti sembra offensiva, non vera o scritta da chi non ne aveva titolo? Scrivici a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a> dicendoci quale e perché: la leggiamo, ti rispondiamo e, se serve, la togliamo.</p>
 </section>
 <h3>Contattaci inoltre per</h3>
 <ul>
@@ -919,6 +920,7 @@ TESTI["dona"] = dict(
 <h3>Con PayPal</h3>
 <p>Puoi donare anche con PayPal. Nel messaggio che PayPal ti propone puoi indicare un ambito o la persona che vuoi ricordare.</p>
 <p><a class="vai" href="https://www.paypal.com/donate/?hosted_button_id=PHVRQC92CVXRA" target="_blank" rel="noopener">Dona con PayPal</a></p>
+<p>Su PayPal puoi anche scegliere di donare ogni mese, e smettere quando vuoi dal tuo conto PayPal, tra i pagamenti automatici.</p>
 <h3>La ricevuta e i vantaggi fiscali</h3>
 <p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. Se ti serve anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 <h3>Se vivi in Svizzera</h3>
