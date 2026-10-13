@@ -119,11 +119,46 @@ function scriviEsito(dove, testo, errore, indirizzo) {
   dove.hidden = false;
 }
 
+/* chi apre un collegamento delle nostre email arriva su una pagina con ?conferma=…, ?cancella=… o ?togli=…:
+   compare il riquadro, e la richiesta allo script del foglio parte solo quando la persona tocca il pulsante,
+   perché i programmi che controllano i collegamenti nella posta non lo facciano al posto suo */
+function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
+  var codice = (location.search.match(new RegExp('[?&]' + parametro + '=([A-Za-z0-9_.\\-]+)')) || [])[1];
+  if (!riquadro || !codice || !foglio || !window.fetch) return;
+  var pulsante = riquadro.querySelector('.invia');
+  var esito = riquadro.querySelector('.esito');
+  var etichetta = pulsante.textContent;
+  riquadro.hidden = false;
+  riquadro.scrollIntoView({ block: 'center' });     /* sul telefono il riquadro starebbe sotto il menu della sezione */
+  pulsante.addEventListener('click', function () {
+    if (pulsante.disabled) return;
+    pulsante.disabled = true;
+    pulsante.textContent = 'Un momento…';
+    esito.hidden = true;
+    fetch(foglio + '?' + parametro + '=' + encodeURIComponent(codice))
+      .then(function (r) { return r.json(); })
+      .then(function (risposta) {
+        if (!risposta || !risposta.testo) throw new Error('nessuna risposta');
+        scriviEsito(esito, risposta.testo, !risposta.success);
+        if (risposta.success) pulsante.hidden = true;
+        esito.focus();
+      })
+      .catch(function () {
+        scriviEsito(esito, seNonRiesce, true, indirizzo);
+      })
+      .then(function () {
+        pulsante.disabled = false;
+        pulsante.textContent = etichetta;
+      });
+  });
+}
+
 /* ---- 4. il giardino dei ricordi: si sceglie l'immagine e si scrive il nome; la dedica è
         facoltativa. Il modulo la manda allo script del foglio della Fondazione, come i Contatti;
         se il foglio non è acceso, o il browser è troppo vecchio, si apre la posta.
         I nomi che la Fondazione ha posato nel giardino arrivano da dediche.json, accanto alla
-        pagina: lo scrive la pubblicazione del sito (sorgenti/giardino.py) ---- */
+        pagina: lo scrive la pubblicazione del sito (sorgenti/giardino.py). Chi ha scritto una dedica
+        la toglie dal collegamento dell'email che riceve (?togli=…) ---- */
 (function () {
   'use strict';
   var velo = document.getElementById('velo-dedica');
@@ -145,6 +180,9 @@ function scriviEsito(dove, testo, errore, indirizzo) {
   var indirizzo = modulo.getAttribute('data-indirizzo');
   var foglio = modulo.getAttribute('action');
   var conFoglio = !!(foglio && window.fetch && window.FormData);
+  if (modulo.elements._sito) modulo.elements._sito.value = RADICE;   /* per il collegamento che toglie la dedica */
+  if (conFoglio) daCollegamento(document.getElementById('togli-dedica'), 'togli', foglio, indirizzo,
+    'Non siamo riusciti a toglierla. Riprova tra poco, oppure scrivici a');
 
   var bottoni = document.querySelectorAll('.pianta button[data-foto]');
   for (var i = 0; i < bottoni.length; i++) {
@@ -217,7 +255,8 @@ function scriviEsito(dove, testo, errore, indirizzo) {
         if (!risposta || !risposta.success) throw new Error('non arrivata');
         campi.hidden = true;
         dopo.hidden = false;
-        scriviEsito(esito, 'Grazie. La dedica per ' + nome + ' è arrivata: la leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.');
+        scriviEsito(esito, 'Grazie. La dedica per ' + nome + ' è arrivata: la leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.' +
+          (risposta.ricevuta ? ' Ti abbiamo mandato un’email con il collegamento per toglierla, se un giorno vorrai.' : ''));
         esito.focus({ preventScroll: true });
       })
       .catch(function () {
@@ -334,36 +373,13 @@ function scriviEsito(dove, testo, errore, indirizzo) {
       });
   });
 
-  /* chi apre il collegamento dell'email di conferma arriva qui con ?conferma=…: tocca «Confermo»
-     e il foglio segna la data. Il pulsante serve perché i programmi che controllano i collegamenti
-     nella posta non confermino al posto della persona */
-  var conferma = document.getElementById('conferma-notizie');
-  var codice = (location.search.match(/[?&]conferma=([A-Za-z0-9_.\-]+)/) || [])[1];
-  if (!foglio || !conferma || !codice) return;
-  var si = conferma.querySelector('.invia');
-  var esitoConferma = conferma.querySelector('.esito');
-  conferma.hidden = false;
-  si.addEventListener('click', function () {
-    if (si.disabled) return;
-    si.disabled = true;
-    si.textContent = 'Un momento…';
-    esitoConferma.hidden = true;
-    fetch(modulo.action + '?conferma=' + encodeURIComponent(codice))
-      .then(function (r) { return r.json(); })
-      .then(function (risposta) {
-        if (!risposta || !risposta.testo) throw new Error('nessuna risposta');
-        dici(esitoConferma, risposta.testo, !risposta.success);
-        if (risposta.success) si.hidden = true;
-        esitoConferma.focus();
-      })
-      .catch(function () {
-        dici(esitoConferma, 'Non siamo riusciti a confermare. Riprova tra poco, oppure scrivici a', true, true);
-      })
-      .then(function () {
-        si.disabled = false;
-        si.textContent = 'Confermo';
-      });
-  });
+  /* dai collegamenti delle email delle notizie: «Confermo» segna la data della conferma nel foglio,
+     «Cancellami» ritira il consenso */
+  if (!foglio) return;
+  daCollegamento(document.getElementById('conferma-notizie'), 'conferma', modulo.action, indirizzo,
+    'Non siamo riusciti a confermare. Riprova tra poco, oppure scrivici a');
+  daCollegamento(document.getElementById('cancella-notizie'), 'cancella', modulo.action, indirizzo,
+    'Non siamo riusciti a cancellarti. Riprova tra poco, oppure scrivici a');
 })();
 
 /* ---- 6. il modulo «Presentaci il tuo progetto»: il progetto va allo stesso script del foglio,

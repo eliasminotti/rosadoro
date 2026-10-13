@@ -83,6 +83,11 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 TESTI["in-memoria/giardino-dei-ricordi"] = dict(
     sotto="Scegli un'immagine, scrivi il nome di chi vuoi ricordare: la posiamo nel giardino.",
     corpo="""
+<div class="da-collegamento" id="togli-dedica" hidden>
+<p>Vuoi togliere dal giardino la dedica che hai scritto? Tocca «Togli la dedica»: esce dal giardino entro un’ora.</p>
+<button type="button" class="invia">Togli la dedica</button>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</div>
 <p>Scorri la galleria e trova il fiore, l'oggetto o lo scorcio di natura che ti ispira di più, per il tuo caro. Puoi percepirne internamente il profumo. Scegli l'immagine e scrivi il nome della persona che vuoi ricordare — e, se vuoi, una dedica. Il nome arriva alla Fondazione e viene posato nel giardino, accanto all'immagine scelta, e lì resta, in un giardino di anime reso fecondo dal nostro Amore.</p>
 <div class="giardino-cornice">
 <div class="giardino" aria-label="Le immagini del giardino">
@@ -145,8 +150,9 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
     <label class="consenso" for="dedica-consenso"><input id="dedica-consenso" name="consenso" type="checkbox" value="si"> <span>Sono un familiare, o comunque una persona che ha titolo a ricordarla, e acconsento a che il nome e la dedica siano posati nel giardino, visibili a chi lo visita.</span></label>
     <input type="hidden" name="immagine" value="">
     <input type="hidden" name="tipo" value="dedica">
+    <input type="hidden" name="_sito" value="">
     <input type="hidden" name="_gotcha" value="">
-    <p class="nota">La dedica arriva alla Fondazione, che la legge e la posa nel giardino. Pubblichiamo solo il nome e la dedica, mai i tuoi recapiti. Puoi chiederci in ogni momento di toglierla, scrivendo a segreteria@larosadoro.org. Non scrivere recapiti o dati di altre persone. Il modulo è per chi ha almeno 14 anni. <a class="link" href="{→privacy}">Come trattiamo i dati</a>.</p>
+    <p class="nota">La dedica arriva alla Fondazione, che la legge e la posa nel giardino. Pubblichiamo solo il nome e la dedica, mai i tuoi recapiti. Puoi toglierla quando vuoi, dal collegamento che ti mandiamo per email. Non scrivere recapiti o dati di altre persone. Il modulo è per chi ha almeno 14 anni. <a class="link" href="{→privacy}">Come trattiamo i dati</a>.</p>
     <div class="righe">
       <button type="button" class="chiudi-dialogo">Annulla</button>
       <button type="submit" class="invia">Manda la dedica</button>
@@ -377,30 +383,30 @@ TESTI["privacy"] = dict(
 <p>Il sito è fatto di sole pagine statiche. Non usa cookie, né strumenti di analisi del traffico, né contenuti incorporati da terzi, e non salva nulla nel tuo browser. I caratteri tipografici sono ospitati sui nostri stessi server. L'unico dato raccolto automaticamente è nei registri tecnici del servizio che ospita le pagine, GitHub Pages: GitHub registra l'indirizzo IP di chi visita il sito per proteggere il servizio da abusi, e lo tratta come titolare autonomo, secondo la sua <a class="link" href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">informativa</a>. La Fondazione non vede questi registri. Ne parla anche l'<a class="link" href="{→cookie}">informativa sui cookie</a>.</p>
 
 <h3>Quando ci scrivi</h3>
-<p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica, il messaggio e la pagina del sito da cui hai aperto il modulo. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. I messaggi finiscono in un foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate di rispondere. Li conserviamo fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione. Lo stesso vale per i messaggi che ci mandi per posta elettronica.</p>
+<p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica, il messaggio e la pagina del sito da cui hai aperto il modulo. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. I messaggi finiscono in un foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate di rispondere. Li conserviamo fino a tre anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione. Lo stesso vale per i messaggi che ci mandi per posta elettronica.</p>
 <h3>Quando chiedi le notizie</h3>
-<p>Puoi chiedere le notizie della Fondazione dal riquadro in fondo alle pagine, oppure spuntando la casella nel modulo dei Contatti o in quello dei progetti. Dal riquadro ci arriva soltanto il tuo indirizzo di posta elettronica, con la pagina da cui ti iscrivi. Ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento con una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
+<p>Puoi chiedere le notizie della Fondazione dal riquadro in fondo alle pagine, oppure spuntando la casella nel modulo dei Contatti o in quello dei progetti. Dal riquadro ci arriva soltanto il tuo indirizzo di posta elettronica, con la pagina da cui ti iscrivi. Ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento da solo: il collegamento per cancellarti è nell’email di conferma e in fondo a ogni email delle notizie. Puoi anche scriverci una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 
 <h3>Quando ci presenti un progetto</h3>
-<p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a> ci arrivano il nome e la descrizione del progetto, ciò di cui ha bisogno e il collegamento a un documento, se ce lo lasci, insieme al tuo nome, all'ente o al gruppo che indichi e al tuo indirizzo di posta elettronica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate. Li usiamo solo per leggere la proposta, valutarla e risponderti. La base giuridica è la tua richiesta di valutare il progetto. Li conserviamo per la durata della valutazione e fino a due anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
+<p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a> ci arrivano il nome del progetto, a che punto è e che cosa fa, ciò di cui ha bisogno e il collegamento a un documento, se ce lo lasci, insieme al tuo nome, all'ente o al gruppo che indichi e al tuo indirizzo di posta elettronica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate. Li usiamo solo per leggere la proposta, valutarla e risponderti. La base giuridica è la tua richiesta di valutare il progetto. Li conserviamo per la durata della valutazione e fino a tre anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
 
 <h3>Quando ci mandi la tua candidatura</h3>
 <p>Da <a class="link" href="{→lavora-con-noi}">Lavora con noi</a> puoi mandarci il tuo curriculum e una lettera di presentazione, per collaborare con la Fondazione o come volontario. Li usiamo solo per valutare la candidatura e per rispondere. Per i curriculum mandati di propria iniziativa la legge non chiede il consenso (art. 111-bis del Codice in materia di protezione dei dati personali). Scrivi solo ciò che serve: non mettere nel curriculum dati sulla salute, sulle opinioni o sulla religione, se non sono necessari. Conserviamo le candidature per tre anni, perché spesso tornano utili per un'occasione successiva; più a lungo solo se ne nasce una collaborazione. Se vuoi che la cancelliamo prima, basta una riga.</p>
 
 <h3>Quando dedichi un ricordo nel giardino</h3>
-<p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Ci lasci anche il tuo nome e il tuo indirizzo di posta elettronica, che usiamo solo per risponderti o per chiederti qualcosa sulla dedica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate; il nome e la dedica entrano nel giardino dopo che li abbiamo letti. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
-<p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi chiedere in ogni momento di togliere una dedica, la tua o quella di un tuo caro scritta da altri, scrivendo a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
+<p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Ci lasci anche il tuo nome e il tuo indirizzo di posta elettronica, che usiamo solo per mandarti il collegamento con cui puoi toglierla, per risponderti o per chiederti qualcosa sulla dedica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate; il nome e la dedica entrano nel giardino dopo che li abbiamo letti. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
+<p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi togliere la tua dedica in ogni momento, dal collegamento che ti mandiamo per email. Per togliere quella di un tuo caro scritta da altri, scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
 
 <h3>Quando fai una donazione</h3>
 <p>Puoi donare con un bonifico o con PayPal. Con il bonifico ci arrivano i dati che la tua banca trasmette con il pagamento: il nome, il conto da cui parte, l'importo, la data e la causale. Se scegli PayPal, il pagamento avviene sulle pagine di <strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A., Lussemburgo): il nostro sito non vede né conserva i dati della tua carta o del tuo conto, che PayPal tratta come titolare autonomo, secondo la sua <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">informativa</a>. Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e un eventuale messaggio, e l'indirizzo postale se scegli di condividerlo.</p>
 <p>La base giuridica è il rapporto di donazione che scegli di avviare e gli obblighi di legge che ne derivano per la Fondazione, in particolare la tenuta delle scritture contabili e la rendicontazione della raccolta fondi prevista per gli enti del Terzo settore.</p>
-<p>Le donazioni dalla Svizzera vanno all'<strong>Associazione Orizzonti Celesti</strong>, a Bellinzona: un ente distinto dalla Fondazione, che riceve i tuoi dati, con il bonifico o con PayPal, come titolare autonomo e secondo le sue regole. Orizzonti Celesti comunica alla Fondazione il tuo nome e i recapiti che le hai lasciato, perché possiamo ringraziarti e rendere conto di come è stata usata la donazione: li usiamo solo per questo. Nel ringraziarti ti chiediamo se vuoi ricevere le notizie della Fondazione, di Orizzonti Celesti o di entrambe; se scegli anche Orizzonti Celesti, le comunichiamo la tua scelta. La base giuridica è il nostro legittimo interesse a ringraziare chi sostiene le nostre attività e a rendergliene conto; per le notizie, il tuo consenso.</p>
+<p>Chi dona dalla Svizzera e ha bisogno di una ricevuta per le imposte svizzere dona all'<strong>Associazione Orizzonti Celesti</strong>, a Bellinzona: un ente distinto dalla Fondazione, che riceve i tuoi dati, con il bonifico o con PayPal, come titolare autonomo e secondo le sue regole. Orizzonti Celesti comunica alla Fondazione il tuo nome e i recapiti che le hai lasciato, perché possiamo ringraziarti e rendere conto di come è stata usata la donazione: li usiamo solo per questo. Nel ringraziarti ti chiediamo se vuoi ricevere le notizie della Fondazione, di Orizzonti Celesti o di entrambe; se scegli anche Orizzonti Celesti, le comunichiamo la tua scelta. La base giuridica è il nostro legittimo interesse a ringraziare chi sostiene le nostre attività e a rendergliene conto; per le notizie, il tuo consenso.</p>
 
 <h3>La ricevuta e il codice fiscale</h3>
 <p>Le donazioni alla Fondazione danno diritto a una detrazione o a una deduzione fiscale (art. 83 del Codice del Terzo settore). Per emettere la ricevuta che ti serve, ti chiediamo separatamente il codice fiscale, insieme al nome e all'indirizzo: la ricevuta è un obbligo nostro, non una condizione del pagamento, e per questo il codice fiscale non passa da PayPal. La base giuridica è l'obbligo di legge. Le ricevute e i documenti contabili sono conservati per <strong>dieci anni</strong>, il tempo previsto per le scritture contabili.</p>
 
 <h3>Quando ti scriviamo noi</h3>
-<p>A chi ha donato possiamo scrivere per ringraziare e per rendere conto di come è stato usato ciò che ha donato. In quell'occasione ti chiediamo se vuoi ricevere anche le notizie sulle attività della Fondazione: te le mandiamo solo se rispondi di sì, e puoi ritirare il consenso in ogni momento con una riga di risposta.</p>
+<p>A chi ha donato possiamo scrivere per ringraziare e per rendere conto di come è stato usato ciò che ha donato. In quell'occasione ti chiediamo se vuoi ricevere anche le notizie sulle attività della Fondazione: te le mandiamo solo se rispondi di sì, e puoi ritirare il consenso in ogni momento, dal collegamento in fondo a ogni email delle notizie o con una riga di risposta.</p>
 
 <h3>Chi tratta i dati insieme a noi</h3>
 <p>Oltre alle persone della Fondazione, i tuoi dati sono trattati da alcuni fornitori, ciascuno per la sua parte:</p>
@@ -418,22 +424,22 @@ TESTI["privacy"] = dict(
 <h3>Per quanto tempo</h3>
 <ul>
 <li>registri tecnici del sito: li tiene GitHub, per il tempo necessario alla sicurezza, secondo le sue regole;</li>
-<li>messaggi del modulo dei Contatti e della posta: fino a due anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione;</li>
-<li>progetti proposti: per la durata della valutazione e fino a due anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto;</li>
+<li>messaggi del modulo dei Contatti e della posta: fino a tre anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione;</li>
+<li>progetti proposti: per la durata della valutazione e fino a tre anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto;</li>
 <li>candidature: tre anni, più a lungo solo se ne nasce una collaborazione; prima, se ce lo chiedi;</li>
-<li>dediche nel giardino: finché la pagina resta in linea, o finché non ne chiedi la rimozione; i tuoi recapiti, per lo stesso tempo;</li>
+<li>dediche nel giardino: finché la pagina resta in linea, o finché non la togli o non ne chiedi la rimozione; i tuoi recapiti, per lo stesso tempo;</li>
 <li>dati delle donazioni, ricevute e documenti contabili: dieci anni;</li>
 <li>consenso a ricevere notizie: finché non lo ritiri.</li>
 </ul>
 
 <h3>I tuoi diritti</h3>
-<p>Puoi chiederci in ogni momento di sapere quali dati abbiamo su di te, di correggerli, di cancellarli, di limitarne l'uso, di opporti al trattamento, di riceverli in un formato leggibile da una macchina; puoi ritirare un consenso che ci hai dato, senza che questo tocchi ciò che è stato fatto prima. Basta una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Se ritieni che i tuoi dati siano trattati in modo scorretto, puoi rivolgerti al Garante per la protezione dei dati personali (<a class="link" href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).</p>
+<p>Puoi chiederci in ogni momento di sapere quali dati abbiamo su di te, di correggerli, di cancellarli, di limitarne l'uso, di opporti al trattamento, di riceverli in un formato leggibile da una macchina; puoi ritirare un consenso che ci hai dato, senza che questo tocchi ciò che è stato fatto prima. Per smettere di ricevere le notizie, o per togliere una dedica che hai scritto, bastano i collegamenti nelle nostre email; per tutto il resto, basta una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Se ritieni che i tuoi dati siano trattati in modo scorretto, puoi rivolgerti al Garante per la protezione dei dati personali (<a class="link" href="https://www.garanteprivacy.it" rel="noopener">garanteprivacy.it</a>).</p>
 
 <h3>Se hai meno di quattordici anni</h3>
 <p>Il sito non si rivolge ai bambini e parla di temi che riguardano la perdita e la fine della vita. I moduli sono per chi ha almeno quattordici anni; per i più piccoli occorre l'intervento di chi esercita la responsabilità genitoriale (art. 2-quinquies del Codice in materia di protezione dei dati personali).</p>
 
 <h3>Questa informativa</h3>
-<p>È stata aggiornata il 12 ottobre 2026, prima dell'apertura del sito, e verrà aggiornata ancora quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
+<p>È stata aggiornata il 13 ottobre 2026, prima dell'apertura del sito, e verrà aggiornata ancora quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
 """ % dict(V=V))
 
 TESTI["cookie"] = dict(
@@ -915,7 +921,7 @@ TESTI["dona"] = dict(
 <h3>La ricevuta e i vantaggi fiscali</h3>
 <p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. Se ti serve anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 <h3>Se vivi in Svizzera</h3>
-<p>Le donazioni dalla Svizzera passano per l’Associazione Orizzonti Celesti, la realtà collegata alla Fondazione che opera sul versante elvetico.</p>
+<p>Se vivi in Svizzera e ti serve una ricevuta per le imposte svizzere, dona all’Associazione Orizzonti Celesti, la realtà collegata alla Fondazione che opera sul versante elvetico. Altrimenti puoi donare alla Fondazione, con il bonifico o con PayPal qui sopra.</p>
 <div class="coordinate">
 <p><strong>Intestato a</strong><br>Orizzonti Celesti<br>Via Mezzavilla 12, 6503 Bellinzona</p>
 <p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
@@ -938,7 +944,7 @@ TESTI["partnership"] = dict(
 <p>La Fondazione La Rosa d’Oro non fa tutto da sola, e non vuole farlo. Molto di ciò che lo statuto le chiede passa per persone e realtà che lo sanno fare meglio di noi: studi professionali, aziende, istituzioni, associazioni, chi lavora nella cura, nel sociale e nella terra.</p>
 <p>Con loro cerchiamo un rapporto che vada nei due sensi. Ci indichiamo a vicenda le persone che possono trovare aiuto dall’altra parte, lavoriamo insieme ai progetti, e chi crede nel nostro lavoro può indicare la Fondazione come destinataria di una donazione o di un lascito.</p>
 <h3>Una realtà collegata: Orizzonti Celesti</h3>
-<p>L’Associazione Orizzonti Celesti è un ente distinto dalla Fondazione, con sede in Svizzera, che opera sul versante elvetico. Chi dona dalla Svizzera dona a Orizzonti Celesti.</p>
+<p>L’Associazione Orizzonti Celesti è un ente distinto dalla Fondazione, con sede in Svizzera, che opera sul versante elvetico. Chi dona dalla Svizzera e ha bisogno di una ricevuta per le imposte svizzere dona a Orizzonti Celesti.</p>
 <h3>La rete che stiamo costruendo</h3>
 <p>La Fondazione è nata nel 2026 e la sua rete è agli inizi: stiamo incontrando i primi studi, le prime aziende e le prime realtà del sociale. Le presenteremo qui quando il rapporto sarà avviato e loro saranno d’accordo.</p>
 <p>Per diventare partner, la porta è quella della tua categoria: <a class="link" href="{→professionisti}">Per professionisti</a>, <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>, <a class="link" href="{→aziende-e-istituzioni/istituzioni}">Per le istituzioni</a>. Se sei un’associazione o un ente del Terzo settore, scrivici.</p>
@@ -970,16 +976,11 @@ TESTI["progetti-amici"] = dict(
 # Il modulo ({modulo-progetto}, in costruisci.py) scrive nella scheda «Progetti» del foglio «Contatti della Fondazione»
 # e avvisa la segreteria (Elias, 12.10: «per il modulo che manca dobbiamo assolutamente predisporlo»).
 TESTI["progetti/presenta-il-tuo-progetto"] = dict(
-    sotto="Hai un sogno che va nella nostra direzione? Raccontacelo.",
+    sotto="Hai un progetto concreto o un sogno che va nella nostra direzione? Raccontacelo.",
     corpo="""
-<p>La Fondazione ha progetti propri e ne sostiene altri in linea con i suoi valori: nel lavoro della terra, nella cura delle persone, nell’accompagnamento al fine vita. Se porti avanti un progetto che va in questa direzione, o vuoi farlo nascere, raccontacelo qui.</p>
-<h3>Come lo leggiamo</h3>
-<ul class="stelle">
-<li>Leggiamo ogni proposta e rispondiamo di persona.</li>
-<li>Se il progetto ci sembra vicino, ci sentiamo per conoscerci e ne valutiamo insieme la fattibilità.</li>
-<li>La scelta è della Fondazione, che può anche dire di no.</li>
-</ul>
-<p>Non servono documenti elaborati: bastano poche righe chiare. Se hai già una presentazione, lasciaci il collegamento.</p>
+<p>La Fondazione si occupa sia di progetti propri sia di sostenerne altri in linea con i suoi valori. Se porti avanti un progetto che tende al bene, o vuoi farlo nascere e crescere, raccontacelo qui.</p>
+<p>Se il progetto ci sembra in linea con i nostri scopi e valori, ci sentiamo per conoscerci e valutiamo insieme possibilità e fattibilità.</p>
+<p>Non servono documenti troppo lunghi ed elaborati: bastano poche righe chiare. Se hai già una presentazione, lasciaci il collegamento.</p>
 {modulo-progetto}
 """)
 

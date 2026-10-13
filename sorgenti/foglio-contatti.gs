@@ -20,6 +20,12 @@
  * una riga nella scheda dei Contatti, con la richiesta «notizie», e la stessa
  * email di conferma. Chi presenta un progetto può chiedere le notizie con una
  * casella, come nei Contatti.
+ * Due cose vanno da sole, senza passare dalla segreteria:
+ *   - chi riceve le notizie si cancella con il collegamento «Cancellami» (è
+ *     nell’email di conferma, e nella colonna «Per cancellarsi», da mettere in
+ *     fondo a ogni email delle notizie);
+ *   - chi scrive una dedica riceve un’email con il collegamento per toglierla.
+ * Le colonne nuove le aggiunge lo script stesso, la prima volta che servono.
  *
  * Dove sta: nel foglio, dal menu Estensioni → Apps Script. Si pubblica come
  * «App web», eseguita come il proprietario del foglio, accessibile a chiunque:
@@ -47,26 +53,32 @@ var C = {
   arrivato: 'Arrivato il', fonte: 'Fonte', pagina: 'Pagina', richiesta: 'Richiesta',
   nome: 'Nome', email: 'Email', messaggio: 'Messaggio', interessi: 'Interessi',
   consenso: 'Consenso alle notizie', testoConsenso: 'Testo del consenso',
-  confermata: 'Email confermata il', ente: 'Ente', stato: 'Stato'
+  confermata: 'Email confermata il', ente: 'Ente', stato: 'Stato',
+  ritirato: 'Consenso ritirato il', cancella: 'Per cancellarsi'
 };
 
 var MASSIMO = { nome: 200, email: 254, oggetto: 200, messaggio: 8000, pagina: 200, versione: 60,
                 ricordo: 120, dedica: 600, immagine: 80,
-                progetto: 200, descrizione: 8000, bisogno: 2000, documento: 500, ente: 200 };
+                progetto: 200, fase: 80, descrizione: 8000, bisogno: 2000, documento: 500, ente: 200 };
 
 // la scheda delle dediche del giardino dei ricordi, con i nomi delle sue colonne
 var SCHEDA_DEDICHE = 'Dediche';
 var D = {
   arrivata: 'Arrivata il', ricordo: 'In memoria di', dedica: 'Dedica', immagine: 'Immagine',
-  nome: 'Chi scrive', email: 'Email', consenso: 'Consenso', giardino: 'Nel giardino'
+  nome: 'Chi scrive', email: 'Email', consenso: 'Consenso', giardino: 'Nel giardino',
+  codice: 'Codice', tolta: 'Tolta il'
 };
 
 // la scheda dei progetti proposti dal sito, con i nomi delle sue colonne
 var SCHEDA_PROGETTI = 'Progetti';
 var P = {
-  arrivato: 'Arrivato il', progetto: 'Progetto', descrizione: 'Che cosa fa', bisogno: 'Di che cosa ha bisogno',
-  documento: 'Documento', nome: 'Chi lo propone', ente: 'Ente o gruppo', email: 'Email', stato: 'Stato'
+  arrivato: 'Arrivato il', progetto: 'Progetto', fase: 'A che punto è', descrizione: 'Che cosa fa',
+  bisogno: 'Di che cosa ha bisogno', documento: 'Documento', nome: 'Chi lo propone', ente: 'Ente o gruppo',
+  email: 'Email', stato: 'Stato'
 };
+// le risposte possibili ad «A che punto è», le stesse del modulo del sito (FASI in costruisci.py)
+var FASI = ['Un’idea', 'Un progetto in corso di realizzazione', 'Un progetto che esiste già',
+            'Una realtà consolidata che cerca nuovi sviluppi'];
 
 var EMAIL = /^[^@\s,;<>"()\[\]]+@[^@\s,;<>"()\[\]]+\.[^@\s,;<>"()\[\]]+$/;
 
@@ -107,6 +119,7 @@ function doPost(e) {
     riga[C.testoConsenso] = notizie ? testo(versione) : '';
     riga[C.ente] = 'Fondazione';
     riga[C.stato] = 'da rispondere';
+    if (notizie) riga[C.cancella] = collegamentoPerCancellarsi(email, sito);
     scriviRiga(riga);
 
     avvisaLaSegreteria({ nome: nome, email: email, oggetto: oggetto, messaggio: messaggio,
@@ -125,13 +138,36 @@ function scriviRiga(riga) {
   var blocco = LockService.getScriptLock();
   blocco.waitLock(20000);                          // due messaggi insieme non si scrivono sulla stessa riga
   try {
-    var titoli = foglio.getRange(1, 1, 1, foglio.getLastColumn()).getValues()[0];
+    var titoli = titoliCon(foglio, C);
     var valori = titoli.map(function (t) { return riga.hasOwnProperty(t) ? riga[t] : ''; });
     foglio.getRange(foglio.getLastRow() + 1, 1, 1, valori.length).setValues([valori]);
     SpreadsheetApp.flush();
   } finally {
     blocco.releaseLock();
   }
+}
+
+/* i titoli della prima riga. Le colonne che la scheda non ha ancora nascono qui: in mezzo alle altre,
+   dopo quella che le precede nell’elenco; in fondo, se sono le ultime dell’elenco, così le colonne
+   aggiunte a mano da chi usa il foglio restano dove sono */
+function titoliCon(foglio, colonne) {
+  var nomi = Object.keys(colonne).map(function (k) { return colonne[k]; });
+  var ultima = foglio.getLastColumn();
+  var titoli = ultima ? foglio.getRange(1, 1, 1, ultima).getValues()[0] : [];
+  nomi.forEach(function (nome, i) {
+    if (titoli.indexOf(nome) >= 0) return;
+    var inMezzo = nomi.slice(i + 1).some(function (n) { return titoli.indexOf(n) >= 0; });
+    var dopo = inMezzo && i > 0 ? titoli.indexOf(nomi[i - 1]) : -1;
+    if (dopo >= 0) {
+      foglio.insertColumnAfter(dopo + 1);
+      titoli.splice(dopo + 1, 0, nome);
+      foglio.getRange(1, dopo + 2).setValue(nome);
+    } else {
+      titoli.push(nome);
+      foglio.getRange(1, titoli.length).setValue(nome).setFontWeight(foglio.getRange(1, 1).getFontWeight());
+    }
+  });
+  return titoli;
 }
 
 function avvisaLaSegreteria(m) {
@@ -169,6 +205,7 @@ function riceviDedica(p, conJs) {
   var immagine = pulisci(p.immagine, MASSIMO.immagine);
   var nome = pulisci(p.nome, MASSIMO.nome);
   var email = pulisci(p.email, MASSIMO.email).toLowerCase();
+  var sito = SITI.indexOf(p._sito) >= 0 ? p._sito : SITI[0];
   if (!EMAIL.test(email)) return rispondi(conJs, { success: false, error: 'email', dedica: true });
   if (!ricordo || !nome || p.consenso !== 'si') return rispondi(conJs, { success: false, error: 'campi', dedica: true });
 
@@ -182,10 +219,91 @@ function riceviDedica(p, conJs) {
   riga[D.email] = testo(email);
   riga[D.consenso] = 'sì';
   riga[D.giardino] = false;                       // la casella: la spunta chi legge la dedica
+  var codice = Utilities.getUuid().replace(/-/g, '').slice(0, 12);
+  riga[D.codice] = testo(codice);                 // per il collegamento che la toglie
   scriviNellaScheda(SCHEDA_DEDICHE, D, riga, D.giardino);
 
   avvisaPerLaDedica({ ricordo: ricordo, dedica: dedica, immagine: immagine, nome: nome, email: email, quando: adesso });
-  return rispondi(conJs, { success: true, dedica: true });
+  var ricevuta = mandaLaRicevuta(email, sito, codice);
+  return rispondi(conJs, { success: true, dedica: true, ricevuta: ricevuta });
+}
+
+/* a chi scrive la dedica: la ricevuta, con il collegamento per toglierla. Senza il nome ricordato né la dedica,
+   per la stessa ragione dell’email di conferma: il modulo è aperto a tutti. Al massimo tre ogni sei ore
+   per indirizzo, perché nessuno usi il modulo per riempire la posta di altri */
+function mandaLaRicevuta(email, sito, codice) {
+  var memoria = CacheService.getScriptCache();
+  var chiave = 'ricevuta-' + firma(email).slice(0, 32);
+  var mandate = Number(memoria.get(chiave) || 0);
+  if (mandate >= 3) return false;
+  manda({
+    to: email,
+    subject: 'La tua dedica nel giardino dei ricordi',
+    body: [
+      'Buongiorno,',
+      '',
+      'la tua dedica per il giardino dei ricordi della Fondazione La Rosa d’Oro è arrivata. La leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.',
+      '',
+      'Se un giorno vorrai toglierla, apri questo collegamento e tocca «Togli la dedica»:',
+      '',
+      sito + 'in-memoria/giardino-dei-ricordi/index.html?togli=' + codice + '.' + firma('togli|' + codice),
+      '',
+      'Se la dedica non l’hai scritta tu, apri lo stesso collegamento per toglierla, oppure rispondi a questa email.',
+      '',
+      'Fondazione La Rosa d’Oro ETS',
+      AVVISI_A
+    ].join('\n')
+  });
+  memoria.put(chiave, String(mandate + 1), 6 * 60 * 60);
+  return true;
+}
+
+/* chi ha scritto la dedica la toglie dal giardino: la casella si svuota, la data va in «Tolta il»
+   (finché c’è, la dedica non torna nel giardino anche se qualcuno rispunta la casella) e la segreteria
+   lo sa. Il sito la toglie alla pubblicazione successiva, entro un’ora */
+function togliDedica(collegamento) {
+  var parti = collegamento.split('.');
+  if (parti.length !== 2 || !parti[0] || firma('togli|' + parti[0]) !== parti[1]) {
+    return { success: false, testo: 'Il collegamento non è valido. Scrivici a ' + AVVISI_A + '.' };
+  }
+  var foglio = SpreadsheetApp.getActive().getSheetByName(SCHEDA_DEDICHE);
+  if (!foglio) return { success: false, testo: 'Non troviamo la dedica. Scrivici a ' + AVVISI_A + '.' };
+  var blocco = LockService.getScriptLock();
+  blocco.waitLock(20000);
+  var ricordo;
+  try {
+    var titoli = titoliCon(foglio, D);
+    var dati = foglio.getDataRange().getValues();
+    var cCodice = titoli.indexOf(D.codice), cGiardino = titoli.indexOf(D.giardino),
+        cTolta = titoli.indexOf(D.tolta), cRicordo = titoli.indexOf(D.ricordo);
+    for (var i = 1; i < dati.length; i++) {
+      if (String(dati[i][cCodice]).trim() !== parti[0]) continue;
+      if (!dati[i][cTolta]) {
+        foglio.getRange(i + 1, cGiardino + 1).setValue(false);
+        foglio.getRange(i + 1, cTolta + 1).setValue(new Date());
+        ricordo = String(dati[i][cRicordo]);
+      }
+      SpreadsheetApp.flush();
+      break;
+    }
+    if (i >= dati.length) {
+      return { success: false, testo: 'Non troviamo più la dedica: forse l’abbiamo già tolta. Se la vedi ancora nel giardino, scrivici a ' + AVVISI_A + '.' };
+    }
+  } finally {
+    blocco.releaseLock();
+  }
+  if (ricordo) {
+    MailApp.sendEmail({
+      to: AVVISI_A,
+      name: 'Sito della Fondazione',
+      subject: 'Dedica tolta dal giardino: ' + ricordo,
+      body: ['La dedica per «' + ricordo + '» è stata tolta dal giardino con il collegamento mandato a chi l’aveva scritta.',
+             'Nella scheda «Dediche» la casella «Nel giardino» è vuota e c’è la data in «Tolta il». Per rimetterla, cancella la data e spunta di nuovo la casella.',
+             '',
+             'Il foglio: ' + SpreadsheetApp.getActive().getUrl()].join('\n')
+    });
+  }
+  return { success: true, testo: 'Fatto: la dedica esce dal giardino entro un’ora.' };
 }
 
 /* una scheda del foglio («Dediche», «Progetti»): se non c’è ancora, nasce qui, con i titoli delle colonne */
@@ -210,7 +328,7 @@ function scriviNellaScheda(nome, colonne, riga, casella) {
   blocco.waitLock(20000);
   try {
     var foglio = scheda(nome, colonne);
-    var titoli = foglio.getRange(1, 1, 1, foglio.getLastColumn()).getValues()[0];
+    var titoli = titoliCon(foglio, colonne);
     var valori = titoli.map(function (t) { return riga.hasOwnProperty(t) ? riga[t] : ''; });
     var n = foglio.getLastRow() + 1;
     foglio.getRange(n, 1, 1, valori.length).setValues([valori]);
@@ -256,12 +374,13 @@ function dedicheNelGiardino() {
   var dati = foglio.getDataRange().getValues();
   var titoli = dati[0];
   var cRicordo = titoli.indexOf(D.ricordo), cDedica = titoli.indexOf(D.dedica),
-      cImmagine = titoli.indexOf(D.immagine), cGiardino = titoli.indexOf(D.giardino);
+      cImmagine = titoli.indexOf(D.immagine), cGiardino = titoli.indexOf(D.giardino), cTolta = titoli.indexOf(D.tolta);
   if (cRicordo < 0 || cGiardino < 0) return { success: true, dediche: [] };
   var dediche = [];
   for (var i = dati.length - 1; i >= 1; i--) {
     var spunta = dati[i][cGiardino];
     if (spunta !== true && String(spunta).trim().toLowerCase() !== 'sì') continue;
+    if (cTolta >= 0 && dati[i][cTolta]) continue;   // tolta da chi l’ha scritta
     var ricordo = String(dati[i][cRicordo]).trim();
     if (!ricordo) continue;
     dediche.push({
@@ -278,6 +397,8 @@ function dedicheNelGiardino() {
 
 function riceviProgetto(p, conJs) {
   var progetto = pulisci(p.progetto, MASSIMO.progetto);
+  var fase = pulisci(p.fase, MASSIMO.fase);
+  if (FASI.indexOf(fase) < 0) fase = '';
   var descrizione = pulisci(p.descrizione, MASSIMO.descrizione, true);
   var bisogno = pulisci(p.bisogno, MASSIMO.bisogno, true);
   var documento = pulisci(p.documento, MASSIMO.documento);
@@ -293,6 +414,7 @@ function riceviProgetto(p, conJs) {
   var riga = {};
   riga[P.arrivato] = adesso;
   riga[P.progetto] = testo(progetto);
+  riga[P.fase] = testo(fase);
   riga[P.descrizione] = testo(descrizione);
   riga[P.bisogno] = testo(bisogno);
   riga[P.documento] = testo(documento);
@@ -302,9 +424,9 @@ function riceviProgetto(p, conJs) {
   riga[P.stato] = 'da leggere';
   scriviNellaScheda(SCHEDA_PROGETTI, P, riga);
   if (notizie) iscriviAlleNotizie({ nome: nome, email: email, pagina: 'progetti/presenta-il-tuo-progetto',
-                                    versione: pulisci(p.consenso, MASSIMO.versione) });
+                                    versione: pulisci(p.consenso, MASSIMO.versione), sito: sito });
 
-  avvisaPerIlProgetto({ progetto: progetto, descrizione: descrizione, bisogno: bisogno, documento: documento,
+  avvisaPerIlProgetto({ progetto: progetto, fase: fase, descrizione: descrizione, bisogno: bisogno, documento: documento,
                         nome: nome, ente: ente, email: email, notizie: notizie, quando: adesso });
   var conferma = notizie ? chiediConferma(email, sito, 'progetto') : false;
   return rispondi(conJs, { success: true, progetto: true, conferma: conferma });
@@ -315,6 +437,7 @@ function avvisaPerIlProgetto(m) {
     'Nuovo progetto dalla pagina «Presentaci il tuo progetto» del sito.',
     '',
     'Progetto: ' + m.progetto,
+    m.fase ? 'A che punto è: ' + m.fase : null,
     'Chi lo propone: ' + m.nome + (m.ente ? ' (' + m.ente + ')' : '') + ', ' + m.email,
     m.documento ? 'Documento: ' + m.documento : null,
     'Quando: ' + Utilities.formatDate(m.quando, FUSO, 'dd/MM/yyyy HH:mm'),
@@ -348,7 +471,7 @@ function riceviIscrizione(p, conJs) {
   var sito = SITI.indexOf(p._sito) >= 0 ? p._sito : SITI[0];
   if (!EMAIL.test(email)) return rispondi(conJs, { success: false, error: 'email', iscrizione: true });
   if (p.notizie !== 'si' && p.notizie !== 'sì') return rispondi(conJs, { success: false, error: 'campi', iscrizione: true });
-  iscriviAlleNotizie({ nome: '', email: email, pagina: pagina, versione: pulisci(p.consenso, MASSIMO.versione) });
+  iscriviAlleNotizie({ nome: '', email: email, pagina: pagina, versione: pulisci(p.consenso, MASSIMO.versione), sito: sito });
   var conferma = chiediConferma(email, sito, 'iscrizione');
   return rispondi(conJs, { success: true, conferma: conferma, iscrizione: true });
 }
@@ -367,11 +490,12 @@ function iscriviAlleNotizie(m) {
   riga[C.testoConsenso] = testo(m.versione);
   riga[C.ente] = 'Fondazione';
   riga[C.stato] = 'da confermare';
+  riga[C.cancella] = collegamentoPerCancellarsi(m.email, m.sito);
   scriviRiga(riga);
 }
 
 
-/* ---- 5. la conferma dell’indirizzo per le notizie ---- */
+/* ---- 5. la conferma dell’indirizzo per le notizie, e la cancellazione ---- */
 
 // la prima frase dell’email di conferma e l’ultima, secondo da dove arriva la richiesta
 var PERCHE = {
@@ -402,6 +526,10 @@ function chiediConferma(email, sito, motivo) {
       '',
       'Se la richiesta non viene da te, o hai cambiato idea, non fare niente: non ti manderemo notizie.' + (perche[1] ? ' ' + perche[1] : ''),
       '',
+      'Quando vorrai smettere di ricevere le notizie, ti basterà aprire questo collegamento e toccare «Cancellami»:',
+      '',
+      collegamentoPerCancellarsi(email, sito),
+      '',
       'Fondazione La Rosa d’Oro ETS',
       AVVISI_A
     ].join('\n')
@@ -410,17 +538,25 @@ function chiediConferma(email, sito, motivo) {
   return true;
 }
 
-/* la pagina Contatti del sito, quando si tocca «Confermo», chiede qui con ?conferma=…;
-   la pubblicazione del sito chiede le dediche del giardino con ?giardino=1 */
+/* il collegamento per cancellarsi dalle notizie: non scade, e vale per tutte le richieste di quell’indirizzo.
+   Porta alla pagina Contatti del sito, dove si tocca «Cancellami» */
+function collegamentoPerCancellarsi(email, sito) {
+  if (SITI.indexOf(sito) < 0) sito = SITI[0];
+  return sito + 'contatti/index.html?cancella=' + base64url(email) + '.' + firma('cancella|' + email);
+}
+
+/* la pagina Contatti del sito, quando si tocca «Confermo», chiede qui con ?conferma=…, e con ?cancella=…
+   quando si tocca «Cancellami»; la pagina del giardino, con ?togli=…, quando si tocca «Togli la dedica».
+   La pubblicazione del sito chiede le dediche del giardino con ?giardino=1 */
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.giardino) {
     return ContentService.createTextOutput(JSON.stringify(dedicheNelGiardino())).setMimeType(ContentService.MimeType.JSON);
   }
-  if (p.conferma) {
-    var esito = confermaNotizie(String(p.conferma));
-    return ContentService.createTextOutput(JSON.stringify(esito)).setMimeType(ContentService.MimeType.JSON);
-  }
+  var esito = p.conferma ? confermaNotizie(String(p.conferma))
+            : p.cancella ? cancellaNotizie(String(p.cancella))
+            : p.togli ? togliDedica(String(p.togli)) : null;
+  if (esito) return ContentService.createTextOutput(JSON.stringify(esito)).setMimeType(ContentService.MimeType.JSON);
   return pagina('Il modulo del sito',
     '<p>Questo indirizzo riceve i messaggi dei moduli del sito. Per scriverci, passa dal <a href="' + SITI[0] + '">sito della Fondazione</a>.</p>');
 }
@@ -455,10 +591,44 @@ function confermaNotizie(codice) {
     }
     SpreadsheetApp.flush();
     if (!trovate) return { success: false, testo: 'Non troviamo la tua richiesta. Scrivici a ' + AVVISI_A + '.' };
-    return { success: true, testo: 'Grazie, il tuo indirizzo è confermato. Ti scriveremo solo quando avremo qualcosa da raccontarti.' };
+    return { success: true, testo: 'Grazie, il tuo indirizzo è confermato. Ti scriveremo solo quando avremo qualcosa da raccontarti. In fondo a ogni email trovi il collegamento per cancellarti.' };
   } finally {
     blocco.releaseLock();
   }
+}
+
+/* «Cancellami»: in tutte le righe di quell’indirizzo il consenso diventa «ritirato», con la data;
+   le iscrizioni dal riquadro passano allo stato «cancellato». Se non c’è più niente da cancellare,
+   la risposta è la stessa: le notizie comunque non arrivano */
+function cancellaNotizie(codice) {
+  var parti = codice.split('.');
+  var email;
+  try { email = Utilities.newBlob(Utilities.base64DecodeWebSafe(conUguali(parti[0]))).getDataAsString().toLowerCase(); }
+  catch (x) { email = ''; }
+  if (parti.length !== 2 || !email || firma('cancella|' + email) !== parti[1]) {
+    return { success: false, testo: 'Il collegamento non è valido. Scrivici a ' + AVVISI_A + ', e ti cancelliamo noi.' };
+  }
+  var foglio = SpreadsheetApp.getActive().getSheetByName(SCHEDA);
+  var blocco = LockService.getScriptLock();
+  blocco.waitLock(20000);
+  try {
+    var titoli = titoliCon(foglio, C);
+    var dati = foglio.getDataRange().getValues();
+    var cEmail = titoli.indexOf(C.email), cConsenso = titoli.indexOf(C.consenso), cRitirato = titoli.indexOf(C.ritirato),
+        cRichiesta = titoli.indexOf(C.richiesta), cStato = titoli.indexOf(C.stato);
+    var adesso = new Date();
+    for (var i = 1; i < dati.length; i++) {
+      if (String(dati[i][cEmail]).trim().toLowerCase() !== email) continue;
+      if (dati[i][cConsenso] !== 'sì') continue;
+      foglio.getRange(i + 1, cConsenso + 1).setValue('ritirato');
+      foglio.getRange(i + 1, cRitirato + 1).setValue(adesso);
+      if (dati[i][cRichiesta] === 'notizie') foglio.getRange(i + 1, cStato + 1).setValue('cancellato');
+    }
+    SpreadsheetApp.flush();
+  } finally {
+    blocco.releaseLock();
+  }
+  return { success: true, testo: 'Fatto: non ti manderemo più le notizie. Se cambi idea, puoi iscriverti di nuovo dal riquadro in fondo alla pagina.' };
 }
 
 
@@ -468,12 +638,9 @@ function prepara() {
   segreto();
   var foglio = SpreadsheetApp.getActive().getSheetByName(SCHEDA);
   if (!foglio) throw new Error('Manca la scheda «' + SCHEDA + '»');
-  var titoli = foglio.getRange(1, 1, 1, foglio.getLastColumn()).getValues()[0];
-  var mancano = Object.keys(C).map(function (k) { return C[k]; })
-                      .filter(function (t) { return titoli.indexOf(t) < 0; });
-  if (mancano.length) throw new Error('Nella prima riga mancano le colonne: ' + mancano.join(', '));
-  schedaDediche();
-  scheda(SCHEDA_PROGETTI, P);
+  titoliCon(foglio, C);
+  titoliCon(schedaDediche(), D);
+  titoliCon(scheda(SCHEDA_PROGETTI, P), P);
   console.log('Tutto pronto: ora si pubblica come App web.');
 }
 
@@ -486,6 +653,7 @@ function rispondi(conJs, dati) {
   if (dati.dedica) {
     if (dati.success) {
       return pagina('Grazie', '<p>La tua dedica è arrivata. La leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.</p>' +
+        (dati.ricevuta ? '<p>Ti abbiamo mandato un’email con il collegamento per toglierla, se un giorno vorrai.</p>' : '') +
         '<p>Per tornare al sito usa il tasto «Indietro» del browser.</p>');
     }
     return pagina('La dedica non è partita', '<p>' + (dati.error === 'email'

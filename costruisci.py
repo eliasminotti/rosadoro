@@ -31,6 +31,8 @@ FOGLIO = "https://script.google.com/macros/s/AKfycbzHUOOLsgMRu-2wUcBNvVYjoTspg0-
 FORMINIT = ""                             # il codice di un modulo su Forminit (Form ID), usato solo se FOGLIO è vuoto.
                                           # Il modulo di prima («Contatti del sito», 0luhmnjylmz) è cancellato dall’11.10.2026.
                                           # Vuoti tutti e due: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
+FASI = ("Un’idea", "Un progetto in corso di realizzazione", "Un progetto che esiste già",   # «A che punto è», nel modulo dei
+        "Una realtà consolidata che cerca nuovi sviluppi")                                 # progetti: le stesse in FASI dello script
 CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella delle notizie: se il testo cambia,
     "Vorrei ricevere ogni tanto le notizie della Fondazione per email. Posso cancellarmi quando voglio.")
                                           # cambia anche la versione, che il foglio registra accanto al consenso.
@@ -499,13 +501,18 @@ def modulo_contatti(da):
 def modulo_foglio(da):
     """il modulo dei Contatti che scrive nel foglio. In più rispetto a Forminit: la casella facoltativa delle
     notizie (con la versione del testo), la pagina da cui arriva chi scrive e l'indirizzo del sito, che
-    sito.js riempie, e il riquadro «Confermo» per chi arriva dal collegamento dell'email di conferma."""
+    sito.js riempie, e i riquadri «Confermo» e «Cancellami» per chi arriva dai collegamenti delle email."""
     versione, testo = CONSENSO_NOTIZIE
     privacy = ('<p class="nota">Usiamo i tuoi dati soltanto per risponderti e, se lo chiedi, per mandarti le notizie, '
                'come spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>' % verso(da, "privacy"))
-    return """<div class="conferma-notizie" id="conferma-notizie" hidden>
+    return """<div class="da-collegamento" id="conferma-notizie" hidden>
 <p>Hai chiesto di ricevere le notizie della Fondazione per email. Tocca «Confermo» per confermare che l’indirizzo è tuo.</p>
 <button type="button" class="invia">Confermo</button>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</div>
+<div class="da-collegamento" id="cancella-notizie" hidden>
+<p>Non vuoi più ricevere le notizie della Fondazione? Tocca «Cancellami» e non ti scriveremo più.</p>
+<button type="button" class="invia">Cancellami</button>
 <p class="esito" role="status" tabindex="-1" hidden></p>
 </div>
 <form class="modulo" id="modulo-contatti" action="%s" method="post" data-indirizzo="%s">
@@ -539,10 +546,16 @@ def modulo_progetto(da):
     versione, testo = CONSENSO_NOTIZIE
     if not FOGLIO:
         return '<p><a class="vai" href="mailto:%s">Scrivici</a></p>\n%s' % (ENTE["email"], privacy)
+    fasi = "\n".join('<label class="consenso" for="mp-fase-%d"><input id="mp-fase-%d" name="fase" type="radio" value="%s"%s> <span>%s</span></label>'
+                     % (i, i, sfuggi(f), " required" if i == 1 else "", sfuggi(f)) for i, f in enumerate(FASI, 1))
     return """<form class="modulo" id="modulo-progetto" action="%s" method="post" data-indirizzo="%s">
 <div class="campi">
 <label for="mp-progetto">Il nome del progetto</label>
 <input id="mp-progetto" name="progetto" type="text" maxlength="200" required>
+<fieldset class="scelta">
+<legend>A che punto è</legend>
+%s
+</fieldset>
 <label for="mp-descrizione">Che cosa fa, per chi e dove</label>
 <textarea id="mp-descrizione" name="descrizione" rows="7" maxlength="8000" placeholder="Poche righe chiare bastano" required></textarea>
 <label for="mp-bisogno">Di che cosa ha bisogno <span>facoltativo</span></label>
@@ -564,7 +577,7 @@ def modulo_progetto(da):
 <button type="submit" class="invia">Manda il progetto</button>
 </div>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(FOGLIO), ENTE["email"], sfuggi(testo), sfuggi(versione), privacy)
+</form>""" % (sfuggi(FOGLIO), ENTE["email"], fasi, sfuggi(testo), sfuggi(versione), privacy)
 
 def tavola_img(da, nome, alt, classe="tavola"):
     return '<figure class="%s"><img src="%s" alt="%s"><figcaption>Tavola incisa</figcaption></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), sfuggi(alt))

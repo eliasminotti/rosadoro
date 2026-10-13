@@ -37,6 +37,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   script: una riga «notizie» nella scheda dei Contatti e la stessa email di conferma.
   Solo le notizie della Fondazione: quelle di Orizzonti Celesti si chiedono solo a chi
   dona dalla Svizzera, nel ringraziamento.
+- Due cose vanno da sole, senza la segreteria (Elias, 13.10): chi riceve le notizie si
+  cancella con «Cancellami» (`?cancella=` sulla pagina Contatti; il collegamento di ciascuno
+  è nella colonna «Per cancellarsi», da mettere in fondo a ogni email delle notizie), e chi
+  scrive una dedica riceve un’email con il collegamento per toglierla (`?togli=` sulla pagina
+  del giardino). Le colonne nuove del foglio le aggiunge lo script da sé.
 - L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
   `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 
