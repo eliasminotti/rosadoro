@@ -400,7 +400,7 @@ TESTI["privacy"] = dict(
 <h3>Quando fai una donazione</h3>
 <p>Puoi donare con un bonifico o con PayPal. Con il bonifico ci arrivano i dati che la tua banca trasmette con il pagamento: il nome, il conto da cui parte, l'importo, la data e la causale. Se scegli PayPal, il pagamento avviene sulle pagine di <strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A., Lussemburgo): il nostro sito non vede né conserva i dati della tua carta o del tuo conto, che PayPal tratta come titolare autonomo, secondo la sua <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">informativa</a>. Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e un eventuale messaggio, e l'indirizzo postale se scegli di condividerlo.</p>
 <p>La base giuridica è il rapporto di donazione che scegli di avviare e gli obblighi di legge che ne derivano per la Fondazione, in particolare la tenuta delle scritture contabili e la rendicontazione della raccolta fondi prevista per gli enti del Terzo settore.</p>
-<p>Chi dona dalla Svizzera e vuole dedurre la donazione dalle imposte dona all'<strong>Associazione Orizzonti Celesti</strong>, a Bellinzona: un ente distinto dalla Fondazione, che riceve i tuoi dati, con il bonifico o con PayPal, come titolare autonomo e secondo le sue regole. Orizzonti Celesti comunica alla Fondazione il tuo nome e i recapiti che le hai lasciato, perché possiamo ringraziarti e rendere conto di come è stata usata la donazione: li usiamo solo per questo. Nel ringraziarti ti chiediamo se vuoi ricevere le notizie della Fondazione, di Orizzonti Celesti o di entrambe; se scegli anche Orizzonti Celesti, le comunichiamo la tua scelta. La base giuridica è il nostro legittimo interesse a ringraziare chi sostiene le nostre attività e a rendergliene conto; per le notizie, il tuo consenso.</p>
+<p>Chi dona dalla Svizzera e vuole dedurre la donazione dalle imposte dona all'<strong>Associazione Orizzonti Celesti</strong>, a Bellinzona: un ente distinto dalla Fondazione, che riceve i tuoi dati con il bonifico, come titolare autonomo e secondo le sue regole. Orizzonti Celesti comunica alla Fondazione il tuo nome e i recapiti che le hai lasciato, perché possiamo ringraziarti e rendere conto di come è stata usata la donazione: li usiamo solo per questo. Nel ringraziarti ti chiediamo se vuoi ricevere le notizie della Fondazione, di Orizzonti Celesti o di entrambe; se scegli anche Orizzonti Celesti, le comunichiamo la tua scelta. La base giuridica è il nostro legittimo interesse a ringraziare chi sostiene le nostre attività e a rendergliene conto; per le notizie, il tuo consenso.</p>
 
 <h3>La ricevuta e il codice fiscale</h3>
 <p>Le donazioni alla Fondazione danno diritto a una detrazione o a una deduzione fiscale (art. 83 del Codice del Terzo settore). Per emettere la ricevuta che ti serve, ti chiediamo separatamente il codice fiscale, insieme al nome e all'indirizzo: la ricevuta è un obbligo nostro, non una condizione del pagamento, e per questo il codice fiscale non passa da PayPal. La base giuridica è l'obbligo di legge. Le ricevute e i documenti contabili sono conservati per <strong>dieci anni</strong>, il tempo previsto per le scritture contabili.</p>
@@ -900,8 +900,9 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 # ------------------------------------------------------------ Dona, Partnership, Progetti amici (bozze di Claude del 10.10, riviste da Elias l'11.10)
 # Dona segue la gerarchia decisa a settembre (briefing su Drive, §8): carta e wallet in cima, bonifico in evidenza per
 # gli importi importanti, PayPal per ultimo, nessuna frase sui costi. Stripe non c’è ancora. PayPal secondo i due aggiornamenti
-# dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, per la Svizzera il PayPal.me di Orizzonti
-# Celesti finché il loro «Dona» è bloccato (poi si cambia solo l’indirizzo). Semplici collegamenti, nessuno script PayPal.
+# dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, un semplice collegamento, nessuno
+# script PayPal. Per la Svizzera solo il bonifico a Orizzonti Celesti: il loro PayPal.me non si pubblica finché Elias non
+# chiarisce con PayPal lo stato del conto dell’associazione (Elias, 13.10).
 # I fondi convertibili restano fuori da questa pagina (Elias, 10.10). Chi dona dalla Svizzera passa per Orizzonti Celesti.
 TESTI["dona"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
@@ -927,8 +928,6 @@ TESTI["dona"] = dict(
 <p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
 <p><strong>BIC</strong><br>POFICHBEXXX</p>
 </div>
-<p>Oppure con PayPal, in franchi svizzeri.</p>
-<p><a class="vai" href="https://www.paypal.me/orizzonticelesti" target="_blank" rel="noopener">Dona con PayPal in franchi</a></p>
 <h3>Altri modi di sostenerci</h3>
 <ul class="stelle">
 <li>il <a class="link" href="{→cinque-per-mille}">5 per mille</a>, con una firma nella dichiarazione dei redditi;</li>
