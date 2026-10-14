@@ -44,8 +44,10 @@ I controlli
   Sul sito pubblicato (.github/workflows/controlli.yml): ogni mattina il sito di prova e larosadoro.org rispondono,
   i certificati non stanno per scadere e lo script del foglio risponde; il lunedì e dopo ogni pubblicazione anche
   i collegamenti verso altri siti.
-  Se qualcosa non va, su GitHub si apre la segnalazione «Il sito ha bisogno di un controllo», assegnata a Elias,
-  con il resoconto. Ne resta aperta una sola alla volta.
+  Se qualcosa non va, su GitHub si apre la segnalazione «Problema sul sito della Fondazione», con il resoconto,
+  e l’email arriva subito a Elias (eliasminotti@larosadoro.org). Ne resta aperta una sola alla volta.
+  Ogni mattina una routine di Claude guarda i controlli e, se qualcosa è rosso, prepara la correzione e lo scrive
+  a Elias nel progetto.
 
 Se qualcosa si rompe
   Contenere. Se una versione sbagliata è già online, si torna all’ultima buona annullando la proposta che l’ha portata

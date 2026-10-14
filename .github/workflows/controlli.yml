@@ -5,7 +5,9 @@
 #   lo script del foglio «Contatti della Fondazione» (moduli, notizie, giardino) risponde.
 # - Il lunedì, dopo ogni pubblicazione e a mano: anche i collegamenti verso altri siti.
 # - Se la pubblicazione si ferma (un controllo prima di pubblicare non è passato, oppure né il foglio né il sito
-#   rispondono) o se qui un controllo fallisce, apre una segnalazione (issue) assegnata a Elias, con il resoconto.
+#   rispondono) o se qui un controllo fallisce, apre la segnalazione (issue) «Problema sul sito della Fondazione»,
+#   con il resoconto. È assegnata a Elias e all’account di Claude (eliasminotti-claude): l’email di GitHub
+#   all’account di Claude arriva subito nella casella di Elias, eliasminotti@larosadoro.org.
 #   Una sola alla volta: finché è aperta, i problemi successivi non ne aprono altre.
 # La correzione si propone come sempre e va online solo dopo il sì di Elias.
 name: Controlla il sito
@@ -65,7 +67,7 @@ jobs:
           RESOCONTO: ${{ format('{0}/{1}/actions/runs/{2}', github.server_url, github.repository, github.run_id) }}
           PUBBLICAZIONE: ${{ github.event.workflow_run.html_url }}
         run: |
-          titolo="Il sito ha bisogno di un controllo"
+          titolo="Problema sul sito della Fondazione"
           aperta=$(gh issue list --state open --json number,title --jq ".[] | select(.title == \"$titolo\") | .number")
           if [ -n "$aperta" ]; then echo "La segnalazione #$aperta è già aperta"; exit 0; fi
           {
@@ -78,4 +80,7 @@ jobs:
             echo "Il resoconto di questo controllo: $RESOCONTO"
             if [ -n "$PUBBLICAZIONE" ]; then echo "La pubblicazione da cui è partito: $PUBBLICAZIONE"; fi
           } > corpo.md
-          gh issue create --title "$titolo" --body-file corpo.md --assignee eliasminotti
+          indirizzo=$(gh issue create --title "$titolo" --body-file corpo.md --assignee eliasminotti)
+          echo "Segnalazione aperta: $indirizzo"
+          # l’account di Claude a parte: se GitHub non lo accettasse, la segnalazione resta comunque aperta
+          gh issue edit "${indirizzo##*/}" --add-assignee eliasminotti-claude || echo "Account di Claude non assegnato"

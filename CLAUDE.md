@@ -72,7 +72,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   l'approvazione di Elias.
 - Il sito pubblicato si controlla da solo con `.github/workflows/controlli.yml`
   (ogni mattina e dopo ogni pubblicazione). Quando qualcosa non va, su GitHub si
-  apre la segnalazione «Il sito ha bisogno di un controllo», assegnata a Elias.
+  apre la segnalazione «Problema sul sito della Fondazione», assegnata a Elias e
+  all’account di Claude: l’email arriva subito in eliasminotti@larosadoro.org, e la
+  routine di ogni mattina (7:18) lo scrive a Elias nel thread «Gestione degli errori
+  del sito» con la correzione proposta.
   Una versione sbagliata già online si annulla con un revert della sua proposta;
   revert e correzioni passano dal sì di Elias come tutto il resto. Nessuna
   routine pubblica correzioni da sola (Elias, 14.10).
