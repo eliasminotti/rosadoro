@@ -6,9 +6,12 @@
 # - Il lunedì, dopo ogni pubblicazione e a mano: anche i collegamenti verso altri siti.
 # - Se la pubblicazione si ferma (un controllo prima di pubblicare non è passato, oppure né il foglio né il sito
 #   rispondono) o se qui un controllo fallisce, apre la segnalazione (issue) «Problema sul sito della Fondazione»,
-#   con il resoconto. È assegnata a Elias e all’account di Claude (eliasminotti-claude): l’email di GitHub
-#   all’account di Claude arriva subito nella casella di Elias, eliasminotti@larosadoro.org.
-#   Una sola alla volta: finché è aperta, i problemi successivi non ne aprono altre.
+#   con il resoconto, e sveglia subito la routine di Claude «Sito La Rosa d’Oro: giro del mattino sui controlli»
+#   (ROUTINE qui sotto): Claude lo scrive a Elias nel progetto, e a lui arriva la notifica dell’app sul telefono.
+#   Per svegliarla serve il segreto ROUTINE_TOKEN del repository (il token della routine, che si genera dalla
+#   pagina della routine su claude.ai/code/routines, «API»); senza, Claude lo vede al giro del mattino.
+#   Una segnalazione sola alla volta: finché è aperta, i problemi successivi non ne aprono altre né svegliano Claude.
+# - A mano, con «Avviso di prova»: apre una segnalazione di prova, per vedere che l’avviso arrivi.
 # La correzione si propone come sempre e va online solo dopo il sì di Elias.
 name: Controlla il sito
 
@@ -20,9 +23,17 @@ on:
     workflows: ["Pubblica il sito"]
     types: [completed]
   workflow_dispatch:
+    inputs:
+      prova:
+        description: Avviso di prova (apre una segnalazione e sveglia Claude)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
+
+env:
+  ROUTINE: https://api.anthropic.com/v1/claude_code/routines/trig_01GimrxxKbZ2YPuztqXUbzkj/fire
 
 jobs:
   proposta:
@@ -47,19 +58,25 @@ jobs:
     steps:
       - name: Scarica il repository
         uses: actions/checkout@v4
+      - name: Avviso di prova
+        if: github.event_name == 'workflow_dispatch' && inputs.prova
+        run: |
+          echo "Prova dell’avviso, chiesta a mano: il sito non ha niente che non va." | tee esito.txt
+          exit 1
       - name: Pubblicazione fermata
         if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
         run: |
           echo "La pubblicazione del sito si è fermata: online resta la versione di prima." | tee esito.txt
           exit 1
       - name: Controlla il sito pubblicato
-        if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+        if: (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') && !inputs.prova
         run: |
           set -o pipefail
           collegamenti=""
           if [ "$GITHUB_EVENT_NAME" != "schedule" ] || [ "$(date -u +%u)" = 1 ]; then collegamenti="--collegamenti"; fi
           python3 sorgenti/controlla.py --in-rete $collegamenti | tee esito.txt
       - name: Apre una segnalazione per Elias
+        id: segnalazione
         if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
@@ -82,5 +99,16 @@ jobs:
           } > corpo.md
           indirizzo=$(gh issue create --title "$titolo" --body-file corpo.md --assignee eliasminotti)
           echo "Segnalazione aperta: $indirizzo"
-          # l’account di Claude a parte: se GitHub non lo accettasse, la segnalazione resta comunque aperta
-          gh issue edit "${indirizzo##*/}" --add-assignee eliasminotti-claude || echo "Account di Claude non assegnato"
+          echo "indirizzo=$indirizzo" >> "$GITHUB_OUTPUT"
+      - name: Sveglia Claude, che lo scrive a Elias nell’app
+        if: failure() && steps.segnalazione.outputs.indirizzo
+        env:
+          TOKEN: ${{ secrets.ROUTINE_TOKEN }}
+          SEGNALAZIONE: ${{ steps.segnalazione.outputs.indirizzo }}
+        run: |
+          if [ -z "$TOKEN" ]; then echo "Manca il segreto ROUTINE_TOKEN: Claude lo vedrà al giro del mattino"; exit 0; fi
+          testo="Un controllo del sito non è passato: $SEGNALAZIONE"$'\n\n'"$(tail -n 40 esito.txt 2>/dev/null)"
+          jq -n --arg t "$testo" '{text: $t}' > avviso.json
+          curl --fail-with-body -sS -X POST "$ROUTINE" \
+            -H "Authorization: Bearer $TOKEN" -H "anthropic-version: 2023-06-01" -H "Content-Type: application/json" \
+            --data @avviso.json || echo "Claude non si è svegliato: lo vedrà al giro del mattino"

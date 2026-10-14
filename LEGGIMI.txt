@@ -45,9 +45,10 @@ I controlli
   i certificati non stanno per scadere e lo script del foglio risponde; il lunedì e dopo ogni pubblicazione anche
   i collegamenti verso altri siti.
   Se qualcosa non va, su GitHub si apre la segnalazione «Problema sul sito della Fondazione», con il resoconto,
-  e l’email arriva subito a Elias (eliasminotti@larosadoro.org). Ne resta aperta una sola alla volta.
-  Ogni mattina una routine di Claude guarda i controlli e, se qualcosa è rosso, prepara la correzione e lo scrive
-  a Elias nel progetto.
+  e si sveglia subito la routine di Claude, che lo scrive a Elias nel progetto: a lui arriva la notifica dell’app.
+  Per svegliarla serve il segreto ROUTINE_TOKEN del repository (il token della routine, da claude.ai/code/routines).
+  Ne resta aperta una sola alla volta. La stessa routine fa un giro ogni mattina e prepara la correzione.
+  Per provare l’avviso: su GitHub, Actions › «Controlla il sito» › Run workflow, con «Avviso di prova».
 
 Se qualcosa si rompe
   Contenere. Se una versione sbagliata è già online, si torna all’ultima buona annullando la proposta che l’ha portata
