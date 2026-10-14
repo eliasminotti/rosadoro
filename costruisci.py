@@ -956,6 +956,8 @@ def costruisci():
         if esito.returncode != 0:
             raise SystemExit("ERRORE nel JavaScript (js/sito.js): non pubblicare.\n" + esito.stderr)
         print("JavaScript controllato: nessun errore di sintassi")
+    else:
+        print("ATTENZIONE: manca node, il JavaScript non è controllato (lo controlla comunque la pubblicazione)")
 
 if __name__ == "__main__":
     costruisci()

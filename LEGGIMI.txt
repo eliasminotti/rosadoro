@@ -1,36 +1,55 @@
-FONDAZIONE LA ROSA D'ORO ETS — SITO IN COSTRUZIONE (6 settembre 2026)
+FONDAZIONE LA ROSA D’ORO ETS — IL SITO (aggiornato al 14 ottobre 2026)
 
-Che cosa c'è
-  sito/              la cartella pubblicata così com'è (GitHub Pages; va bene anche per Netlify o Cloudflare Pages)
+Che cosa c’è
+  sito/              la cartella pubblicata così com’è (GitHub Pages)
     index.html       la home
-    */index.html     le altre 47 pagine, una cartella per pagina
-    css/stile.css    l'unico foglio di stile: tutto il sistema visivo è nelle variabili in cima
-    js/sito.js       menu, scrollspy, musica su scelta, finestra della dedica
-    font/            i caratteri ospitati nel sito (Cormorant Garamond, Instrument Sans), licenza OFL
-    img/             le tavole incise, le quattro azioni dei funerali, la favicon
+    */index.html     le altre pagine, una cartella per pagina
+    css/stile.css    l’unico foglio di stile: tutto il sistema visivo è nelle variabili in cima
+    js/sito.js       menu, scrollspy, musica su scelta, moduli, finestra della dedica e giardino
+    font/            i caratteri ospitati nel sito (Cormorant Garamond, Instrument Sans), con le loro licenze OFL
+    img/             le tavole incise, le fotografie, la favicon, l’immagine delle condivisioni
     audio/           il valzer op. 69 n. 1 di Chopin per il fondo di memoria (Luke Faulkner, Musopen, pubblico dominio)
     allegati/        i documenti da scaricare: lo statuto con la carta intestata della Fondazione e il fac-simile delle DAT
-  costruisci.py      l'assemblatore: la mappa del sito, genera tutte le pagine
-  testi_pagine.py    i testi redazionati (la sezione «In memoria» è quella di Dacia)
-  sorgenti/          il sorgente HTML del fac-simile delle DAT; il PDF si rifà con
-                     node sorgenti/stampa-pdf.js sorgenti/DAT-fac-simile.html sito/allegati/DAT-fac-simile.pdf
-                     e foglio-contatti.gs, lo script del foglio Google «Contatti della Fondazione»
-                     che riceve il modulo dei Contatti (si copia nel foglio, da Estensioni → Apps Script),
-                     con il suo manifesto foglio-contatti-appsscript.json (va in appsscript.json);
-                     lo stesso script riceve le dediche del giardino dei ricordi, e giardino.py,
-                     a ogni pubblicazione e ogni ora, porta nel sito quelle spuntate «Nel giardino»;
-                     e i progetti della pagina «Presentaci il tuo progetto», nella scheda «Progetti»;
-                     condivisione.html, l'immagine che compare quando si condivide il sito, si rifà con
-                     node sorgenti/fotografa.js sorgenti/condivisione.html sito/img/condivisione.jpg
-  LEGGIMI.txt        questo file
+  costruisci.py      l’assemblatore: la mappa del sito, menu, testata e piede; scrive tutte le pagine
+  testi_pagine.py    i testi delle pagine (la sezione «In memoria» è quella di Dacia)
+  sorgenti/          ciò che non sta nelle pagine:
+                     controlla.py, i controlli del sito (vedi sotto);
+                     giardino.py, che a ogni pubblicazione e ogni ora porta nel giardino le dediche spuntate nel foglio;
+                     foglio-contatti.gs e foglio-contatti-appsscript.json, lo script del foglio Google «Contatti
+                     della Fondazione» che riceve moduli, notizie, progetti e dediche (lo ripubblica Elias);
+                     DAT-fac-simile.html, il sorgente del PDF delle DAT, che si rifà con
+                     node sorgenti/stampa-pdf.js sorgenti/DAT-fac-simile.html sito/allegati/DAT-fac-simile.pdf;
+                     condivisione.html, l’immagine delle condivisioni, che si rifà con
+                     node sorgenti/fotografa.js sorgenti/condivisione.html sito/img/condivisione.jpg;
+                     qr-svizzera.py, la QR-fattura di Orizzonti Celesti nella pagina Dona
+  CLAUDE.md          le regole del lavoro sul sito
+  REGOLE-DI-QUALITA.txt  i segnali che fanno un sito serio: ogni modifica si confronta con questa lista
 
-Dove si vede
-  https://eliasminotti.github.io/rosadoro/ — indirizzo pubblico di prova, non indicizzato:
-  lo vede solo chi ha il link. Si aggiorna da solo a ogni push sull'archivio GitHub
-  eliasminotti/rosadoro (il workflow .github/workflows/pages.yml pubblica la cartella «sito/»).
-  Doppio clic su sito/index.html: tutti i collegamenti funzionano anche dalla cartella.
+Come si costruisce
+  python3 costruisci.py           riscrive tutte le pagine dentro sito/ e alla fine elenca quelle ancora senza testo
+  python3 sorgenti/controlla.py   gli stessi controlli che la pubblicazione fa prima di mettere online
+  Si cambiano soltanto costruisci.py, testi_pagine.py, css/stile.css e js/sito.js: il resto di sito/ si rigenera.
+  Doppio clic su sito/index.html: il sito si apre anche dalla cartella.
 
-Che cosa manca, per scelta
-  Le fotografie (arcobaleno, bambina, ape…): i posti sono pronti e segnati; servono i file.
-  I testi delle altre sezioni: in corsivo bordeaux ciò che è ancora da scrivere.
-  Le informative privacy e cookie (punto 5 della sequenza).
+Come si pubblica
+  Ogni lavoro si fa su un ramo suo e diventa una proposta (pull request). Quando Elias dice di sì entra nel ramo
+  principale, claude/rosadoro-foundation-site-6hc5hu, e il workflow .github/workflows/pages.yml pubblica sito/ su
+  https://eliasminotti.github.io/rosadoro/ (indirizzo di prova, non indicizzato: lo vede solo chi ha il link).
+  Il dominio larosadoro.org e i collegamenti puliti si accendono il giorno dell’apertura (ANTEPRIMA e LINK_PULITI
+  in costruisci.py), dopo il sì di Elias.
+
+I controlli
+  Prima di pubblicare, a ogni pubblicazione (pages.yml): le pagine corrispondono ai testi, il JavaScript non ha errori,
+  nessun collegamento interno è rotto. Se un controllo non passa non si pubblica niente: online resta la versione di prima.
+  Sul sito pubblicato (.github/workflows/controlli.yml): ogni mattina il sito di prova e larosadoro.org rispondono,
+  i certificati non stanno per scadere e lo script del foglio risponde; il lunedì e dopo ogni pubblicazione anche
+  i collegamenti verso altri siti.
+  Se qualcosa non va, su GitHub si apre la segnalazione «Il sito ha bisogno di un controllo», assegnata a Elias,
+  con il resoconto. Ne resta aperta una sola alla volta.
+
+Se qualcosa si rompe
+  Contenere. Se una versione sbagliata è già online, si torna all’ultima buona annullando la proposta che l’ha portata
+  (su GitHub, il pulsante «Revert» nella pagina della proposta unita). È una proposta come le altre: torna esattamente
+  a una versione che Elias aveva già approvato, e va online quando lui la unisce.
+  Correggere. Claude trova la causa e propone la correzione; va online solo dopo il sì di Elias.
+  Nessuna routine pubblica correzioni da sola.
