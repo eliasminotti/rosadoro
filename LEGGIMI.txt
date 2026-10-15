@@ -1,4 +1,4 @@
-FONDAZIONE LA ROSA D’ORO ETS — IL SITO (aggiornato al 14 ottobre 2026)
+FONDAZIONE LA ROSA D’ORO ETS — IL SITO (aggiornato al 15 ottobre 2026)
 
 Che cosa c’è
   sito/              la cartella pubblicata così com’è (GitHub Pages)
@@ -13,10 +13,12 @@ Che cosa c’è
   costruisci.py      l’assemblatore: la mappa del sito, menu, testata e piede; scrive tutte le pagine
   testi_pagine.py    i testi delle pagine (la sezione «In memoria» è quella di Dacia)
   sorgenti/          ciò che non sta nelle pagine:
-                     controlla.py, i controlli del sito (vedi sotto);
+                     controlla.py, i controlli del sito (vedi sotto), e controlla-foglio.js, che prova
+                     lo script del foglio con un foglio finto, senza toccare quello vero;
                      giardino.py, che a ogni pubblicazione e ogni ora porta nel giardino le dediche spuntate nel foglio;
                      foglio-contatti.gs e foglio-contatti-appsscript.json, lo script del foglio Google «Contatti
-                     della Fondazione» che riceve moduli, notizie, progetti e dediche (lo ripubblica Elias);
+                     della Fondazione» che riceve moduli, notizie (anche da Lux), progetti e dediche
+                     (lo ripubblica Elias);
                      DAT-fac-simile.html, il sorgente del PDF delle DAT, che si rifà con
                      node sorgenti/stampa-pdf.js sorgenti/DAT-fac-simile.html sito/allegati/DAT-fac-simile.pdf;
                      condivisione.html, l’immagine delle condivisioni, che si rifà con
@@ -40,7 +42,8 @@ Come si pubblica
 
 I controlli
   Prima di pubblicare, a ogni pubblicazione (pages.yml): le pagine corrispondono ai testi, il JavaScript non ha errori,
-  nessun collegamento interno è rotto. Se un controllo non passa non si pubblica niente: online resta la versione di prima.
+  nessun collegamento interno è rotto, gli indirizzi che usano altri siti (#notizie per Lux) ci sono, e lo script
+  del foglio fa quello che deve, provato con un foglio finto. Se un controllo non passa non si pubblica niente: online resta la versione di prima.
   Sul sito pubblicato (.github/workflows/controlli.yml): ogni mattina il sito di prova e larosadoro.org rispondono,
   i certificati non stanno per scadere e lo script del foglio risponde; il lunedì e dopo ogni pubblicazione anche
   i collegamenti verso altri siti.

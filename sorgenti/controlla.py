@@ -10,7 +10,9 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - la costruzione: i testi e l'assemblatore ridanno esattamente le pagine di sito/
     (nessuno ha dimenticato «python3 costruisci.py», nessuna pagina è stata cambiata a mano);
   - il JavaScript: nessun errore di sintassi (a settembre uno ha spento menu e dedica per giorni);
-  - i collegamenti interni: ogni pagina, immagine, file e ancora richiamati esiste.
+  - i collegamenti interni: ogni pagina, immagine, file e ancora richiamati esiste;
+  - gli indirizzi del sito che usano altri siti (per esempio Lux) ci sono ancora;
+  - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js).
 
 Sul sito pubblicato (lo fa il workflow .github/workflows/controlli.yml ogni mattina e dopo ogni pubblicazione):
 
@@ -96,7 +98,7 @@ class Pagina(html.parser.HTMLParser):
     """raccoglie da una pagina gli id (le ancore) e gli indirizzi richiamati"""
     def __init__(self):
         super().__init__(convert_charrefs=True)
-        self.ancore, self.indirizzi = set(), []
+        self.ancore, self.ids, self.indirizzi = set(), set(), []
 
     def handle_starttag(self, tag, attributi):
         for nome, valore in attributi:
@@ -104,12 +106,19 @@ class Pagina(html.parser.HTMLParser):
                 continue
             if nome in ("id", "name"):
                 self.ancore.add(valore)
+                if nome == "id":
+                    self.ids.add(valore)
             elif nome in ("href", "src", "poster", "data-audio") or (nome == "action" and tag == "form") \
                     or (nome == "content" and tag == "meta" and valore.startswith("http")):
                 self.indirizzi.append(valore.strip())
             elif nome == "srcset":
                 self.indirizzi += [parte.strip().split()[0] for parte in valore.split(",") if parte.strip()]
 
+
+# gli indirizzi di questo sito che altri siti usano: una pagina che cambia non li deve rompere
+DA_FUORI = (
+    ("index.html", "notizie", "la pagina «Perché donare» di Lux, per il riquadro «Le notizie della Fondazione»"),
+)
 
 ESTERNO = re.compile(r"^(https?:|mailto:|tel:|javascript:|data:|//)", re.I)
 
@@ -167,6 +176,26 @@ def controlla_collegamenti_interni(pagine):
     for r in rotti:
         problemi.append("Collegamento interno rotto: " + r)
     print("Collegamenti interni: %d controllati, %d rotti" % (contati, len(rotti)))
+
+
+def controlla_indirizzi_da_fuori(pagine):
+    for rel, ancora, chi in DA_FUORI:
+        p = pagine.get(rel)
+        if p is None or ancora not in p.ids:      # da un altro sito il browser cerca l’id, non il name di un campo
+            problemi.append("Manca l’indirizzo %s#%s, che usa %s" % (rel, ancora, chi))
+    print("Indirizzi usati da altri siti: %d controllati" % len(DA_FUORI))
+
+
+def controlla_script_del_foglio():
+    if not shutil.which("node"):
+        problemi.append("Manca node: lo script del foglio non si può controllare")
+        return
+    esito = subprocess.run(["node", os.path.join(RADICE, "sorgenti", "controlla-foglio.js")], capture_output=True, text=True)
+    uscita = (esito.stdout + esito.stderr).strip()
+    if esito.returncode != 0:
+        problemi.append("Lo script del foglio non fa quello che deve (node sorgenti/controlla-foglio.js):\n" + uscita[-2500:])
+    else:
+        print(uscita.splitlines()[-1])
 
 
 # --------------------------------------------------------------------------
@@ -255,7 +284,10 @@ def main():
     else:
         controlla_costruzione()
         controlla_javascript()
-        controlla_collegamenti_interni(leggi_pagine())
+        pagine = leggi_pagine()
+        controlla_collegamenti_interni(pagine)
+        controlla_indirizzi_da_fuori(pagine)
+        controlla_script_del_foglio()
     for a in avvisi:
         print("Da guardare: " + a)
     if problemi:

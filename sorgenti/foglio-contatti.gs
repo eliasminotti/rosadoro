@@ -20,6 +20,9 @@
  * una riga nella scheda dei Contatti, con la richiesta «notizie», e la stessa
  * email di conferma. Chi presenta un progetto può chiedere le notizie con una
  * casella, come nei Contatti.
+ * E riceve le iscrizioni di chi dona a Lux e spunta la casella delle notizie: le manda il server di Lux,
+ * solo dopo che il pagamento è confermato, firmate con il segreto SEGRETO_LUX (nelle proprietà dello
+ * script e in Vercel). Diventano righe «notizie» con Fonte «LUX», con la stessa email di conferma.
  * Due cose vanno da sole, senza passare dalla segreteria:
  *   - chi riceve le notizie si cancella con il collegamento «Cancellami» (è
  *     nell’email di conferma, e nella colonna «Per cancellarsi», da mettere in
@@ -47,6 +50,7 @@ var SITI = ['https://larosadoro.org/', 'https://eliasminotti.github.io/rosadoro/
                                                   // a cui portano i collegamenti di conferma; il primo vale se il modulo non dice da dove arriva
 var FUSO = 'Europe/Rome';
 var GIORNI_CONFERMA = 30;                         // per quanti giorni vale il collegamento di conferma
+var MINUTI_LUX = 10;                              // per quanti minuti vale la firma di una richiesta di Lux
 
 // i nomi delle colonne, come sono scritti nella prima riga del foglio
 var C = {
@@ -94,6 +98,7 @@ function doPost(e) {
     if (p.tipo === 'dedica') return riceviDedica(p, conJs);
     if (p.tipo === 'progetto') return riceviProgetto(p, conJs);
     if (p.tipo === 'notizie') return riceviIscrizione(p, conJs);
+    if (p.tipo === 'lux') return riceviDaLux(p);
     var nome = pulisci(p.nome, MASSIMO.nome);
     var email = pulisci(p.email, MASSIMO.email).toLowerCase();
     var oggetto = pulisci(p.oggetto, MASSIMO.oggetto);
@@ -128,7 +133,7 @@ function doPost(e) {
     return rispondi(conJs, { success: true, conferma: conferma });
   } catch (errore) {
     console.error(errore);
-    return rispondi(conJs, { success: false });
+    return rispondi(conJs || p.tipo === 'lux', { success: false });   // al server di Lux sempre in JSON
   }
 }
 
@@ -481,7 +486,7 @@ function riceviIscrizione(p, conJs) {
 function iscriviAlleNotizie(m) {
   var riga = {};
   riga[C.arrivato] = new Date();
-  riga[C.fonte] = 'Sito';
+  riga[C.fonte] = m.fonte || 'Sito';
   riga[C.pagina] = m.pagina ? testo(m.pagina) : '';
   riga[C.richiesta] = 'notizie';
   riga[C.nome] = m.nome ? testo(m.nome) : '';
@@ -494,6 +499,36 @@ function iscriviAlleNotizie(m) {
   scriviRiga(riga);
 }
 
+/* l’iscrizione di chi dona a Lux e spunta la casella delle notizie. Il server di Lux la manda solo dopo che
+   il pagamento è confermato, con l’email, la versione del consenso, l’ora in secondi («quando») e la firma:
+   HMAC-SHA256 di «lux|email|quando|consenso» con il segreto SEGRETO_LUX, in base64url senza «=». Lux non manda
+   il nome né i dati del pagamento. Poi è un’iscrizione come quelle del sito: stessa email di conferma, stesso
+   «Cancellami». Risponde sempre in JSON */
+function riceviDaLux(p) {
+  var email = pulisci(p.email, MASSIMO.email).toLowerCase();
+  var versione = pulisci(p.consenso, MASSIMO.versione);
+  var sito = SITI.indexOf(p._sito) >= 0 ? p._sito : SITI[0];      // _sito solo per le prove prima dell’apertura
+  if (!firmaDiLux(email, String(p.quando || ''), versione, String(p.firma || ''))) return rispondi(true, { success: false, error: 'firma' });
+  if (!EMAIL.test(email)) return rispondi(true, { success: false, error: 'email' });
+  iscriviAlleNotizie({ fonte: 'LUX', nome: '', email: email, pagina: 'lux.larosadoro.org', versione: versione, sito: sito });
+  var conferma = chiediConferma(email, sito, 'lux');
+  return rispondi(true, { success: true, conferma: conferma });
+}
+
+/* la firma vale se viene dal segreto di Lux, se è di non più di MINUTI_LUX fa e se non è già stata usata */
+function firmaDiLux(email, quando, versione, firmaArrivata) {
+  var chiave = PropertiesService.getScriptProperties().getProperty('SEGRETO_LUX');
+  if (!chiave || !firmaArrivata || !/^\d{9,11}$/.test(quando)) return false;
+  if (Math.abs(Date.now() / 1000 - Number(quando)) > MINUTI_LUX * 60) return false;
+  var giusta = base64url(Utilities.computeHmacSha256Signature(['lux', email, quando, versione].join('|'), chiave, Utilities.Charset.UTF_8));
+  if (giusta !== firmaArrivata) return false;
+  var memoria = CacheService.getScriptCache();
+  var usata = 'lux-' + firmaArrivata;
+  if (memoria.get(usata)) return false;
+  memoria.put(usata, '1', 2 * MINUTI_LUX * 60 + 60);   // oltre il tempo in cui la firma vale: non torna buona
+  return true;
+}
+
 
 /* ---- 5. la conferma dell’indirizzo per le notizie, e la cancellazione ---- */
 
@@ -501,7 +536,8 @@ function iscriviAlleNotizie(m) {
 var PERCHE = {
   contatto: ['ci hai scritto dal sito della Fondazione La Rosa d’Oro e hai chiesto', 'Al messaggio che ci hai scritto rispondiamo comunque di persona.'],
   progetto: ['ci hai presentato un progetto dal sito della Fondazione La Rosa d’Oro e hai chiesto', 'Al progetto rispondiamo comunque di persona.'],
-  iscrizione: ['dal sito della Fondazione La Rosa d’Oro hai chiesto', '']
+  iscrizione: ['dal sito della Fondazione La Rosa d’Oro hai chiesto', ''],
+  lux: ['donando a Lux, il progetto della Fondazione La Rosa d’Oro per un uso consapevole del digitale, hai chiesto', '']
 };
 
 function chiediConferma(email, sito, motivo) {
@@ -642,6 +678,20 @@ function prepara() {
   titoliCon(schedaDediche(), D);
   titoliCon(scheda(SCHEDA_PROGETTI, P), P);
   console.log('Tutto pronto: ora si pubblica come App web.');
+}
+
+/* il segreto che lo script condivide con il server di Lux: la prima volta lo crea e lo mette nelle proprietà
+   dello script (SEGRETO_LUX), poi lo scrive nel registro dell’esecuzione, da dove Elias lo copia in Vercel.
+   Non va mai in chat né nel repository. Rieseguita, mostra lo stesso segreto; per cambiarlo, si cancella
+   SEGRETO_LUX in Impostazioni progetto → Proprietà script, si riesegue e si aggiorna Vercel */
+function segretoPerLux() {
+  var prop = PropertiesService.getScriptProperties();
+  var s = prop.getProperty('SEGRETO_LUX');
+  if (!s) {
+    s = (Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, '');
+    prop.setProperty('SEGRETO_LUX', s);
+  }
+  console.log('Il segreto per Lux, da copiare in Vercel: ' + s);
 }
 
 
