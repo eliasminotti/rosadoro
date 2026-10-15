@@ -17,6 +17,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   sono gli stessi controlli che la pubblicazione fa prima di mettere online (pagine
   uguali ai testi, JavaScript senza errori, collegamenti interni). Se uno non passa,
   non si pubblica: `pages.yml` si ferma e online resta la versione di prima.
+- Le parti che fanno qualcosa (moduli, giardino dei ricordi, «Cancellami» e «togli la
+  dedica», script del foglio) si cambiano con il controllo prima (Elias, 15.10): si
+  scrive il controllo che dice che cosa deve succedere, si vede che fallisce, solo dopo
+  si cambia il codice e si vede che passa. Il controllo resta e gira con gli altri in
+  `python3 sorgenti/controlla.py`. I testi no: il loro controllo è il sì di Elias.
 - La costruzione aggiorna da sola le date in `sito/sitemap.xml`. Le pagine che
   mostrano ancora un segnaposto restano fuori dalla mappa e chiedono ai motori
   di non indicizzarle; la costruzione le elenca alla fine.
