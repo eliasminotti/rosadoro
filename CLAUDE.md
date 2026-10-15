@@ -13,8 +13,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
 - `sito/css/stile.css` e `sito/js/sito.js` si modificano direttamente: la
   costruzione li lascia stare. Tutto il resto di `sito/` è generato: non si
   tocca a mano, si cambia `costruisci.py` o `testi_pagine.py` e si ricostruisce.
-- Dopo ogni modifica: `python3 costruisci.py`. Controlla anche il JavaScript
-  con `node --check`; se segnala un errore, non si pubblica.
+- Dopo ogni modifica: `python3 costruisci.py`, poi `python3 sorgenti/controlla.py`:
+  sono gli stessi controlli che la pubblicazione fa prima di mettere online (pagine
+  uguali ai testi, JavaScript senza errori, collegamenti interni). Se uno non passa,
+  non si pubblica: `pages.yml` si ferma e online resta la versione di prima.
 - La costruzione aggiorna da sola le date in `sito/sitemap.xml`. Le pagine che
   mostrano ancora un segnaposto restano fuori dalla mappa e chiedono ai motori
   di non indicizzarle; la costruzione le elenca alla fine.
@@ -68,6 +70,16 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   prova, non indicizzato), con `.github/workflows/pages.yml`.
 - Ogni lavoro si fa su un ramo suo e arriva sul ramo principale solo dopo
   l'approvazione di Elias.
+- Il sito pubblicato si controlla da solo con `.github/workflows/controlli.yml`
+  (ogni mattina e dopo ogni pubblicazione). Quando qualcosa non va, su GitHub si
+  apre la segnalazione «Problema sul sito della Fondazione» e sveglia subito la routine
+  di Claude (segreto `ROUTINE_TOKEN`), che lo scrive a Elias nel thread «Gestione degli
+  errori del sito» con un messaggio che comincia con «⚠️ Attenzione»: Elias vuole
+  la notifica dell’app sul telefono, non le email di GitHub (14.10). La stessa routine
+  fa un giro ogni mattina alle 7:18 e prepara la correzione.
+  Una versione sbagliata già online si annulla con un revert della sua proposta;
+  revert e correzioni passano dal sì di Elias come tutto il resto. Nessuna
+  routine pubblica correzioni da sola (Elias, 14.10).
 - I messaggi di commit sono in italiano: una frase che dice che cosa cambia
   per chi guarda il sito.
 
