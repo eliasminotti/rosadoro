@@ -350,11 +350,12 @@ def barra(da):
 def riquadro_notizie(da):
     """il riquadro «Le notizie della Fondazione» in fondo a ogni pagina: basta l'email, poi la stessa email
     di conferma dei Contatti. Il testo è quello della casella delle notizie, con la sua versione.
-    Senza FOGLIO non c'è: le notizie si chiedono dai Contatti."""
+    Senza FOGLIO non c'è: le notizie si chiedono dai Contatti. L'àncora #notizie la usa Lux, dalla pagina
+    «Perché donare» (https://larosadoro.org/#notizie): non si cambia (la controlla sorgenti/controlla.py)."""
     if not FOGLIO:
         return ""
     versione, testo = CONSENSO_NOTIZIE
-    return """    <div class="pie-notizie">
+    return """    <div class="pie-notizie" id="notizie">
       <div><h4>Le notizie della Fondazione</h4><p>%s</p></div>
       <form class="modulo" id="modulo-notizie" action="%s" method="post" data-indirizzo="%s">
         <div class="campi">

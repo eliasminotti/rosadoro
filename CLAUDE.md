@@ -15,7 +15,8 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   tocca a mano, si cambia `costruisci.py` o `testi_pagine.py` e si ricostruisce.
 - Dopo ogni modifica: `python3 costruisci.py`, poi `python3 sorgenti/controlla.py`:
   sono gli stessi controlli che la pubblicazione fa prima di mettere online (pagine
-  uguali ai testi, JavaScript senza errori, collegamenti interni). Se uno non passa,
+  uguali ai testi, JavaScript senza errori, collegamenti interni, lo script del foglio provato
+  con un foglio finto da `sorgenti/controlla-foglio.js`). Se uno non passa,
   non si pubblica: `pages.yml` si ferma e online resta la versione di prima.
 - Le parti che fanno qualcosa (moduli, giardino dei ricordi, «Cancellami» e «togli la
   dedica», script del foglio) si cambiano con il controllo prima (Elias, 15.10): si
@@ -37,6 +38,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   «Dediche» del foglio. Entrano nel giardino quando Elias o Dacia spuntano la
   casella «Nel giardino»: ogni ora la pubblicazione (`sorgenti/giardino.py`)
   le scrive in `dediche.json` accanto alla pagina. Non stanno nel repository.
+- Chi dona a Lux e spunta la casella delle notizie arriva allo stesso script dal server di Lux
+  (`tipo=lux`, solo dopo il pagamento, firmato con il segreto `SEGRETO_LUX` che Elias mette nelle
+  proprietà dello script e in Vercel, mai in chat): riga «notizie» con Fonte «LUX», stessa email di
+  conferma, stesso «Cancellami». Lux porta al riquadro delle notizie con `https://larosadoro.org/#notizie`:
+  l’àncora `#notizie` non si cambia (la controlla `controlla.py`).
 - Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
   «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
 - Il riquadro «Le notizie della Fondazione» in fondo a ogni pagina (`riquadro_notizie`
