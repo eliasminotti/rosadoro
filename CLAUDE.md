@@ -23,6 +23,9 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   scrive il controllo che dice che cosa deve succedere, si vede che fallisce, solo dopo
   si cambia il codice e si vede che passa. Il controllo resta e gira con gli altri in
   `python3 sorgenti/controlla.py`. I testi no: il loro controllo è il sì di Elias.
+  Dove vanno: lo script del foglio in `sorgenti/controlla-foglio.js`, `giardino.py` in
+  `sorgenti/controlla-giardino.py`, i moduli di `sito.js` in `sorgenti/controlla-moduli.js`
+  (in un browser, con Playwright: gira nel cantiere, su GitHub si salta).
 - La costruzione aggiorna da sola le date in `sito/sitemap.xml`. Le pagine che
   mostrano ancora un segnaposto restano fuori dalla mappa e chiedono ai motori
   di non indicizzarle; la costruzione le elenca alla fine.

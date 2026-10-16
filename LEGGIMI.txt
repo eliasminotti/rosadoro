@@ -1,4 +1,4 @@
-FONDAZIONE LA ROSA D’ORO ETS — IL SITO (aggiornato al 15 ottobre 2026)
+FONDAZIONE LA ROSA D’ORO ETS — IL SITO (aggiornato al 17 ottobre 2026)
 
 Che cosa c’è
   sito/              la cartella pubblicata così com’è (GitHub Pages)
@@ -15,6 +15,8 @@ Che cosa c’è
   sorgenti/          ciò che non sta nelle pagine:
                      controlla.py, i controlli del sito (vedi sotto), e controlla-foglio.js, che prova
                      lo script del foglio con un foglio finto, senza toccare quello vero;
+                     controlla-giardino.py, che prova giardino.py con un foglio e un sito finti;
+                     controlla-moduli.js, che prova i moduli delle pagine in un browser (con Playwright);
                      giardino.py, che a ogni pubblicazione e ogni ora porta nel giardino le dediche spuntate nel foglio;
                      foglio-contatti.gs e foglio-contatti-appsscript.json, lo script del foglio Google «Contatti
                      della Fondazione» che riceve moduli, notizie (anche da Lux), progetti e dediche
@@ -43,7 +45,10 @@ Come si pubblica
 I controlli
   Prima di pubblicare, a ogni pubblicazione (pages.yml): le pagine corrispondono ai testi, il JavaScript non ha errori,
   nessun collegamento interno è rotto, gli indirizzi che usano altri siti (#notizie per Lux) ci sono, e lo script
-  del foglio fa quello che deve, provato con un foglio finto. Se un controllo non passa non si pubblica niente: online resta la versione di prima.
+  del foglio fa quello che deve, provato con un foglio finto, e giardino.py porta nel giardino le dediche giuste.
+  Se un controllo non passa non si pubblica niente: online resta la versione di prima.
+  I moduli delle pagine (Contatti, notizie, progetti, dedica, «Confermo», «Cancellami», «Togli la dedica») si provano
+  in un browser solo dove c’è Playwright, cioè nel cantiere di Claude prima di ogni modifica; su GitHub si saltano.
   Sul sito pubblicato (.github/workflows/controlli.yml): ogni mattina il sito di prova e larosadoro.org rispondono,
   i certificati non stanno per scadere e lo script del foglio risponde; il lunedì e dopo ogni pubblicazione anche
   i collegamenti verso altri siti.
