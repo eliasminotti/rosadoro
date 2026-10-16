@@ -128,6 +128,27 @@ def _():
         assert dedica_pulita(scritta) == "Ti vogliamo bene", (scritta, dedica_pulita(scritta))
 
 
+@controllo("anche tra apici, con un apostrofo dentro, le virgolette intorno si tolgono")
+def _():
+    for scritta, attesa in (("'Sei sempre nel nostro cuore, l'amore non finisce'", "Sei sempre nel nostro cuore, l’amore non finisce"),
+                            ("'Un po' di te resta con noi'", "Un po’ di te resta con noi"),
+                            ("‘Ti amo, l’amore resta’", "Ti amo, l’amore resta"),
+                            ("«Ti pensiamo, “coraggio” diceva»", "Ti pensiamo, “coraggio” diceva")):
+        assert dedica_pulita(scritta) == attesa, (scritta, dedica_pulita(scritta))
+
+
+@controllo("una virgoletta sola, rimasta all’inizio o in fondo, si toglie")
+def _():
+    for scritta in ('Ti pensiamo"', '"Ti pensiamo', "Ti pensiamo»", "«Ti pensiamo"):
+        assert dedica_pulita(scritta) == "Ti pensiamo", (scritta, dedica_pulita(scritta))
+
+
+@controllo("una parola tra apici dentro la dedica non diventa mezza dritta e mezza curva")
+def _():
+    d = dedica_pulita("Diceva sempre 'coraggio' a tutti")
+    assert d == "Diceva sempre 'coraggio' a tutti", d
+
+
 @controllo("una dedica che finisce con una citazione tiene le sue virgolette")
 def _():
     for scritta in ('Come diceva lei: "sempre avanti"', "Come diceva lei: «sempre avanti»"):
