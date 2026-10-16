@@ -37,7 +37,9 @@ def leggi(url):
 
 def tipografia(t):
     """l'apostrofo ’ e le virgolette «» del sito anche nelle parole di chi scrive"""
-    t = re.sub(r"(?<=\w)'", "’", t)            # anche in fondo alla parola: «un po’»
+    t = re.sub(r"(?<=\w)'(?=\w)", "’", t)
+    if not re.search(r"(?<!\w)'", t):             # se non c’è una parola tra apici, anche in fondo: «un po’»
+        t = re.sub(r"(?<=\w)'", "’", t)
     if t.count('"') % 2 == 0:
         aperte = [False]
         def virgoletta(m):
@@ -47,16 +49,21 @@ def tipografia(t):
     return t
 
 
-VIRGOLETTE = (('"', '"', '"«»“”'), ("«", "»", '"«»“”'), ("“", "”", '"«»“”'), ("'", "'", "'‘’"), ("‘", "’", "'‘’"))
+# le coppie di virgolette che possono stare intorno a tutta la dedica e, per ciascuna, quelle che dentro
+# dicono che c’è un’altra citazione: un apostrofo dopo una lettera (l’amore, un po’) non conta
+VIRGOLETTE = (('"', '"', r'"'), ("«", "»", r"[«»]"), ("“", "”", r"[“”]"),
+              ("'", "'", r"‘|(?<!\w)['’]"), ("‘", "’", r"‘|(?<!\w)['’]"))
+DOPPIE = '"«»“”'
 
 
 def senza_virgolette_intorno(t):
-    """toglie le virgolette messe intorno a tutta la dedica, perché la pagina mette le sue «»;
-    lascia quelle di una citazione dentro la dedica, anche se è in fondo"""
-    for aperta, chiusa, famiglia in VIRGOLETTE:
-        dentro = t[1:-1]
-        if len(t) >= 2 and t[0] == aperta and t[-1] == chiusa and not any(c in dentro for c in famiglia):
-            return dentro.strip()
+    """toglie le virgolette messe intorno a tutta la dedica, perché la pagina mette le sue «», e una virgoletta
+    sola rimasta all’inizio o in fondo; lascia quelle di una citazione dentro la dedica, anche se è in fondo"""
+    for aperta, chiusa, altre in VIRGOLETTE:
+        if len(t) >= 2 and t[0] == aperta and t[-1] == chiusa and not re.search(altre, t[1:-1]):
+            return t[1:-1].strip()
+    if t and sum(t.count(c) for c in DOPPIE) == 1 and (t[0] in DOPPIE or t[-1] in DOPPIE):
+        return t.strip(DOPPIE).strip()
     return t
 
 

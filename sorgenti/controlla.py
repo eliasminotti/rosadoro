@@ -207,7 +207,7 @@ def controlla_giardino():
     if esito.returncode != 0:
         problemi.append("Le dediche del giardino non vanno come devono (python3 sorgenti/controlla-giardino.py):\n" + uscita[-2500:])
     else:
-        print(uscita.splitlines()[-1])
+        print((uscita.splitlines() or ["(nessuna risposta)"])[-1])
 
 
 def controlla_moduli():
@@ -224,7 +224,7 @@ def controlla_moduli():
     if esito.returncode != 0:
         problemi.append("I moduli delle pagine non fanno quello che devono (node sorgenti/controlla-moduli.js):\n" + uscita[-2500:])
     else:
-        print(uscita.splitlines()[-1])
+        print((uscita.splitlines() or ["(nessuna risposta)"])[-1])
 
 
 # --------------------------------------------------------------------------
