@@ -37,13 +37,26 @@ def leggi(url):
 
 def tipografia(t):
     """l'apostrofo ’ e le virgolette «» del sito anche nelle parole di chi scrive"""
-    t = re.sub(r"(?<=\w)'(?=\w)", "’", t)
+    t = re.sub(r"(?<=\w)'", "’", t)            # anche in fondo alla parola: «un po’»
     if t.count('"') % 2 == 0:
         aperte = [False]
         def virgoletta(m):
             aperte[0] = not aperte[0]
             return "«" if aperte[0] else "»"
         t = re.sub(r'"', virgoletta, t)
+    return t
+
+
+VIRGOLETTE = (('"', '"', '"«»“”'), ("«", "»", '"«»“”'), ("“", "”", '"«»“”'), ("'", "'", "'‘’"), ("‘", "’", "'‘’"))
+
+
+def senza_virgolette_intorno(t):
+    """toglie le virgolette messe intorno a tutta la dedica, perché la pagina mette le sue «»;
+    lascia quelle di una citazione dentro la dedica, anche se è in fondo"""
+    for aperta, chiusa, famiglia in VIRGOLETTE:
+        dentro = t[1:-1]
+        if len(t) >= 2 and t[0] == aperta and t[-1] == chiusa and not any(c in dentro for c in famiglia):
+            return dentro.strip()
     return t
 
 
@@ -55,7 +68,7 @@ def pulite(dediche):
         nome = str(d.get("nome") or "").strip()[:MASSIMO["nome"]]
         if not nome:
             continue
-        dedica = str(d.get("dedica") or "").strip()[:MASSIMO["dedica"]].strip(" \"'«»“”")
+        dedica = senza_virgolette_intorno(str(d.get("dedica") or "").strip()[:MASSIMO["dedica"]].strip())
         immagine = str(d.get("immagine") or "").strip()[:MASSIMO["immagine"]]
         uscita.append({"nome": tipografia(nome), "dedica": tipografia(dedica), "immagine": immagine})
     return uscita
