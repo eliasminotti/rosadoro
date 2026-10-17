@@ -1,0 +1,333 @@
+/*
+ * I controlli dei moduli nelle pagine (sito/js/sito.js)
+ * -----------------------------------------------------
+ * Apre le pagine di sito/ in un browser vero (Chromium, con Playwright), compila i moduli come farebbe
+ * una persona e guarda che cosa parte verso lo script del foglio e che cosa compare nella pagina.
+ * Le pagine si aprono dalla cartella, sotto un indirizzo finto; lo script del foglio è finto anche lui:
+ * non parte niente verso Google né verso altri siti. Lo fa girare sorgenti/controlla.py, con gli altri
+ * controlli; da solo:
+ *
+ *     node sorgenti/controlla-moduli.js
+ *
+ * Dove Playwright non c’è (per esempio su GitHub, dove la pubblicazione non installa niente) i controlli
+ * si saltano e lo dice; girano nel cantiere di Claude, prima di ogni modifica di sito.js.
+ *
+ * Ogni controllo dice che cosa deve succedere. Si scrive prima di cambiare sito.js, si vede fallire,
+ * e solo dopo si cambia sito.js (CLAUDE.md, Elias 15.10).
+ */
+'use strict';
+const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
+
+let playwright = null;
+for (const dove of ['playwright', '/opt/node22/lib/node_modules/playwright']) {
+  try { playwright = require(dove); break; } catch (e) { /* si prova il prossimo */ }
+}
+
+const SITO = path.join(__dirname, '..', 'sito');
+const ORIGINE = 'https://sito.prova/';              // l’indirizzo finto da cui si aprono le pagine di sito/
+const FOGLIO = 'https://script.google.com/';        // lo script del foglio (FOGLIO in costruisci.py)
+const CONSENSO = 'v1 ottobre 2026';
+const SEGRETERIA = 'segreteria@larosadoro.org';
+const TIPI = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2',
+  '.ico': 'image/x-icon', '.mp3': 'audio/mpeg', '.pdf': 'application/pdf' };
+
+
+/* ---- il browser, il sito dalla cartella e lo script del foglio finto ---- */
+
+let browser;
+
+/* i campi di un modulo mandato con FormData (multipart/form-data) */
+function campiDi(richiesta) {
+  const tipo = richiesta.headers()['content-type'] || '';
+  const confine = (tipo.match(/boundary=(.+)$/) || [])[1];
+  const corpo = richiesta.postDataBuffer();
+  if (!confine || !corpo) return {};
+  const campi = {};
+  for (const parte of corpo.toString('utf8').split('--' + confine)) {
+    const nome = (parte.match(/name="([^"]*)"/) || [])[1];
+    if (nome === undefined) continue;
+    campi[nome] = parte.slice(parte.indexOf('\r\n\r\n') + 4).replace(/\r\n$/, '');
+  }
+  return campi;
+}
+
+/* apre una pagina del sito. foglio(richiesta) dice che cosa risponde lo script: un oggetto (diventa JSON)
+   oppure null, e allora la richiesta non arriva (rete giù). dediche: il contenuto di dediche.json */
+async function apri(percorso, { foglio = () => ({ success: true }), dediche = null, referer } = {}) {
+  const contesto = await browser.newContext();
+  const allo = [], fuori = [], avvisi = [];
+  await contesto.route('**/*', async route => {
+    const richiesta = route.request();
+    const indirizzo = richiesta.url();
+    if (indirizzo.startsWith(FOGLIO)) {
+      const inviato = { metodo: richiesta.method(), indirizzo, campi: richiesta.method() === 'POST' ? campiDi(richiesta) : {} };
+      allo.push(inviato);
+      const risposta = foglio(inviato);
+      if (risposta === null) return route.abort();
+      return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(risposta) });
+    }
+    if (!indirizzo.startsWith(ORIGINE)) {
+      fuori.push(indirizzo);
+      return route.abort();
+    }
+    let rel = decodeURIComponent(new URL(indirizzo).pathname).replace(/^\//, '');
+    if (rel === '' || rel.endsWith('/')) rel += 'index.html';
+    if (rel.endsWith('dediche.json')) {
+      return dediche === null ? route.fulfill({ status: 404, body: '' })
+        : route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(dediche) });
+    }
+    const file = path.join(SITO, rel);
+    if (!file.startsWith(SITO) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) return route.fulfill({ status: 404, body: '' });
+    return route.fulfill({ status: 200, contentType: TIPI[path.extname(file)] || 'application/octet-stream', body: fs.readFileSync(file) });
+  });
+  const page = await contesto.newPage();
+  page.on('dialog', d => { avvisi.push(d.message()); d.dismiss(); });
+  const errori = [];
+  page.on('pageerror', e => errori.push(String(e)));
+  await page.goto(ORIGINE + percorso, referer ? { referer } : {});
+  return { page, allo, fuori, avvisi, errori, chiudi: () => contesto.close() };
+}
+
+async function esitoDi(page, dove) {
+  const esito = page.locator(dove + ' .esito');
+  await esito.waitFor({ state: 'visible', timeout: 5000 });
+  return (await esito.textContent()).replace(/\s+/g, ' ').trim();
+}
+
+
+/* ---- i controlli ---- */
+
+const controlli = [];
+function controllo(descrizione, prova) { controlli.push({ descrizione, prova }); }
+
+controllo('il modulo dei Contatti manda allo script i campi giusti, con la pagina da cui si arriva, e dice grazie', async () => {
+  const p = await apri('contatti/index.html', { foglio: () => ({ success: true, conferma: true }), referer: ORIGINE + 'lasciti/index.html' });
+  try {
+    await p.page.fill('#mc-nome', 'Carla Rossi');
+    await p.page.fill('#mc-posta', 'carla@example.org');
+    await p.page.fill('#mc-oggetto', 'lascito');
+    await p.page.fill('#mc-messaggio', 'Vorrei sapere come funziona.');
+    await p.page.check('#mc-notizie');
+    await p.page.click('#modulo-contatti .invia');
+    const esito = await esitoDi(p.page, '#modulo-contatti');
+    assert.strictEqual(p.allo.length, 1, 'richieste allo script: ' + p.allo.length);
+    const c = p.allo[0].campi;
+    assert.strictEqual(p.allo[0].metodo, 'POST');
+    assert.deepStrictEqual([c.nome, c.email, c.oggetto, c.messaggio, c.notizie, c.consenso, c.pagina, c._sito, c._js, c._gotcha],
+      ['Carla Rossi', 'carla@example.org', 'lascito', 'Vorrei sapere come funziona.', 'si', CONSENSO, 'lasciti', ORIGINE, '1', '']);
+    assert.ok(!('tipo' in c), 'il modulo dei Contatti non ha «tipo»');
+    assert.ok(esito.startsWith('Grazie, il tuo messaggio è arrivato.') && esito.includes('tocca «Confermo»'), esito);
+    assert.ok(await p.page.locator('#modulo-contatti .campi').isHidden(), 'i campi dovevano sparire');
+  } finally { await p.chiudi(); }
+});
+
+controllo('se lo script dice che l’email non va, i Contatti lo dicono e lasciano il messaggio dov’è', async () => {
+  const p = await apri('contatti/index.html', { foglio: () => ({ success: false, error: 'email' }) });
+  try {
+    await p.page.fill('#mc-nome', 'Carla');
+    await p.page.fill('#mc-posta', 'carla@example.org');
+    await p.page.fill('#mc-messaggio', 'Un messaggio');
+    await p.page.click('#modulo-contatti .invia');
+    assert.strictEqual(await esitoDi(p.page, '#modulo-contatti'), 'Controlla la tua email: l’indirizzo non sembra completo.');
+    assert.strictEqual(await p.page.inputValue('#mc-messaggio'), 'Un messaggio');
+    assert.ok(await p.page.locator('#modulo-contatti .campi').isVisible());
+    assert.strictEqual((await p.page.textContent('#modulo-contatti .invia')).trim(), 'Scrivici');
+  } finally { await p.chiudi(); }
+});
+
+controllo('se lo script non risponde, i Contatti danno l’indirizzo di posta', async () => {
+  const p = await apri('contatti/index.html', { foglio: () => null });
+  try {
+    await p.page.fill('#mc-nome', 'Carla');
+    await p.page.fill('#mc-posta', 'carla@example.org');
+    await p.page.fill('#mc-messaggio', 'Un messaggio');
+    await p.page.click('#modulo-contatti .invia');
+    const esito = await esitoDi(p.page, '#modulo-contatti');
+    assert.strictEqual(esito, 'Il messaggio non è partito. Riprova tra poco, oppure scrivici a ' + SEGRETERIA + '.');
+    assert.strictEqual(await p.page.getAttribute('#modulo-contatti .esito a', 'href'), 'mailto:' + SEGRETERIA);
+  } finally { await p.chiudi(); }
+});
+
+controllo('il riquadro delle notizie manda l’email con la pagina in cui si trova e chiede di confermare', async () => {
+  for (const [percorso, pagina] of [['index.html', 'home'], ['lasciti/index.html', 'lasciti']]) {
+    const p = await apri(percorso, { foglio: () => ({ success: true, conferma: true, iscrizione: true }) });
+    try {
+      await p.page.fill('#mn-posta', 'lettore@example.org');
+      await p.page.click('#modulo-notizie .invia');
+      const esito = await esitoDi(p.page, '#modulo-notizie');
+      const c = p.allo[0].campi;
+      assert.deepStrictEqual([c.tipo, c.notizie, c.email, c.consenso, c.pagina, c._sito, c._js],
+        ['notizie', 'si', 'lettore@example.org', CONSENSO, pagina, ORIGINE, '1'], percorso);
+      assert.strictEqual(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.');
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('il modulo «Presentaci il tuo progetto» manda i campi giusti e dice grazie', async () => {
+  const p = await apri('progetti/presenta-il-tuo-progetto/index.html', { foglio: () => ({ success: true, progetto: true, conferma: false }) });
+  try {
+    await p.page.fill('#mp-progetto', 'Orto in comune');
+    await p.page.check('#mp-fase-2');
+    await p.page.fill('#mp-descrizione', 'Un orto per il quartiere.');
+    await p.page.fill('#mp-bisogno', 'Un terreno');
+    await p.page.fill('#mp-nome', 'Paolo');
+    await p.page.fill('#mp-ente', 'Associazione del quartiere');
+    await p.page.fill('#mp-posta', 'paolo@example.org');
+    await p.page.click('#modulo-progetto .invia');
+    const esito = await esitoDi(p.page, '#modulo-progetto');
+    const c = p.allo[0].campi;
+    assert.deepStrictEqual([c.tipo, c.progetto, c.fase, c.descrizione, c.bisogno, c.documento, c.nome, c.ente, c.email, c.consenso, c._sito, c._js],
+      ['progetto', 'Orto in comune', 'Un progetto in corso di realizzazione', 'Un orto per il quartiere.', 'Un terreno', '',
+       'Paolo', 'Associazione del quartiere', 'paolo@example.org', CONSENSO, ORIGINE, '1']);
+    assert.ok(!('notizie' in c), 'la casella delle notizie non era spuntata');
+    assert.strictEqual(esito, 'Grazie, il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.');
+  } finally { await p.chiudi(); }
+});
+
+const GIARDINO = 'in-memoria/giardino-dei-ricordi/index.html';
+
+async function scegliImmagine(page) {
+  const bottone = page.locator('.pianta button[data-foto]').first();
+  const foto = await bottone.getAttribute('data-foto');
+  await bottone.click();
+  await page.locator('#velo-dedica').waitFor({ state: 'visible' });
+  return foto;
+}
+
+controllo('la dedica manda l’immagine scelta, il nome da ricordare e chi scrive, e dice grazie', async () => {
+  const p = await apri(GIARDINO, { foglio: () => ({ success: true, dedica: true, ricevuta: true }) });
+  try {
+    const foto = await scegliImmagine(p.page);
+    await p.page.fill('#dedica-nome', 'Nonna Lina');
+    await p.page.fill('#dedica-testo', 'Ti pensiamo ogni giorno');
+    await p.page.fill('#dedica-mittente', 'Carla');
+    await p.page.fill('#dedica-posta', 'carla@example.org');
+    await p.page.check('#dedica-consenso');
+    await p.page.click('#modulo-dedica .invia');
+    const esito = await esitoDi(p.page, '#modulo-dedica');
+    const c = p.allo[0].campi;
+    assert.deepStrictEqual([c.tipo, c.ricordo, c.dedica, c.immagine, c.nome, c.email, c.consenso, c._sito, c._js],
+      ['dedica', 'Nonna Lina', 'Ti pensiamo ogni giorno', foto, 'Carla', 'carla@example.org', 'si', ORIGINE, '1']);
+    assert.ok(esito.startsWith('Grazie. La dedica per Nonna Lina è arrivata') && esito.includes('collegamento per toglierla'), esito);
+  } finally { await p.chiudi(); }
+});
+
+controllo('senza il consenso alla pubblicazione la dedica non parte, e la casella si segna', async () => {
+  const p = await apri(GIARDINO);
+  try {
+    await scegliImmagine(p.page);
+    await p.page.fill('#dedica-nome', 'Nonna Lina');
+    await p.page.fill('#dedica-mittente', 'Carla');
+    await p.page.fill('#dedica-posta', 'carla@example.org');
+    await p.page.click('#modulo-dedica .invia');
+    await p.page.waitForTimeout(300);
+    assert.strictEqual(p.allo.length, 0, 'la dedica è partita senza consenso');
+    const riga = p.page.locator('#dedica-consenso').locator('xpath=..');
+    assert.ok((await riga.getAttribute('class') || '').includes('manca'), 'la casella del consenso non è segnata');
+  } finally { await p.chiudi(); }
+});
+
+controllo('il giardino mostra i nomi di dediche.json con la loro immagine, e li scrive come testo', async () => {
+  const p = await apri(GIARDINO, { dediche: { versione: 'x', dediche: [] } });
+  const foto = await p.page.locator('.pianta button[data-foto]').first().getAttribute('data-foto');
+  await p.chiudi();
+  const strano = '<img src=x onerror=alert(1)>';
+  const q = await apri(GIARDINO, { dediche: { versione: 'x', dediche: [
+    { nome: 'Nonna Lina', dedica: 'Ti pensiamo', immagine: foto },
+    { nome: strano, dedica: '<b>ciao</b>', immagine: 'nessuna' }] } });
+  try {
+    await q.page.locator('#nel-giardino').waitFor({ state: 'visible', timeout: 5000 });
+    const figure = q.page.locator('#nel-giardino .dedica');
+    assert.strictEqual(await figure.count(), 2);
+    assert.strictEqual(await figure.nth(0).locator('strong').textContent(), 'Nonna Lina');
+    assert.strictEqual(await figure.nth(0).locator('figcaption span').textContent(), '«Ti pensiamo»');
+    assert.strictEqual(await figure.nth(0).locator('img').count(), 1, 'manca l’immagine scelta');
+    assert.strictEqual(await figure.nth(1).locator('strong').textContent(), strano);
+    assert.strictEqual(await figure.nth(1).locator('img, b').count(), 0, 'una dedica è diventata codice della pagina');
+    assert.deepStrictEqual(q.avvisi, []);
+  } finally { await q.chiudi(); }
+});
+
+controllo('senza dediche il giardino non mostra la sezione dei nomi', async () => {
+  for (const dediche of [{ versione: 'x', dediche: [] }, null]) {
+    const p = await apri(GIARDINO, { dediche });
+    try {
+      await p.page.waitForTimeout(300);
+      assert.ok(await p.page.locator('#nel-giardino').isHidden(), JSON.stringify(dediche));
+    } finally { await p.chiudi(); }
+  }
+});
+
+for (const [percorso, parametro, riquadro, testo] of [
+  ['contatti/index.html', 'conferma', '#conferma-notizie', 'Grazie, il tuo indirizzo è confermato.'],
+  ['contatti/index.html', 'cancella', '#cancella-notizie', 'Fatto: non ti manderemo più le notizie.'],
+  [GIARDINO, 'togli', '#togli-dedica', 'Fatto: la dedica esce dal giardino entro un’ora.']]) {
+  controllo('con ?' + parametro + '= la pagina mostra il riquadro e chiede allo script solo quando si tocca il pulsante', async () => {
+    const p = await apri(percorso + '?' + parametro + '=abc123.firma_-9', { foglio: () => ({ success: true, testo }) });
+    try {
+      await p.page.locator(riquadro).waitFor({ state: 'visible', timeout: 5000 });
+      await p.page.waitForTimeout(300);
+      assert.strictEqual(p.allo.length, 0, 'lo script è stato chiamato prima del tocco: un programma che controlla la posta lo farebbe al posto della persona');
+      await p.page.click(riquadro + ' .invia');
+      assert.strictEqual(await esitoDi(p.page, riquadro), testo);
+      assert.strictEqual(p.allo.length, 1);
+      assert.strictEqual(p.allo[0].metodo, 'GET');
+      assert.strictEqual(new URL(p.allo[0].indirizzo).searchParams.get(parametro), 'abc123.firma_-9');
+      assert.ok(await p.page.locator(riquadro + ' .invia').isHidden(), 'fatto, il pulsante doveva sparire');
+    } finally { await p.chiudi(); }
+  });
+}
+
+controllo('senza ?conferma=, ?cancella= o ?togli= i riquadri restano nascosti', async () => {
+  for (const [percorso, riquadri] of [['contatti/index.html', ['#conferma-notizie', '#cancella-notizie']], [GIARDINO, ['#togli-dedica']]]) {
+    const p = await apri(percorso);
+    try {
+      for (const r of riquadri) assert.ok(await p.page.locator(r).isHidden(), r);
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('aprendo le pagine con i moduli nessuna richiesta esce dal sito, e il JavaScript non dà errori', async () => {
+  for (const percorso of ['index.html', 'contatti/index.html', GIARDINO, 'progetti/presenta-il-tuo-progetto/index.html', 'dona/index.html']) {
+    const p = await apri(percorso, { dediche: { versione: 'x', dediche: [] } });
+    try {
+      await p.page.waitForLoadState('networkidle');
+      assert.deepStrictEqual(p.fuori, [], percorso + ': richieste fuori dal sito');
+      assert.deepStrictEqual(p.allo, [], percorso + ': lo script del foglio chiamato senza che nessuno abbia scritto');
+      assert.deepStrictEqual(p.errori, [], percorso + ': errori del JavaScript');
+    } finally { await p.chiudi(); }
+  }
+});
+
+
+/* ---- si parte ---- */
+
+(async () => {
+  if (!playwright) {
+    console.log('Moduli nel browser: saltati, qui non c’è Playwright (girano nel cantiere di Claude)');
+    return;
+  }
+  try {
+    browser = await playwright.chromium.launch();
+  } catch (e) {
+    console.log('Moduli nel browser: saltati, Chromium non si apre (' + String(e.message || e).split('\n')[0].slice(0, 120) + ')');
+    return;
+  }
+  let falliti = 0;
+  for (const { descrizione, prova } of controlli) {
+    try {
+      await prova();
+      console.log('  ok  ' + descrizione);
+    } catch (e) {
+      falliti++;
+      console.log('  NO  ' + descrizione + '\n        ' + String(e.message || e).split('\n')[0].slice(0, 300));
+    }
+  }
+  await browser.close();
+  console.log(falliti ? '%d controlli dei moduli su %d non passano' : 'Moduli nel browser: %d controlli passati su %d',
+              falliti || controlli.length, controlli.length);
+  process.exitCode = falliti ? 1 : 0;
+})();

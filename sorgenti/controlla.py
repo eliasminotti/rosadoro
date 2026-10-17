@@ -12,7 +12,10 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - il JavaScript: nessun errore di sintassi (a settembre uno ha spento menu e dedica per giorni);
   - i collegamenti interni: ogni pagina, immagine, file e ancora richiamati esiste;
   - gli indirizzi del sito che usano altri siti (per esempio Lux) ci sono ancora;
-  - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js).
+  - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js);
+  - giardino.py porta nel giardino le dediche giuste, provato con un foglio e un sito finti (sorgenti/controlla-giardino.py);
+  - i moduli delle pagine mandano allo script quello che devono e rispondono bene, provati in un browser
+    (sorgenti/controlla-moduli.js: solo dove c’è Playwright, cioè nel cantiere di Claude; altrove si salta).
 
 Sul sito pubblicato (lo fa il workflow .github/workflows/controlli.yml ogni mattina e dopo ogni pubblicazione):
 
@@ -198,6 +201,32 @@ def controlla_script_del_foglio():
         print(uscita.splitlines()[-1])
 
 
+def controlla_giardino():
+    esito = subprocess.run([sys.executable, os.path.join(RADICE, "sorgenti", "controlla-giardino.py")], capture_output=True, text=True)
+    uscita = (esito.stdout + esito.stderr).strip()
+    if esito.returncode != 0:
+        problemi.append("Le dediche del giardino non vanno come devono (python3 sorgenti/controlla-giardino.py):\n" + uscita[-2500:])
+    else:
+        print((uscita.splitlines() or ["(nessuna risposta)"])[-1])
+
+
+def controlla_moduli():
+    if not shutil.which("node"):
+        problemi.append("Manca node: i moduli delle pagine non si possono controllare")
+        return
+    try:
+        esito = subprocess.run(["node", os.path.join(RADICE, "sorgenti", "controlla-moduli.js")],
+                               capture_output=True, text=True, timeout=300)
+    except subprocess.TimeoutExpired:
+        problemi.append("I controlli dei moduli nel browser non finiscono (node sorgenti/controlla-moduli.js)")
+        return
+    uscita = (esito.stdout + esito.stderr).strip()
+    if esito.returncode != 0:
+        problemi.append("I moduli delle pagine non fanno quello che devono (node sorgenti/controlla-moduli.js):\n" + uscita[-2500:])
+    else:
+        print((uscita.splitlines() or ["(nessuna risposta)"])[-1])
+
+
 # --------------------------------------------------------------------------
 # sul sito pubblicato
 # --------------------------------------------------------------------------
@@ -288,6 +317,8 @@ def main():
         controlla_collegamenti_interni(pagine)
         controlla_indirizzi_da_fuori(pagine)
         controlla_script_del_foglio()
+        controlla_giardino()
+        controlla_moduli()
     for a in avvisi:
         print("Da guardare: " + a)
     if problemi:
