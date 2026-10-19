@@ -44,7 +44,8 @@ Come si pubblica
 
 I controlli
   Prima di pubblicare, a ogni pubblicazione (pages.yml): le pagine corrispondono ai testi, il JavaScript non ha errori,
-  nessun collegamento interno è rotto, gli indirizzi che usano altri siti (#notizie per Lux) ci sono, e lo script
+  nessun collegamento interno è rotto, gli indirizzi che usano altri siti (#notizie per Lux) ci sono, nella pagina
+  Dona la carta con Stripe viene per prima con un link di pagamento vero e non di prova, e lo script
   del foglio fa quello che deve, provato con un foglio finto, e giardino.py porta nel giardino le dediche giuste.
   Se un controllo non passa non si pubblica niente: online resta la versione di prima.
   I moduli delle pagine (Contatti, notizie, progetti, dedica, «Confermo», «Cancellami», «Togli la dedica») si provano
