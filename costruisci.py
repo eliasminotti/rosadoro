@@ -40,7 +40,7 @@ USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 LUX = "https://lux.larosadoro.org/"       # il sito di Lux: la voce «Lux» in alto a sinistra e nel menu del telefono (Elias, 11.10).
                                           # Vuoto: la voce sparisce, per esempio se all'apertura del sito al pubblico
                                           # le donazioni di Lux non sono ancora aperte.
-STRIPE = ""                               # il Payment Link di Stripe per «Dona con la carta» (https://buy.stripe.com/…), che Elias crea
+STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link di Stripe per «Dona con la carta» (https://donate.stripe.com/…, con il pulsante «Dona»), che Elias crea
                                           # nel pannello Stripe della Fondazione, lo stesso conto di Lux. La carta è il primo modo
                                           # di donare (Elias, 19.10). La costruzione aggiunge ?locale=it&client_reference_id=sito-dona:
                                           # la pagina di Stripe in italiano, e nel conto le donazioni del sito separate da quelle di Lux.

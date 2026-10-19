@@ -190,8 +190,10 @@ def controlla_indirizzi_da_fuori(pagine):
     print("Indirizzi usati da altri siti: %d controllati" % len(DA_FUORI))
 
 
-# un Payment Link di Stripe che incassa davvero: quelli di prova cominciano con «test_»
-STRIPE_VIVO = re.compile(r"^https://buy\.stripe\.com/[A-Za-z0-9]+$")
+# un Payment Link di Stripe che incassa davvero: quelli di prova cominciano con «test_»; con il pulsante «Dona»
+# l'indirizzo comincia con donate.stripe.com invece di buy.stripe.com
+STRIPE_VIVO = re.compile(r"^https://(buy|donate)\.stripe\.com/[A-Za-z0-9]+$")
+VERSO_STRIPE = re.compile(r"^https://(buy|donate)\.stripe\.com/")
 
 
 def controlla_stripe(pagine):
@@ -199,7 +201,7 @@ def controlla_stripe(pagine):
     «sito-dona», perché il conto Stripe è lo stesso di Lux e le donazioni del sito non devono confondersi con le sue.
     Senza STRIPE nessuna pagina porta a Stripe."""
     stripe = impostazione("STRIPE")
-    verso_stripe = [(rel, i) for rel, p in sorted(pagine.items()) for i in p.indirizzi if "buy.stripe.com" in i]
+    verso_stripe = [(rel, i) for rel, p in sorted(pagine.items()) for i in p.indirizzi if VERSO_STRIPE.match(i)]
     if not stripe:
         for rel, i in verso_stripe:
             problemi.append("STRIPE in costruisci.py è vuoto, ma %s porta a un pagamento di Stripe: %s" % (rel, i))
@@ -208,8 +210,8 @@ def controlla_stripe(pagine):
         return
     prima = len(problemi)
     if not STRIPE_VIVO.match(stripe):
-        problemi.append("STRIPE in costruisci.py non è un Payment Link vero (https://buy.stripe.com/…, senza «test_» "
-                        "e senza «?»): %s" % stripe)
+        problemi.append("STRIPE in costruisci.py non è un Payment Link vero (https://donate.stripe.com/… o buy.stripe.com/…, "
+                        "senza «test_» e senza «?»): %s" % stripe)
     atteso = stripe + "?locale=it&client_reference_id=sito-dona"
     for rel, i in verso_stripe:
         if i != atteso:
