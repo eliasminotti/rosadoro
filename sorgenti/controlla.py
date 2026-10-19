@@ -13,6 +13,7 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - i collegamenti interni: ogni pagina, immagine, file e ancora richiamati esiste;
   - gli indirizzi del sito che usano altri siti (per esempio Lux) ci sono ancora;
   - nella pagina Dona la carta (Stripe) viene per prima, con un Payment Link vero e non di prova;
+  - la partita IVA è in ogni pagina, home compresa: nel piede «C.F. e P.IVA …» e nella scheda per i motori di ricerca (vatID);
   - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js);
   - giardino.py porta nel giardino le dediche giuste, provato con un foglio e un sito finti (sorgenti/controlla-giardino.py);
   - i moduli delle pagine mandano allo script quello che devono e rispondono bene, provati in un browser
@@ -228,6 +229,27 @@ def controlla_stripe(pagine):
         print("Stripe: la carta è il primo modo di donare, con il Payment Link vero")
 
 
+def controlla_partita_iva(pagine):
+    """La partita IVA della Fondazione sta in ogni pagina, home compresa: l'art. 35 c.1 del DPR 633/1972 (dal 1.1.2027 l'art. 68 c.1
+    del testo unico IVA, D.Lgs. 10/2026) vuole il numero «nella home-page dell'eventuale sito web». È lo stesso numero del codice
+    fiscale (CF_PIVA in costruisci.py): nel piede si legge «C.F. e P.IVA …» e nella scheda per i motori di ricerca c'è vatID."""
+    numero = impostazione("CF_PIVA")
+    piede = "C.F. e P.IVA %s" % numero
+    vat = '"vatID": "IT%s"' % numero
+    prima = len(problemi)
+    if "index.html" not in pagine:
+        problemi.append("Manca la home (index.html): è lì che la legge vuole la partita IVA")
+    for rel in sorted(pagine, key=lambda r: (r != "index.html", r)):     # la home per prima
+        testo = open(os.path.join(SITO, rel), encoding="utf-8").read()
+        dove = "La home" if rel == "index.html" else rel
+        if piede not in testo:
+            problemi.append("%s non indica la partita IVA nel piede: manca «%s»" % (dove, piede))
+        if vat not in testo:
+            problemi.append("%s non ha la partita IVA nella scheda per i motori di ricerca: manca %s" % (dove, vat))
+    if len(problemi) == prima:
+        print("Partita IVA: %s in ogni pagina, home compresa" % numero)
+
+
 def controlla_script_del_foglio():
     if not shutil.which("node"):
         problemi.append("Manca node: lo script del foglio non si può controllare")
@@ -356,6 +378,7 @@ def main():
         controlla_collegamenti_interni(pagine)
         controlla_indirizzi_da_fuori(pagine)
         controlla_stripe(pagine)
+        controlla_partita_iva(pagine)
         controlla_script_del_foglio()
         controlla_giardino()
         controlla_moduli()
