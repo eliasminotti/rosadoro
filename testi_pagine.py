@@ -905,7 +905,8 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 # Dona segue la gerarchia decisa a settembre (briefing su Drive, §8): carta e wallet in cima, bonifico in evidenza per
 # gli importi importanti, PayPal per ultimo, nessuna frase sui costi. La carta con Stripe in cima, come in Lux (Elias, 19.10):
 # un Payment Link a importo libero, una tantum, nello stesso conto Stripe di Lux; c’è solo se STRIPE in costruisci.py è pieno
-# ({se-stripe}…{/se-stripe}). Il mensile resta su PayPal, perché a importo libero Stripe non lo permette. PayPal secondo i due aggiornamenti
+# ({se-stripe}…{/se-stripe}). Il mensile resta su PayPal, perché a importo libero Stripe non lo permette: la sezione
+# della carta lo dice e rimanda a PayPal (Elias, 19.10). PayPal secondo i due aggiornamenti
 # dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, un semplice collegamento, nessuno
 # script PayPal. Per la Svizzera solo il bonifico a Orizzonti Celesti: il loro PayPal.me non si pubblica finché Elias non
 # chiarisce con PayPal lo stato del conto dell’associazione (Elias, 13.10).
@@ -918,6 +919,7 @@ TESTI["dona"] = dict(
 {se-stripe}<h3>Con la carta</h3>
 <p>Puoi donare con la carta di credito o di debito, anche con Apple Pay o Google Pay, e la cifra la scegli tu. Il pagamento si fa sulla pagina di Stripe, dove puoi indicare un ambito o la persona che vuoi ricordare. I dati della carta non passano dal nostro sito.</p>
 <p><a class="vai" href="{stripe}" target="_blank" rel="noopener">Dona con la carta</a></p>
+<p>Con la carta doni una volta. Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, puoi farlo con PayPal, più in basso.</p>
 {/se-stripe}<h3>Con un bonifico</h3>
 <p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.</p>
 <div class="coordinate">
