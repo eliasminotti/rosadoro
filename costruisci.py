@@ -46,12 +46,18 @@ STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link 
                                           # la pagina di Stripe in italiano, e nel conto le donazioni del sito separate da quelle di Lux.
                                           # Vuoto: la carta sparisce dalla pagina Dona, e restano il bonifico e PayPal.
 
+CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
+                                          # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
+                                          # (art. 35 c.1 DPR 633/1972; dal 1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026):
+                                          # nel piede di ogni pagina e come vatID nella scheda per i motori di ricerca.
+
 ENTE = {
     "nome": "Fondazione La Rosa d'Oro ETS",
     "breve": "La Rosa d'Oro",
     "forma": "Ente del Terzo Settore",
     "sede": "Via Bianca di Savoia 17, 20122 Milano",
-    "cf": "C.F. 14629350969",
+    "cf": "C.F. " + CF_PIVA,
+    "cfpiva": "C.F. e P.IVA " + CF_PIVA,      # nel piede di ogni pagina: la partita IVA va nella home (vedi CF_PIVA)
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
@@ -400,7 +406,7 @@ def footer(da):
     </div>
   </div>
 </footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], sfuggi(ENTE["sede"]), riquadro_notizie(da),
-                sfuggi(ENTE["nome"]), sfuggi(ENTE["forma"]), sfuggi(ENTE["cf"]), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]), legali)
+                sfuggi(ENTE["nome"]), sfuggi(ENTE["forma"]), sfuggi(ENTE["cfpiva"]), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]), legali)
 
 # --------------------------------------------------------------------------
 # le hero
@@ -690,7 +696,7 @@ def corpo_chi_siamo(da, p):
     <dl class="fatti">
       <div><dt>Denominazione</dt><dd>%s</dd></div>
       <div><dt>Sede</dt><dd>%s</dd></div>
-      <div><dt>Codice fiscale</dt><dd>%s</dd></div>
+      <div><dt>Codice fiscale e partita IVA</dt><dd>%s</dd></div>
       <div><dt>Iscrizione</dt><dd>%s</dd></div>
       <div><dt>Costituzione</dt><dd>%s, rep. 8190 / racc. 4764, Notaio F. Franco</dd></div>
       <div><dt>Presidente</dt><dd>Dr.ssa Dacia Dalla Libera</dd></div>
@@ -707,7 +713,7 @@ def fatti_chi_siamo(da):
     return """
       <div><dt>Denominazione</dt><dd>%s</dd></div>
       <div><dt>Sede</dt><dd>%s</dd></div>
-      <div><dt>Codice fiscale</dt><dd>%s</dd></div>
+      <div><dt>Codice fiscale e partita IVA</dt><dd>%s</dd></div>
       <div><dt>Iscrizione</dt><dd>%s</dd></div>
       <div><dt>Costituzione</dt><dd>%s, rep. 8190 / racc. 4764, Notaio F. Franco</dd></div>
       <div><dt>Presidente</dt><dd>Dr.ssa Dacia Dalla Libera</dd></div>
@@ -897,7 +903,7 @@ DATI_STRUTTURATI = json.dumps({
     "@context": "https://schema.org", "@type": "NGO",
     "name": ENTE["nome"], "legalName": ENTE["nome"], "alternateName": [ENTE["breve"], "Fondazione La Rosa d'Oro"],
     "url": DOMINIO + "/", "logo": DOMINIO + "/img/logo.jpg",
-    "email": ENTE["email"], "foundingDate": "2026-02-26", "taxID": ENTE["cf"].replace("C.F. ", ""),
+    "email": ENTE["email"], "foundingDate": "2026-02-26", "taxID": CF_PIVA, "vatID": "IT" + CF_PIVA,
     "address": {"@type": "PostalAddress", "streetAddress": "Via Bianca di Savoia 17", "postalCode": "20122", "addressLocality": "Milano", "addressCountry": "IT"},
     "identifier": {"@type": "PropertyValue", "propertyID": "RUNTS", "value": ENTE["runts"]},
     "areaServed": "IT", "description": DESCRIZIONI[""],

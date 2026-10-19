@@ -50,6 +50,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   `STRIPE` in `costruisci.py` è il Payment Link a importo libero che Elias crea nel pannello Stripe della
   Fondazione, lo stesso conto di Lux; la costruzione aggiunge `?locale=it&client_reference_id=sito-dona`, che
   separa le donazioni del sito da quelle di Lux. Vuoto, la carta sparisce da Dona (`{se-stripe}…{/se-stripe}`).
+- La partita IVA della Fondazione è lo stesso numero del codice fiscale (`CF_PIVA` in `costruisci.py`; Agenzia delle
+  Entrate, verifica del 19.10.2026: attiva, inizio attività 28.2.2026). Va nella home (art. 35 c.1 DPR 633/1972; dal
+  1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026): la costruzione la scrive nel piede di ogni pagina
+  («C.F. e P.IVA …») e come `vatID` nella scheda per i motori di ricerca, e `controlla.py` lo verifica su ogni pagina.
+  Dove il numero serve solo come codice fiscale (5 per mille, lasciti, ricerca nel RUNTS) resta «codice fiscale».
 - Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
   «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
 - Il riquadro «Le notizie della Fondazione» in fondo a ogni pagina (`riquadro_notizie`

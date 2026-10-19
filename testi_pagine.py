@@ -378,7 +378,7 @@ TESTI["privacy"] = dict(
 <p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, ne chiedi le notizie, dedichi un ricordo, ci presenti un progetto, ci mandi la tua candidatura o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
 
 <h3>Chi è il titolare</h3>
-<p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
+<p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale e partita IVA 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
 
 <h3>Quando visiti il sito</h3>
 <p>Il sito è fatto di sole pagine statiche. Non usa cookie, né strumenti di analisi del traffico, né contenuti incorporati da terzi, e non salva nulla nel tuo browser. I caratteri tipografici sono ospitati sui nostri stessi server. L'unico dato raccolto automaticamente è nei registri tecnici del servizio che ospita le pagine, GitHub Pages: GitHub registra l'indirizzo IP di chi visita il sito per proteggere il servizio da abusi, e lo tratta come titolare autonomo, secondo la sua <a class="link" href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">informativa</a>. La Fondazione non vede questi registri. Ne parla anche l'<a class="link" href="{→cookie}">informativa sui cookie</a>.</p>
@@ -843,7 +843,7 @@ TESTI["contatti"] = dict(
 <h3>La sede legale</h3>
 <p>Fondazione La Rosa d’Oro ETS<br>
 Via Bianca di Savoia 17, 20122 Milano<br>
-Codice fiscale 14629350969</p>
+Codice fiscale e partita IVA 14629350969</p>
 <p>È la sede legale della Fondazione, non un ufficio aperto al pubblico: per incontrarci, scrivici.</p>
 """)
 
