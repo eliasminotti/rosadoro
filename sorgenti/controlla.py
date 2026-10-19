@@ -12,6 +12,7 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - il JavaScript: nessun errore di sintassi (a settembre uno ha spento menu e dedica per giorni);
   - i collegamenti interni: ogni pagina, immagine, file e ancora richiamati esiste;
   - gli indirizzi del sito che usano altri siti (per esempio Lux) ci sono ancora;
+  - nella pagina Dona la carta (Stripe) viene per prima, con un Payment Link vero e non di prova;
   - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js);
   - giardino.py porta nel giardino le dediche giuste, provato con un foglio e un sito finti (sorgenti/controlla-giardino.py);
   - i moduli delle pagine mandano allo script quello che devono e rispondono bene, provati in un browser
@@ -189,6 +190,44 @@ def controlla_indirizzi_da_fuori(pagine):
     print("Indirizzi usati da altri siti: %d controllati" % len(DA_FUORI))
 
 
+# un Payment Link di Stripe che incassa davvero: quelli di prova cominciano con «test_»; con il pulsante «Dona»
+# l'indirizzo comincia con donate.stripe.com invece di buy.stripe.com
+STRIPE_VIVO = re.compile(r"^https://(buy|donate)\.stripe\.com/[A-Za-z0-9]+$")
+VERSO_STRIPE = re.compile(r"^https://(buy|donate)\.stripe\.com/")
+
+
+def controlla_stripe(pagine):
+    """Dona: con STRIPE la carta è il primo modo di donare (Elias, 19.10), con un Payment Link vero, in italiano e segnato
+    «sito-dona», perché il conto Stripe è lo stesso di Lux e le donazioni del sito non devono confondersi con le sue.
+    Senza STRIPE nessuna pagina porta a Stripe."""
+    stripe = impostazione("STRIPE")
+    verso_stripe = [(rel, i) for rel, p in sorted(pagine.items()) for i in p.indirizzi if VERSO_STRIPE.match(i)]
+    if not stripe:
+        for rel, i in verso_stripe:
+            problemi.append("STRIPE in costruisci.py è vuoto, ma %s porta a un pagamento di Stripe: %s" % (rel, i))
+        if not verso_stripe:
+            print("Stripe: spento, nessuna pagina porta a un suo pagamento")
+        return
+    prima = len(problemi)
+    if not STRIPE_VIVO.match(stripe):
+        problemi.append("STRIPE in costruisci.py non è un Payment Link vero (https://donate.stripe.com/… o buy.stripe.com/…, "
+                        "senza «test_» e senza «?»): %s" % stripe)
+    atteso = stripe + "?locale=it&client_reference_id=sito-dona"
+    for rel, i in verso_stripe:
+        if i != atteso:
+            problemi.append("%s porta a Stripe con un indirizzo diverso da quello di STRIPE: %s" % (rel, i))
+    dona = os.path.join(SITO, "dona", "index.html")
+    testo = open(dona, encoding="utf-8").read() if os.path.isfile(dona) else ""
+    dove = testo.find('href="%s"' % atteso.replace("&", "&amp;"))
+    altri = [testo.find(segno) for segno in ("<h3>Con un bonifico</h3>", "paypal.com") if segno in testo]
+    if dove < 0:
+        problemi.append("Nella pagina Dona manca il pulsante «Dona con la carta» verso %s" % atteso)
+    elif altri and dove > min(altri):
+        problemi.append("Nella pagina Dona la carta non è il primo modo di donare: viene dopo il bonifico o PayPal")
+    if len(problemi) == prima:
+        print("Stripe: la carta è il primo modo di donare, con il Payment Link vero")
+
+
 def controlla_script_del_foglio():
     if not shutil.which("node"):
         problemi.append("Manca node: lo script del foglio non si può controllare")
@@ -316,6 +355,7 @@ def main():
         pagine = leggi_pagine()
         controlla_collegamenti_interni(pagine)
         controlla_indirizzi_da_fuori(pagine)
+        controlla_stripe(pagine)
         controlla_script_del_foglio()
         controlla_giardino()
         controlla_moduli()

@@ -46,6 +46,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   proprietà dello script e in Vercel, mai in chat): riga «notizie» con Fonte «LUX», stessa email di
   conferma, stesso «Cancellami». Lux porta al riquadro delle notizie con `https://larosadoro.org/#notizie`:
   l’àncora `#notizie` non si cambia (la controlla `controlla.py`).
+- Nella pagina Dona la carta con Stripe è il primo modo di donare, poi bonifico e PayPal (Elias, 19.10).
+  `STRIPE` in `costruisci.py` è il Payment Link a importo libero che Elias crea nel pannello Stripe della
+  Fondazione, lo stesso conto di Lux; la costruzione aggiunge `?locale=it&client_reference_id=sito-dona`, che
+  separa le donazioni del sito da quelle di Lux. Vuoto, la carta sparisce da Dona (`{se-stripe}…{/se-stripe}`).
 - Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
   «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
 - Il riquadro «Le notizie della Fondazione» in fondo a ogni pagina (`riquadro_notizie`

@@ -399,12 +399,13 @@ TESTI["privacy"] = dict(
 <p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi togliere la tua dedica in ogni momento, dal collegamento che ti mandiamo per email. Per togliere quella di un tuo caro scritta da altri, scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
 
 <h3>Quando fai una donazione</h3>
-<p>Puoi donare con un bonifico o con PayPal. Con il bonifico ci arrivano i dati che la tua banca trasmette con il pagamento: il nome, il conto da cui parte, l'importo, la data e la causale. Se scegli PayPal, il pagamento avviene sulle pagine di <strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A., Lussemburgo): il nostro sito non vede né conserva i dati della tua carta o del tuo conto, che PayPal tratta come titolare autonomo, secondo la sua <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">informativa</a>. Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e un eventuale messaggio, e l'indirizzo postale se scegli di condividerlo.</p>
+<p>Puoi donare con la carta, con un bonifico o con PayPal. Se scegli la carta, anche con Apple Pay o Google Pay, il pagamento avviene sulle pagine di <strong>Stripe</strong> (Stripe Payments Europe, Limited, Irlanda): il nostro sito non vede né conserva i dati della tua carta. Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data, l'ambito o la persona che indichi, il tipo e il paese della carta con le sue ultime quattro cifre. Sulla pagina di Stripe puoi scegliere anche altri modi di pagare, come Satispay o Amazon Pay: in quel caso il servizio che scegli tratta i tuoi dati come titolare autonomo, secondo le sue regole.</p>
+<p>Con il bonifico ci arrivano i dati che la tua banca trasmette con il pagamento: il nome, il conto da cui parte, l'importo, la data e la causale. Se scegli PayPal, il pagamento avviene sulle pagine di <strong>PayPal</strong> (PayPal (Europe) S.à r.l. et Cie, S.C.A., Lussemburgo): il nostro sito non vede né conserva i dati della tua carta o del tuo conto, che PayPal tratta come titolare autonomo, secondo la sua <a class="link" href="https://www.paypal.com/it/legalhub/paypal/privacy-full" rel="noopener">informativa</a>. Alla Fondazione arrivano il tuo nome, il tuo indirizzo di posta elettronica, l'importo, la data e un eventuale messaggio, e l'indirizzo postale se scegli di condividerlo.</p>
 <p>La base giuridica è il rapporto di donazione che scegli di avviare e gli obblighi di legge che ne derivano per la Fondazione, in particolare la tenuta delle scritture contabili e la rendicontazione della raccolta fondi prevista per gli enti del Terzo settore.</p>
 <p>Chi dona dalla Svizzera e vuole dedurre la donazione dalle imposte dona all'<strong>Associazione Orizzonti Celesti</strong>, a Bellinzona: un ente distinto dalla Fondazione, che riceve i tuoi dati con il bonifico, come titolare autonomo e secondo le sue regole. Orizzonti Celesti comunica alla Fondazione il tuo nome e i recapiti che le hai lasciato, perché possiamo ringraziarti e rendere conto di come è stata usata la donazione: li usiamo solo per questo. Nel ringraziarti ti chiediamo se vuoi ricevere le notizie della Fondazione, di Orizzonti Celesti o di entrambe; se scegli anche Orizzonti Celesti, le comunichiamo la tua scelta. La base giuridica è il nostro legittimo interesse a ringraziare chi sostiene le nostre attività e a rendergliene conto; per le notizie, il tuo consenso.</p>
 
 <h3>La ricevuta e il codice fiscale</h3>
-<p>Le donazioni alla Fondazione danno diritto a una detrazione o a una deduzione fiscale (art. 83 del Codice del Terzo settore). Per emettere la ricevuta che ti serve, ti chiediamo separatamente il codice fiscale, insieme al nome e all'indirizzo: la ricevuta è un obbligo nostro, non una condizione del pagamento, e per questo il codice fiscale non passa da PayPal. La base giuridica è l'obbligo di legge. Le ricevute e i documenti contabili sono conservati per <strong>dieci anni</strong>, il tempo previsto per le scritture contabili.</p>
+<p>Le donazioni alla Fondazione danno diritto a una detrazione o a una deduzione fiscale (art. 83 del Codice del Terzo settore). Per emettere la ricevuta che ti serve, ti chiediamo separatamente il codice fiscale, insieme al nome e all'indirizzo: la ricevuta è un obbligo nostro, non una condizione del pagamento, e per questo il codice fiscale non passa da Stripe né da PayPal. La base giuridica è l'obbligo di legge. Le ricevute e i documenti contabili sono conservati per <strong>dieci anni</strong>, il tempo previsto per le scritture contabili.</p>
 
 <h3>Quando ti scriviamo noi</h3>
 <p>A chi ha donato possiamo scrivere per ringraziare e per rendere conto di come è stato usato ciò che ha donato. In quell'occasione ti chiediamo se vuoi ricevere anche le notizie sulle attività della Fondazione: te le mandiamo solo se rispondi di sì, e puoi ritirare il consenso in ogni momento, dal collegamento in fondo a ogni email delle notizie o con una riga di risposta.</p>
@@ -414,13 +415,14 @@ TESTI["privacy"] = dict(
 <ul>
 <li><strong>GitHub</strong> (GitHub, Inc., Stati Uniti) ospita le pagine del sito e ne tiene i registri tecnici come titolare autonomo, come detto sopra;</li>
 <li><strong>Google</strong>, con Google Workspace, il servizio che la Fondazione usa per la posta e i documenti, per conto della Fondazione: riceve la posta elettronica, i messaggi del modulo dei Contatti, le dediche del giardino, i progetti proposti e le richieste delle notizie, li conserva nel foglio di lavoro della Fondazione e ci avvisa per posta. Quando mandi un modulo, il tuo browser lo spedisce direttamente a questo servizio;</li>
+<li><strong>Stripe</strong> gestisce per conto della Fondazione i pagamenti con la carta; per alcuni fini propri, come prevenire le frodi e il riciclaggio, li tratta come titolare autonomo, secondo la sua <a class="link" href="https://stripe.com/it/privacy" rel="noopener">informativa</a>;</li>
 <li><strong>PayPal</strong> gestisce i pagamenti come titolare autonomo, come detto sopra;</li>
 <li>la <strong>banca</strong> della Fondazione, per i bonifici.</li>
 </ul>
 <p>Non vendiamo, non cediamo e non diffondiamo i tuoi dati. Possiamo comunicarli solo a chi la legge ci obbliga a comunicarli: per esempio al commercialista e agli organi di controllo, per la tenuta dei conti e il bilancio.</p>
 
 <h3>Fuori dall'Unione europea</h3>
-<p>GitHub tratta i registri tecnici negli Stati Uniti e aderisce al Data Privacy Framework tra Unione europea e Stati Uniti (decisione di esecuzione (UE) 2023/1795). Google può trattare i dati anche fuori dall’Unione europea, in particolare negli Stati Uniti: il trasferimento è coperto dal Data Privacy Framework, al quale Google LLC aderisce, e dalle clausole contrattuali standard previste dal contratto sul trattamento dei dati di Google Workspace. PayPal, come titolare autonomo, risponde in proprio delle garanzie sui trasferimenti, descritte nella sua informativa. La Svizzera, dove ha sede Orizzonti Celesti, è riconosciuta dalla Commissione europea come un Paese che protegge i dati in modo adeguato.</p>
+<p>GitHub tratta i registri tecnici negli Stati Uniti e aderisce al Data Privacy Framework tra Unione europea e Stati Uniti (decisione di esecuzione (UE) 2023/1795). Google può trattare i dati anche fuori dall’Unione europea, in particolare negli Stati Uniti: il trasferimento è coperto dal Data Privacy Framework, al quale Google LLC aderisce, e dalle clausole contrattuali standard previste dal contratto sul trattamento dei dati di Google Workspace. Stripe può trasferire i dati dei pagamenti a Stripe, LLC, negli Stati Uniti, che aderisce al Data Privacy Framework. PayPal, come titolare autonomo, risponde in proprio delle garanzie sui trasferimenti, descritte nella sua informativa. La Svizzera, dove ha sede Orizzonti Celesti, è riconosciuta dalla Commissione europea come un Paese che protegge i dati in modo adeguato.</p>
 
 <h3>Per quanto tempo</h3>
 <ul>
@@ -440,7 +442,7 @@ TESTI["privacy"] = dict(
 <p>Il sito non si rivolge ai bambini e parla di temi che riguardano la perdita e la fine della vita. I moduli sono per chi ha almeno quattordici anni; per i più piccoli occorre l'intervento di chi esercita la responsabilità genitoriale (art. 2-quinquies del Codice in materia di protezione dei dati personali).</p>
 
 <h3>Questa informativa</h3>
-<p>È stata aggiornata il 13 ottobre 2026, prima dell'apertura del sito, e verrà aggiornata ancora quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
+<p>È stata aggiornata il 19 ottobre 2026, prima dell'apertura del sito, e verrà aggiornata ancora quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
 """ % dict(V=V))
 
 TESTI["cookie"] = dict(
@@ -449,7 +451,7 @@ TESTI["cookie"] = dict(
 <p>Questo sito è composto solo da pagine statiche e <strong>non usa cookie né altri strumenti di tracciamento</strong>, e non salva nulla nel tuo browser. Per questo non trovi un banner da accettare: le linee guida del Garante per la protezione dei dati personali (provvedimento n. 231 del 10 giugno 2021) lo chiedono solo a chi usa cookie o strumenti di tracciamento che non servono al funzionamento del sito.</p>
 <p>Non usiamo sistemi di analisi del traffico, né contenuti incorporati da terzi come video, mappe o pulsanti dei social. I caratteri tipografici sono ospitati sui nostri stessi server, così nessun altro sa che stai leggendo queste pagine.</p>
 <p>L'unico dato raccolto automaticamente è nei registri tecnici del servizio che ospita il sito, GitHub Pages: GitHub registra l'indirizzo IP di chi visita le pagine per proteggere il servizio da abusi, e lo tratta come titolare autonomo, secondo la sua informativa. Non è un cookie e non serve a seguirti da un sito all'altro.</p>
-<p>Quando mandi un modulo, i dati vanno direttamente al servizio di Google che la Fondazione usa per riceverli, come spiega l’<a class="link" href="{→privacy}">informativa sulla privacy</a>. Quando doni con PayPal, il pagamento avviene sulle pagine di PayPal, che ha le sue regole sui cookie: le trovi nella sua informativa, prima di pagare.</p>
+<p>Quando mandi un modulo, i dati vanno direttamente al servizio di Google che la Fondazione usa per riceverli, come spiega l’<a class="link" href="{→privacy}">informativa sulla privacy</a>. Quando doni con la carta o con PayPal, il pagamento avviene sulle pagine di Stripe o di PayPal, che hanno le loro regole sui cookie: le trovi nelle loro informative, prima di pagare.</p>
 <p>Se un giorno aggiungeremo strumenti che richiedono il consenso, questa pagina cambierà e comparirà il banner. Per tutto il resto, leggi l'<a class="link" href="{→privacy}">informativa sulla privacy</a>.</p>
 """)
 
@@ -901,7 +903,11 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 
 # ------------------------------------------------------------ Dona, Partnership, Progetti amici (bozze di Claude del 10.10, riviste da Elias l'11.10)
 # Dona segue la gerarchia decisa a settembre (briefing su Drive, §8): carta e wallet in cima, bonifico in evidenza per
-# gli importi importanti, PayPal per ultimo, nessuna frase sui costi. Stripe non c’è ancora. PayPal secondo i due aggiornamenti
+# gli importi importanti, PayPal per ultimo, nessuna frase sui costi. La carta con Stripe in cima, come in Lux (Elias, 19.10):
+# un Payment Link a importo libero, una tantum, nello stesso conto Stripe di Lux; c’è solo se STRIPE in costruisci.py è pieno
+# ({se-stripe}…{/se-stripe}). Il mensile resta su PayPal, perché a importo libero Stripe non lo permette: la sezione
+# della carta lo dice e rimanda a PayPal (Elias, 19.10), e dice anche i limiti del link, da 5 a 5.000 euro: se cambiano
+# nel pannello di Stripe, si cambiano anche qui. PayPal secondo i due aggiornamenti
 # dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, un semplice collegamento, nessuno
 # script PayPal. Per la Svizzera solo il bonifico a Orizzonti Celesti: il loro PayPal.me non si pubblica finché Elias non
 # chiarisce con PayPal lo stato del conto dell’associazione (Elias, 13.10).
@@ -911,7 +917,11 @@ TESTI["dona"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
     corpo="""
 <p>Puoi sostenere la Fondazione tutta, perché impieghi il tuo dono dove c’è più bisogno, oppure scegliere un ambito: la medicina e la cura, l’agricoltura, il sociale, il fine vita. Puoi anche donare in memoria di una persona cara.</p>
-<h3>Con un bonifico</h3>
+{se-stripe}<h3>Con la carta</h3>
+<p>Puoi donare con la carta di credito o di debito, anche con Apple Pay o Google Pay, e la cifra la scegli tu. Il pagamento si fa sulla pagina di Stripe, dove puoi indicare un ambito o la persona che vuoi ricordare. I dati della carta non passano dal nostro sito.</p>
+<p><a class="vai" href="{stripe}" target="_blank" rel="noopener">Dona con la carta</a></p>
+<p>Con la carta doni una volta, da 5 a 5.000 euro; per cifre più alte usa il bonifico qui sotto. Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, puoi farlo con PayPal, più in basso.</p>
+{/se-stripe}<h3>Con un bonifico</h3>
 <p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.</p>
 <div class="coordinate">
 <p><strong>Intestato a</strong><br>Fondazione La Rosa d’Oro ETS</p>
@@ -926,7 +936,7 @@ TESTI["dona"] = dict(
 <h3>La ricevuta e i vantaggi fiscali</h3>
 <p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. Se ti serve anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 <h3>Se vivi in Svizzera</h3>
-<p>Se vivi in Svizzera e vuoi dedurre la donazione dalle imposte, dona all’Associazione Orizzonti Celesti, la realtà collegata alla Fondazione che opera sul versante elvetico: ti manda la ricevuta da allegare alla dichiarazione. Altrimenti puoi donare alla Fondazione, con il bonifico o con PayPal qui sopra.</p>
+<p>Se vivi in Svizzera e vuoi dedurre la donazione dalle imposte, dona all’Associazione Orizzonti Celesti, la realtà collegata alla Fondazione che opera sul versante elvetico: ti manda la ricevuta da allegare alla dichiarazione. Altrimenti puoi donare alla Fondazione, {se-stripe}con la carta, {/se-stripe}con il bonifico o con PayPal qui sopra.</p>
 <div class="coordinate">
 <p><strong>Intestato a</strong><br>Orizzonti Celesti<br>Via Mezzavilla 12, 6503 Bellinzona</p>
 <p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
@@ -1231,7 +1241,7 @@ DESCRIZIONI = {
     "cinque-per-mille": "Il 5 per mille alla Fondazione La Rosa d'Oro: una firma nella dichiarazione dei redditi e il codice fiscale 14629350969. Non costa nulla.",
     "lavora-con-noi": "Lavora con noi: cerchiamo avvocati, notai, commercialisti, counselor, celebranti laici e volontari qualificati per il fine vita. Manda la tua candidatura.",
     "news": "Le novità della Fondazione La Rosa d'Oro: incontri, progetti, notizie.",
-    "dona": "Dona alla Fondazione La Rosa d’Oro con un bonifico o con PayPal, per un ambito o in memoria di una persona cara. Le donazioni sono detraibili o deducibili.",
+    "dona": "Dona alla Fondazione La Rosa d’Oro {se-stripe}con la carta, {/se-stripe}con un bonifico o con PayPal, per un ambito o in memoria di una persona cara. Le donazioni sono detraibili o deducibili.",
     "documenti": "Lo statuto della Fondazione La Rosa d’Oro ETS, i dati della costituzione e dell’iscrizione al Registro unico del Terzo settore, le informative.",
     "contatti": "Scrivi alla Fondazione La Rosa d’Oro: ti rispondiamo di persona e, se serve, ci incontriamo a Milano o dove sei tu.",
     "partnership": "Con chi lavora la Fondazione La Rosa d’Oro: studi professionali, aziende, istituzioni e realtà del sociale, la realtà collegata Orizzonti Celesti.",
@@ -1263,7 +1273,7 @@ TITOLI = {
     "professionisti": "Per notai, avvocati e commercialisti: gli studi partner",
     "cinque-per-mille": "Il 5 per mille: codice fiscale 14629350969",
     "documenti": "Lo statuto e i documenti",
-    "dona": "Fai una donazione, con bonifico o PayPal",
+    "dona": "Fai una donazione, con {se-stripe}carta, {/se-stripe}bonifico o PayPal",
     # Fondi e strumenti (11.10): le pagine per il pubblico
     "fondi-e-strumenti": "Fondi e strumenti filantropici",
     "fondi-e-strumenti/fondi-di-scopo": "Un fondo con il tuo nome, senza creare una fondazione",

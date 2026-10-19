@@ -40,6 +40,11 @@ USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 LUX = "https://lux.larosadoro.org/"       # il sito di Lux: la voce «Lux» in alto a sinistra e nel menu del telefono (Elias, 11.10).
                                           # Vuoto: la voce sparisce, per esempio se all'apertura del sito al pubblico
                                           # le donazioni di Lux non sono ancora aperte.
+STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link di Stripe per «Dona con la carta» (https://donate.stripe.com/…, con il pulsante «Dona»), che Elias crea
+                                          # nel pannello Stripe della Fondazione, lo stesso conto di Lux. La carta è il primo modo
+                                          # di donare (Elias, 19.10). La costruzione aggiunge ?locale=it&client_reference_id=sito-dona:
+                                          # la pagina di Stripe in italiano, e nel conto le donazioni del sito separate da quelle di Lux.
+                                          # Vuoto: la carta sparisce dalla pagina Dona, e restano il bonifico e PayPal.
 
 ENTE = {
     "nome": "Fondazione La Rosa d'Oro ETS",
@@ -468,7 +473,12 @@ def gettoni(html, da):
         html = html.replace("{modulo-progetto}", modulo_progetto(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
-    return html
+    return secondo_stripe(html)
+
+def secondo_stripe(testo):
+    """ciò che sta tra {se-stripe} e {/se-stripe} resta solo con STRIPE; {stripe} è l'indirizzo del pagamento con la carta"""
+    testo = re.sub(r"\{se-stripe\}(.*?)\{/se-stripe\}", lambda m: m.group(1) if STRIPE else "", testo, flags=re.S)
+    return testo.replace("{stripe}", sfuggi(STRIPE + "?locale=it&client_reference_id=sito-dona") if STRIPE else "")
 
 def modulo_contatti(da):
     """il modulo della pagina Contatti. Con FOGLIO il messaggio va allo script del foglio «Contatti della
@@ -797,10 +807,10 @@ def pagina_html(da, p, extra_head=""):
     if p["tipo"] == "404":
         scheda = "%s — %s" % (p["titolo"], NOME_SCHEDA)
     elif da in TITOLI:
-        scheda = TITOLI[da] if da == "" else "%s — %s" % (TITOLI[da], NOME_SCHEDA)
+        scheda = secondo_stripe(TITOLI[da]) if da == "" else "%s — %s" % (secondo_stripe(TITOLI[da]), NOME_SCHEDA)
     else:
         scheda = ENTE["nome"] if da == "" else "%s — %s" % (p["titolo"], NOME_SCHEDA)
-    descrizione = DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"]))
+    descrizione = secondo_stripe(DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"])))
     url = DOMINIO + ("/" if da == "" else "/" + da + "/")
     if p["tipo"] == "home":
         sotto = sfuggi(ENTE["tagline"])
