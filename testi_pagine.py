@@ -906,7 +906,8 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 # gli importi importanti, PayPal per ultimo, nessuna frase sui costi. La carta con Stripe in cima, come in Lux (Elias, 19.10):
 # un Payment Link a importo libero, una tantum, nello stesso conto Stripe di Lux; c’è solo se STRIPE in costruisci.py è pieno
 # ({se-stripe}…{/se-stripe}). Il mensile resta su PayPal, perché a importo libero Stripe non lo permette: la sezione
-# della carta lo dice e rimanda a PayPal (Elias, 19.10). PayPal secondo i due aggiornamenti
+# della carta lo dice e rimanda a PayPal (Elias, 19.10), e dice anche i limiti del link, da 5 a 5.000 euro: se cambiano
+# nel pannello di Stripe, si cambiano anche qui. PayPal secondo i due aggiornamenti
 # dell’11.10 in «SITO — operativa»: per l’Italia il pulsante «Dona» della Fondazione, un semplice collegamento, nessuno
 # script PayPal. Per la Svizzera solo il bonifico a Orizzonti Celesti: il loro PayPal.me non si pubblica finché Elias non
 # chiarisce con PayPal lo stato del conto dell’associazione (Elias, 13.10).
@@ -919,7 +920,7 @@ TESTI["dona"] = dict(
 {se-stripe}<h3>Con la carta</h3>
 <p>Puoi donare con la carta di credito o di debito, anche con Apple Pay o Google Pay, e la cifra la scegli tu. Il pagamento si fa sulla pagina di Stripe, dove puoi indicare un ambito o la persona che vuoi ricordare. I dati della carta non passano dal nostro sito.</p>
 <p><a class="vai" href="{stripe}" target="_blank" rel="noopener">Dona con la carta</a></p>
-<p>Con la carta doni una volta. Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, puoi farlo con PayPal, più in basso.</p>
+<p>Con la carta doni una volta, da 5 a 5.000 euro; per cifre più alte usa il bonifico qui sotto. Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, puoi farlo con PayPal, più in basso.</p>
 {/se-stripe}<h3>Con un bonifico</h3>
 <p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.</p>
 <div class="coordinate">
