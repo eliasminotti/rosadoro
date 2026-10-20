@@ -48,6 +48,13 @@ def impostazione(nome):
     return re.search(r'^%s = "([^"]*)"' % nome, sorgente, re.M).group(1)
 
 
+def impostazione_mensili():
+    """i pulsanti di MENSILI in costruisci.py, come coppie (scritta, Payment Link), senza eseguirlo"""
+    sorgente = open(os.path.join(RADICE, "costruisci.py"), encoding="utf-8").read()
+    inizio = sorgente.index("\nMENSILI = (")
+    return re.findall(r'\("([^"]+)", "([^"]*)"\)', sorgente[inizio:sorgente.index("\nPORTALE = ", inizio)])
+
+
 # --------------------------------------------------------------------------
 # prima di pubblicare
 # --------------------------------------------------------------------------
@@ -195,6 +202,8 @@ def controlla_indirizzi_da_fuori(pagine):
 # l'indirizzo comincia con donate.stripe.com invece di buy.stripe.com
 STRIPE_VIVO = re.compile(r"^https://(buy|donate)\.stripe\.com/[A-Za-z0-9]+$")
 VERSO_STRIPE = re.compile(r"^https://(buy|donate)\.stripe\.com/")
+SEGNO_SITO = "?locale=it&client_reference_id=sito-dona"
+PORTALE_VIVO = re.compile(r"^https://billing\.stripe\.com/p/login/[A-Za-z0-9]+$")
 
 
 def controlla_stripe(pagine):
@@ -213,10 +222,11 @@ def controlla_stripe(pagine):
     if not STRIPE_VIVO.match(stripe):
         problemi.append("STRIPE in costruisci.py non è un Payment Link vero (https://donate.stripe.com/… o buy.stripe.com/…, "
                         "senza «test_» e senza «?»): %s" % stripe)
-    atteso = stripe + "?locale=it&client_reference_id=sito-dona"
+    atteso = stripe + SEGNO_SITO
+    attesi = {atteso} | ({l + SEGNO_SITO for _, l in impostazione_mensili() if l} if impostazione("MENSILE") else set())
     for rel, i in verso_stripe:
-        if i != atteso:
-            problemi.append("%s porta a Stripe con un indirizzo diverso da quello di STRIPE: %s" % (rel, i))
+        if i not in attesi:
+            problemi.append("%s porta a Stripe con un indirizzo diverso da quelli di STRIPE e MENSILI: %s" % (rel, i))
     dona = os.path.join(SITO, "dona", "index.html")
     testo = open(dona, encoding="utf-8").read() if os.path.isfile(dona) else ""
     dove = testo.find('href="%s"' % atteso.replace("&", "&amp;"))
@@ -227,6 +237,104 @@ def controlla_stripe(pagine):
         problemi.append("Nella pagina Dona la carta non è il primo modo di donare: viene dopo il bonifico o PayPal")
     if len(problemi) == prima:
         print("Stripe: la carta è il primo modo di donare, con il Payment Link vero")
+
+
+GIORNO = re.compile(r"^[1-9]\d? (gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre) 20\d\d$")
+SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senza-ricevute}", "{informativa-data}",
+                  "{se-mensile}", "{/se-mensile}", "{senza-mensile}", "{/senza-mensile}", "{mensili}", "{portale}")
+
+
+def controlla_ricevute(pagine):
+    """Le ricevute delle donazioni con la carta e con PayPal le manda da solo il sistema di Lux, da quando Lux passa ai
+    pagamenti veri, dopo l'apertura del sito (Lux, 20.10). RICEVUTE in costruisci.py è quel giorno: acceso, Dona
+    lo dice e l'informativa nomina i fornitori del sistema e porta quella data; spento, si chiede di scriverci."""
+    giorno = impostazione("RICEVUTE")
+    prima = len(problemi)
+    for rel in sorted(pagine):
+        testo = open(os.path.join(SITO, rel), encoding="utf-8").read()
+        for segno in SEGNI_RICEVUTE:
+            if segno in testo:
+                problemi.append("%s mostra il segno %s: la costruzione non l'ha sostituito" % (rel, segno))
+    dona = open(os.path.join(SITO, "dona", "index.html"), encoding="utf-8").read()
+    privacy = open(os.path.join(SITO, "privacy", "index.html"), encoding="utf-8").read()
+    arriva = "ti arriva da sola per email"
+    fornitori = ("<strong>Vercel</strong>", "<strong>Supabase</strong>", "<strong>Resend</strong>")
+    if not giorno:
+        for rel, testo in (("Dona", dona), ("L’informativa", privacy)):
+            if arriva in testo:
+                problemi.append("%s promette la ricevuta automatica, ma RICEVUTE in costruisci.py è spento" % rel)
+        if any(f in privacy for f in fornitori):
+            problemi.append("L’informativa nomina i fornitori del sistema delle ricevute, ma RICEVUTE in costruisci.py è spento")
+        if len(problemi) == prima:
+            print("Ricevute: spente, la ricevuta si chiede scrivendoci")
+        return
+    if not GIORNO.match(giorno):
+        problemi.append("RICEVUTE in costruisci.py dev’essere un giorno come «27 ottobre 2026»: %s" % giorno)
+    if not impostazione("STRIPE"):
+        problemi.append("RICEVUTE è acceso ma STRIPE è vuoto: i testi parlano di ricevute delle donazioni con la carta")
+    if arriva not in dona:
+        problemi.append("RICEVUTE è acceso, ma Dona non dice che la ricevuta arriva da sola")
+    if arriva not in privacy:
+        problemi.append("RICEVUTE è acceso, ma l’informativa non dice che la ricevuta arriva da sola")
+    for f in fornitori:
+        if f not in privacy:
+            problemi.append("RICEVUTE è acceso, ma l’informativa non nomina %s" % re.sub("<[^>]+>", "", f))
+    data = impostazione("MENSILE") or giorno          # l'informativa porta il giorno dell'ultimo dei due interruttori
+    if "aggiornata il %s," % data not in privacy:
+        problemi.append("RICEVUTE è acceso, ma l’informativa non porta la data %s" % data)
+    if re.search(r"prima dell.apertura del sito", privacy):
+        problemi.append("RICEVUTE è acceso, ma l’informativa dice ancora «prima dell’apertura del sito»")
+    if len(problemi) == prima:
+        print("Ricevute: automatiche dal %s, Dona e informativa lo dicono" % giorno)
+
+
+def controlla_mensile(pagine):
+    """Il mensile con Stripe (Elias, 20.10): acceso MENSILE, in Dona ci sono i pulsanti mensili di MENSILI e il portale di
+    Stripe per smettere, PayPal si sceglie sulla pagina di Stripe e il pulsante Dona di PayPal sparisce. Si accende solo
+    dopo che Lux fa le ricevute anche di PayPal e dei pagamenti mensili, quindi con RICEVUTE acceso. Spento, nessuna pagina
+    porta ai link mensili né al portale, e il mensile resta sul pulsante PayPal."""
+    giorno = impostazione("MENSILE")
+    mensili = impostazione_mensili()
+    portale = impostazione("PORTALE")
+    dona = open(os.path.join(SITO, "dona", "index.html"), encoding="utf-8").read()
+    privacy = open(os.path.join(SITO, "privacy", "index.html"), encoding="utf-8").read()
+    prima = len(problemi)
+    if not giorno:
+        vietati = [l for _, l in mensili if l] + ([portale] if portale else [])
+        for rel, p in sorted(pagine.items()):
+            for i in p.indirizzi:
+                if any(i.startswith(v) for v in vietati):
+                    problemi.append("MENSILE è spento, ma %s porta a un link mensile o al portale di Stripe: %s" % (rel, i))
+        if "paypal.com/donate" not in dona:
+            problemi.append("MENSILE è spento, ma in Dona manca il pulsante Dona di PayPal, l’unico modo di donare ogni mese")
+        if len(problemi) == prima:
+            print("Mensile: spento, si dona ogni mese con il pulsante PayPal")
+        return
+    if not GIORNO.match(giorno):
+        problemi.append("MENSILE in costruisci.py dev’essere un giorno come «3 novembre 2026»: %s" % giorno)
+    if not impostazione("RICEVUTE"):
+        problemi.append("MENSILE è acceso ma RICEVUTE è spento: il mensile si accende solo quando Lux fa già le ricevute")
+    if not impostazione("STRIPE"):
+        problemi.append("MENSILE è acceso ma STRIPE è vuoto: manca il pulsante per donare una volta")
+    fissi = [(scritta, l) for scritta, l in mensili if scritta != "Altro importo"]
+    for scritta, l in mensili:
+        if (l or (scritta, l) in fissi) and not STRIPE_VIVO.match(l):
+            problemi.append("MENSILI in costruisci.py: «%s» non ha un Payment Link vero: %s" % (scritta, l or "vuoto"))
+        elif l and 'href="%s"' % (l + SEGNO_SITO).replace("&", "&amp;") not in dona:
+            problemi.append("Nella pagina Dona manca il pulsante «%s» verso %s" % (scritta, l + SEGNO_SITO))
+    if len({l for _, l in mensili if l} | {impostazione("STRIPE")}) != len([l for _, l in mensili if l]) + 1:
+        problemi.append("MENSILI in costruisci.py: due pulsanti portano allo stesso Payment Link")
+    if not PORTALE_VIVO.match(portale):
+        problemi.append("PORTALE in costruisci.py non è il collegamento del portale di Stripe "
+                        "(https://billing.stripe.com/p/login/…): %s" % (portale or "vuoto"))
+    elif 'href="%s"' % portale not in dona:
+        problemi.append("Nella pagina Dona manca il collegamento per smettere di donare ogni mese: %s" % portale)
+    if "paypal.com" in dona:
+        problemi.append("MENSILE è acceso, ma Dona porta ancora a PayPal: PayPal si sceglie sulla pagina di Stripe")
+    if "si scelgono sulle pagine di <strong>Stripe</strong>" not in privacy:
+        problemi.append("MENSILE è acceso, ma l’informativa non dice che PayPal si sceglie sulla pagina di Stripe")
+    if len(problemi) == prima:
+        print("Mensile: %d pulsanti mensili e il portale per smettere, PayPal sulla pagina di Stripe" % len([l for _, l in mensili if l]))
 
 
 def controlla_partita_iva(pagine):
@@ -378,6 +486,8 @@ def main():
         controlla_collegamenti_interni(pagine)
         controlla_indirizzi_da_fuori(pagine)
         controlla_stripe(pagine)
+        controlla_ricevute(pagine)
+        controlla_mensile(pagine)
         controlla_partita_iva(pagine)
         controlla_script_del_foglio()
         controlla_giardino()

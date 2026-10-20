@@ -95,6 +95,14 @@ p:last-child{margin-bottom:0}
 .vai{display:inline-block;font-size:13px;line-height:20px;letter-spacing:.14em;text-transform:uppercase;color:var(--accento)}
 .vai::after{content:" →"}
 .vai:hover{color:var(--testo)}
+/* il pulsante pieno fuori dai moduli, uguale a «Scrivici»: in Dona per la carta, il primo modo di donare,
+   più in vista di PayPal (Lux, 20.10) */
+a.invia{display:inline-block;font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:15px 28px;border:1px solid var(--antracite);background:var(--antracite);color:var(--avorio);transition:background-color .15s,border-color .15s}
+a.invia:hover{background:var(--nero);border-color:var(--nero)}
+/* i pulsanti del mensile in Dona: gli stessi della finestra della dedica, uno accanto all'altro, che vanno a capo sul telefono */
+.mensili{display:flex;flex-wrap:wrap;gap:12px}
+a.scelta{display:inline-block;font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:11px 16px;border:1px solid var(--filo-forte);color:var(--accento);transition:border-color .15s,color .15s}
+a.scelta:hover{border-color:var(--oro);color:var(--testo)}
 
 /* i testi ancora da scrivere: si vedono, e si vede che mancano */
 .segnaposto{font-family:var(--display);font-style:italic;font-weight:300;font-size:22px;line-height:1.4;color:var(--secondario);max-width:52ch}
