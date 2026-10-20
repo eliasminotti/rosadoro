@@ -229,6 +229,53 @@ def controlla_stripe(pagine):
         print("Stripe: la carta è il primo modo di donare, con il Payment Link vero")
 
 
+GIORNO = re.compile(r"^[1-9]\d? (gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre) 20\d\d$")
+SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senza-ricevute}", "{ricevute-data}")
+
+
+def controlla_ricevute(pagine):
+    """Le ricevute delle donazioni con la carta e con PayPal le manda da solo il sistema di Lux, da quando Lux passa ai
+    pagamenti veri (Elias, 20.10: lo stesso giorno dell'apertura). RICEVUTE in costruisci.py è quel giorno: acceso, Dona
+    lo dice e l'informativa nomina i fornitori del sistema e porta quella data; spento, si chiede di scriverci."""
+    giorno = impostazione("RICEVUTE")
+    prima = len(problemi)
+    for rel in sorted(pagine):
+        testo = open(os.path.join(SITO, rel), encoding="utf-8").read()
+        for segno in SEGNI_RICEVUTE:
+            if segno in testo:
+                problemi.append("%s mostra il segno %s: la costruzione non l'ha sostituito" % (rel, segno))
+    dona = open(os.path.join(SITO, "dona", "index.html"), encoding="utf-8").read()
+    privacy = open(os.path.join(SITO, "privacy", "index.html"), encoding="utf-8").read()
+    arriva = "ti arriva da sola per email"
+    fornitori = ("<strong>Vercel</strong>", "<strong>Supabase</strong>", "<strong>Resend</strong>")
+    if not giorno:
+        for rel, testo in (("Dona", dona), ("L’informativa", privacy)):
+            if arriva in testo:
+                problemi.append("%s promette la ricevuta automatica, ma RICEVUTE in costruisci.py è spento" % rel)
+        if any(f in privacy for f in fornitori):
+            problemi.append("L’informativa nomina i fornitori del sistema delle ricevute, ma RICEVUTE in costruisci.py è spento")
+        if len(problemi) == prima:
+            print("Ricevute: spente, la ricevuta si chiede scrivendoci")
+        return
+    if not GIORNO.match(giorno):
+        problemi.append("RICEVUTE in costruisci.py dev’essere un giorno come «27 ottobre 2026»: %s" % giorno)
+    if not impostazione("STRIPE"):
+        problemi.append("RICEVUTE è acceso ma STRIPE è vuoto: i testi parlano di ricevute delle donazioni con la carta")
+    if arriva not in dona:
+        problemi.append("RICEVUTE è acceso, ma Dona non dice che la ricevuta arriva da sola")
+    if arriva not in privacy:
+        problemi.append("RICEVUTE è acceso, ma l’informativa non dice che la ricevuta arriva da sola")
+    for f in fornitori:
+        if f not in privacy:
+            problemi.append("RICEVUTE è acceso, ma l’informativa non nomina %s" % re.sub("<[^>]+>", "", f))
+    if "aggiornata il %s," % giorno not in privacy:
+        problemi.append("RICEVUTE è acceso, ma l’informativa non porta la data %s" % giorno)
+    if re.search(r"prima dell.apertura del sito", privacy):
+        problemi.append("RICEVUTE è acceso, ma l’informativa dice ancora «prima dell’apertura del sito»")
+    if len(problemi) == prima:
+        print("Ricevute: automatiche dal %s, Dona e informativa lo dicono" % giorno)
+
+
 def controlla_partita_iva(pagine):
     """La partita IVA della Fondazione sta in ogni pagina, home compresa: l'art. 35 c.1 del DPR 633/1972 (dal 1.1.2027 l'art. 68 c.1
     del testo unico IVA, D.Lgs. 10/2026) vuole il numero «nella home-page dell'eventuale sito web». È lo stesso numero del codice
@@ -378,6 +425,7 @@ def main():
         controlla_collegamenti_interni(pagine)
         controlla_indirizzi_da_fuori(pagine)
         controlla_stripe(pagine)
+        controlla_ricevute(pagine)
         controlla_partita_iva(pagine)
         controlla_script_del_foglio()
         controlla_giardino()

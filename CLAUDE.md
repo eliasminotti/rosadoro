@@ -50,6 +50,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   `STRIPE` in `costruisci.py` è il Payment Link a importo libero che Elias crea nel pannello Stripe della
   Fondazione, lo stesso conto di Lux; la costruzione aggiunge `?locale=it&client_reference_id=sito-dona`, che
   separa le donazioni del sito da quelle di Lux. Vuoto, la carta sparisce da Dona (`{se-stripe}…{/se-stripe}`).
+- Le ricevute delle donazioni con la carta e con PayPal le manda da solo il sistema di Lux, 37 giorni dopo, da quando Lux
+  passa ai pagamenti veri (lo stesso giorno dell’apertura, Elias 20.10). `RICEVUTE` in `costruisci.py` è quel giorno
+  («27 ottobre 2026»): acceso, Dona lo dice e l’informativa nomina Vercel, Supabase e Resend e porta quella data
+  (`{se-ricevute}`, `{senza-ricevute}`, `{ricevute-data}`); vuoto, la ricevuta si chiede scrivendoci. Quel giorno Elias
+  cambia anche il messaggio di conferma del link Stripe.
 - La partita IVA della Fondazione è lo stesso numero del codice fiscale (`CF_PIVA` in `costruisci.py`; Agenzia delle
   Entrate, verifica del 19.10.2026: attiva, inizio attività 28.2.2026). Va nella home (art. 35 c.1 DPR 633/1972; dal
   1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026): la costruzione la scrive nel piede di ogni pagina

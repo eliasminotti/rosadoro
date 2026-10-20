@@ -45,6 +45,11 @@ STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link 
                                           # di donare (Elias, 19.10). La costruzione aggiunge ?locale=it&client_reference_id=sito-dona:
                                           # la pagina di Stripe in italiano, e nel conto le donazioni del sito separate da quelle di Lux.
                                           # Vuoto: la carta sparisce dalla pagina Dona, e restano il bonifico e PayPal.
+RICEVUTE = ""                            # il giorno da cui le ricevute delle donazioni con la carta e con PayPal partono da sole,
+                                          # col sistema di Lux, scritto come «27 ottobre 2026»: si accende quando Lux passa ai
+                                          # pagamenti veri, lo stesso giorno dell'apertura (Elias, 20.10). Acceso, Dona lo dice
+                                          # ({se-ricevute}…{/se-ricevute}) e l'informativa nomina i fornitori del sistema e porta
+                                          # questa data ({ricevute-data}). Vuoto: la ricevuta si chiede scrivendoci ({senza-ricevute}).
 
 CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
                                           # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
@@ -479,12 +484,19 @@ def gettoni(html, da):
         html = html.replace("{modulo-progetto}", modulo_progetto(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
-    return secondo_stripe(html)
+    return secondo_ricevute(secondo_stripe(html))
 
 def secondo_stripe(testo):
     """ciò che sta tra {se-stripe} e {/se-stripe} resta solo con STRIPE; {stripe} è l'indirizzo del pagamento con la carta"""
     testo = re.sub(r"\{se-stripe\}(.*?)\{/se-stripe\}", lambda m: m.group(1) if STRIPE else "", testo, flags=re.S)
     return testo.replace("{stripe}", sfuggi(STRIPE + "?locale=it&client_reference_id=sito-dona") if STRIPE else "")
+
+def secondo_ricevute(testo):
+    """con RICEVUTE resta ciò che sta tra {se-ricevute} e {/se-ricevute}, senza resta ciò che sta tra {senza-ricevute}
+    e {/senza-ricevute}; {ricevute-data} è il giorno da cui le ricevute partono da sole"""
+    testo = re.sub(r"\{se-ricevute\}(.*?)\{/se-ricevute\}", lambda m: m.group(1) if RICEVUTE else "", testo, flags=re.S)
+    testo = re.sub(r"\{senza-ricevute\}(.*?)\{/senza-ricevute\}", lambda m: "" if RICEVUTE else m.group(1), testo, flags=re.S)
+    return testo.replace("{ricevute-data}", RICEVUTE)
 
 def modulo_contatti(da):
     """il modulo della pagina Contatti. Con FOGLIO il messaggio va allo script del foglio «Contatti della
