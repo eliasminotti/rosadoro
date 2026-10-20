@@ -51,7 +51,7 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   Fondazione, lo stesso conto di Lux; la costruzione aggiunge `?locale=it&client_reference_id=sito-dona`, che
   separa le donazioni del sito da quelle di Lux. Vuoto, la carta sparisce da Dona (`{se-stripe}…{/se-stripe}`).
 - Le ricevute delle donazioni con la carta e con PayPal le manda da solo il sistema di Lux, 37 giorni dopo, da quando Lux
-  passa ai pagamenti veri (lo stesso giorno dell’apertura, Elias 20.10). `RICEVUTE` in `costruisci.py` è quel giorno
+  passa ai pagamenti veri, dopo l’apertura del sito (Lux, 20.10). `RICEVUTE` in `costruisci.py` è quel giorno
   («27 ottobre 2026»): acceso, Dona lo dice e l’informativa nomina Vercel, Supabase e Resend e porta quella data
   (`{se-ricevute}`, `{senza-ricevute}`, `{ricevute-data}`); vuoto, la ricevuta si chiede scrivendoci. Quel giorno Elias
   cambia anche il messaggio di conferma del link Stripe.

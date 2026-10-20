@@ -235,7 +235,7 @@ SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senz
 
 def controlla_ricevute(pagine):
     """Le ricevute delle donazioni con la carta e con PayPal le manda da solo il sistema di Lux, da quando Lux passa ai
-    pagamenti veri (Elias, 20.10: lo stesso giorno dell'apertura). RICEVUTE in costruisci.py è quel giorno: acceso, Dona
+    pagamenti veri, dopo l'apertura del sito (Lux, 20.10). RICEVUTE in costruisci.py è quel giorno: acceso, Dona
     lo dice e l'informativa nomina i fornitori del sistema e porta quella data; spento, si chiede di scriverci."""
     giorno = impostazione("RICEVUTE")
     prima = len(problemi)
