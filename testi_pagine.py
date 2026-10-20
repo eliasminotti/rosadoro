@@ -920,7 +920,7 @@ TESTI["dona"] = dict(
 <p>Puoi sostenere la Fondazione tutta, perché impieghi il tuo dono dove c’è più bisogno, oppure scegliere un ambito: la medicina e la cura, l’agricoltura, il sociale, il fine vita. Puoi anche donare in memoria di una persona cara.</p>
 {se-stripe}<h3>Con la carta</h3>
 <p>Puoi donare con la carta di credito o di debito, anche con Apple Pay o Google Pay, e la cifra la scegli tu. Il pagamento si fa sulla pagina di Stripe, dove puoi indicare un ambito o la persona che vuoi ricordare. I dati della carta non passano dal nostro sito.</p>
-<p><a class="vai" href="{stripe}" target="_blank" rel="noopener">Dona con la carta</a></p>
+<p><a class="invia" href="{stripe}" target="_blank" rel="noopener">Dona con la carta</a></p>
 <p>Con la carta doni una volta, da 5 a 5.000 euro; per cifre più alte usa il bonifico qui sotto. Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, puoi farlo con PayPal, più in basso.</p>
 {/se-stripe}<h3>Con un bonifico</h3>
 <p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.</p>
