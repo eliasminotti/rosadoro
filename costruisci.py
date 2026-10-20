@@ -50,7 +50,21 @@ RICEVUTE = ""                            # il giorno da cui le ricevute delle do
                                           # col sistema di Lux, scritto come «27 ottobre 2026»: si accende il giorno in cui Lux passa ai
                                           # pagamenti veri, dopo l'apertura del sito (Lux, 20.10). Acceso, Dona lo dice
                                           # ({se-ricevute}…{/se-ricevute}) e l'informativa nomina i fornitori del sistema e porta
-                                          # questa data ({ricevute-data}). Vuoto: la ricevuta si chiede scrivendoci ({senza-ricevute}).
+                                          # questa data ({informativa-data}). Vuoto: la ricevuta si chiede scrivendoci ({senza-ricevute}).
+MENSILE = ""                              # il giorno da cui si dona ogni mese con Stripe, scritto come «3 novembre 2026»; da quel giorno
+                                          # PayPal si sceglie sulla pagina di Stripe (Elias, 20.10). Si accende solo dopo che Lux fa le
+                                          # ricevute anche di PayPal e dei pagamenti mensili, quindi con RICEVUTE acceso. Acceso: in Dona
+                                          # una sola sezione «Con la carta o con PayPal», con il pulsante per donare una volta (STRIPE),
+                                          # i pulsanti di MENSILI e il collegamento PORTALE per smettere; niente pulsante Dona di PayPal.
+                                          # Informativa e cookie lo dicono ({se-mensile}…{/se-mensile}) e l'informativa porta questa data.
+                                          # Vuoto: si dona ogni mese con il pulsante PayPal ({senza-mensile}…{/senza-mensile}).
+MENSILI = (("10 euro al mese", ""),       # i Payment Link mensili di Stripe che Elias crea nel pannello, uno per pulsante, ognuno con un
+           ("25 euro al mese", ""),       # prezzo fisso al mese. «Altro importo» è il link da 1 euro al mese in cui chi dona sceglie la
+           ("50 euro al mese", ""),       # quantità: vuoto, il suo pulsante non c'è. Come per STRIPE, la costruzione aggiunge lingua e
+           ("100 euro al mese", ""),      # segno «sito-dona», e Lux riconosce le donazioni del sito da questi link: se cambiano, va
+           ("Altro importo", ""))         # detto a Lux.
+PORTALE = ""                              # il collegamento al portale di Stripe in cui chi dona ogni mese smette da sé, con la sua email
+                                          # (https://billing.stripe.com/p/login/…): lo attiva Elias nel pannello, ed è lo stesso di Lux.
 
 CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
                                           # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
@@ -485,19 +499,31 @@ def gettoni(html, da):
         html = html.replace("{modulo-progetto}", modulo_progetto(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
-    return secondo_ricevute(secondo_stripe(html))
+    return secondo_ricevute(secondo_mensile(secondo_stripe(html)))
+
+SEGNO_SITO = "?locale=it&client_reference_id=sito-dona"   # la pagina di Stripe in italiano, e le donazioni del sito separate da quelle di Lux
 
 def secondo_stripe(testo):
     """ciò che sta tra {se-stripe} e {/se-stripe} resta solo con STRIPE; {stripe} è l'indirizzo del pagamento con la carta"""
     testo = re.sub(r"\{se-stripe\}(.*?)\{/se-stripe\}", lambda m: m.group(1) if STRIPE else "", testo, flags=re.S)
-    return testo.replace("{stripe}", sfuggi(STRIPE + "?locale=it&client_reference_id=sito-dona") if STRIPE else "")
+    return testo.replace("{stripe}", sfuggi(STRIPE + SEGNO_SITO) if STRIPE else "")
+
+def secondo_mensile(testo):
+    """con MENSILE resta ciò che sta tra {se-mensile} e {/se-mensile}, senza ciò che sta tra {senza-mensile} e {/senza-mensile};
+    {mensili} sono i pulsanti dei link mensili di MENSILI, {portale} il collegamento per smettere"""
+    testo = re.sub(r"\{se-mensile\}(.*?)\{/se-mensile\}", lambda m: m.group(1) if MENSILE else "", testo, flags=re.S)
+    testo = re.sub(r"\{senza-mensile\}(.*?)\{/senza-mensile\}", lambda m: "" if MENSILE else m.group(1), testo, flags=re.S)
+    pulsanti = " ".join('<a class="scelta" href="%s" target="_blank" rel="noopener">%s</a>' % (sfuggi(link + SEGNO_SITO), sfuggi(scritta))
+                        for scritta, link in MENSILI if link)
+    return testo.replace("{mensili}", '<p class="mensili">%s</p>' % pulsanti).replace("{portale}", sfuggi(PORTALE))
 
 def secondo_ricevute(testo):
     """con RICEVUTE resta ciò che sta tra {se-ricevute} e {/se-ricevute}, senza resta ciò che sta tra {senza-ricevute}
-    e {/senza-ricevute}; {ricevute-data} è il giorno da cui le ricevute partono da sole"""
+    e {/senza-ricevute}; {informativa-data} è il giorno dell'ultimo aggiornamento dell'informativa, quello di MENSILE
+    o di RICEVUTE"""
     testo = re.sub(r"\{se-ricevute\}(.*?)\{/se-ricevute\}", lambda m: m.group(1) if RICEVUTE else "", testo, flags=re.S)
     testo = re.sub(r"\{senza-ricevute\}(.*?)\{/senza-ricevute\}", lambda m: "" if RICEVUTE else m.group(1), testo, flags=re.S)
-    return testo.replace("{ricevute-data}", RICEVUTE)
+    return testo.replace("{informativa-data}", MENSILE or RICEVUTE)
 
 def modulo_contatti(da):
     """il modulo della pagina Contatti. Con FOGLIO il messaggio va allo script del foglio «Contatti della
