@@ -99,8 +99,9 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
 ## Rami e pubblicazione
 
 - Il ramo principale è `claude/rosadoro-foundation-site-6hc5hu`: ogni push lì
-  pubblica `sito/` su https://eliasminotti.github.io/rosadoro/ (indirizzo di
-  prova, non indicizzato), con `.github/workflows/pages.yml`.
+  pubblica `sito/` su https://larosadoro.org/ con `.github/workflows/pages.yml`.
+  Fino all’apertura le pagine chiedono ai motori di non indicizzarle (`ANTEPRIMA`);
+  il vecchio indirizzo di prova https://eliasminotti.github.io/rosadoro/ porta lì.
 - Ogni lavoro si fa su un ramo suo e arriva sul ramo principale solo dopo
   l'approvazione di Elias.
 - Il sito pubblicato si controlla da solo con `.github/workflows/controlli.yml`

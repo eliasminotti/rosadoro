@@ -23,7 +23,7 @@ Sul sito pubblicato (lo fa il workflow .github/workflows/controlli.yml ogni matt
 
     python3 sorgenti/controlla.py --in-rete [--collegamenti]
 
-  - il sito di prova e larosadoro.org rispondono, e i loro certificati non stanno per scadere;
+  - larosadoro.org risponde, e anche il vecchio indirizzo di prova (che porta lì); i certificati non stanno per scadere;
   - lo script del foglio «Contatti della Fondazione» risponde (moduli e giardino);
   - con --collegamenti (il lunedì e dopo ogni pubblicazione) anche i collegamenti verso altri siti.
 
@@ -34,7 +34,7 @@ import urllib.error, urllib.parse, urllib.request
 
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITO = os.path.join(RADICE, "sito")
-SITO_DI_PROVA = "https://eliasminotti.github.io/rosadoro/"
+SITO_DI_PROVA = "https://eliasminotti.github.io/rosadoro/"   # dal 21.10.2026 porta a larosadoro.org
 DEDICHE = os.path.join("in-memoria", "giardino-dei-ricordi", "dediche.json")   # la scrive la pubblicazione, non la costruzione
 CERTIFICATO_MINIMO = 10          # giorni: GitHub rinnova i certificati molto prima; sotto i 10 il rinnovo si è inceppato
 NAVIGATORE = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 rosadoro-controlli"
@@ -417,7 +417,7 @@ def apri(indirizzo, tentativi=2):
 
 def controlla_sito_pubblicato():
     dominio = impostazione("DOMINIO").rstrip("/") + "/"
-    for indirizzo, atteso in ((SITO_DI_PROVA, "La Rosa d"), (dominio, "")):
+    for indirizzo, atteso in ((dominio, "La Rosa d"), (SITO_DI_PROVA, "La Rosa d")):
         codice, testo = apri(indirizzo)
         if codice != 200:
             problemi.append("%s non risponde (%s)" % (indirizzo, codice or testo))
@@ -425,7 +425,7 @@ def controlla_sito_pubblicato():
             problemi.append("%s risponde, ma senza la pagina della Fondazione" % indirizzo)
         else:
             print("Risponde: %s" % indirizzo)
-    for indirizzo in (SITO_DI_PROVA + "css/stile.css", SITO_DI_PROVA + "js/sito.js"):
+    for indirizzo in (dominio + "css/stile.css", dominio + "js/sito.js"):
         codice, testo = apri(indirizzo)
         if codice != 200:
             problemi.append("%s non risponde (%s)" % (indirizzo, codice or testo))
