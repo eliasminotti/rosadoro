@@ -22,9 +22,10 @@ import json
 DOMINIO = "https://larosadoro.org"      # [VERIFICARE] il dominio definitivo
 ANTEPRIMA = True                          # True: le pagine chiedono ai motori di ricerca di non indicizzarle (indirizzo di prova)
 TESTATA_CENTRATA = True                   # prova del 15.9 (Dacia, ok Elias): logo e nome sopra, menu sotto; False = una riga
-LINK_PULITI = False                       # False: i collegamenti finiscono in «index.html», così il sito
+LINK_PULITI = True                        # False: i collegamenti finiscono in «index.html», così il sito
                                           #        funziona anche aperto da una cartella sul computer.
-                                          # True:  collegamenti puliti «/lasciti/», da attivare alla pubblicazione.
+                                          # True:  collegamenti puliti «/lasciti/»: accesi il 21.10.2026, quando
+                                          #        larosadoro.org è passato a questo sito (Elias).
 FOGLIO = "https://script.google.com/macros/s/AKfycbzHUOOLsgMRu-2wUcBNvVYjoTspg0-gBGaBlRkZylzz_JcDbbw1JZ_oSJMQDbj-R6xrBA/exec"                               # l'indirizzo dell'App web dello script del foglio «Contatti della Fondazione»
                                           # (sorgenti/foglio-contatti.gs), quello che finisce in «/exec».
                                           # Pieno: il modulo dei Contatti scrive nel foglio e Forminit non si usa più.

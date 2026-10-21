@@ -38,9 +38,9 @@ Come si costruisce
 Come si pubblica
   Ogni lavoro si fa su un ramo suo e diventa una proposta (pull request). Quando Elias dice di sì entra nel ramo
   principale, claude/rosadoro-foundation-site-6hc5hu, e il workflow .github/workflows/pages.yml pubblica sito/ su
-  https://eliasminotti.github.io/rosadoro/ (indirizzo di prova, non indicizzato: lo vede solo chi ha il link).
-  Il dominio larosadoro.org e i collegamenti puliti si accendono il giorno dell’apertura (ANTEPRIMA e LINK_PULITI
-  in costruisci.py), dopo il sì di Elias.
+  https://larosadoro.org/ (dal 21.10.2026, con i collegamenti puliti; il vecchio indirizzo di prova
+  https://eliasminotti.github.io/rosadoro/ porta lì). Fino al giorno dell’apertura le pagine chiedono ai motori
+  di ricerca di non indicizzarle: ANTEPRIMA in costruisci.py si spegne quel giorno, dopo il sì di Elias.
 
 I controlli
   Prima di pubblicare, a ogni pubblicazione (pages.yml): le pagine corrispondono ai testi, il JavaScript non ha errori,
