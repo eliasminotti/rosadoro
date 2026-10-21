@@ -180,6 +180,7 @@ a.scelta:hover{border-color:var(--oro);color:var(--testo)}
   .testa.a-due-righe .menu>ul{justify-content:center}
   .testa.a-due-righe .voce.pro>a{margin-left:14px}
   .testa.a-due-righe .voce.pro .sottomenu{right:auto;left:0}
+  .testa.a-due-righe~.corpo [id]{scroll-margin-top:calc(150px + 24px)}   /* chi arriva a un’àncora vede il titolo sotto la testata, non dietro */
 }
 /* con otto sezioni (11.10) il menu su una riga non entra fino a 1200 px: voci un poco più strette */
 @media (min-width:1024px) and (max-width:1199px){
@@ -333,6 +334,12 @@ a.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .tavola-fascia{position:relative;margin:var(--ritmo) 0 0;border:1px solid var(--filo-forte)}
 .tavola-fascia img{width:100%}
 .tavola figcaption{position:absolute;right:16px;bottom:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--testo-45)}
+/* il pieghevole di un corso: le pagine in fila, ciascuna si apre in grande (Elias, 21.10) */
+.pieghevole{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pieghevole a{display:block;border:1px solid var(--filo-forte);background:var(--carta);transition:border-color .2s}
+.pieghevole a:hover{border-color:var(--oro)}
+.pieghevole img{width:100%;height:auto}
+@media (max-width:600px){.pieghevole{grid-template-columns:1fr 1fr;gap:12px}}
 
 /* ---------- footer ---------- */
 .pie{border-top:1px solid var(--filo);padding:96px 0 40px;margin-top:0}
