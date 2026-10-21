@@ -691,12 +691,19 @@ TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
 <li>la formazione online sulle DAT, le <a class="link" href="{→lasciti/la-liberta-del-come}">Disposizioni anticipate di trattamento</a>.</li>
 </ul>
 <h3 id="quietude-italia-2027">Quietude Italia 2027</h3>
+<div class="pieghevole">
+<a href="{img:quietude/pagina-1-grande.jpg}"><img src="{img:quietude/pagina-1.jpg}" width="480" height="680" loading="lazy" alt="Pagina 1 del pieghevole: la copertina, con il «Todesengel» di Ninetta Sombart"></a>
+<a href="{img:quietude/pagina-2-grande.jpg}"><img src="{img:quietude/pagina-2.jpg}" width="480" height="680" loading="lazy" alt="Pagina 2 del pieghevole: a chi è destinato il corso e che cosa si impara"></a>
+<a href="{img:quietude/pagina-3-grande.jpg}"><img src="{img:quietude/pagina-3.jpg}" width="480" height="680" loading="lazy" alt="Pagina 3 del pieghevole: a chi è rivolta la formazione, gli attestati e le date"></a>
+<a href="{img:quietude/pagina-4-grande.jpg}"><img src="{img:quietude/pagina-4.jpg}" width="480" height="680" loading="lazy" alt="Pagina 4 del pieghevole: i punti chiave, le iscrizioni e le quote"></a>
+</div>
+<p>Il pieghevole del corso: apri una pagina per vederla in grande, oppure <a class="link" href="{file:quietude-italia-2027.pdf}">scarica il pieghevole (PDF)</a>.</p>
 <p>Il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita: come offrire sostegno emotivo e spirituale a chi sta morendo o si prepara al passaggio della soglia. È per chiunque voglia stare accanto a chi vive l’ultimo tratto della vita, per sé o per lavoro, qualunque sia la sua fede, purché sia aperto all’idea di una vita dopo la morte.</p>
 <p>È pensato per familiari e caregiver, medici, infermieri, OSS e assistenti sociali, terapeuti e counselor, volontari e personale degli hospice, celebranti laici, e per chi cerca un nuovo orientamento o vuole prepararsi con consapevolezza alla propria morte.</p>
 <p>Lo guida Annie Blampied-Radojćin, fondatrice di Quietude®, con Juanna Grace Ladaga e Fiona Sim dal Regno Unito e, dall’Italia, Dacia Dalla Libera ed Elena Martinelli; collaborano Chiara Favaro e Francesca Zanuttini. Le lezioni sono in italiano, con la traduzione delle docenti inglesi. Il corso si fonda soprattutto sull’opera di Rudolf Steiner e approfondisce anche la filosofia e le pratiche del buddismo tibetano sul morire.</p>
 <p>Si comincia con una settimana residenziale dal 13 al 21 marzo 2027 alle Preseglie, a Desenzano del Garda, tra colline, vigneti e lago. Seguono otto incontri online, un giovedì ogni due settimane dalle 19 alle 21.30, dall’8 aprile al 15 luglio, e a settembre la presentazione del progetto di fine corso. Per tutto il percorso c’è un tutor italiano tra i docenti. A chi completa la formazione vanno l’attestato di Operatore Quietude® e il certificato ‘M’ Technique®.</p>
 <p>I posti sono 24 e le domande si accolgono in ordine di arrivo, entro il 17 gennaio 2027. Per iscriverti manda una lettera con i motivi per cui vuoi seguire il corso e una breve biografia legata ai suoi temi, scritte con parole tue, senza l’intelligenza artificiale. La quota è di 1.880 euro in due rate, oppure di 1.800 euro in un’unica soluzione entro il 30 novembre 2026; vitto, alloggio e viaggio sono a parte.</p>
-<p>Il programma completo è nel pieghevole: <a class="link" href="{file:quietude-italia-2027.pdf}">scarica il pieghevole (PDF)</a>. Per informazioni e iscrizioni scrivi alla segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
+<p>Per informazioni e iscrizioni scrivi alla segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 <p><a class="vai" href="{→contatti}">Vuoi partecipare? Scrivici</a></p>
 """)
 
