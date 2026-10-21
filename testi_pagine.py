@@ -494,7 +494,7 @@ TESTI["chi-siamo"] = dict(
 <h4>Assistenza alla natura</h4>
 <p>Interventi e servizi per la salvaguardia e il miglioramento dell'ambiente e per l'uso accorto e razionale delle risorse naturali: bonifiche, ripristino idrogeologico, riforestazione, rinaturalizzazione; la creazione di aree verdi e parchi per la tutela della biodiversità.</p>
 <p>La tutela e la valorizzazione del patrimonio culturale e paesaggistico; la riqualificazione di beni pubblici inutilizzati e di antiche ville abbandonate.</p>
-<p><a class="vai" href="{→servizi/agricoltura-sociale}">Agricoltura sociale</a></p>
+<p><a class="vai" href="{→servizi}">Agricoltura sociale</a></p>
 </div>
 <div class="box">
 <h4>Formazione e divulgazione</h4>
@@ -686,10 +686,17 @@ TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
 <p>La formazione per l'accompagnamento alla morte, o al fine vita, è un percorso multidisciplinare rivolto a professionisti sanitari, volontari e cittadini che desiderano acquisire competenze emotive, pratiche e spirituali per stare accanto a chi si trova nell'ultimo tratto della vita.</p>
 <p>I percorsi formativi sono diversi:</p>
 <ul class="stelle">
-<li><strong>Quietude Italia</strong>;</li>
+<li><strong><a class="link" href="#quietude-italia-2027">Quietude Italia</a></strong>;</li>
 <li>la formazione per la cittadinanza e il volontariato;</li>
 <li>la formazione online sulle DAT, le <a class="link" href="{→lasciti/la-liberta-del-come}">Disposizioni anticipate di trattamento</a>.</li>
 </ul>
+<h3 id="quietude-italia-2027">Quietude Italia 2027</h3>
+<p>Il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita: come offrire sostegno emotivo e spirituale a chi sta morendo o si prepara al passaggio della soglia. È per chiunque voglia stare accanto a chi vive l’ultimo tratto della vita, per sé o per lavoro, qualunque sia la sua fede, purché sia aperto all’idea di una vita dopo la morte.</p>
+<p>È pensato per familiari e caregiver, medici, infermieri, OSS e assistenti sociali, terapeuti e counselor, volontari e personale degli hospice, celebranti laici, e per chi cerca un nuovo orientamento o vuole prepararsi con consapevolezza alla propria morte.</p>
+<p>Lo guida Annie Blampied-Radojćin, fondatrice di Quietude®, con Juanna Grace Ladaga e Fiona Sim dal Regno Unito e, dall’Italia, Dacia Dalla Libera ed Elena Martinelli; collaborano Chiara Favaro e Francesca Zanuttini. Le lezioni sono in italiano, con la traduzione delle docenti inglesi. Il corso si fonda soprattutto sull’opera di Rudolf Steiner e approfondisce anche la filosofia e le pratiche del buddismo tibetano sul morire.</p>
+<p>Si comincia con una settimana residenziale dal 13 al 21 marzo 2027 alle Preseglie, a Desenzano del Garda, tra colline, vigneti e lago. Seguono otto incontri online, un giovedì ogni due settimane dalle 19 alle 21.30, dall’8 aprile al 15 luglio, e a settembre la presentazione del progetto di fine corso. Per tutto il percorso c’è un tutor italiano tra i docenti. A chi completa la formazione vanno l’attestato di Operatore Quietude® e il certificato ‘M’ Technique®.</p>
+<p>I posti sono 24 e le domande si accolgono in ordine di arrivo, entro il 17 gennaio 2027. Per iscriverti manda una lettera con i motivi per cui vuoi seguire il corso e una breve biografia legata ai suoi temi, scritte con parole tue, senza l’intelligenza artificiale. La quota è di 1.880 euro in due rate, oppure di 1.800 euro in un’unica soluzione entro il 30 novembre 2026; vitto, alloggio e viaggio sono a parte.</p>
+<p>Il programma completo è nel pieghevole: <a class="link" href="{file:quietude-italia-2027.pdf}">scarica il pieghevole (PDF)</a>. Per informazioni e iscrizioni scrivi alla segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 <p><a class="vai" href="{→contatti}">Vuoi partecipare? Scrivici</a></p>
 """)
 
@@ -718,7 +725,10 @@ for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento", "lasciti/il-lasc
 TESTI["news"] = dict(
     sotto="Le novità della Fondazione: incontri, progetti, notizie.",
     corpo="""
-<p class="segnaposto">[Qui arrivano le novità, una sotto l'altra, con la data: la più recente in alto. Le prime si scrivono quando ci sono.]</p>
+<p>Qui trovi le novità della Fondazione, una sotto l’altra con la data, la più recente in alto: gli incontri, i progetti che nascono, i passi che facciamo.</p>
+<p>Se vuoi riceverle anche per email, chiedi le notizie della Fondazione dal riquadro in fondo alla pagina.</p>
+<h3>Quietude Italia 2027: aperte le iscrizioni</h3>
+<p><em>21 ottobre 2026.</em> Il 13 marzo 2027 comincia Quietude Italia, il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita, guidato da Annie Blampied-Radojćin, fondatrice di Quietude®, con Dacia Dalla Libera e le altre docenti. Le iscrizioni sono aperte fino al 17 gennaio 2027 e i posti sono 24: il programma e il pieghevole sono nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento alla morte</a>.</p>
 """)
 
 
@@ -1216,6 +1226,71 @@ TESTI["servizi"] = dict(
 <p>Questa sezione è in costruzione: le pagine arriveranno a mano a mano che i servizi prendono forma. Intanto l’accompagnamento nel fine vita, <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Io sono qui per te</a>, lo trovi nella sezione In memoria. Se cerchi un aiuto che qui non vedi, <a class="link" href="{→contatti}">scrivici</a>.</p>
 """)
 
+# ================================================================ PROGETTI, EVENTI E FORMAZIONE: le righe provvisorie
+# Al posto delle note tra [ ] (21.10, bozza di Claude rivista da Elias). Provvisorie: i testi di Dacia per Progetti prenderanno il loro posto.
+TESTI["progetti"] = dict(
+    sotto="I progetti della Fondazione e quelli che sostiene, da quando nascono a quando sono compiuti.",
+    corpo="""
+<p>La Rosa d’Oro è una fondazione del Terzo settore, nata il 26 febbraio 2026. Lo statuto la costituisce per avere progetti propri e per sostenere quelli di altre realtà che ne condividono la visione: nella cura delle persone, nel lavoro della terra, nell’accompagnamento al fine vita, nel sostegno ai giovani.</p>
+<p>Qui i progetti sono ordinati secondo il loro cammino: da avviare, quando cercano persone e competenze; da sostenere, quando raccolgono i fondi o cercano collaboratori; in corso, quando sono finanziati e già al lavoro; realizzati, quando sono conclusi e operativi.</p>
+<p>Tra i progetti della Fondazione c’è già Lux, per un uso consapevole del digitale, dei social e dell’intelligenza artificiale, con il suo sito: <a class="link" href="https://lux.larosadoro.org/" rel="noopener">lux.larosadoro.org</a>. Gli altri li presenteremo qui a mano a mano che prendono forma. Se ne porti avanti uno che va nella nostra direzione, <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentacelo</a>.</p>
+""")
+
+TESTI["progetti/da-avviare"] = dict(
+    sotto="Progetti in germe, che cercano persone e competenze per partire.",
+    corpo="""
+<p>Qui trovi i progetti che stanno nascendo: hanno un’idea chiara e cercano chi li aiuti a partire, con il proprio tempo, con una competenza, con un luogo, con un primo sostegno.</p>
+<p>Accompagnare un progetto nei primi passi è uno dei compiti per cui la Fondazione è nata, insieme ai partner che servono. I primi da avviare li presenteremo qui. Se vuoi dare una mano a un progetto che parte, o ne hai uno tu, <a class="link" href="{→contatti}">scrivici</a>.</p>
+""")
+
+TESTI["progetti/da-sostenere"] = dict(
+    sotto="Progetti pronti a partire, che raccolgono i fondi per farlo.",
+    corpo="""
+<p>Qui trovi i progetti che hanno un business plan e raccolgono i fondi per realizzarsi. Per ognuno diremo che cosa fa, quanto serve e come puoi sostenerlo: con una donazione, un fondo di memoria, un lascito o, per un’azienda, con una parte delle vendite o degli utili.</p>
+<p>I primi li presenteremo qui. Intanto puoi sostenere la Fondazione e i suoi progetti dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
+""")
+
+TESTI["progetti/in-corso"] = dict(
+    sotto="Progetti finanziati, su cui si sta lavorando.",
+    corpo="""
+<p>Qui trovi i progetti in corso, finanziati o sostenuti dalla Fondazione, con le notizie su come procedono e su come vengono usati i fondi. I primi li presenteremo qui quando partiranno; intanto le novità della Fondazione le trovi nelle <a class="link" href="{→news}">News</a>.</p>
+""")
+
+TESTI["progetti/realizzati"] = dict(
+    sotto="Progetti conclusi: che cosa è stato fatto, con quali risorse, con chi.",
+    corpo="""
+<p>Qui trovi i progetti conclusi o già operativi, ciascuno con il suo resoconto. La Fondazione è nata nel 2026: i primi arriveranno qui quando saranno compiuti.</p>
+""")
+
+TESTI["eventi-e-formazione"] = dict(
+    sotto="Gli incontri e i percorsi di formazione della Fondazione: in medicina, in agricoltura, nell’accompagnamento al fine vita.",
+    corpo="""
+<p>La Fondazione è nata dall’incontro tra un agricoltore e un medico, e dall’idea che medicina e agricoltura possano lavorare insieme per la persona. Per questo lo statuto la costituisce anche per formare e per far incontrare: la formazione degli operatori in ambito medico-terapeutico e nel fine vita, e quella degli agricoltori; l’aggiornamento di medici, personale sanitario e operatori delle discipline terapeutiche; seminari, laboratori e convegni aperti a tutti.</p>
+<p>I percorsi per l’accompagnamento al fine vita li trovi nella <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}">loro pagina</a>, a cominciare da <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">Quietude Italia</a>, che parte il 13 marzo 2027. Gli incontri e gli altri percorsi arriveranno qui, a mano a mano che li organizziamo. Se vuoi saperlo quando succede, chiedi le notizie della Fondazione dal riquadro in fondo alla pagina.</p>
+""")
+
+TESTI["eventi-e-formazione/eventi"] = dict(
+    sotto="Incontri, seminari e laboratori della Fondazione e dei suoi partner.",
+    corpo="""
+<p>Qui trovi gli incontri organizzati dalla Fondazione o insieme ai suoi partner, con la data, il luogo e il modo per partecipare: seminari, laboratori, convegni, attività culturali aperte a tutti.</p>
+<p><strong>Dal 13 marzo 2027, Quietude Italia</strong>: il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita. Si comincia con una settimana residenziale alle Preseglie, a Desenzano del Garda, e si continua con incontri online fino a luglio. Le iscrizioni sono aperte fino al 17 gennaio 2027: il programma è nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento alla morte</a>.</p>
+<p>Gli altri incontri li annunceremo qui e nelle <a class="link" href="{→news}">News</a>. Se vuoi organizzarne uno con noi, <a class="link" href="{→contatti}">scrivici</a>.</p>
+""")
+
+TESTI["eventi-e-formazione/formazione-medica"] = dict(
+    sotto="Formazione e aggiornamento per medici, personale sanitario e operatori delle discipline terapeutiche.",
+    corpo="""
+<p>Lo statuto costituisce la Fondazione per la formazione e l’aggiornamento continuo di medici, personale sanitario e operatori delle discipline terapeutiche e del benessere: corsi, seminari, master e scuole di specializzazione, con uno sguardo che tiene insieme corpo, mente e spirito.</p>
+<p>La presidente, Dacia Dalla Libera, è medico chirurgo, neurologa e formatrice. I primi percorsi li presenteremo qui, con il programma e le date. Se sei un medico o un operatore e vuoi seguirli o proporne uno, <a class="link" href="{→contatti}">scrivici</a>.</p>
+""")
+
+TESTI["eventi-e-formazione/formazione-agricola"] = dict(
+    sotto="Formazione per chi coltiva la terra: agricoltura biologica, biodinamica, sociale e rigenerativa.",
+    corpo="""
+<p>Lo statuto costituisce la Fondazione per la formazione degli agricoltori e per percorsi nell’agricoltura e nell’agricoltura sociale, nell’educazione alimentare e nella rigenerazione dei territori: corsi, seminari e laboratori agricoli.</p>
+<p>Il vicepresidente, Elias Minotti, è agricoltore, tecnico e formatore. I primi percorsi li presenteremo qui, con il programma e le date. Se vuoi partecipare o proporne uno, <a class="link" href="{→contatti}">scrivici</a>.</p>
+""")
+
 # ------------------------------------------------------------ le descrizioni per i motori di ricerca (17.9, bozza di Claude; Dacia rilegge)
 # una frase per pagina, al massimo 155 caratteri: è la riga che Google mostra sotto il titolo
 DESCRIZIONI = {
@@ -1310,4 +1385,19 @@ DESCRIZIONI.update({
     "professionisti/fondi-di-scopo": "Per i professionisti: i fondi di scopo dentro la Fondazione, con un nome, uno scopo e una contabilità separata. Un’alternativa a una fondazione propria.",
     "professionisti/fondo-della-memoria": "Per i professionisti: come eredi e legatari possono destinare alla Fondazione una parte della successione, nel Fondo della Memoria o in un fondo con un nome.",
     "professionisti/vitalizio-filantropico": "Per i professionisti: il vitalizio filantropico, un bene alla Fondazione in cambio di assistenza e cure garantite al cliente per tutta la vita.",
+    # Progetti ed Eventi e formazione (21.10, bozza di Claude rivista da Elias)
+    "progetti/da-avviare": "I progetti che nascono con la Fondazione La Rosa d’Oro e cercano persone, competenze e luoghi per partire.",
+    "progetti/da-sostenere": "I progetti della Fondazione La Rosa d’Oro che hanno un business plan e raccolgono i fondi per realizzarsi.",
+    "progetti/in-corso": "I progetti in corso, finanziati o sostenuti dalla Fondazione La Rosa d’Oro, con le notizie su come procedono e su come vengono usati i fondi.",
+    "progetti/realizzati": "I progetti conclusi o già operativi della Fondazione La Rosa d’Oro, ciascuno con il suo resoconto.",
+    "eventi-e-formazione/eventi": "Incontri, seminari, laboratori e convegni della Fondazione La Rosa d’Oro e dei suoi partner, con la data, il luogo e il modo per partecipare.",
+    "eventi-e-formazione/formazione-medica": "Formazione e aggiornamento per medici, personale sanitario e operatori delle discipline terapeutiche e del benessere: corsi, seminari e master.",
+    "eventi-e-formazione/formazione-agricola": "Formazione per chi coltiva la terra: agricoltura biologica, biodinamica, sociale e rigenerativa, educazione alimentare, laboratori agricoli.",
+})
+
+# i titoli delle schede delle pagine di Eventi e formazione (21.10): davanti le parole che le persone cercano
+TITOLI.update({
+    "eventi-e-formazione/eventi": "Eventi: incontri, seminari e laboratori",
+    "eventi-e-formazione/formazione-medica": "Formazione per medici e operatori sanitari",
+    "eventi-e-formazione/formazione-agricola": "Formazione agricola: biologico, biodinamica, agricoltura sociale",
 })
