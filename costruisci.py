@@ -36,7 +36,8 @@ TURNSTILE = ""                            # la chiave pubblica (site key) del wi
                                           # Cloudflare, per il dominio larosadoro.org, in modalità «Invisibile» (Elias, 22.10). Piena: ogni
                                           # modulo la porta in data-turnstile, sito.js carica Turnstile quando si comincia a scrivere e manda
                                           # la sua risposta allo script del foglio, che la verifica con la chiave segreta TURNSTILE_SEGRETO
-                                          # (nelle proprietà dello script, mai qui); informativa e cookie ne parlano ({se-turnstile}).
+                                          # (nelle proprietà dello script, mai qui), da mettere solo quando il sito con questa chiave è
+                                          # già online; informativa e cookie ne parlano ({se-turnstile}).
                                           # Vuota: niente Turnstile; il resto della protezione dallo spam funziona lo stesso.
 TRAPPOLA = ('<input class="trappola" name="sito_web" type="text" value="" tabindex="-1" autocomplete="off" aria-hidden="true">')
                                           # il campo trappola di ogni modulo: le persone non lo vedono (stile.css), i programmi

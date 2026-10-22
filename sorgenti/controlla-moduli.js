@@ -82,7 +82,7 @@ function campiDi(richiesta) {
    turnstile: 'passa' mette la chiave di Turnstile nei moduli e risponde con Turnstile finto; 'non si carica' mette
    la chiave ma Cloudflare non risponde; senza, i moduli non hanno la chiave */
 async function apri(percorso, { foglio = () => ({ success: true }), dediche = null, referer, turnstile } = {}) {
-  const contesto = await browser.newContext();
+  const contesto = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
   const allo = [], fuori = [], avvisi = [], cloudflare = [];
   await contesto.route('**/*', async route => {
     const richiesta = route.request();
@@ -396,17 +396,81 @@ controllo('con Turnstile: una seconda dedica parte con una risposta nuova, perch
   } finally { await p.chiudi(); }
 });
 
-controllo('con Turnstile: se Turnstile non si carica, il messaggio parte lo stesso, senza la sua risposta', async () => {
+const AVVISO_POSTA = 'Il controllo anti-spam non si è caricato nel tuo browser. Puoi mandarci lo stesso il messaggio dalla tua email.';
+
+/* il riquadro per mandare il messaggio dalla propria posta: il testo, i due collegamenti e che cosa c’è dentro */
+async function dallaPosta(page, dove) {
+  const riquadro = page.locator(dove + ' .dalla-posta');
+  await riquadro.waitFor({ state: 'visible', timeout: 15000 });
+  const gmail = page.locator(dove + ' .dalla-posta a', { hasText: 'Scrivi con Gmail' });
+  const posta = page.locator(dove + ' .dalla-posta a', { hasText: 'Apri il tuo programma di posta' });
+  const g = new URL(await gmail.getAttribute('href'));
+  const m = await posta.getAttribute('href');
+  const campiPosta = new URLSearchParams(m.slice(m.indexOf('?') + 1).replace(/\+/g, '%2B'));
+  return {
+    testo: (await riquadro.locator('p').first().textContent()).replace(/\s+/g, ' ').trim(),
+    gmail: { href: g.href, host: g.host, view: g.searchParams.get('view'), a: g.searchParams.get('to'), oggetto: g.searchParams.get('su'),
+             corpo: g.searchParams.get('body'), target: await gmail.getAttribute('target') },
+    posta: { href: m, a: m.slice(7, m.indexOf('?')), oggetto: campiPosta.get('subject'), corpo: campiPosta.get('body') },
+    copia: page.locator(dove + ' .dalla-posta button', { hasText: 'Copia il messaggio' })
+  };
+}
+
+controllo('con Turnstile: se Turnstile non si carica, il messaggio non parte e compare il riquadro per mandarlo dalla propria posta', async () => {
   const p = await apri('contatti/index.html', { turnstile: 'non si carica', foglio: () => ({ success: true }) });
+  try {
+    await p.page.fill('#mc-nome', 'Carla Rossi');
+    await p.page.fill('#mc-posta', 'carla@example.org');
+    await p.page.fill('#mc-oggetto', 'lascito');
+    await p.page.fill('#mc-messaggio', 'Vorrei sapere come funziona.');
+    await p.page.click('#modulo-contatti .invia');
+    const r = await dallaPosta(p.page, '#modulo-contatti');
+    assert.strictEqual(r.testo, AVVISO_POSTA);
+    assert.strictEqual(p.allo.length, 0, 'senza Turnstile il modulo non deve partire');
+    assert.deepStrictEqual([r.gmail.host, r.gmail.view, r.gmail.a, r.gmail.oggetto, r.gmail.target],
+      ['mail.google.com', 'cm', SEGRETERIA, 'lascito', '_blank']);
+    assert.ok(r.gmail.corpo.includes('Vorrei sapere come funziona.') && r.gmail.corpo.includes('Carla Rossi'), r.gmail.corpo);
+    assert.deepStrictEqual([r.posta.a, r.posta.oggetto, r.posta.corpo], [SEGRETERIA, 'lascito', r.gmail.corpo]);
+    await r.copia.click();
+    await p.page.waitForFunction(() => /Copiato/.test(document.querySelector('#modulo-contatti .dalla-posta button').textContent));
+    const copiato = await p.page.evaluate(() => navigator.clipboard.readText());
+    assert.strictEqual(copiato, 'A: ' + SEGRETERIA + '\nOggetto: lascito\n\n' + r.gmail.corpo);
+    assert.strictEqual(await p.page.inputValue('#mc-messaggio'), 'Vorrei sapere come funziona.', 'il testo resta nel modulo');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('con un messaggio lunghissimo i pulsanti della posta lo accorciano, e «Copia il messaggio» lo copia intero', async () => {
+  const p = await apri('contatti/index.html', { turnstile: 'non si carica' });
+  const lungo = 'Una riga di prova, con parole accentate: perché sì. '.repeat(120).trim();
   try {
     await p.page.fill('#mc-nome', 'Carla');
     await p.page.fill('#mc-posta', 'carla@example.org');
-    await p.page.fill('#mc-messaggio', 'Un messaggio');
+    await p.page.fill('#mc-messaggio', lungo);
     await p.page.click('#modulo-contatti .invia');
-    assert.ok((await esitoDi(p.page, '#modulo-contatti')).startsWith('Grazie, il tuo messaggio è arrivato.'));
-    assert.strictEqual(p.allo.length, 1);
-    assert.strictEqual(p.allo[0].campi._turnstile, '');
-    assert.deepStrictEqual(p.errori, []);
+    const r = await dallaPosta(p.page, '#modulo-contatti');
+    assert.ok(r.gmail.href.length <= 2000 && r.posta.href.length <= 2000, 'collegamenti troppo lunghi: ' + r.gmail.href.length + ', ' + r.posta.href.length);
+    assert.ok(r.gmail.corpo.includes('«Copia il messaggio»'), 'il testo accorciato deve dire dove trovarlo intero');
+    await r.copia.click();
+    await p.page.waitForFunction(() => /Copiato/.test(document.querySelector('#modulo-contatti .dalla-posta button').textContent));
+    assert.ok((await p.page.evaluate(() => navigator.clipboard.readText())).includes(lungo), 'la copia deve avere il testo intero');
+  } finally { await p.chiudi(); }
+});
+
+controllo('con Turnstile: anche la dedica, se Turnstile non si carica, si può mandare dalla propria posta', async () => {
+  const p = await apri(GIARDINO, { turnstile: 'non si carica' });
+  try {
+    await scegliImmagine(p.page);
+    await p.page.fill('#dedica-nome', 'Nonna Lina');
+    await p.page.fill('#dedica-testo', 'Ti pensiamo ogni giorno');
+    await p.page.fill('#dedica-mittente', 'Carla');
+    await p.page.fill('#dedica-posta', 'carla@example.org');
+    await p.page.check('#dedica-consenso');
+    await p.page.click('#modulo-dedica .invia');
+    const r = await dallaPosta(p.page, '#modulo-dedica');
+    assert.strictEqual(p.allo.length, 0);
+    assert.strictEqual(r.gmail.oggetto, 'Giardino dei ricordi — Nonna Lina');
+    assert.ok(r.gmail.corpo.includes('In memoria di: Nonna Lina') && r.gmail.corpo.includes('Ti pensiamo ogni giorno'), r.gmail.corpo);
   } finally { await p.chiudi(); }
 });
 
@@ -423,9 +487,11 @@ controllo('con Turnstile: il riquadro delle notizie e il modulo dei progetti man
     await esitoDi(p.page, '#modulo-progetto');
     await p.page.fill('#mn-posta', 'lettore@example.org');
     await p.page.click('#modulo-notizie .invia');
-    const esito = await esitoDi(p.page, '#modulo-notizie');
+    const r = await dallaPosta(p.page, '#modulo-notizie');
     assert.deepStrictEqual(p.allo.map(a => [a.campi.tipo, a.campi._turnstile]), [['progetto', 'risposta-1-0'], ['notizie', 'risposta-2-0']]);
-    assert.strictEqual(esito, 'L’iscrizione non è partita. Riprova tra poco, oppure scrivici a ' + SEGRETERIA + '.', 'senza Turnstile l’iscrizione non parte, e la pagina lo dice');
+    assert.strictEqual(r.testo, AVVISO_POSTA, 'se lo script dice che manca Turnstile, compare lo stesso riquadro');
+    assert.strictEqual(r.gmail.oggetto, 'Notizie della Fondazione');
+    assert.ok(r.gmail.corpo.includes('lettore@example.org'), r.gmail.corpo);
   } finally { await p.chiudi(); }
 });
 

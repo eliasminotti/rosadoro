@@ -707,16 +707,33 @@ controllo('con Turnstile: se Cloudflare dice che la risposta non vale, è spam',
   assert.deepStrictEqual(spam(schede).map(r => r['Perché']), Array(4).fill('spam: Turnstile dice che non è una persona'));
 });
 
-controllo('con Turnstile: se non si è caricato, il messaggio entra «da verificare», con l’avviso alla segreteria ma senza email a chi ha scritto', () => {
+controllo('con Turnstile: senza la sua risposta l’invio va nello «Spam» e torna indietro con «controllo», senza avvisi né email', () => {
   const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: persona });
-  const risposta = json(script.doPost(messaggio({ _turnstile: '', _tempo: '30', notizie: 'si', consenso: CONSENSO })));
-  assert.deepStrictEqual([risposta.success, risposta.conferma], [true, false]);
-  const r = righe(schede.Contatti)[0];
-  assert.deepStrictEqual([r['Richiesta'], r['Stato'], r['Consenso alle notizie']], ['contatto', 'da verificare', 'sì']);
-  assert.strictEqual(email.length, 1, 'solo l’avviso alla segreteria');
-  assert.deepStrictEqual([email[0].to, email[0].subject], [SEGRETERIA, 'Da verificare · Messaggio dal sito: Carla Rossi · lascito']);
-  assert.ok(email[0].body.includes('Turnstile'), email[0].body);
+  for (const r of [messaggio({ _tempo: '30', notizie: 'si', consenso: CONSENSO }), dedica({ _tempo: '30' }), progetto({ _tempo: '30' }),
+                   dalSito({ tipo: 'notizie', notizie: 'si', email: 'lettore@example.org', consenso: CONSENSO, _tempo: '30' })]) {
+    const risposta = json(script.doPost(r));
+    assert.deepStrictEqual([risposta.success, risposta.error], [false, 'controllo'], 'la pagina deve sapere che manca il controllo');
+  }
+  assert.strictEqual(righe(schede.Contatti).length, 0);
+  assert.ok(!schede.Dediche && !schede.Progetti);
+  assert.strictEqual(email.length, 0, 'nessun avviso e nessuna email');
+  assert.deepStrictEqual(spam(schede).map(r => [r['Modulo'], r['Perché']]), [['contatto', 'sospetto: senza risposta di Turnstile'],
+    ['dedica', 'sospetto: senza risposta di Turnstile'], ['progetto', 'sospetto: senza risposta di Turnstile'], ['notizie', 'sospetto: senza risposta di Turnstile']]);
+});
+
+controllo('con Turnstile «persona» un link solo nel testo entra «da verificare»: avviso alla segreteria, nessuna email a chi scrive', () => {
+  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: persona });
+  const m = json(script.doPost(messaggio({ messaggio: 'Il nostro studio: www.studio.example', _turnstile: 'buona', _tempo: '30', notizie: 'si', consenso: CONSENSO })));
+  const p = json(script.doPost(progetto({ descrizione: 'Il sito: https://orto.example', _turnstile: 'buona', _tempo: '30' })));
+  const d = json(script.doPost(dedica({ dedica: 'https://ricordo.example', _turnstile: 'buona', _tempo: '30' })));
+  assert.deepStrictEqual([m.success, m.conferma, p.success, d.success, d.ricevuta], [true, false, true, true, false]);
+  assert.deepStrictEqual([righe(schede.Contatti)[0]['Stato'], righe(schede.Progetti)[0]['Stato'], righe(schede.Dediche)[0]['Stato']],
+    ['da verificare', 'da verificare', 'da verificare']);
   assert.strictEqual(spam(schede).length, 0);
+  assert.ok(email.every(e => e.to === SEGRETERIA), 'è partita un’email verso fuori');
+  assert.strictEqual(email.length, 3);
+  assert.strictEqual(email[0].subject, 'Da verificare · Messaggio dal sito: Carla Rossi · lascito');
+  assert.ok(email[0].body.includes('link'), email[0].body);
 });
 
 controllo('con Turnstile: se Cloudflare non risponde, anche dediche e progetti entrano «da verificare», senza email a chi li ha scritti', () => {
@@ -729,14 +746,6 @@ controllo('con Turnstile: se Cloudflare non risponde, anche dediche e progetti e
   assert.deepStrictEqual(righe(schede.Contatti).map(r => [r['Richiesta'], r['Stato']]), [['notizie', 'da verificare']]);
   assert.ok(email.every(m => m.to === SEGRETERIA), 'è partita un’email verso fuori: ' + email.map(m => m.to));
   assert.deepStrictEqual(email.map(m => m.subject), ['Da verificare · Dedica per il giardino: Nonna Lina', 'Da verificare · Progetto dal sito: Orto in comune']);
-});
-
-controllo('con Turnstile: l’iscrizione dal riquadro senza risposta di Turnstile non parte, e lo dice', () => {
-  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: persona });
-  const risposta = json(script.doPost(dalSito({ tipo: 'notizie', notizie: 'si', email: 'lettore@example.org', consenso: CONSENSO, _tempo: '30' })));
-  assert.deepStrictEqual([risposta.success, risposta.error], [false, 'controllo']);
-  assert.strictEqual(righe(schede.Contatti).length, 0);
-  assert.strictEqual(email.length, 0);
 });
 
 controllo('le richieste firmate di Lux non passano dai controlli dei moduli', () => {

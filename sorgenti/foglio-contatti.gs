@@ -61,7 +61,9 @@ var SECONDI_MINIMI = 3;                           // un modulo mandato prima, da
 var INVII_ORA = 5;                                // invii in un’ora dallo stesso indirizzo, da tutti i moduli insieme; oltre, spam
 var TRAPPOLE = ['sito_web', '_gotcha'];           // i campi trappola: le persone non li vedono, i programmi li riempiono
 var TURNSTILE = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';   // dove Cloudflare verifica le risposte di
-                                                  // Turnstile; la chiave segreta sta nelle proprietà dello script, TURNSTILE_SEGRETO
+                                                  // Turnstile; la chiave segreta sta nelle proprietà dello script, TURNSTILE_SEGRETO.
+                                                  // Si mette solo quando il sito con la chiave pubblica è già online: da quel
+                                                  // momento un invio senza la risposta di Turnstile non entra
 // in quali campi un link o del codice è spam (il nome, l’oggetto, il titolo) e in quali è solo sospetto (il testo).
 // Nei progetti «documento» è fatto apposta per un collegamento
 var CAMPI = {
@@ -122,8 +124,10 @@ function doPost(e) {
     var controllo = controllaInvio(p, modulo);
     if (controllo.spam) {
       mettiNelloSpam(p, modulo, controllo.spam);
-      return rispondi(conJs, { success: true, dedica: modulo === 'dedica', progetto: modulo === 'progetto',
-                               iscrizione: modulo === 'notizie' });          // a un programma si finge di accettare
+      // senza la risposta di Turnstile la pagina lo deve sapere, e propone di scrivere dalla propria posta;
+      // a un programma si finge di accettare
+      return rispondi(conJs, { success: !controllo.controllo, error: controllo.controllo ? 'controllo' : undefined,
+                               dedica: modulo === 'dedica', progetto: modulo === 'progetto', iscrizione: modulo === 'notizie' });
     }
     var verifica = controllo.verifica || '';
     // l’iscrizione dal riquadro è solo un indirizzo, e senza l’email di conferma non serve: si chiede di riprovare
@@ -210,11 +214,13 @@ function titoliCon(foglio, colonne) {
 /* il controllo di ogni invio dei moduli del sito, prima di scrivere o mandare qualcosa (Elias, 22.10).
    Spam: il campo trappola è pieno, c’è un link o del codice nel nome o nell’oggetto, il modulo è partito meno di
    SECONDI_MINIMI secondi dopo l’apertura della pagina (lo dice sito.js in _tempo), lo stesso indirizzo ha già scritto
-   INVII_ORA volte nell’ultima ora, o Cloudflare dice che la risposta di Turnstile non vale. Sospetto: un link solo nel
-   testo del messaggio, o un invio senza JavaScript, e quindi senza Turnstile. Spam e sospetti tornano come
-   { spam: perché } e vanno nella scheda «Spam», senza avvisi né email. Se Turnstile non ha potuto dire niente (non si è
-   caricato nel browser, o Cloudflare non risponde) torna { verifica: perché }: il messaggio entra «da verificare», con
-   l’avviso alla segreteria ma senza email a chi l’ha scritto, così un messaggio vero non va perso */
+   INVII_ORA volte nell’ultima ora, o Cloudflare dice che la risposta di Turnstile non vale. Sospetto: un invio senza
+   JavaScript; con Turnstile acceso, un invio senza la sua risposta; un link solo nel testo del messaggio, se Turnstile
+   non ha detto «persona». Spam e sospetti tornano come { spam: perché } e vanno nella scheda «Spam», senza avvisi né
+   email; senza la risposta di Turnstile anche { controllo: true }, perché la pagina proponga di scrivere dalla propria
+   posta e nessun messaggio vero si perda in silenzio. Torna { verifica: perché } quando Turnstile ha detto «persona» ma
+   c’è un link nel testo, o quando Cloudflare non risponde: il messaggio entra «da verificare», con l’avviso alla
+   segreteria ma senza email a chi l’ha scritto (Elias, 22.10) */
 function controllaInvio(p, modulo) {
   var campi = CAMPI[modulo];
   var campo = function (nome) { return String(p[nome] == null ? '' : p[nome]); };
@@ -223,14 +229,15 @@ function controllaInvio(p, modulo) {
   if (conLink(campi.nome)) return { spam: 'spam: link nel nome o nell’oggetto' };
   if (campo('_tempo') && !(Number(campo('_tempo')) >= SECONDI_MINIMI)) return { spam: 'spam: troppo in fretta' };
   if (troppiInvii(pulisci(p.email, MASSIMO.email).toLowerCase())) return { spam: 'spam: troppi invii in un’ora' };
-  if (conLink(campi.testo)) return { spam: 'sospetto: link nel messaggio' };
   if (p._js !== '1') return { spam: 'sospetto: senza JavaScript' };
   var turnstile = verificaTurnstile(campo('_turnstile'));
   if (turnstile === 'no') return { spam: 'spam: Turnstile dice che non è una persona' };
-  if (turnstile === 'non so') {
-    return { verifica: campo('_turnstile') ? 'Cloudflare non ha risposto alla verifica di Turnstile'
-                                           : 'il controllo di Turnstile non si è caricato nel browser di chi ha scritto' };
+  if (turnstile === 'non so' && !campo('_turnstile')) return { spam: 'sospetto: senza risposta di Turnstile', controllo: true };
+  if (conLink(campi.testo)) {
+    return turnstile === 'sì' ? { verifica: 'c’è un link nel testo, anche se Turnstile dice che chi scrive è una persona' }
+                              : { spam: 'sospetto: link nel messaggio' };
   }
+  if (turnstile === 'non so') return { verifica: 'Cloudflare non ha risposto alla verifica di Turnstile' };
   return {};
 }
 
@@ -283,7 +290,7 @@ function mettiNelloSpam(p, modulo, perche) {
 function righeDaVerificare(verifica) {
   if (!verifica) return [];
   return ['Da verificare: ' + verifica + '.',
-          'Può essere un programma automatico, o una persona il cui browser blocca il controllo: per questo a chi ha scritto non è partita nessuna email. Se è una persona vera, rispondi pure, e nel foglio cambia lo stato.',
+          'Per questo a chi ha scritto non è partita nessuna email. Se è una persona vera, rispondi pure, e nel foglio cambia lo stato.',
           ''];
 }
 
