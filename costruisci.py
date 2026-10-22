@@ -32,8 +32,8 @@ FOGLIO = "https://script.google.com/macros/s/AKfycbzHUOOLsgMRu-2wUcBNvVYjoTspg0-
 FORMINIT = ""                             # il codice di un modulo su Forminit (Form ID), usato solo se FOGLIO è vuoto.
                                           # Il modulo di prima («Contatti del sito», 0luhmnjylmz) è cancellato dall’11.10.2026.
                                           # Vuoti tutti e due: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
-TURNSTILE = ""                            # la chiave pubblica (site key) del widget di Cloudflare Turnstile che Elias crea nel suo account
-                                          # Cloudflare, per il dominio larosadoro.org, in modalità «Invisibile» (Elias, 22.10). Piena: ogni
+TURNSTILE = "0x4AAAAAAFghOacQXTru-xBP"    # la chiave pubblica (site key) del widget «Moduli del sito larosadoro.org» di Cloudflare Turnstile,
+                                          # nell’account Cloudflare della segreteria, solo per larosadoro.org, in modalità «Invisibile» (Elias, 22.10). Piena: ogni
                                           # modulo la porta in data-turnstile, sito.js carica Turnstile quando si comincia a scrivere e manda
                                           # la sua risposta allo script del foglio, che la verifica con la chiave segreta TURNSTILE_SEGRETO
                                           # (nelle proprietà dello script, mai qui), da mettere solo quando il sito con questa chiave è
