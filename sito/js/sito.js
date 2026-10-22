@@ -8,7 +8,9 @@
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
    Nulla registra chi visita. Escono dal sito soltanto la dedica del giardino (4),
    il messaggio del modulo dei Contatti (5), il progetto proposto (6) e l'email
-   del riquadro delle notizie in fondo alle pagine (7), quando chi scrive li manda.
+   del riquadro delle notizie in fondo alle pagine (7), quando chi scrive li manda;
+   e, con la chiave di Turnstile, il controllo di Cloudflare contro i programmi
+   automatici, solo quando qualcuno comincia a scrivere in un modulo.
    ========================================================================== */
 (function () {
   'use strict';
@@ -119,6 +121,172 @@ function scriviEsito(dove, testo, errore, indirizzo) {
   dove.hidden = false;
 }
 
+/* la protezione dei moduli dai programmi automatici (Elias, 22.10). Ogni modulo manda allo script del foglio da quanti
+   secondi è aperta la pagina (_tempo: chi manda un modulo in meno di tre secondi non è una persona) e, se il modulo ha
+   la chiave di Cloudflare Turnstile (data-turnstile, da TURNSTILE in costruisci.py), la risposta di Turnstile
+   (_turnstile), che lo script verifica con Cloudflare. Turnstile si carica solo quando qualcuno comincia a scrivere in
+   un modulo: prima, nessuna pagina del sito si collega a Cloudflare. Se non si carica, o non risponde entro ATTESA,
+   il modulo non parte: compare il riquadro per mandarci il messaggio dalla propria posta (dallaPosta, più sotto), e lo
+   stesso riquadro compare se lo script risponde che manca la risposta di Turnstile. Un messaggio vero non va perso */
+var APERTA = Date.now();
+var ATTESA = 8000;
+var turnstilePronto = null;                       /* il caricamento di Turnstile, uno per pagina */
+
+function caricaTurnstile() {
+  if (!turnstilePronto) turnstilePronto = new Promise(function (fatto) {
+    window.turnstileCaricato = function () { fatto(window.turnstile || null); };
+    var s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=turnstileCaricato';
+    s.async = true;
+    s.onerror = function () { fatto(null); };
+    document.head.appendChild(s);
+  });
+  return turnstilePronto;
+}
+
+function protezione(modulo) {
+  var chiave = modulo.getAttribute('data-turnstile');
+  var risposta = '', fallito = false, avviato = false, widget = null, attese = [];
+  function arriva(r) {
+    risposta = r || '';
+    if (!r) fallito = true;
+    attese.splice(0).forEach(function (f) { f(risposta); });
+  }
+  function avvia() {
+    if (avviato || !chiave) return;
+    avviato = true;
+    caricaTurnstile().then(function (turnstile) {
+      if (!turnstile) return arriva('');
+      var posto = document.createElement('div');
+      posto.className = 'controllo';
+      modulo.querySelector('.campi').appendChild(posto);
+      try {
+        widget = turnstile.render(posto, {
+          sitekey: chiave, language: 'it', appearance: 'interaction-only', 'response-field': false,
+          size: posto.clientWidth < 300 ? 'compact' : 'normal',
+          callback: function (r) { fallito = false; arriva(r); },
+          'error-callback': function () { arriva(''); },
+          'expired-callback': function () { risposta = ''; }      /* Turnstile ne prepara un'altra da sé */
+        });
+      } catch (e) { arriva(''); }
+    });
+  }
+  if (chiave) modulo.addEventListener('focusin', avvia);
+  return {
+    /* i dati del modulo con i campi della protezione, quando la risposta di Turnstile c'è o l'attesa è finita;
+       null se il modulo ha la chiave di Turnstile ma la risposta non è arrivata */
+    campi: function (dati) {
+      dati.append('_js', '1');
+      dati.append('_tempo', String(Math.round((Date.now() - APERTA) / 1000)));
+      if (!chiave) return Promise.resolve(dati);
+      avvia();
+      return new Promise(function (fatto) {
+        if (risposta || fallito) return fatto(risposta);
+        attese.push(fatto);
+        setTimeout(function () { fatto(risposta); }, ATTESA);
+      }).then(function (r) { if (!r) return null; dati.append('_turnstile', r); return dati; });
+    },
+    /* dopo ogni invio: una risposta di Turnstile vale una volta sola, e Turnstile ne prepara un'altra */
+    dopo: function () {
+      if (widget === null || !risposta) return;
+      risposta = '';
+      try { window.turnstile.reset(widget); } catch (e) { /* alla prossima volta, senza */ }
+    }
+  };
+}
+
+/* manda un modulo allo script del foglio e dà la sua risposta; quando ha finito, la protezione si prepara al prossimo.
+   Senza la risposta di Turnstile il modulo non parte, e la risposta è quella dello script in quel caso: «controllo» */
+function mandaAlFoglio(modulo, protetto, indirizzo) {
+  var riquadro = modulo.querySelector('.dalla-posta');
+  if (riquadro) riquadro.hidden = true;
+  return protetto.campi(new FormData(modulo))
+    .then(function (dati) {
+      if (!dati) return { success: false, error: 'controllo' };
+      return fetch(indirizzo, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.json(); });
+    })
+    .then(function (risposta) { protetto.dopo(); return risposta; },
+          function (errore) { protetto.dopo(); throw errore; });
+}
+
+/* quando manca il controllo contro i programmi automatici, il riquadro per mandarci lo stesso il messaggio dalla propria
+   posta (Elias, 22.10): con Gmail, con il programma di posta del computer (il mailto spesso apre un programma che la
+   persona non usa) o copiandolo con l'indirizzo, da incollare dove si vuole. Nessuna email parte da sola.
+   contenuto() dà { oggetto, testo } da quello che c'è nel modulo in quel momento. Un collegamento troppo lungo rischia
+   di non aprirsi: oltre LUNGHEZZA i due collegamenti accorciano il testo, e la copia resta intera */
+var LUNGHEZZA = 1800;
+
+function collegamentoDiPosta(base, indirizzo, oggetto, testo) {
+  function fatto(t) {
+    return base === 'gmail'
+      ? 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(indirizzo) + '&su=' + encodeURIComponent(oggetto) + '&body=' + encodeURIComponent(t)
+      : 'mailto:' + indirizzo + '?subject=' + encodeURIComponent(oggetto) + '&body=' + encodeURIComponent(t);
+  }
+  var nota = '\n\n[…] Il messaggio è più lungo: per averlo intero torna alla pagina del sito, tocca «Copia il messaggio» e incollalo qui.';
+  var collegamento = fatto(testo), n = testo.length;
+  while (collegamento.length > LUNGHEZZA && n > 0) {
+    n = Math.floor(n * 0.9);
+    collegamento = fatto(testo.slice(0, n).replace(/\s+\S*$/, '') + nota);
+  }
+  return collegamento;
+}
+
+function copia(testo) {
+  function aMano() {
+    var t = document.createElement('textarea');
+    t.value = testo;
+    t.setAttribute('readonly', '');
+    t.style.position = 'fixed';
+    t.style.opacity = '0';
+    document.body.appendChild(t);
+    t.select();
+    var fatto = false;
+    try { fatto = document.execCommand('copy'); } catch (e) { /* resta false */ }
+    document.body.removeChild(t);
+    if (!fatto) throw new Error('copia non riuscita');
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(testo).catch(aMano);
+  return new Promise(function (fatto) { aMano(); fatto(); });
+}
+
+function dallaPosta(modulo, indirizzo, contenuto) {
+  var riquadro = modulo.querySelector('.dalla-posta');
+  if (!riquadro) {
+    riquadro = document.createElement('div');
+    riquadro.className = 'dalla-posta';
+    riquadro.tabIndex = -1;
+    riquadro.innerHTML = '<p>Il controllo anti-spam non si è caricato nel tuo browser. Puoi mandarci lo stesso il messaggio dalla tua email.</p>' +
+      '<p class="pulsanti"><a class="scelta" data-posta="gmail" target="_blank" rel="noopener">Scrivi con Gmail</a>' +
+      '<a class="scelta" data-posta="programma">Apri il tuo programma di posta</a>' +
+      '<button type="button" class="scelta">Copia il messaggio</button></p>';
+    var esito = modulo.querySelector('.esito');
+    esito.parentNode.insertBefore(riquadro, esito.nextSibling);
+    var aggiorna = function () {
+      var c = contenuto();
+      var collegamenti = riquadro.querySelectorAll('a[data-posta]');
+      for (var i = 0; i < collegamenti.length; i++) {
+        collegamenti[i].href = collegamentoDiPosta(collegamenti[i].getAttribute('data-posta'), indirizzo, c.oggetto, c.testo);
+      }
+    };
+    riquadro.aggiorna = aggiorna;
+    riquadro.addEventListener('click', function (e) {
+      if (e.target.closest('a[data-posta]')) aggiorna();             /* con il testo di adesso, se nel frattempo è cambiato */
+    });
+    var pulsante = riquadro.querySelector('button');
+    pulsante.addEventListener('click', function () {
+      var c = contenuto();
+      copia('A: ' + indirizzo + '\nOggetto: ' + c.oggetto + '\n\n' + c.testo)
+        .then(function () { pulsante.textContent = 'Copiato'; }, function () { /* resta il pulsante */ });
+    });
+  }
+  riquadro.querySelector('button').textContent = 'Copia il messaggio';
+  riquadro.aggiorna();
+  modulo.querySelector('.esito').hidden = true;
+  riquadro.hidden = false;
+  riquadro.focus({ preventScroll: true });
+}
+
 /* chi apre un collegamento delle nostre email arriva su una pagina con ?conferma=…, ?cancella=… o ?togli=…:
    compare il riquadro, e la richiesta allo script del foglio parte solo quando la persona tocca il pulsante,
    perché i programmi che controllano i collegamenti nella posta non lo facciano al posto suo */
@@ -179,7 +347,8 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
   var foglio = modulo.getAttribute('action');
-  var conFoglio = !!(foglio && window.fetch && window.FormData);
+  var conFoglio = !!(foglio && window.fetch && window.FormData && window.Promise);
+  var protetto = conFoglio ? protezione(modulo) : null;
   if (modulo.elements._sito) modulo.elements._sito.value = RADICE;   /* per il collegamento che toglie la dedica */
   if (conFoglio) daCollegamento(document.getElementById('togli-dedica'), 'togli', foglio, indirizzo,
     'Non siamo riusciti a toglierla. Riprova tra poco, oppure scrivici a');
@@ -213,14 +382,19 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
   });
   consenso.addEventListener('change', function () { rigaConsenso.classList.remove('manca'); });
 
-  /* senza il foglio: la dedica parte come email, dal programma di posta di chi scrive */
-  function perPosta(nome, dedica) {
-    location.href = 'mailto:' + indirizzo +
-      '?subject=' + encodeURIComponent('Giardino dei ricordi — ' + nome) +
-      '&body=' + encodeURIComponent('In memoria di: ' + nome + '\nImmagine scelta: ' + scelta +
-        (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)') +
-        '\n\nChi scrive: ' + campoMittente.value.trim() + ', ' + campoPosta.value.trim() +
-        '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.');
+  /* la dedica scritta come email: senza il foglio parte dal programma di posta di chi scrive, e serve al riquadro
+     per mandarla dalla propria posta quando manca il controllo contro i programmi automatici */
+  function comeEmail() {
+    var nome = campoNome.value.trim(), dedica = campoTesto.value.trim();
+    return { oggetto: 'Giardino dei ricordi — ' + nome,
+             testo: 'In memoria di: ' + nome + '\nImmagine scelta: ' + scelta +
+               (dedica ? '\n\nDedica: ' + dedica : '\n\n(senza dedica)') +
+               '\n\nChi scrive: ' + campoMittente.value.trim() + ', ' + campoPosta.value.trim() +
+               '\n\nConsenso alla pubblicazione: sì, da familiare o persona che ha titolo a ricordare.' };
+  }
+  function perPosta() {
+    var c = comeEmail();
+    location.href = 'mailto:' + indirizzo + '?subject=' + encodeURIComponent(c.oggetto) + '&body=' + encodeURIComponent(c.testo);
   }
 
   modulo.addEventListener('submit', function (e) {
@@ -238,16 +412,14 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
     rigaConsenso.classList.toggle('manca', !consenso.checked);    /* e il consenso alla pubblicazione */
     if (!consenso.checked && !primo) primo = consenso;
     if (primo) { primo.focus(); return; }
-    if (!conFoglio) { perPosta(nome, dedica); return; }
+    if (!conFoglio) { perPosta(); return; }
 
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    dati.append('_js', '1');
-    fetch(foglio, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    mandaAlFoglio(modulo, protetto, foglio)
       .then(function (risposta) {
+        if (risposta && risposta.error === 'controllo') { dallaPosta(modulo, indirizzo, comeEmail); return; }
         if (risposta && risposta.error === 'email') {
           scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
           return;
@@ -326,6 +498,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
   var foglio = !!modulo.elements._sito;              /* il modulo del foglio ha i campi nascosti in più */
+  var protetto = foglio && window.Promise ? protezione(modulo) : null;
 
   if (foglio) {
     /* l'indirizzo del sito, per il collegamento di conferma delle notizie, e la pagina da cui
@@ -342,17 +515,23 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
   function dici(dove, testo, errore, posta) {
     scriviEsito(dove, testo, errore, posta ? indirizzo : '');
   }
+  function comeEmail() {
+    var el = modulo.elements;
+    return { oggetto: el.oggetto.value.trim() || 'Messaggio dal sito',
+             testo: el.messaggio.value.trim() + '\n\n' + el.nome.value.trim() +
+               (el.notizie && el.notizie.checked ? '\n\nVorrei ricevere anche le notizie della Fondazione per email.' : '') };
+  }
   modulo.addEventListener('submit', function (e) {
     e.preventDefault();
     if (invia.disabled) return;
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    if (foglio) dati.append('_js', '1');
-    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    (protetto ? mandaAlFoglio(modulo, protetto, modulo.action)
+      : fetch(modulo.action, { method: 'POST', body: new FormData(modulo), headers: { 'Accept': 'application/json' } })
+          .then(function (r) { return r.json(); }))
       .then(function (risposta) {
+        if (risposta && risposta.error === 'controllo') { dallaPosta(modulo, indirizzo, comeEmail); return; }
         if (risposta && (risposta.error === 'FI_SCHEMA_FORMAT_EMAIL' || risposta.error === 'email')) {
           dici(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
           return;
@@ -388,12 +567,23 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
 (function () {
   'use strict';
   var modulo = document.getElementById('modulo-progetto');
-  if (!modulo || !window.fetch || !window.FormData) return;
+  if (!modulo || !window.fetch || !window.FormData || !window.Promise) return;
+  var protetto = protezione(modulo);
   var campi = modulo.querySelector('.campi');
   var esito = modulo.querySelector('.esito');
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
   if (modulo.elements._sito) modulo.elements._sito.value = RADICE;
+  function comeEmail() {
+    var el = modulo.elements, v = function (n) { return el[n] ? String(el[n].value || '').trim() : ''; };
+    var fase = modulo.querySelector('input[name="fase"]:checked');
+    return { oggetto: 'Progetto: ' + v('progetto'),
+             testo: ['Il progetto: ' + v('progetto'), fase ? 'A che punto è: ' + fase.value : null, '', 'Che cosa fa:', v('descrizione'),
+                     v('bisogno') ? '\nDi che cosa ha bisogno:\n' + v('bisogno') : null, v('documento') ? '\nDocumento: ' + v('documento') : null,
+                     '', v('nome') + (v('ente') ? ', ' + v('ente') : ''),
+                     el.notizie && el.notizie.checked ? '\nVorrei ricevere anche le notizie della Fondazione per email.' : null]
+               .filter(function (r) { return r !== null; }).join('\n') };
+  }
 
   modulo.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -401,11 +591,9 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    dati.append('_js', '1');
-    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    mandaAlFoglio(modulo, protetto, modulo.action)
       .then(function (risposta) {
+        if (risposta && risposta.error === 'controllo') { dallaPosta(modulo, indirizzo, comeEmail); return; }
         if (risposta && risposta.error === 'email') {
           scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
           return;
@@ -433,12 +621,17 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
 (function () {
   'use strict';
   var modulo = document.getElementById('modulo-notizie');
-  if (!modulo || !window.fetch || !window.FormData) return;
+  if (!modulo || !window.fetch || !window.FormData || !window.Promise) return;
+  var protetto = protezione(modulo);
   var campi = modulo.querySelector('.campi');
   var esito = modulo.querySelector('.esito');
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
   modulo.elements._sito.value = RADICE;
+  function comeEmail() {
+    return { oggetto: 'Notizie della Fondazione',
+             testo: 'Vorrei ricevere le notizie della Fondazione per email, a questo indirizzo: ' + modulo.elements.email.value.trim() + '.' };
+  }
   /* la pagina da cui ci si iscrive, per sapere quali punti del sito funzionano */
   if (RADICE && location.href.indexOf(RADICE) === 0) {
     var qui = location.href.slice(RADICE.length).split(/[?#]/)[0].replace(/index\.html$/, '').replace(/\/$/, '');
@@ -451,11 +644,9 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    dati.append('_js', '1');
-    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    mandaAlFoglio(modulo, protetto, modulo.action)
       .then(function (risposta) {
+        if (risposta && risposta.error === 'controllo') { dallaPosta(modulo, indirizzo, comeEmail); return; }
         if (risposta && risposta.error === 'email') {
           scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
           return;

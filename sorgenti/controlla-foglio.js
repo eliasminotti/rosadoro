@@ -68,10 +68,13 @@ function buffer(v) {
   return typeof v === 'string' ? Buffer.from(v, 'utf8') : Buffer.from(v.map(b => b & 255));
 }
 
+/* opzioni.cloudflare(risposta di Turnstile) dice che cosa risponde Cloudflare alla verifica: un oggetto, oppure
+   null, e allora Cloudflare non risponde */
 function nuovoScript(proprieta, opzioni) {
   const schede = { Contatti: foglioFinto('Contatti', [TITOLI_CONTATTI]) };
   const email = [];
   const gmail = [];                           // con opzioni.gmail: le email che partono da segreteria@ con il servizio Gmail
+  const cloudflare = [];                      // le verifiche di Turnstile chieste a Cloudflare
   const memoria = {};
   const prop = Object.assign({}, proprieta);
   const contesto = {
@@ -86,8 +89,17 @@ function nuovoScript(proprieta, opzioni) {
     },
     LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
     CacheService: { getScriptCache: () => ({ get: k => (k in memoria ? memoria[k] : null), put: (k, v) => { memoria[k] = v; } }) },
-    PropertiesService: { getScriptProperties: () => ({ getProperty: k => (k in prop ? prop[k] : null), setProperty: (k, v) => { prop[k] = v; } }) },
+    PropertiesService: { getScriptProperties: () => ({ getProperty: k => (k in prop ? prop[k] : null), setProperty: (k, v) => { prop[k] = String(v); },
+                                                       getProperties: () => Object.assign({}, prop), deleteProperty: k => { delete prop[k]; } }) },
     MailApp: { sendEmail: m => email.push(m) },
+    UrlFetchApp: {
+      fetch(indirizzo, o) {
+        cloudflare.push({ indirizzo, metodo: o && o.method, campi: o && o.payload });
+        const risposta = opzioni && opzioni.cloudflare ? opzioni.cloudflare(o.payload.response) : null;
+        if (!risposta) throw new Error('Cloudflare non risponde');
+        return { getResponseCode: () => 200, getContentText: () => JSON.stringify(risposta) };
+      }
+    },
     ContentService: {
       MimeType: { JSON: 'json' },
       createTextOutput: testo => ({ testo, setMimeType() { return this; } })
@@ -108,7 +120,7 @@ function nuovoScript(proprieta, opzioni) {
   if (opzioni && opzioni.gmail) contesto.Gmail = { Users: { Messages: { send: (m, chi) => gmail.push({ raw: m.raw, chi }) } } };
   vm.createContext(contesto);
   vm.runInContext(SORGENTE, contesto, { filename: 'foglio-contatti.gs' });
-  return { script: contesto, schede, email, gmail, prop };
+  return { script: contesto, schede, email, gmail, prop, memoria, cloudflare };
 }
 
 function json(uscita) {
@@ -322,8 +334,8 @@ controllo('un messaggio dei Contatti diventa una riga «contatto» e la segreter
     [SEGRETERIA, 'carla@example.org', 'Messaggio dal sito: Carla Rossi · lascito']);
 });
 
-controllo('con la casella delle notizie la riga ha il consenso e parte l’email di conferma, una sola ogni sei ore per indirizzo', () => {
-  const { script, schede, email } = nuovoScript({});
+controllo('con la casella delle notizie la riga ha il consenso e parte l’email di conferma, una sola ogni tre giorni per indirizzo', () => {
+  const { script, schede, email, memoria, prop } = nuovoScript({});
   assert.strictEqual(json(script.doPost(messaggio({ notizie: 'si', consenso: CONSENSO }))).conferma, true);
   const r = righe(schede.Contatti)[0];
   assert.deepStrictEqual([r['Consenso alle notizie'], r['Testo del consenso']], ['sì', CONSENSO]);
@@ -334,6 +346,13 @@ controllo('con la casella delle notizie la riga ha il consenso e parte l’email
   script.doPost(messaggio({ notizie: 'si', consenso: CONSENSO, messaggio: 'Un secondo messaggio.' }));
   assert.strictEqual(conferme().length, 1, 'la seconda richiesta non deve mandare un’altra email di conferma');
   assert.strictEqual(righe(schede.Contatti).length, 2);
+  for (const k of Object.keys(memoria)) delete memoria[k];          // passate sei ore: la memoria temporanea di Google è vuota
+  script.doPost(dalSito({ tipo: 'notizie', notizie: 'si', email: 'carla@example.org', consenso: CONSENSO }));
+  assert.strictEqual(conferme().length, 1, 'dopo sei ore, ma prima di tre giorni, nessuna nuova email di conferma');
+  const quattroGiorniFa = String(Math.floor(Date.now() / 1000) - 4 * 24 * 60 * 60);
+  for (const k of Object.keys(prop)) if (k.startsWith('conferma-')) prop[k] = quattroGiorniFa;
+  script.doPost(dalSito({ tipo: 'notizie', notizie: 'si', email: 'carla@example.org', consenso: CONSENSO }));
+  assert.strictEqual(conferme().length, 2, 'dopo tre giorni la conferma riparte');
 });
 
 controllo('senza nome o messaggio il messaggio non entra («campi»), con un’email sbagliata nemmeno («email»)', () => {
@@ -346,20 +365,23 @@ controllo('senza nome o messaggio il messaggio non entra («campi»), con un’e
   assert.strictEqual(email.length, 0);
 });
 
-controllo('la trappola per i programmi (_gotcha) finge di accettare e non scrive niente', () => {
+controllo('la trappola per i programmi (sito_web, o _gotcha di prima) finge di accettare e scrive solo nella scheda «Spam»', () => {
   const { script, schede, email } = nuovoScript({});
-  for (const richiesta of [messaggio({ _gotcha: 'spam' }), dedica({ _gotcha: 'spam' }), progetto({ _gotcha: 'spam' })]) {
+  for (const richiesta of [messaggio({ sito_web: 'https://spam.example' }), dedica({ sito_web: 'spam' }), progetto({ _gotcha: 'spam' }),
+                           dalSito({ tipo: 'notizie', notizie: 'si', email: 'lettore@example.org', consenso: CONSENSO, sito_web: 'x' })]) {
     assert.strictEqual(json(script.doPost(richiesta)).success, true);
   }
   assert.strictEqual(righe(schede.Contatti).length, 0);
-  assert.ok(!schede.Dediche && !schede.Progetti, 'non doveva nascere nessuna scheda');
+  assert.ok(!schede.Dediche && !schede.Progetti, 'non doveva nascere né «Dediche» né «Progetti»');
   assert.strictEqual(email.length, 0);
+  assert.deepStrictEqual(righe(schede.Spam).map(r => [r['Modulo'], r['Perché']]),
+    [['contatto', 'spam: trappola'], ['dedica', 'spam: trappola'], ['progetto', 'spam: trappola'], ['notizie', 'spam: trappola']]);
 });
 
 controllo('quello che si scrive nei moduli resta testo nel foglio: niente formule', () => {
   const { script, schede } = nuovoScript({});
-  script.doPost(messaggio({ nome: '=IMPORTXML("https://example.org","//a")', messaggio: '+39 333 1234567' }));
-  const nome = schede.Contatti.scritti.find(v => String(v).includes('IMPORTXML'));
+  script.doPost(messaggio({ nome: '=IMPORTRANGE("1abc";"Contatti!A1")', messaggio: '+39 333 1234567' }));
+  const nome = schede.Contatti.scritti.find(v => String(v).includes('IMPORTRANGE'));
   assert.strictEqual(nome[0], "'", 'il nome arriva al foglio come formula: ' + nome);
   assert.strictEqual(schede.Contatti.scritti.find(v => String(v).includes('333'))[0], "'");
 });
@@ -466,10 +488,14 @@ controllo('un collegamento per togliere con la firma sbagliata non tocca niente'
   assert.strictEqual(giardino(script).length, 1);
 });
 
-controllo('senza JavaScript chi manda la dedica vede la pagina di ringraziamento', () => {
-  const { script } = nuovoScript({});
+controllo('senza JavaScript chi manda la dedica vede la pagina di ringraziamento, e la dedica va nella scheda «Spam» come sospetta', () => {
+  const { script, schede, email } = nuovoScript({});
   const pagina = script.doPost({ parameter: Object.assign({}, dedica().parameter, { _js: '' }) });
   assert.ok(pagina && typeof pagina.html === 'string' && pagina.html.includes('La tua dedica è arrivata'), JSON.stringify(pagina).slice(0, 200));
+  assert.ok(!schede.Dediche, 'senza JavaScript (e quindi senza Turnstile) la dedica non entra tra le altre');
+  assert.deepStrictEqual(righe(schede.Spam).map(r => [r['Modulo'], r['Perché'], r['Nome'], r['Email']]),
+    [['dedica', 'sospetto: senza JavaScript', 'Carla', 'carla@example.org']]);
+  assert.strictEqual(email.length, 0);
 });
 
 controllo('un progetto entra nella scheda «Progetti» e la segreteria riceve l’avviso', () => {
@@ -565,6 +591,178 @@ controllo('con il servizio Gmail acceso l’email di conferma parte da segreteri
   assert.deepStrictEqual([riga('To'), riga('Reply-To')], ['lettore@example.org', SEGRETERIA]);
   assert.strictEqual(parola(riga('Subject')), 'Conferma la tua email per le notizie della Fondazione');
   assert.ok(Buffer.from(corpo.replace(/\r\n/g, ''), 'base64').toString('utf8').includes(PROVA + 'contatti/index.html?conferma='));
+});
+
+/* ---- la protezione dai programmi automatici (Elias, 22.10): spam e sospetti vanno nella scheda «Spam»,
+        senza avviso alla segreteria e senza email a nessuno ---- */
+
+const TURNSTILE_SEGRETO = 'chiave-segreta-di-prova';
+const persona = () => ({ success: true, hostname: 'larosadoro.org' });
+const programma = () => ({ success: false, 'error-codes': ['invalid-input-response'] });
+
+function spam(schede) {
+  return schede.Spam ? righe(schede.Spam) : [];
+}
+
+controllo('un link o del codice nel nome o nell’oggetto è spam: scheda «Spam», niente avviso, niente email di conferma', () => {
+  const { script, schede, email, gmail } = nuovoScript({}, { gmail: true });
+  const richieste = [
+    messaggio({ nome: '* * * $3,222 credit available! Confirm your transaction here: https://drkaze.ru/go-na.php?xn24za * * *',
+                email: 'bgg~671lbkbz0p7mt7ywd@merepost.com', oggetto: 'fi6qd2', messaggio: 'tjqapc', notizie: 'si', consenso: CONSENSO }),
+    messaggio({ nome: '<a href="https://drkaze.ru/">$3,222 deposit available</a>', notizie: 'si', consenso: CONSENSO }),
+    messaggio({ oggetto: 'visita www.esempio.ru' }),
+    progetto({ progetto: 'Guadagna subito http://esempio.ru' }),
+    progetto({ ente: '<b>Ente</b>' }),
+    dedica({ ricordo: 'https://esempio.ru' })];
+  for (const r of richieste) assert.strictEqual(json(script.doPost(r)).success, true, 'a un programma si finge di accettare');
+  assert.strictEqual(righe(schede.Contatti).length, 0, 'lo spam è entrato nei Contatti (e nella lista delle notizie)');
+  assert.ok(!schede.Dediche && !schede.Progetti);
+  assert.strictEqual(email.length + gmail.length, 0, 'è partita un’email');
+  const s = spam(schede);
+  assert.deepStrictEqual(s.map(r => [r['Modulo'], r['Perché']]), [
+    ['contatto', 'spam: link nel nome o nell’oggetto'], ['contatto', 'spam: link nel nome o nell’oggetto'],
+    ['contatto', 'spam: link nel nome o nell’oggetto'], ['progetto', 'spam: link nel nome o nell’oggetto'],
+    ['progetto', 'spam: link nel nome o nell’oggetto'], ['dedica', 'spam: link nel nome o nell’oggetto']]);
+  assert.strictEqual(s[0]['Email'], 'bgg~671lbkbz0p7mt7ywd@merepost.com');
+  assert.ok(s[0]['Contenuto'].includes('oggetto: fi6qd2') && s[0]['Contenuto'].includes('messaggio: tjqapc'), s[0]['Contenuto']);
+  assert.ok(schede.Spam.scritti.filter(v => String(v).includes('drkaze')).every(v => v[0] === "'"), 'nella scheda «Spam» tutto entra come testo');
+});
+
+controllo('un link solo nel testo del messaggio è sospetto: scheda «Spam», niente avviso né email', () => {
+  const { script, schede, email } = nuovoScript({});
+  script.doPost(messaggio({ messaggio: 'Guarda qui https://esempio.org/pagina', notizie: 'si', consenso: CONSENSO }));
+  script.doPost(progetto({ descrizione: 'Il nostro sito: www.orto.example' }));
+  script.doPost(dedica({ dedica: '<a href="https://esempio.org">ciao</a>' }));
+  assert.strictEqual(righe(schede.Contatti).length, 0);
+  assert.ok(!schede.Dediche && !schede.Progetti);
+  assert.strictEqual(email.length, 0);
+  assert.deepStrictEqual(spam(schede).map(r => [r['Modulo'], r['Perché']]),
+    [['contatto', 'sospetto: link nel messaggio'], ['progetto', 'sospetto: link nel messaggio'], ['dedica', 'sospetto: link nel messaggio']]);
+});
+
+controllo('il collegamento nel campo «Un documento da leggere» dei progetti va bene', () => {
+  const { script, schede, email } = nuovoScript({});
+  script.doPost(progetto({ documento: 'https://drive.google.com/file/d/abc' }));
+  assert.strictEqual(righe(schede.Progetti).length, 1);
+  assert.strictEqual(spam(schede).length, 0);
+  assert.strictEqual(email.length, 1);
+});
+
+controllo('un modulo mandato meno di tre secondi dopo l’apertura della pagina è spam; dopo, passa', () => {
+  const { script, schede, email } = nuovoScript({});
+  script.doPost(messaggio({ _tempo: '1' }));
+  script.doPost(dalSito({ tipo: 'notizie', notizie: 'si', email: 'lettore@example.org', consenso: CONSENSO, _tempo: '0' }));
+  assert.deepStrictEqual(spam(schede).map(r => [r['Modulo'], r['Perché']]),
+    [['contatto', 'spam: troppo in fretta'], ['notizie', 'spam: troppo in fretta']]);
+  assert.strictEqual(email.length, 0);
+  script.doPost(messaggio({ _tempo: '40' }));
+  assert.strictEqual(righe(schede.Contatti).length, 1);
+});
+
+controllo('al massimo cinque invii all’ora dallo stesso indirizzo: dal sesto, spam', () => {
+  const { script, schede, email } = nuovoScript({});
+  for (let n = 1; n <= 6; n++) script.doPost(messaggio({ email: 'Carla@Example.org', messaggio: 'Messaggio ' + n }));
+  assert.strictEqual(righe(schede.Contatti).length, 5);
+  assert.deepStrictEqual(spam(schede).map(r => r['Perché']), ['spam: troppi invii in un’ora']);
+  assert.strictEqual(email.length, 5);
+  script.doPost(messaggio({ email: 'altra@example.org' }));
+  assert.strictEqual(righe(schede.Contatti).length, 6, 'un altro indirizzo passa');
+});
+
+controllo('senza JavaScript un messaggio è sospetto: scheda «Spam», e la pagina ringrazia lo stesso', () => {
+  const { script, schede, email } = nuovoScript({});
+  const pagina = script.doPost({ parameter: Object.assign({}, messaggio({ notizie: 'si', consenso: CONSENSO }).parameter, { _js: '' }) });
+  assert.ok(pagina.html.includes('Il tuo messaggio è arrivato'), pagina.html);
+  assert.strictEqual(righe(schede.Contatti).length, 0);
+  assert.deepStrictEqual(spam(schede).map(r => r['Perché']), ['sospetto: senza JavaScript']);
+  assert.strictEqual(email.length, 0);
+});
+
+controllo('senza la chiave TURNSTILE_SEGRETO nelle proprietà lo script non chiede niente a Cloudflare', () => {
+  const { script, schede, cloudflare } = nuovoScript({}, { cloudflare: persona });
+  script.doPost(messaggio({ _turnstile: 'risposta-di-turnstile', _tempo: '30' }));
+  assert.strictEqual(cloudflare.length, 0);
+  assert.strictEqual(righe(schede.Contatti)[0]['Stato'], 'da rispondere');
+});
+
+controllo('con Turnstile: se Cloudflare dice che è una persona, il messaggio entra come sempre, con la conferma delle notizie', () => {
+  const { script, schede, email, cloudflare } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: persona });
+  const risposta = json(script.doPost(messaggio({ _turnstile: 'risposta-buona', _tempo: '30', notizie: 'si', consenso: CONSENSO })));
+  assert.deepStrictEqual([risposta.success, risposta.conferma], [true, true]);
+  assert.strictEqual(cloudflare.length, 1);
+  assert.strictEqual(cloudflare[0].indirizzo, 'https://challenges.cloudflare.com/turnstile/v0/siteverify');
+  assert.deepStrictEqual([cloudflare[0].metodo, cloudflare[0].campi.secret, cloudflare[0].campi.response], ['post', TURNSTILE_SEGRETO, 'risposta-buona']);
+  assert.strictEqual(righe(schede.Contatti)[0]['Stato'], 'da rispondere');
+  assert.strictEqual(email.length, 2, 'avviso alla segreteria e conferma delle notizie');
+});
+
+controllo('con Turnstile: se Cloudflare dice che la risposta non vale, è spam', () => {
+  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: programma });
+  for (const r of [messaggio({ _turnstile: 'inventata', notizie: 'si', consenso: CONSENSO }), dedica({ _turnstile: 'inventata' }),
+                   progetto({ _turnstile: 'inventata' }), dalSito({ tipo: 'notizie', notizie: 'si', email: 'x@example.org', consenso: CONSENSO, _turnstile: 'inventata' })]) {
+    assert.strictEqual(json(script.doPost(r)).success, true);
+  }
+  assert.strictEqual(righe(schede.Contatti).length, 0);
+  assert.strictEqual(email.length, 0);
+  assert.deepStrictEqual(spam(schede).map(r => r['Perché']), Array(4).fill('spam: Turnstile dice che non è una persona'));
+});
+
+controllo('con Turnstile: senza la sua risposta l’invio va nello «Spam» e torna indietro con «controllo», senza avvisi né email', () => {
+  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: persona });
+  for (const r of [messaggio({ _tempo: '30', notizie: 'si', consenso: CONSENSO }), dedica({ _tempo: '30' }), progetto({ _tempo: '30' }),
+                   dalSito({ tipo: 'notizie', notizie: 'si', email: 'lettore@example.org', consenso: CONSENSO, _tempo: '30' })]) {
+    const risposta = json(script.doPost(r));
+    assert.deepStrictEqual([risposta.success, risposta.error], [false, 'controllo'], 'la pagina deve sapere che manca il controllo');
+  }
+  assert.strictEqual(righe(schede.Contatti).length, 0);
+  assert.ok(!schede.Dediche && !schede.Progetti);
+  assert.strictEqual(email.length, 0, 'nessun avviso e nessuna email');
+  assert.deepStrictEqual(spam(schede).map(r => [r['Modulo'], r['Perché']]), [['contatto', 'sospetto: senza risposta di Turnstile'],
+    ['dedica', 'sospetto: senza risposta di Turnstile'], ['progetto', 'sospetto: senza risposta di Turnstile'], ['notizie', 'sospetto: senza risposta di Turnstile']]);
+});
+
+controllo('con Turnstile «persona» un link solo nel testo entra «da verificare»: avviso alla segreteria, nessuna email a chi scrive', () => {
+  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: persona });
+  const m = json(script.doPost(messaggio({ messaggio: 'Il nostro studio: www.studio.example', _turnstile: 'buona', _tempo: '30', notizie: 'si', consenso: CONSENSO })));
+  const p = json(script.doPost(progetto({ descrizione: 'Il sito: https://orto.example', _turnstile: 'buona', _tempo: '30' })));
+  const d = json(script.doPost(dedica({ dedica: 'https://ricordo.example', _turnstile: 'buona', _tempo: '30' })));
+  assert.deepStrictEqual([m.success, m.conferma, p.success, d.success, d.ricevuta], [true, false, true, true, false]);
+  assert.deepStrictEqual([righe(schede.Contatti)[0]['Stato'], righe(schede.Progetti)[0]['Stato'], righe(schede.Dediche)[0]['Stato']],
+    ['da verificare', 'da verificare', 'da verificare']);
+  assert.strictEqual(spam(schede).length, 0);
+  assert.ok(email.every(e => e.to === SEGRETERIA), 'è partita un’email verso fuori');
+  assert.strictEqual(email.length, 3);
+  assert.strictEqual(email[0].subject, 'Da verificare · Messaggio dal sito: Carla Rossi · lascito');
+  assert.ok(email[0].body.includes('link'), email[0].body);
+});
+
+controllo('con Turnstile: se Cloudflare non risponde, anche dediche e progetti entrano «da verificare», senza email a chi li ha scritti', () => {
+  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: () => null });
+  const d = json(script.doPost(dedica({ _turnstile: 'risposta', _tempo: '30' })));
+  const p = json(script.doPost(progetto({ _turnstile: 'risposta', _tempo: '30', notizie: 'si', consenso: CONSENSO })));
+  assert.deepStrictEqual([d.success, d.ricevuta, p.success, p.conferma], [true, false, true, false]);
+  assert.strictEqual(righe(schede.Dediche)[0]['Stato'], 'da verificare');
+  assert.strictEqual(righe(schede.Progetti)[0]['Stato'], 'da verificare');
+  assert.deepStrictEqual(righe(schede.Contatti).map(r => [r['Richiesta'], r['Stato']]), [['notizie', 'da verificare']]);
+  assert.ok(email.every(m => m.to === SEGRETERIA), 'è partita un’email verso fuori: ' + email.map(m => m.to));
+  assert.deepStrictEqual(email.map(m => m.subject), ['Da verificare · Dedica per il giardino: Nonna Lina', 'Da verificare · Progetto dal sito: Orto in comune']);
+});
+
+controllo('le richieste firmate di Lux non passano dai controlli dei moduli', () => {
+  const { script, schede, email, cloudflare } = nuovoScript({ SEGRETO_LUX, TURNSTILE_SEGRETO }, { cloudflare: programma });
+  assert.strictEqual(json(script.doPost(richiestaDiLux('donatrice@example.org'))).success, true);
+  assert.strictEqual(righe(schede.Contatti)[0]['Stato'], 'da confermare');
+  assert.strictEqual(cloudflare.length, 0);
+  assert.strictEqual(email.length, 1);
+});
+
+controllo('l’email di conferma non porta mai il nome, l’oggetto o il messaggio di chi compila', () => {
+  const { script, email } = nuovoScript({});
+  script.doPost(messaggio({ nome: 'Nome Scritto Da Chi Compila', oggetto: 'Oggetto Scritto', messaggio: 'Testo Scritto', notizie: 'si', consenso: CONSENSO }));
+  const conferma = email.find(m => m.to === 'carla@example.org');
+  for (const parola of ['Nome Scritto', 'Oggetto Scritto', 'Testo Scritto']) {
+    assert.ok(!conferma.subject.includes(parola) && !conferma.body.includes(parola), parola);
+  }
 });
 
 controllo('l’indirizzo dello script aperto nel browser rimanda al sito', () => {

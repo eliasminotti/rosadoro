@@ -241,7 +241,8 @@ def controlla_stripe(pagine):
 
 GIORNO = re.compile(r"^[1-9]\d? (gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre) 20\d\d$")
 SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senza-ricevute}", "{informativa-data}",
-                  "{se-mensile}", "{/se-mensile}", "{senza-mensile}", "{/senza-mensile}", "{mensili}", "{portale}")
+                  "{se-mensile}", "{/se-mensile}", "{senza-mensile}", "{/senza-mensile}", "{mensili}", "{portale}",
+                  "{se-turnstile}", "{/se-turnstile}", "{senza-turnstile}", "{/senza-turnstile}", "{turnstile}", "{trappola}")
 
 
 def controlla_ricevute(pagine):

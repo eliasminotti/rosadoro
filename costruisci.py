@@ -32,6 +32,16 @@ FOGLIO = "https://script.google.com/macros/s/AKfycbzHUOOLsgMRu-2wUcBNvVYjoTspg0-
 FORMINIT = ""                             # il codice di un modulo su Forminit (Form ID), usato solo se FOGLIO è vuoto.
                                           # Il modulo di prima («Contatti del sito», 0luhmnjylmz) è cancellato dall’11.10.2026.
                                           # Vuoti tutti e due: al posto del modulo resta il pulsante «Scrivici» che apre la posta.
+TURNSTILE = "0x4AAAAAAFghOacQXTru-xBP"    # la chiave pubblica (site key) del widget «Moduli del sito larosadoro.org» di Cloudflare Turnstile,
+                                          # nell’account Cloudflare della segreteria, solo per larosadoro.org, in modalità «Invisibile» (Elias, 22.10). Piena: ogni
+                                          # modulo la porta in data-turnstile, sito.js carica Turnstile quando si comincia a scrivere e manda
+                                          # la sua risposta allo script del foglio, che la verifica con la chiave segreta TURNSTILE_SEGRETO
+                                          # (nelle proprietà dello script, mai qui), da mettere solo quando il sito con questa chiave è
+                                          # già online; informativa e cookie ne parlano ({se-turnstile}).
+                                          # Vuota: niente Turnstile; il resto della protezione dallo spam funziona lo stesso.
+TRAPPOLA = ('<input class="trappola" name="sito_web" type="text" value="" tabindex="-1" autocomplete="off" aria-hidden="true">')
+                                          # il campo trappola di ogni modulo: le persone non lo vedono (stile.css), i programmi
+                                          # che riempiono tutto lo riempiono, e lo script del foglio li manda nella scheda «Spam»
 FASI = ("Un’idea", "Un progetto in corso di realizzazione", "Un progetto che esiste già",   # «A che punto è», nel modulo dei
         "Una realtà consolidata che cerca nuovi sviluppi")                                 # progetti: le stesse in FASI dello script
 CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella delle notizie: se il testo cambia,
@@ -389,7 +399,7 @@ def riquadro_notizie(da):
     versione, testo = CONSENSO_NOTIZIE
     return """    <div class="pie-notizie" id="notizie">
       <div><h4>Le notizie della Fondazione</h4><p>%s</p></div>
-      <form class="modulo" id="modulo-notizie" action="%s" method="post" data-indirizzo="%s">
+      <form class="modulo" id="modulo-notizie" action="%s" method="post" data-indirizzo="%s"%s>
         <div class="campi">
           <label for="mn-posta">La tua email</label>
           <div class="in-riga"><input id="mn-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required><button type="submit" class="invia">Iscrivimi</button></div>
@@ -398,13 +408,13 @@ def riquadro_notizie(da):
           <input type="hidden" name="consenso" value="%s">
           <input type="hidden" name="pagina" value="">
           <input type="hidden" name="_sito" value="">
-          <input type="hidden" name="_gotcha" value="">
+          %s
           <p class="nota">Ti mandiamo un’email per confermare l’indirizzo. Come usiamo i dati lo spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>
         </div>
         <p class="esito" role="status" tabindex="-1" hidden></p>
       </form>
     </div>
-""" % (sfuggi(testo), sfuggi(FOGLIO), ENTE["email"], sfuggi(versione), verso(da, "privacy"))
+""" % (sfuggi(testo), sfuggi(FOGLIO), ENTE["email"], con_turnstile(), sfuggi(versione), TRAPPOLA, verso(da, "privacy"))
 
 def footer(da):
     sito = "".join('<li><a href="%s">%s</a></li>' % (verso(da, s["chiave"]), sfuggi(s["voce"])) for s in SEZIONI)
@@ -500,7 +510,7 @@ def gettoni(html, da):
         html = html.replace("{modulo-progetto}", modulo_progetto(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
-    return secondo_ricevute(secondo_mensile(secondo_stripe(html)))
+    return secondo_turnstile(secondo_ricevute(secondo_mensile(secondo_stripe(html))))
 
 SEGNO_SITO = "?locale=it&client_reference_id=sito-dona"   # la pagina di Stripe in italiano, e le donazioni del sito separate da quelle di Lux
 
@@ -526,11 +536,22 @@ def secondo_ricevute(testo):
     testo = re.sub(r"\{senza-ricevute\}(.*?)\{/senza-ricevute\}", lambda m: "" if RICEVUTE else m.group(1), testo, flags=re.S)
     return testo.replace("{informativa-data}", MENSILE or RICEVUTE)
 
+def con_turnstile():
+    """l'attributo con la chiave pubblica di Turnstile, per il tag <form> di ogni modulo: vuoto senza TURNSTILE"""
+    return ' data-turnstile="%s"' % sfuggi(TURNSTILE) if TURNSTILE else ""
+
+def secondo_turnstile(testo):
+    """con TURNSTILE resta ciò che sta tra {se-turnstile} e {/se-turnstile}, senza resta ciò che sta tra {senza-turnstile}
+    e {/senza-turnstile}; {turnstile} è l'attributo con la chiave, {trappola} il campo trappola"""
+    testo = re.sub(r"\{se-turnstile\}(.*?)\{/se-turnstile\}", lambda m: m.group(1) if TURNSTILE else "", testo, flags=re.S)
+    testo = re.sub(r"\{senza-turnstile\}(.*?)\{/senza-turnstile\}", lambda m: "" if TURNSTILE else m.group(1), testo, flags=re.S)
+    return testo.replace("{turnstile}", con_turnstile()).replace("{trappola}", TRAPPOLA)
+
 def modulo_contatti(da):
     """il modulo della pagina Contatti. Con FOGLIO il messaggio va allo script del foglio «Contatti della
     Fondazione», che lo scrive in una riga e avvisa la segreteria; altrimenti passa da Forminit.
     Con JavaScript la risposta compare nella pagina (sito.js); senza, il modulo parte lo stesso.
-    Il campo nascosto «_gotcha» è la trappola per i programmi che riempiono tutto da soli."""
+    Il campo invisibile «sito_web» (TRAPPOLA) è la trappola per i programmi che riempiono tutto da soli."""
     if FOGLIO:
         return modulo_foglio(da)
     privacy = ('<p class="nota">Quando ci scrivi usiamo i tuoi dati soltanto per risponderti, come spiega l’'
@@ -572,7 +593,7 @@ def modulo_foglio(da):
 <button type="button" class="invia">Cancellami</button>
 <p class="esito" role="status" tabindex="-1" hidden></p>
 </div>
-<form class="modulo" id="modulo-contatti" action="%s" method="post" data-indirizzo="%s">
+<form class="modulo" id="modulo-contatti" action="%s" method="post" data-indirizzo="%s"%s>
 <div class="campi">
 <label for="mc-nome">Il tuo nome</label>
 <input id="mc-nome" name="nome" type="text" autocomplete="name" maxlength="200" required>
@@ -586,12 +607,12 @@ def modulo_foglio(da):
 <input type="hidden" name="consenso" value="%s">
 <input type="hidden" name="pagina" value="">
 <input type="hidden" name="_sito" value="">
-<input type="hidden" name="_gotcha" value="">
+%s
 %s
 <button type="submit" class="invia">Scrivici</button>
 </div>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(FOGLIO), ENTE["email"], sfuggi(testo), sfuggi(versione), privacy)
+</form>""" % (sfuggi(FOGLIO), ENTE["email"], con_turnstile(), sfuggi(testo), sfuggi(versione), TRAPPOLA, privacy)
 
 def modulo_progetto(da):
     """il modulo della pagina «Presentaci il tuo progetto»: va allo stesso script del foglio, che scrive il
@@ -605,7 +626,7 @@ def modulo_progetto(da):
         return '<p><a class="vai" href="mailto:%s">Scrivici</a></p>\n%s' % (ENTE["email"], privacy)
     fasi = "\n".join('<label class="consenso" for="mp-fase-%d"><input id="mp-fase-%d" name="fase" type="radio" value="%s"%s> <span>%s</span></label>'
                      % (i, i, sfuggi(f), " required" if i == 1 else "", sfuggi(f)) for i, f in enumerate(FASI, 1))
-    return """<form class="modulo" id="modulo-progetto" action="%s" method="post" data-indirizzo="%s">
+    return """<form class="modulo" id="modulo-progetto" action="%s" method="post" data-indirizzo="%s"%s>
 <div class="campi">
 <label for="mp-progetto">Il nome del progetto</label>
 <input id="mp-progetto" name="progetto" type="text" maxlength="200" required>
@@ -629,12 +650,12 @@ def modulo_progetto(da):
 <input type="hidden" name="consenso" value="%s">
 <input type="hidden" name="tipo" value="progetto">
 <input type="hidden" name="_sito" value="">
-<input type="hidden" name="_gotcha" value="">
+%s
 %s
 <button type="submit" class="invia">Manda il progetto</button>
 </div>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(FOGLIO), ENTE["email"], fasi, sfuggi(testo), sfuggi(versione), privacy)
+</form>""" % (sfuggi(FOGLIO), ENTE["email"], con_turnstile(), fasi, sfuggi(testo), sfuggi(versione), TRAPPOLA, privacy)
 
 def tavola_img(da, nome, alt, classe="tavola"):
     return '<figure class="%s"><img src="%s" alt="%s"><figcaption>Tavola incisa</figcaption></figure>' % (classe, risorsa(da, "img/tavola-%s.svg" % nome), sfuggi(alt))
