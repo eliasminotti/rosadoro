@@ -35,9 +35,32 @@ const TIPI = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': '
   '.ico': 'image/x-icon', '.mp3': 'audio/mpeg', '.pdf': 'application/pdf' };
 
 
-/* ---- il browser, il sito dalla cartella e lo script del foglio finto ---- */
+/* ---- il browser, il sito dalla cartella, lo script del foglio finto e Turnstile finto ---- */
 
 let browser;
+
+const CHIAVE = 'chiave-di-prova';                   // la chiave pubblica di Turnstile (TURNSTILE in costruisci.py), finta
+/* Turnstile finto: dà subito una risposta, e una nuova dopo ogni reset */
+const TURNSTILE_FINTO = `(function () {
+  var widget = [];
+  window.turnstile = {
+    render: function (dove, o) {
+      var w = { o: o, volte: 0 }, n = widget.push(w);
+      setTimeout(function () { o.callback('risposta-' + n + '-0'); }, 30);
+      return 'w' + n;
+    },
+    reset: function (id) {
+      var n = Number(String(id).slice(1)), w = widget[n - 1];
+      if (!w) return;
+      w.volte++;
+      setTimeout(function () { w.o.callback('risposta-' + n + '-' + w.volte); }, 30);
+    },
+    getResponse: function () {}, remove: function () {}
+  };
+  window.chiaviTurnstile = function () { return widget.map(function (w) { return w.o.sitekey; }); };
+  var pronto = new URL(document.currentScript.src).searchParams.get('onload');
+  if (pronto && window[pronto]) window[pronto]();
+})();`;
 
 /* i campi di un modulo mandato con FormData (multipart/form-data) */
 function campiDi(richiesta) {
@@ -55,13 +78,20 @@ function campiDi(richiesta) {
 }
 
 /* apre una pagina del sito. foglio(richiesta) dice che cosa risponde lo script: un oggetto (diventa JSON)
-   oppure null, e allora la richiesta non arriva (rete giù). dediche: il contenuto di dediche.json */
-async function apri(percorso, { foglio = () => ({ success: true }), dediche = null, referer } = {}) {
+   oppure null, e allora la richiesta non arriva (rete giù). dediche: il contenuto di dediche.json.
+   turnstile: 'passa' mette la chiave di Turnstile nei moduli e risponde con Turnstile finto; 'non si carica' mette
+   la chiave ma Cloudflare non risponde; senza, i moduli non hanno la chiave */
+async function apri(percorso, { foglio = () => ({ success: true }), dediche = null, referer, turnstile } = {}) {
   const contesto = await browser.newContext();
-  const allo = [], fuori = [], avvisi = [];
+  const allo = [], fuori = [], avvisi = [], cloudflare = [];
   await contesto.route('**/*', async route => {
     const richiesta = route.request();
     const indirizzo = richiesta.url();
+    if (indirizzo.startsWith('https://challenges.cloudflare.com/')) {
+      cloudflare.push(indirizzo);
+      if (turnstile !== 'passa') return route.abort();
+      return route.fulfill({ status: 200, contentType: 'text/javascript', body: TURNSTILE_FINTO });
+    }
     if (indirizzo.startsWith(FOGLIO)) {
       const inviato = { metodo: richiesta.method(), indirizzo, campi: richiesta.method() === 'POST' ? campiDi(richiesta) : {} };
       allo.push(inviato);
@@ -81,14 +111,19 @@ async function apri(percorso, { foglio = () => ({ success: true }), dediche = nu
     }
     const file = path.join(SITO, rel);
     if (!file.startsWith(SITO) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) return route.fulfill({ status: 404, body: '' });
-    return route.fulfill({ status: 200, contentType: TIPI[path.extname(file)] || 'application/octet-stream', body: fs.readFileSync(file) });
+    let corpo = fs.readFileSync(file);
+    if (file.endsWith('.html')) {
+      corpo = corpo.toString('utf8').replace(/ data-turnstile="[^"]*"/g, '');
+      if (turnstile) corpo = corpo.replace(/(<form class="(?:modulo|dialogo)" id="modulo-[a-z]+")/g, '$1 data-turnstile="' + CHIAVE + '"');
+    }
+    return route.fulfill({ status: 200, contentType: TIPI[path.extname(file)] || 'application/octet-stream', body: corpo });
   });
   const page = await contesto.newPage();
   page.on('dialog', d => { avvisi.push(d.message()); d.dismiss(); });
   const errori = [];
   page.on('pageerror', e => errori.push(String(e)));
   await page.goto(ORIGINE + percorso, referer ? { referer } : {});
-  return { page, allo, fuori, avvisi, errori, chiudi: () => contesto.close() };
+  return { page, allo, fuori, avvisi, errori, cloudflare, chiudi: () => contesto.close() };
 }
 
 async function esitoDi(page, dove) {
@@ -116,9 +151,12 @@ controllo('il modulo dei Contatti manda allo script i campi giusti, con la pagin
     assert.strictEqual(p.allo.length, 1, 'richieste allo script: ' + p.allo.length);
     const c = p.allo[0].campi;
     assert.strictEqual(p.allo[0].metodo, 'POST');
-    assert.deepStrictEqual([c.nome, c.email, c.oggetto, c.messaggio, c.notizie, c.consenso, c.pagina, c._sito, c._js, c._gotcha],
+    assert.deepStrictEqual([c.nome, c.email, c.oggetto, c.messaggio, c.notizie, c.consenso, c.pagina, c._sito, c._js, c.sito_web],
       ['Carla Rossi', 'carla@example.org', 'lascito', 'Vorrei sapere come funziona.', 'si', CONSENSO, 'lasciti', ORIGINE, '1', '']);
+    assert.ok(/^\d+$/.test(c._tempo), 'manca da quanti secondi la pagina è aperta: ' + c._tempo);
     assert.ok(!('tipo' in c), 'il modulo dei Contatti non ha «tipo»');
+    assert.ok(!('_turnstile' in c), 'senza la chiave di Turnstile non c’è la sua risposta');
+    assert.deepStrictEqual(p.cloudflare, []);
     assert.ok(esito.startsWith('Grazie, il tuo messaggio è arrivato.') && esito.includes('tocca «Confermo»'), esito);
     assert.ok(await p.page.locator('#modulo-contatti .campi').isHidden(), 'i campi dovevano sparire');
   } finally { await p.chiudi(); }
@@ -288,6 +326,107 @@ controllo('senza ?conferma=, ?cancella= o ?togli= i riquadri restano nascosti', 
       for (const r of riquadri) assert.ok(await p.page.locator(r).isHidden(), r);
     } finally { await p.chiudi(); }
   }
+});
+
+/* ---- la protezione dai programmi automatici (Elias, 22.10) ---- */
+
+const PAGINE_CON_MODULI = [['contatti/index.html', ['#modulo-contatti', '#modulo-notizie']], [GIARDINO, ['#modulo-dedica', '#modulo-notizie']],
+  ['progetti/presenta-il-tuo-progetto/index.html', ['#modulo-progetto', '#modulo-notizie']], ['index.html', ['#modulo-notizie']]];
+
+controllo('ogni modulo ha il campo trappola «sito_web»: vuoto, invisibile, fuori dal giro del tasto Tab', async () => {
+  for (const [percorso, moduli] of PAGINE_CON_MODULI) {
+    const p = await apri(percorso, { dediche: { versione: 'x', dediche: [] } });
+    try {
+      for (const m of moduli) {
+        const trappola = p.page.locator(m + ' input[name="sito_web"]');
+        assert.strictEqual(await trappola.count(), 1, percorso + ' ' + m + ': manca la trappola');
+        assert.strictEqual(await trappola.getAttribute('type'), 'text', 'una trappola «hidden» i programmi la saltano');
+        assert.ok(await trappola.isHidden(), percorso + ' ' + m + ': la trappola si vede');
+        assert.strictEqual(await trappola.getAttribute('tabindex'), '-1');
+        assert.strictEqual(await trappola.getAttribute('autocomplete'), 'off');
+        assert.strictEqual(await trappola.inputValue(), '');
+      }
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('con Turnstile: nessuna pagina chiama Cloudflare finché nessuno scrive in un modulo', async () => {
+  for (const [percorso] of PAGINE_CON_MODULI) {
+    const p = await apri(percorso, { turnstile: 'passa', dediche: { versione: 'x', dediche: [] } });
+    try {
+      await p.page.waitForLoadState('networkidle');
+      assert.deepStrictEqual(p.cloudflare, [], percorso);
+      assert.deepStrictEqual(p.errori, [], percorso);
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('con Turnstile: Turnstile si carica quando si comincia a scrivere, e il messaggio parte con la sua risposta', async () => {
+  const p = await apri('contatti/index.html', { turnstile: 'passa', foglio: () => ({ success: true }) });
+  try {
+    await p.page.fill('#mc-nome', 'Carla');
+    await p.page.waitForFunction(() => window.chiaviTurnstile && window.chiaviTurnstile().length === 1);
+    assert.strictEqual(p.cloudflare.length, 1, 'Turnstile caricato ' + p.cloudflare.length + ' volte');
+    assert.ok(p.cloudflare[0].includes('render=explicit'), p.cloudflare[0]);
+    assert.deepStrictEqual(await p.page.evaluate(() => window.chiaviTurnstile()), [CHIAVE]);
+    await p.page.fill('#mc-posta', 'carla@example.org');
+    await p.page.fill('#mc-messaggio', 'Un messaggio');
+    await p.page.click('#modulo-contatti .invia');
+    assert.ok((await esitoDi(p.page, '#modulo-contatti')).startsWith('Grazie, il tuo messaggio è arrivato.'));
+    assert.strictEqual(p.allo[0].campi._turnstile, 'risposta-1-0');
+    assert.ok(/^\d+$/.test(p.allo[0].campi._tempo));
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('con Turnstile: una seconda dedica parte con una risposta nuova, perché ognuna vale una volta sola', async () => {
+  const p = await apri(GIARDINO, { turnstile: 'passa', foglio: () => ({ success: true, dedica: true, ricevuta: true }) });
+  try {
+    for (const nome of ['Nonna Lina', 'Zio Piero']) {
+      await scegliImmagine(p.page);
+      await p.page.fill('#dedica-nome', nome);
+      await p.page.fill('#dedica-mittente', 'Carla');
+      await p.page.fill('#dedica-posta', 'carla@example.org');
+      await p.page.check('#dedica-consenso');
+      await p.page.click('#modulo-dedica .invia');
+      await esitoDi(p.page, '#modulo-dedica');
+      await p.page.click('#velo-dedica .dopo .chiudi-dialogo');
+    }
+    assert.deepStrictEqual(p.allo.map(a => a.campi._turnstile), ['risposta-1-0', 'risposta-1-1']);
+  } finally { await p.chiudi(); }
+});
+
+controllo('con Turnstile: se Turnstile non si carica, il messaggio parte lo stesso, senza la sua risposta', async () => {
+  const p = await apri('contatti/index.html', { turnstile: 'non si carica', foglio: () => ({ success: true }) });
+  try {
+    await p.page.fill('#mc-nome', 'Carla');
+    await p.page.fill('#mc-posta', 'carla@example.org');
+    await p.page.fill('#mc-messaggio', 'Un messaggio');
+    await p.page.click('#modulo-contatti .invia');
+    assert.ok((await esitoDi(p.page, '#modulo-contatti')).startsWith('Grazie, il tuo messaggio è arrivato.'));
+    assert.strictEqual(p.allo.length, 1);
+    assert.strictEqual(p.allo[0].campi._turnstile, '');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('con Turnstile: il riquadro delle notizie e il modulo dei progetti mandano la risposta di Turnstile', async () => {
+  const p = await apri('progetti/presenta-il-tuo-progetto/index.html', { turnstile: 'passa',
+    foglio: i => (i.campi.tipo === 'notizie' ? { success: false, error: 'controllo', iscrizione: true } : { success: true, progetto: true }) });
+  try {
+    await p.page.fill('#mp-progetto', 'Orto in comune');
+    await p.page.check('#mp-fase-1');
+    await p.page.fill('#mp-descrizione', 'Un orto per il quartiere.');
+    await p.page.fill('#mp-nome', 'Paolo');
+    await p.page.fill('#mp-posta', 'paolo@example.org');
+    await p.page.click('#modulo-progetto .invia');
+    await esitoDi(p.page, '#modulo-progetto');
+    await p.page.fill('#mn-posta', 'lettore@example.org');
+    await p.page.click('#modulo-notizie .invia');
+    const esito = await esitoDi(p.page, '#modulo-notizie');
+    assert.deepStrictEqual(p.allo.map(a => [a.campi.tipo, a.campi._turnstile]), [['progetto', 'risposta-1-0'], ['notizie', 'risposta-2-0']]);
+    assert.strictEqual(esito, 'L’iscrizione non è partita. Riprova tra poco, oppure scrivici a ' + SEGRETERIA + '.', 'senza Turnstile l’iscrizione non parte, e la pagina lo dice');
+  } finally { await p.chiudi(); }
 });
 
 controllo('aprendo le pagine con i moduli nessuna richiesta esce dal sito, e il JavaScript non dà errori', async () => {

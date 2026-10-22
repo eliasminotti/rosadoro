@@ -28,6 +28,9 @@
  *     nell’email di conferma, e nella colonna «Per cancellarsi», da mettere in
  *     fondo a ogni email delle notizie);
  *   - chi scrive una dedica riceve un’email con il collegamento per toglierla.
+ * Prima di scrivere o mandare qualcosa, ogni invio dei moduli passa dal controllo contro i programmi automatici
+ * (Elias, 22.10): campo trappola, link nel nome o nell’oggetto, troppa fretta, troppi invii dallo stesso indirizzo,
+ * Cloudflare Turnstile. Spam e sospetti vanno nella scheda «Spam», senza avvisi né email (vedi controllaInvio).
  * Le colonne nuove le aggiunge lo script stesso, la prima volta che servono.
  *
  * Dove sta: nel foglio, dal menu Estensioni → Apps Script. Si pubblica come
@@ -51,6 +54,23 @@ var SITI = ['https://larosadoro.org/', 'https://eliasminotti.github.io/rosadoro/
 var FUSO = 'Europe/Rome';
 var GIORNI_CONFERMA = 30;                         // per quanti giorni vale il collegamento di conferma
 var MINUTI_LUX = 10;                              // per quanti minuti vale la firma di una richiesta di Lux
+var GIORNI_TRA_CONFERME = 3;                      // al massimo un’email di conferma delle notizie per indirizzo ogni tre giorni
+
+// la protezione dei moduli dai programmi automatici (Elias, 22.10)
+var SECONDI_MINIMI = 3;                           // un modulo mandato prima, dall’apertura della pagina, non l’ha scritto una persona
+var INVII_ORA = 5;                                // invii in un’ora dallo stesso indirizzo, da tutti i moduli insieme; oltre, spam
+var TRAPPOLE = ['sito_web', '_gotcha'];           // i campi trappola: le persone non li vedono, i programmi li riempiono
+var TURNSTILE = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';   // dove Cloudflare verifica le risposte di
+                                                  // Turnstile; la chiave segreta sta nelle proprietà dello script, TURNSTILE_SEGRETO
+// in quali campi un link o del codice è spam (il nome, l’oggetto, il titolo) e in quali è solo sospetto (il testo).
+// Nei progetti «documento» è fatto apposta per un collegamento
+var CAMPI = {
+  contatto: { nome: ['nome', 'oggetto'], testo: ['messaggio'] },
+  progetto: { nome: ['progetto', 'nome', 'ente'], testo: ['descrizione', 'bisogno'] },
+  dedica: { nome: ['ricordo', 'nome'], testo: ['dedica'] },
+  notizie: { nome: [], testo: [] }
+};
+var LINK = /https?:\/\/|www\.|href\s*=|<\s*a\b|<\/?[a-z][a-z0-9]*(\s[^<>]*)?\/?>/i;
 
 // i nomi delle colonne, come sono scritti nella prima riga del foglio
 var C = {
@@ -70,7 +90,7 @@ var SCHEDA_DEDICHE = 'Dediche';
 var D = {
   arrivata: 'Arrivata il', ricordo: 'In memoria di', dedica: 'Dedica', immagine: 'Immagine',
   nome: 'Chi scrive', email: 'Email', consenso: 'Consenso', giardino: 'Nel giardino',
-  codice: 'Codice', tolta: 'Tolta il'
+  codice: 'Codice', tolta: 'Tolta il', stato: 'Stato'
 };
 
 // la scheda dei progetti proposti dal sito, con i nomi delle sue colonne
@@ -84,6 +104,10 @@ var P = {
 var FASI = ['Un’idea', 'Un progetto in corso di realizzazione', 'Un progetto che esiste già',
             'Una realtà consolidata che cerca nuovi sviluppi'];
 
+// la scheda dello spam: gli invii scartati dal controllo, con il perché
+var SCHEDA_SPAM = 'Spam';
+var S = { arrivato: 'Arrivato il', modulo: 'Modulo', perche: 'Perché', nome: 'Nome', email: 'Email', contenuto: 'Contenuto' };
+
 var EMAIL = /^[^@\s,;<>"()\[\]]+@[^@\s,;<>"()\[\]]+\.[^@\s,;<>"()\[\]]+$/;
 
 
@@ -93,12 +117,20 @@ function doPost(e) {
   var p = (e && e.parameter) || {};
   var conJs = p._js === '1';                       // il sito con JavaScript vuole una risposta JSON
   try {
-    if (p._gotcha) return rispondi(conJs, { success: true, dedica: p.tipo === 'dedica', progetto: p.tipo === 'progetto',
-                                            iscrizione: p.tipo === 'notizie' });   // la trappola: si finge di accettare
-    if (p.tipo === 'dedica') return riceviDedica(p, conJs);
-    if (p.tipo === 'progetto') return riceviProgetto(p, conJs);
-    if (p.tipo === 'notizie') return riceviIscrizione(p, conJs);
-    if (p.tipo === 'lux') return riceviDaLux(p);
+    if (p.tipo === 'lux') return riceviDaLux(p);   // firmata dal server di Lux: il controllo dei moduli non serve
+    var modulo = CAMPI.hasOwnProperty(p.tipo) ? p.tipo : 'contatto';
+    var controllo = controllaInvio(p, modulo);
+    if (controllo.spam) {
+      mettiNelloSpam(p, modulo, controllo.spam);
+      return rispondi(conJs, { success: true, dedica: modulo === 'dedica', progetto: modulo === 'progetto',
+                               iscrizione: modulo === 'notizie' });          // a un programma si finge di accettare
+    }
+    var verifica = controllo.verifica || '';
+    // l’iscrizione dal riquadro è solo un indirizzo, e senza l’email di conferma non serve: si chiede di riprovare
+    if (verifica && modulo === 'notizie') return rispondi(conJs, { success: false, error: 'controllo', iscrizione: true });
+    if (modulo === 'dedica') return riceviDedica(p, conJs, verifica);
+    if (modulo === 'progetto') return riceviProgetto(p, conJs, verifica);
+    if (modulo === 'notizie') return riceviIscrizione(p, conJs);
     var nome = pulisci(p.nome, MASSIMO.nome);
     var email = pulisci(p.email, MASSIMO.email).toLowerCase();
     var oggetto = pulisci(p.oggetto, MASSIMO.oggetto);
@@ -123,13 +155,13 @@ function doPost(e) {
     riga[C.consenso] = notizie ? 'sì' : 'no';
     riga[C.testoConsenso] = notizie ? testo(versione) : '';
     riga[C.ente] = 'Fondazione';
-    riga[C.stato] = 'da rispondere';
+    riga[C.stato] = verifica ? 'da verificare' : 'da rispondere';
     if (notizie) riga[C.cancella] = collegamentoPerCancellarsi(email, sito);
     scriviRiga(riga);
 
     avvisaLaSegreteria({ nome: nome, email: email, oggetto: oggetto, messaggio: messaggio,
-                         pagina: pagina, notizie: notizie, quando: adesso });
-    var conferma = notizie ? chiediConferma(email, sito, 'contatto') : false;
+                         pagina: pagina, notizie: notizie, quando: adesso, verifica: verifica });
+    var conferma = notizie && !verifica ? chiediConferma(email, sito, 'contatto') : false;
     return rispondi(conJs, { success: true, conferma: conferma });
   } catch (errore) {
     console.error(errore);
@@ -175,15 +207,96 @@ function titoliCon(foglio, colonne) {
   return titoli;
 }
 
+/* il controllo di ogni invio dei moduli del sito, prima di scrivere o mandare qualcosa (Elias, 22.10).
+   Spam: il campo trappola è pieno, c’è un link o del codice nel nome o nell’oggetto, il modulo è partito meno di
+   SECONDI_MINIMI secondi dopo l’apertura della pagina (lo dice sito.js in _tempo), lo stesso indirizzo ha già scritto
+   INVII_ORA volte nell’ultima ora, o Cloudflare dice che la risposta di Turnstile non vale. Sospetto: un link solo nel
+   testo del messaggio, o un invio senza JavaScript, e quindi senza Turnstile. Spam e sospetti tornano come
+   { spam: perché } e vanno nella scheda «Spam», senza avvisi né email. Se Turnstile non ha potuto dire niente (non si è
+   caricato nel browser, o Cloudflare non risponde) torna { verifica: perché }: il messaggio entra «da verificare», con
+   l’avviso alla segreteria ma senza email a chi l’ha scritto, così un messaggio vero non va perso */
+function controllaInvio(p, modulo) {
+  var campi = CAMPI[modulo];
+  var campo = function (nome) { return String(p[nome] == null ? '' : p[nome]); };
+  var conLink = function (nomi) { return nomi.some(function (n) { return LINK.test(campo(n)); }); };
+  if (TRAPPOLE.some(function (t) { return campo(t).trim(); })) return { spam: 'spam: trappola' };
+  if (conLink(campi.nome)) return { spam: 'spam: link nel nome o nell’oggetto' };
+  if (campo('_tempo') && !(Number(campo('_tempo')) >= SECONDI_MINIMI)) return { spam: 'spam: troppo in fretta' };
+  if (troppiInvii(pulisci(p.email, MASSIMO.email).toLowerCase())) return { spam: 'spam: troppi invii in un’ora' };
+  if (conLink(campi.testo)) return { spam: 'sospetto: link nel messaggio' };
+  if (p._js !== '1') return { spam: 'sospetto: senza JavaScript' };
+  var turnstile = verificaTurnstile(campo('_turnstile'));
+  if (turnstile === 'no') return { spam: 'spam: Turnstile dice che non è una persona' };
+  if (turnstile === 'non so') {
+    return { verifica: campo('_turnstile') ? 'Cloudflare non ha risposto alla verifica di Turnstile'
+                                           : 'il controllo di Turnstile non si è caricato nel browser di chi ha scritto' };
+  }
+  return {};
+}
+
+/* conta gli invii di un indirizzo nell’ultima ora, da tutti i moduli insieme: oltre INVII_ORA sono troppi */
+function troppiInvii(email) {
+  if (!email) return false;
+  var memoria = CacheService.getScriptCache();
+  var chiave = 'invii-' + firma(email).slice(0, 32);
+  var invii = Number(memoria.get(chiave) || 0);
+  memoria.put(chiave, String(invii + 1), 60 * 60);
+  return invii >= INVII_ORA;
+}
+
+/* la risposta di Turnstile, verificata con Cloudflare: «sì» se è una persona; «no» se la risposta non vale, perché un
+   programma l’ha inventata; «non so» se manca, è scaduta o Cloudflare non risponde. «Spento» finché nelle proprietà
+   dello script manca la chiave segreta TURNSTILE_SEGRETO: allora Turnstile non conta */
+function verificaTurnstile(risposta) {
+  var segreto = PropertiesService.getScriptProperties().getProperty('TURNSTILE_SEGRETO');
+  if (!segreto) return 'spento';
+  if (!risposta) return 'non so';
+  try {
+    var esito = JSON.parse(UrlFetchApp.fetch(TURNSTILE, {
+      method: 'post', payload: { secret: segreto, response: risposta.slice(0, 2048) }, muteHttpExceptions: true
+    }).getContentText());
+    if (esito.success === true) return 'sì';
+    return (esito['error-codes'] || []).indexOf('invalid-input-response') >= 0 ? 'no' : 'non so';
+  } catch (errore) {
+    console.error(errore);
+    return 'non so';
+  }
+}
+
+/* l’invio scartato, nella scheda «Spam»: il perché, il nome e l’email di chi l’ha mandato e il resto, tutto come testo.
+   Un messaggio vero finito qui per sbaglio si legge e si risponde da qui */
+function mettiNelloSpam(p, modulo, perche) {
+  var tecnici = ['nome', 'email', 'tipo', 'consenso', '_js', '_sito', '_tempo', '_turnstile'];
+  var resto = Object.keys(p).filter(function (k) { return tecnici.indexOf(k) < 0 && String(p[k]).trim(); })
+    .map(function (k) { return k + ': ' + pulisci(p[k], 2000, true); }).join('\n');
+  var riga = {};
+  riga[S.arrivato] = new Date();
+  riga[S.modulo] = modulo;
+  riga[S.perche] = perche;
+  riga[S.nome] = testo(pulisci(p.nome, MASSIMO.nome));
+  riga[S.email] = testo(pulisci(p.email, MASSIMO.email).toLowerCase());
+  riga[S.contenuto] = testo(resto.slice(0, MASSIMO.messaggio));
+  scriviNellaScheda(SCHEDA_SPAM, S, riga);
+}
+
+/* in cima agli avvisi alla segreteria per i messaggi «da verificare»: perché, e che cosa fare */
+function righeDaVerificare(verifica) {
+  if (!verifica) return [];
+  return ['Da verificare: ' + verifica + '.',
+          'Può essere un programma automatico, o una persona il cui browser blocca il controllo: per questo a chi ha scritto non è partita nessuna email. Se è una persona vera, rispondi pure, e nel foglio cambia lo stato.',
+          ''];
+}
+
 function avvisaLaSegreteria(m) {
-  var righe = [
+  var righe = righeDaVerificare(m.verifica).concat([
     'Nuovo messaggio dal modulo dei Contatti del sito.',
     '',
     'Nome: ' + m.nome,
     'Email: ' + m.email,
     m.oggetto ? 'Oggetto: ' + m.oggetto : null,
     m.pagina ? 'Arrivato dalla pagina: ' + m.pagina : null,
-    'Notizie per email: ' + (m.notizie ? 'sì, in attesa che confermi l’indirizzo' : 'no'),
+    'Notizie per email: ' + (!m.notizie ? 'no' : m.verifica ? 'sì, ma l’email di conferma non è partita: se è una persona vera, invitala a iscriversi dal riquadro in fondo alle pagine del sito'
+                                                          : 'sì, in attesa che confermi l’indirizzo'),
     'Quando: ' + Utilities.formatDate(m.quando, FUSO, 'dd/MM/yyyy HH:mm'),
     '',
     m.messaggio,
@@ -191,12 +304,12 @@ function avvisaLaSegreteria(m) {
     '—',
     'Per rispondere basta «Rispondi»: la risposta va a ' + m.email + '.',
     'Il messaggio è anche nel foglio «Contatti della Fondazione»: ' + SpreadsheetApp.getActive().getUrl()
-  ].filter(function (r) { return r !== null; });
+  ]).filter(function (r) { return r !== null; });
   MailApp.sendEmail({
     to: AVVISI_A,
     replyTo: m.email,
     name: 'Sito della Fondazione',
-    subject: 'Messaggio dal sito: ' + m.nome + (m.oggetto ? ' · ' + m.oggetto : ''),
+    subject: (m.verifica ? 'Da verificare · ' : '') + 'Messaggio dal sito: ' + m.nome + (m.oggetto ? ' · ' + m.oggetto : ''),
     body: righe.join('\n')
   });
 }
@@ -204,7 +317,7 @@ function avvisaLaSegreteria(m) {
 
 /* ---- 2. la dedica del giardino dei ricordi ---- */
 
-function riceviDedica(p, conJs) {
+function riceviDedica(p, conJs, verifica) {
   var ricordo = pulisci(p.ricordo, MASSIMO.ricordo);
   var dedica = pulisci(p.dedica, MASSIMO.dedica, true);
   var immagine = pulisci(p.immagine, MASSIMO.immagine);
@@ -226,10 +339,11 @@ function riceviDedica(p, conJs) {
   riga[D.giardino] = false;                       // la casella: la spunta chi legge la dedica
   var codice = Utilities.getUuid().replace(/-/g, '').slice(0, 12);
   riga[D.codice] = testo(codice);                 // per il collegamento che la toglie
+  riga[D.stato] = verifica ? 'da verificare' : '';
   scriviNellaScheda(SCHEDA_DEDICHE, D, riga, D.giardino);
 
-  avvisaPerLaDedica({ ricordo: ricordo, dedica: dedica, immagine: immagine, nome: nome, email: email, quando: adesso });
-  var ricevuta = mandaLaRicevuta(email, sito, codice);
+  avvisaPerLaDedica({ ricordo: ricordo, dedica: dedica, immagine: immagine, nome: nome, email: email, quando: adesso, verifica: verifica });
+  var ricevuta = verifica ? false : mandaLaRicevuta(email, sito, codice);
   return rispondi(conJs, { success: true, dedica: true, ricevuta: ricevuta });
 }
 
@@ -346,7 +460,7 @@ function scriviNellaScheda(nome, colonne, riga, casella) {
 }
 
 function avvisaPerLaDedica(m) {
-  var righe = [
+  var righe = righeDaVerificare(m.verifica).concat([
     'Nuova dedica dal giardino dei ricordi del sito.',
     '',
     'In memoria di: ' + m.ricordo,
@@ -361,12 +475,12 @@ function avvisaPerLaDedica(m) {
     'La dedica entra nel giardino quando spunti la sua casella «Nel giardino», nella scheda «Dediche» del foglio: il sito la mostra entro un’ora. Per toglierla, togli la spunta.',
     'Per rispondere a chi ha scritto basta «Rispondi»: la risposta va a ' + m.email + '.',
     'Il foglio: ' + SpreadsheetApp.getActive().getUrl()
-  ];
+  ]);
   MailApp.sendEmail({
     to: AVVISI_A,
     replyTo: m.email,
     name: 'Sito della Fondazione',
-    subject: 'Dedica per il giardino: ' + m.ricordo,
+    subject: (m.verifica ? 'Da verificare · ' : '') + 'Dedica per il giardino: ' + m.ricordo,
     body: righe.join('\n')
   });
 }
@@ -400,7 +514,7 @@ function dedicheNelGiardino() {
 
 /* ---- 3. il progetto proposto dalla pagina «Presentaci il tuo progetto» ---- */
 
-function riceviProgetto(p, conJs) {
+function riceviProgetto(p, conJs, verifica) {
   var progetto = pulisci(p.progetto, MASSIMO.progetto);
   var fase = pulisci(p.fase, MASSIMO.fase);
   if (FASI.indexOf(fase) < 0) fase = '';
@@ -426,19 +540,19 @@ function riceviProgetto(p, conJs) {
   riga[P.nome] = testo(nome);
   riga[P.ente] = testo(ente);
   riga[P.email] = testo(email);
-  riga[P.stato] = 'da leggere';
+  riga[P.stato] = verifica ? 'da verificare' : 'da leggere';
   scriviNellaScheda(SCHEDA_PROGETTI, P, riga);
   if (notizie) iscriviAlleNotizie({ nome: nome, email: email, pagina: 'progetti/presenta-il-tuo-progetto',
-                                    versione: pulisci(p.consenso, MASSIMO.versione), sito: sito });
+                                    versione: pulisci(p.consenso, MASSIMO.versione), sito: sito, stato: verifica ? 'da verificare' : '' });
 
   avvisaPerIlProgetto({ progetto: progetto, fase: fase, descrizione: descrizione, bisogno: bisogno, documento: documento,
-                        nome: nome, ente: ente, email: email, notizie: notizie, quando: adesso });
-  var conferma = notizie ? chiediConferma(email, sito, 'progetto') : false;
+                        nome: nome, ente: ente, email: email, notizie: notizie, quando: adesso, verifica: verifica });
+  var conferma = notizie && !verifica ? chiediConferma(email, sito, 'progetto') : false;
   return rispondi(conJs, { success: true, progetto: true, conferma: conferma });
 }
 
 function avvisaPerIlProgetto(m) {
-  var righe = [
+  var righe = righeDaVerificare(m.verifica).concat([
     'Nuovo progetto dalla pagina «Presentaci il tuo progetto» del sito.',
     '',
     'Progetto: ' + m.progetto,
@@ -446,7 +560,8 @@ function avvisaPerIlProgetto(m) {
     'Chi lo propone: ' + m.nome + (m.ente ? ' (' + m.ente + ')' : '') + ', ' + m.email,
     m.documento ? 'Documento: ' + m.documento : null,
     'Quando: ' + Utilities.formatDate(m.quando, FUSO, 'dd/MM/yyyy HH:mm'),
-    m.notizie ? 'Notizie per email: sì, in attesa che confermi l’indirizzo' : null,
+    !m.notizie ? null : m.verifica ? 'Notizie per email: sì, ma l’email di conferma non è partita: se è una persona vera, invitala a iscriversi dal riquadro in fondo alle pagine del sito'
+                                   : 'Notizie per email: sì, in attesa che confermi l’indirizzo',
     '',
     'Che cosa fa:',
     m.descrizione,
@@ -457,12 +572,12 @@ function avvisaPerIlProgetto(m) {
     '—',
     'Per rispondere basta «Rispondi»: la risposta va a ' + m.email + '.',
     'Il progetto è anche nella scheda «Progetti» del foglio: ' + SpreadsheetApp.getActive().getUrl()
-  ].filter(function (r) { return r !== null; });
+  ]).filter(function (r) { return r !== null; });
   MailApp.sendEmail({
     to: AVVISI_A,
     replyTo: m.email,
     name: 'Sito della Fondazione',
-    subject: 'Progetto dal sito: ' + m.progetto,
+    subject: (m.verifica ? 'Da verificare · ' : '') + 'Progetto dal sito: ' + m.progetto,
     body: righe.join('\n')
   });
 }
@@ -494,7 +609,7 @@ function iscriviAlleNotizie(m) {
   riga[C.consenso] = 'sì';
   riga[C.testoConsenso] = testo(m.versione);
   riga[C.ente] = 'Fondazione';
-  riga[C.stato] = 'da confermare';
+  riga[C.stato] = m.stato || 'da confermare';
   riga[C.cancella] = collegamentoPerCancellarsi(m.email, m.sito);
   scriviRiga(riga);
 }
@@ -544,9 +659,7 @@ function chiediConferma(email, sito, motivo) {
   var perche = PERCHE[motivo] || PERCHE.contatto;
   // senza il nome di chi scrive: il modulo è aperto a tutti, e l’email di conferma non deve portare
   // a un indirizzo qualsiasi parole scritte da altri
-  var memoria = CacheService.getScriptCache();
-  var chiave = 'conferma-' + firma(email).slice(0, 32);
-  if (memoria.get(chiave)) return true;            // una sola email di conferma ogni sei ore per indirizzo
+  if (confermaRecente(email)) return true;         // una sola email di conferma ogni GIORNI_TRA_CONFERME giorni per indirizzo
   var quando = String(Math.floor(Date.now() / 1000));
   var codice = base64url(email) + '.' + quando + '.' + firma(email + '|' + quando);
   var collegamento = sito + 'contatti/index.html?conferma=' + codice;
@@ -570,8 +683,30 @@ function chiediConferma(email, sito, motivo) {
       AVVISI_A
     ].join('\n')
   });
-  memoria.put(chiave, '1', 6 * 60 * 60);
+  segnaConferma(email);
   return true;
+}
+
+/* quando è partita l’ultima email di conferma per un indirizzo: sta nelle proprietà dello script, perché la memoria
+   temporanea di Google dura al massimo sei ore, con l’indirizzo firmato e non in chiaro. Le date più vecchie di
+   GIORNI_TRA_CONFERME giorni si cancellano quando se ne scrive una nuova */
+function confermaRecente(email) {
+  var quando = Number(PropertiesService.getScriptProperties().getProperty('conferma-' + firma(email).slice(0, 32)) || 0);
+  return Date.now() / 1000 - quando < GIORNI_TRA_CONFERME * 24 * 60 * 60;
+}
+
+function segnaConferma(email) {
+  var prop = PropertiesService.getScriptProperties();
+  var adesso = Math.floor(Date.now() / 1000);
+  try {
+    var tutte = prop.getProperties();
+    Object.keys(tutte).forEach(function (k) {
+      if (k.indexOf('conferma-') === 0 && adesso - Number(tutte[k]) >= GIORNI_TRA_CONFERME * 24 * 60 * 60) prop.deleteProperty(k);
+    });
+    prop.setProperty('conferma-' + firma(email).slice(0, 32), String(adesso));
+  } catch (errore) {
+    console.error(errore);                         // se le proprietà sono piene, la conferma è partita lo stesso
+  }
 }
 
 /* il collegamento per cancellarsi dalle notizie: non scade, e vale per tutte le richieste di quell’indirizzo.
@@ -677,6 +812,7 @@ function prepara() {
   titoliCon(foglio, C);
   titoliCon(schedaDediche(), D);
   titoliCon(scheda(SCHEDA_PROGETTI, P), P);
+  titoliCon(scheda(SCHEDA_SPAM, S), S);
   console.log('Tutto pronto: ora si pubblica come App web.');
 }
 

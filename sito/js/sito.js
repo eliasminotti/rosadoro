@@ -8,7 +8,9 @@
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
    Nulla registra chi visita. Escono dal sito soltanto la dedica del giardino (4),
    il messaggio del modulo dei Contatti (5), il progetto proposto (6) e l'email
-   del riquadro delle notizie in fondo alle pagine (7), quando chi scrive li manda.
+   del riquadro delle notizie in fondo alle pagine (7), quando chi scrive li manda;
+   e, con la chiave di Turnstile, il controllo di Cloudflare contro i programmi
+   automatici, solo quando qualcuno comincia a scrivere in un modulo.
    ========================================================================== */
 (function () {
   'use strict';
@@ -119,6 +121,87 @@ function scriviEsito(dove, testo, errore, indirizzo) {
   dove.hidden = false;
 }
 
+/* la protezione dei moduli dai programmi automatici (Elias, 22.10). Ogni modulo manda allo script del foglio da quanti
+   secondi è aperta la pagina (_tempo: chi manda un modulo in meno di tre secondi non è una persona) e, se il modulo ha
+   la chiave di Cloudflare Turnstile (data-turnstile, da TURNSTILE in costruisci.py), la risposta di Turnstile
+   (_turnstile), che lo script verifica con Cloudflare. Turnstile si carica solo quando qualcuno comincia a scrivere in
+   un modulo: prima, nessuna pagina del sito si collega a Cloudflare. Se non si carica, o non risponde entro ATTESA,
+   il modulo parte lo stesso senza la risposta, e lo script lo tiene «da verificare»: un messaggio vero non va perso */
+var APERTA = Date.now();
+var ATTESA = 8000;
+var turnstilePronto = null;                       /* il caricamento di Turnstile, uno per pagina */
+
+function caricaTurnstile() {
+  if (!turnstilePronto) turnstilePronto = new Promise(function (fatto) {
+    window.turnstileCaricato = function () { fatto(window.turnstile || null); };
+    var s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=turnstileCaricato';
+    s.async = true;
+    s.onerror = function () { fatto(null); };
+    document.head.appendChild(s);
+  });
+  return turnstilePronto;
+}
+
+function protezione(modulo) {
+  var chiave = modulo.getAttribute('data-turnstile');
+  var risposta = '', fallito = false, avviato = false, widget = null, attese = [];
+  function arriva(r) {
+    risposta = r || '';
+    if (!r) fallito = true;
+    attese.splice(0).forEach(function (f) { f(risposta); });
+  }
+  function avvia() {
+    if (avviato || !chiave) return;
+    avviato = true;
+    caricaTurnstile().then(function (turnstile) {
+      if (!turnstile) return arriva('');
+      var posto = document.createElement('div');
+      posto.className = 'controllo';
+      modulo.querySelector('.campi').appendChild(posto);
+      try {
+        widget = turnstile.render(posto, {
+          sitekey: chiave, language: 'it', appearance: 'interaction-only', 'response-field': false,
+          size: posto.clientWidth < 300 ? 'compact' : 'normal',
+          callback: function (r) { fallito = false; arriva(r); },
+          'error-callback': function () { arriva(''); },
+          'expired-callback': function () { risposta = ''; }      /* Turnstile ne prepara un'altra da sé */
+        });
+      } catch (e) { arriva(''); }
+    });
+  }
+  if (chiave) modulo.addEventListener('focusin', avvia);
+  return {
+    /* i dati del modulo con i campi della protezione, quando la risposta di Turnstile c'è o l'attesa è finita */
+    campi: function (dati) {
+      dati.append('_js', '1');
+      dati.append('_tempo', String(Math.round((Date.now() - APERTA) / 1000)));
+      if (!chiave) return Promise.resolve(dati);
+      avvia();
+      return new Promise(function (fatto) {
+        if (risposta || fallito) return fatto(risposta);
+        attese.push(fatto);
+        setTimeout(function () { fatto(risposta); }, ATTESA);
+      }).then(function (r) { dati.append('_turnstile', r); return dati; });
+    },
+    /* dopo ogni invio: una risposta di Turnstile vale una volta sola, e Turnstile ne prepara un'altra */
+    dopo: function () {
+      if (widget === null || !risposta) return;
+      risposta = '';
+      try { window.turnstile.reset(widget); } catch (e) { /* alla prossima volta, senza */ }
+    }
+  };
+}
+
+/* manda un modulo allo script del foglio e dà la sua risposta; quando ha finito, la protezione si prepara al prossimo */
+function mandaAlFoglio(modulo, protetto, indirizzo) {
+  return protetto.campi(new FormData(modulo))
+    .then(function (dati) { return fetch(indirizzo, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } }); })
+    .then(function (r) { return r.json(); })
+    .then(function (risposta) { protetto.dopo(); return risposta; },
+          function (errore) { protetto.dopo(); throw errore; });
+}
+
 /* chi apre un collegamento delle nostre email arriva su una pagina con ?conferma=…, ?cancella=… o ?togli=…:
    compare il riquadro, e la richiesta allo script del foglio parte solo quando la persona tocca il pulsante,
    perché i programmi che controllano i collegamenti nella posta non lo facciano al posto suo */
@@ -179,7 +262,8 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
   var foglio = modulo.getAttribute('action');
-  var conFoglio = !!(foglio && window.fetch && window.FormData);
+  var conFoglio = !!(foglio && window.fetch && window.FormData && window.Promise);
+  var protetto = conFoglio ? protezione(modulo) : null;
   if (modulo.elements._sito) modulo.elements._sito.value = RADICE;   /* per il collegamento che toglie la dedica */
   if (conFoglio) daCollegamento(document.getElementById('togli-dedica'), 'togli', foglio, indirizzo,
     'Non siamo riusciti a toglierla. Riprova tra poco, oppure scrivici a');
@@ -243,10 +327,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    dati.append('_js', '1');
-    fetch(foglio, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    mandaAlFoglio(modulo, protetto, foglio)
       .then(function (risposta) {
         if (risposta && risposta.error === 'email') {
           scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
@@ -326,6 +407,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
   var invia = modulo.querySelector('.invia');
   var indirizzo = modulo.getAttribute('data-indirizzo');
   var foglio = !!modulo.elements._sito;              /* il modulo del foglio ha i campi nascosti in più */
+  var protetto = foglio && window.Promise ? protezione(modulo) : null;
 
   if (foglio) {
     /* l'indirizzo del sito, per il collegamento di conferma delle notizie, e la pagina da cui
@@ -348,10 +430,9 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    if (foglio) dati.append('_js', '1');
-    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    (protetto ? mandaAlFoglio(modulo, protetto, modulo.action)
+      : fetch(modulo.action, { method: 'POST', body: new FormData(modulo), headers: { 'Accept': 'application/json' } })
+          .then(function (r) { return r.json(); }))
       .then(function (risposta) {
         if (risposta && (risposta.error === 'FI_SCHEMA_FORMAT_EMAIL' || risposta.error === 'email')) {
           dici(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
@@ -388,7 +469,8 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
 (function () {
   'use strict';
   var modulo = document.getElementById('modulo-progetto');
-  if (!modulo || !window.fetch || !window.FormData) return;
+  if (!modulo || !window.fetch || !window.FormData || !window.Promise) return;
+  var protetto = protezione(modulo);
   var campi = modulo.querySelector('.campi');
   var esito = modulo.querySelector('.esito');
   var invia = modulo.querySelector('.invia');
@@ -401,10 +483,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    dati.append('_js', '1');
-    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    mandaAlFoglio(modulo, protetto, modulo.action)
       .then(function (risposta) {
         if (risposta && risposta.error === 'email') {
           scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
@@ -433,7 +512,8 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
 (function () {
   'use strict';
   var modulo = document.getElementById('modulo-notizie');
-  if (!modulo || !window.fetch || !window.FormData) return;
+  if (!modulo || !window.fetch || !window.FormData || !window.Promise) return;
+  var protetto = protezione(modulo);
   var campi = modulo.querySelector('.campi');
   var esito = modulo.querySelector('.esito');
   var invia = modulo.querySelector('.invia');
@@ -451,10 +531,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
     invia.disabled = true;
     invia.textContent = 'Un momento…';
     esito.hidden = true;
-    var dati = new FormData(modulo);
-    dati.append('_js', '1');
-    fetch(modulo.action, { method: 'POST', body: dati, headers: { 'Accept': 'application/json' } })
-      .then(function (r) { return r.json(); })
+    mandaAlFoglio(modulo, protetto, modulo.action)
       .then(function (risposta) {
         if (risposta && risposta.error === 'email') {
           scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);

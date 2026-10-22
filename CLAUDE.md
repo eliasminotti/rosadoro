@@ -77,6 +77,15 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   è nella colonna «Per cancellarsi», da mettere in fondo a ogni email delle notizie), e chi
   scrive una dedica riceve un’email con il collegamento per toglierla (`?togli=` sulla pagina
   del giardino). Le colonne nuove del foglio le aggiunge lo script da sé.
+- La protezione dei moduli dallo spam (Elias, 22.10): prima di scrivere o mandare qualcosa lo script del foglio
+  controlla ogni invio (`controllaInvio`): campo trappola `sito_web`, link nel nome o nell’oggetto, meno di tre secondi
+  dall’apertura della pagina, più di cinque invii in un’ora dallo stesso indirizzo, Cloudflare Turnstile. Spam e sospetti
+  (link solo nel messaggio, invio senza JavaScript) vanno nella scheda «Spam» del foglio, senza avvisi né email; se
+  Turnstile non si carica, il messaggio entra «da verificare», con l’avviso alla segreteria ma senza email a chi ha scritto.
+  La conferma delle notizie parte al massimo una volta ogni tre giorni per indirizzo e non porta mai testo di chi compila.
+  `TURNSTILE` in `costruisci.py` è la chiave pubblica del widget (account Cloudflare di Elias); la chiave segreta sta solo
+  nelle proprietà dello script (`TURNSTILE_SEGRETO`). Turnstile si carica solo quando si comincia a scrivere in un modulo:
+  è l’unico script esterno del sito, chiesto da Elias; informativa e cookie ne parlano con `{se-turnstile}`.
 - L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
   `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 
