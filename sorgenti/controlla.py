@@ -14,6 +14,7 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - gli indirizzi del sito che usano altri siti (per esempio Lux) ci sono ancora;
   - nella pagina Dona la carta (Stripe) viene per prima, con un Payment Link vero e non di prova;
   - la partita IVA è in ogni pagina, home compresa: nel piede «C.F. e P.IVA …» e nella scheda per i motori di ricerca (vatID);
+  - la sede legale è nel piede di ogni pagina, dopo la partita IVA, ed è la stessa della scheda per i motori di ricerca;
   - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js);
   - giardino.py porta nel giardino le dediche giuste, provato con un foglio e un sito finti (sorgenti/controlla-giardino.py);
   - i moduli delle pagine mandano allo script quello che devono e rispondono bene, provati in un browser
@@ -359,6 +360,28 @@ def controlla_partita_iva(pagine):
         print("Partita IVA: %s in ogni pagina, home compresa" % numero)
 
 
+def controlla_sede(pagine):
+    """La sede legale sta nel piede di ogni pagina, subito dopo il codice fiscale e la partita IVA, ed è la stessa che la scheda per
+    i motori di ricerca dà a Google (address): così il nome, il numero e l'indirizzo della Fondazione si leggono insieme e
+    coincidono dappertutto. È l'indirizzo dell'atto costitutivo (art. 2) e dell'iscrizione al RUNTS (SEDE in costruisci.py)."""
+    sede = impostazione("SEDE")
+    piede = "C.F. e P.IVA %s · Sede legale: %s ·" % (impostazione("CF_PIVA"), sede)
+    prima = len(problemi)
+    for rel in sorted(pagine, key=lambda r: (r != "index.html", r)):     # la home per prima
+        testo = open(os.path.join(SITO, rel), encoding="utf-8").read()
+        dove = "La home" if rel == "index.html" else rel
+        if piede not in testo:
+            problemi.append("%s non ha la sede legale nel piede, dopo la partita IVA: manca «%s»" % (dove, piede))
+        indirizzo = re.search(r'"address": \{"@type": "PostalAddress", "streetAddress": "([^"]*)", "postalCode": "([^"]*)", '
+                              r'"addressLocality": "([^"]*)"', testo)
+        if not indirizzo:
+            problemi.append("%s non ha la sede nella scheda per i motori di ricerca (address)" % dove)
+        elif "%s, %s %s" % indirizzo.groups() != sede:
+            problemi.append("%s dà a Google una sede diversa da quella del piede: %s, %s %s" % ((dove,) + indirizzo.groups()))
+    if len(problemi) == prima:
+        print("Sede legale: %s nel piede di ogni pagina e nella scheda per i motori di ricerca" % sede)
+
+
 def controlla_script_del_foglio():
     if not shutil.which("node"):
         problemi.append("Manca node: lo script del foglio non si può controllare")
@@ -490,6 +513,7 @@ def main():
         controlla_ricevute(pagine)
         controlla_mensile(pagine)
         controlla_partita_iva(pagine)
+        controlla_sede(pagine)
         controlla_script_del_foglio()
         controlla_giardino()
         controlla_moduli()

@@ -81,14 +81,18 @@ CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA d
                                           # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
                                           # (art. 35 c.1 DPR 633/1972; dal 1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026):
                                           # nel piede di ogni pagina e come vatID nella scheda per i motori di ricerca.
+SEDE = "Via Bianca di Savoia 17, 20122 Milano"   # la sede legale della Fondazione (atto costitutivo, art. 2; iscrizione al RUNTS):
+                                          # è lo studio del commercialista, non un ufficio aperto al pubblico. Nel piede di ogni pagina
+                                          # sta dopo il codice fiscale («Sede legale: …») e la scheda per i motori di ricerca la dà come address.
 
 ENTE = {
     "nome": "Fondazione La Rosa d'Oro ETS",
     "breve": "La Rosa d'Oro",
     "forma": "Ente del Terzo Settore",
-    "sede": "Via Bianca di Savoia 17, 20122 Milano",
+    "sede": SEDE,
     "cf": "C.F. " + CF_PIVA,
     "cfpiva": "C.F. e P.IVA " + CF_PIVA,      # nel piede di ogni pagina: la partita IVA va nella home (vedi CF_PIVA)
+    "sedelegale": "Sede legale: " + SEDE,     # nel piede di ogni pagina, subito dopo
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
@@ -428,16 +432,17 @@ def footer(da):
       <div>%s<p class="tagline">%s</p></div>
       <div><h4>Il sito</h4><ul>%s</ul></div>
       <div><h4>La Fondazione</h4><ul>%s</ul></div>
-      <div><h4>Scrivere</h4><ul><li><a href="mailto:%s">%s</a></li><li>%s</li></ul></div>
+      <div><h4>Scrivere</h4><ul><li><a href="mailto:%s">%s</a></li></ul></div>
     </div>
 %s    <hr class="separatore">
     <div class="pie-dati">
-      <p>%s · %s · %s · %s · %s</p>
+      <p>%s · %s · %s · %s · %s · %s</p>
       <p>%s</p>
     </div>
   </div>
-</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], sfuggi(ENTE["sede"]), riquadro_notizie(da),
-                sfuggi(ENTE["nome"]), sfuggi(ENTE["forma"]), sfuggi(ENTE["cfpiva"]), sfuggi(ENTE["runts"]), sfuggi(ENTE["atto"]), legali)
+</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], riquadro_notizie(da),
+                sfuggi(ENTE["nome"]), sfuggi(ENTE["forma"]), sfuggi(ENTE["cfpiva"]), sfuggi(ENTE["sedelegale"]), sfuggi(ENTE["runts"]),
+                sfuggi(ENTE["atto"]), legali)
 
 # --------------------------------------------------------------------------
 # le hero
@@ -965,7 +970,8 @@ DATI_STRUTTURATI = json.dumps({
     "name": ENTE["nome"], "legalName": ENTE["nome"], "alternateName": [ENTE["breve"], "Fondazione La Rosa d'Oro"],
     "url": DOMINIO + "/", "logo": DOMINIO + "/img/logo.jpg",
     "email": ENTE["email"], "foundingDate": "2026-02-26", "taxID": CF_PIVA, "vatID": "IT" + CF_PIVA,
-    "address": {"@type": "PostalAddress", "streetAddress": "Via Bianca di Savoia 17", "postalCode": "20122", "addressLocality": "Milano", "addressCountry": "IT"},
+    "address": {"@type": "PostalAddress", "streetAddress": SEDE.split(", ")[0], "postalCode": SEDE.split(", ")[1].split(" ", 1)[0],
+                "addressLocality": SEDE.split(", ")[1].split(" ", 1)[1], "addressCountry": "IT"},   # la sede legale: niente orari né mappa
     "identifier": {"@type": "PropertyValue", "propertyID": "RUNTS", "value": ENTE["runts"]},
     "areaServed": "IT", "description": DESCRIZIONI[""],
     # gli argomenti di cui il sito parla davvero: devono corrispondere alle pagine pubblicate

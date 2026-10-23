@@ -65,6 +65,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026): la costruzione la scrive nel piede di ogni pagina
   («C.F. e P.IVA …») e come `vatID` nella scheda per i motori di ricerca, e `controlla.py` lo verifica su ogni pagina.
   Dove il numero serve solo come codice fiscale (5 per mille, lasciti, ricerca nel RUNTS) resta «codice fiscale».
+- La sede legale è `SEDE` in `costruisci.py` (Via Bianca di Savoia 17, 20122 Milano: atto costitutivo, art. 2, e iscrizione
+  al RUNTS). Sta nel piede di ogni pagina subito dopo «C.F. e P.IVA» («Sede legale: …», Elias, 23.10) e la scheda per i motori
+  di ricerca la dà come `address`, senza orari né mappa: è lo studio del commercialista, non un ufficio aperto al pubblico.
+  `controlla.py` verifica che piede e scheda dicano lo stesso indirizzo.
 - Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
   «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
 - Il riquadro «Le notizie della Fondazione» in fondo a ogni pagina (`riquadro_notizie`
