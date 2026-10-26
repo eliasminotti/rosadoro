@@ -331,6 +331,7 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .tavola{position:relative;margin:80px 0 0;border:1px solid var(--filo-forte);background:var(--carta)}
 .tavola img{width:100%}
 .tavola.stretta{max-width:480px}
+.testo>.tavola:first-child{margin-top:2.2em}   /* la tavola che apre il testo sta dove starebbe la fotografia */
 .tavola-fascia{position:relative;margin:var(--ritmo) 0 0;border:1px solid var(--filo-forte)}
 .tavola-fascia img{width:100%}
 .tavola figcaption{position:absolute;right:16px;bottom:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--testo-45)}
