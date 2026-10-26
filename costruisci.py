@@ -20,7 +20,7 @@ import json
 # impostazioni
 # --------------------------------------------------------------------------
 DOMINIO = "https://larosadoro.org"      # [VERIFICARE] il dominio definitivo
-ANTEPRIMA = True                          # True: le pagine chiedono ai motori di ricerca di non indicizzarle (indirizzo di prova)
+ANTEPRIMA = False                         # False dal 26.10.2026 (Elias): il sito è aperto ai motori di ricerca. True: le pagine chiedono di non indicizzarle
 TESTATA_CENTRATA = True                   # prova del 15.9 (Dacia, ok Elias): logo e nome sopra, menu sotto; False = una riga
 LINK_PULITI = True                        # False: i collegamenti finiscono in «index.html», così il sito
                                           #        funziona anche aperto da una cartella sul computer.
@@ -871,6 +871,9 @@ IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno ind
 # le schede dei fondi convertibili e della riqualificazione etica, di cui si parla a tu per tu (Elias, 9.10): si leggono
 # dal sito, ma non si cercano su Google
 NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica")
+# i file che robots.txt chiude a tutti i motori: le dediche del giardino (dediche.json, che la pubblicazione scrive accanto
+# alla pagina) e la foto della bambina in Dopo di Noi, che resta sul sito ma non entra in Google Immagini (Elias e Dacia, 26.10)
+FUORI_DAI_MOTORI = ("in-memoria/giardino-dei-ricordi/dediche.json", "img/foto/bimba-1.jpg")
 
 def pagina_html(da, p, extra_head=""):
     # il titolo della scheda è anche il titolo che Google mostra: per le pagine dal titolo evocativo
@@ -1006,8 +1009,9 @@ def costruisci():
     with open(os.path.join(USCITA, "img", "favicon.svg"), "w", encoding="utf-8") as f:
         f.write(FAVICON)
     with open(os.path.join(USCITA, "robots.txt"), "w", encoding="utf-8") as f:
-        # le dediche del giardino (dediche.json, che la pubblicazione scrive accanto alla pagina) non si offrono ai motori
-        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\nDisallow: /in-memoria/giardino-dei-ricordi/dediche.json\n")
+        # i divieti prima di «Allow: /»: i programmi più semplici seguono la prima regola che corrisponde
+        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else
+                 "User-agent: *\n" + "".join("Disallow: /%s\n" % x for x in FUORI_DAI_MOTORI) + "Allow: /\n")
                 + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
     # la pagina «non trovata»: GitHub Pages la serve da qualsiasi indirizzo, quindi i percorsi partono dalla radice del sito
     base = "<script>document.write('<base href=\"' + (location.hostname.slice(-9) === 'github.io' ? '/rosadoro/' : '/') + '\">')</script>"

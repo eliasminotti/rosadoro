@@ -680,10 +680,12 @@ TESTI["aziende-e-istituzioni/istituzioni"] = dict(
 """)
 
 # ------------------------------------------------------------ Formazione all'accompagnamento (testo iniziale di Dacia, 15.9)
+# la foto «Due mani che si tengono» non c'è ancora: all'apertura al suo posto va la tavola della candela (cantiere, 21.10).
+# Quando arriva (img/foto/due-mani.jpg), torna il gettone {foto:DUE MANI|Due mani che si tengono|ritratto oro}.
 TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
     sotto="Stare accanto a chi si trova nell'ultimo tratto della vita: competenze emotive, pratiche e spirituali.",
     corpo="""
-{foto:DUE MANI|Due mani che si tengono|ritratto oro}
+<figure class="tavola"><img src="{img:tavola-candela.svg}" alt="Una candela accesa, incisa"></figure>
 <p>La formazione per l'accompagnamento alla morte, o al fine vita, è un percorso multidisciplinare rivolto a professionisti sanitari, volontari e cittadini che desiderano acquisire competenze emotive, pratiche e spirituali per stare accanto a chi si trova nell'ultimo tratto della vita.</p>
 <p>I percorsi formativi sono diversi:</p>
 <ul class="stelle">
@@ -735,6 +737,8 @@ TESTI["news"] = dict(
     corpo="""
 <p>Qui trovi le novità della Fondazione, una sotto l’altra con la data, la più recente in alto: gli incontri, i progetti che nascono, i passi che facciamo.</p>
 <p>Se vuoi riceverle anche per email, chiedi le notizie della Fondazione dal riquadro in fondo alla pagina.</p>
+<h3>Il sito della Fondazione è online</h3>
+<p><em>26 ottobre 2026.</em> Da oggi il sito della Fondazione La Rosa d’Oro è aperto a tutti. Racconta chi siamo, che cosa la Fondazione è costituita per fare, nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, e che cosa stiamo facendo. Da qui puoi <a class="link" href="{→contatti}">scriverci</a>, <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentarci un progetto</a> e lasciare una dedica nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>. Le novità arriveranno su questa pagina, una alla volta.</p>
 <h3>Quietude Italia 2027: aperte le iscrizioni</h3>
 <p><em>21 ottobre 2026.</em> Il 13 marzo 2027 comincia Quietude Italia, il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita, guidato da Annie Blampied-Radojćin, fondatrice di Quietude®, con Dacia Dalla Libera e le altre docenti. Le iscrizioni sono aperte fino al 17 gennaio 2027 e i posti sono 24: il programma e il pieghevole sono nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento alla morte</a>.</p>
 """)

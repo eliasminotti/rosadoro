@@ -113,14 +113,20 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.
   Un testo nuovo segue la stessa regola.
 - `ANTEPRIMA` e `LINK_PULITI` in `costruisci.py` sono gli interruttori della
-  pubblicazione: restano come sono finché Elias non dice di pubblicare.
+  pubblicazione: tutti e due nella posizione dell’apertura dal 26.10.2026 (Elias) e
+  non si toccano senza le sue parole.
+- Dal 26.10.2026 il sito è aperto ai motori di ricerca (Elias). Restano fuori il giardino e le
+  sue dediche (lo promette l’informativa), le due schede per professionisti di `NON_INDICIZZARE`,
+  le pagine con un segnaposto e la foto della bambina in Dopo di Noi, che resta sul sito ma non va
+  in Google Immagini (`FUORI_DAI_MOTORI`, Elias e Dacia, 26.10). `controlla.py` verifica giardino,
+  dediche e foto, e che ogni pagina della mappa si lasci indicizzare. Nei primi giorni è una prova
+  aperta con persone vicine: foto e testi possono ancora cambiare; la promozione larga viene dopo.
 
 ## Rami e pubblicazione
 
 - Il ramo principale è `claude/rosadoro-foundation-site-6hc5hu`: ogni push lì
   pubblica `sito/` su https://larosadoro.org/ con `.github/workflows/pages.yml`.
-  Fino all’apertura le pagine chiedono ai motori di non indicizzarle (`ANTEPRIMA`);
-  il vecchio indirizzo di prova https://eliasminotti.github.io/rosadoro/ porta lì.
+  Il vecchio indirizzo di prova https://eliasminotti.github.io/rosadoro/ porta lì.
 - Ogni lavoro si fa su un ramo suo e arriva sul ramo principale solo dopo
   l'approvazione di Elias.
 - Il sito pubblicato si controlla da solo con `.github/workflows/controlli.yml`
