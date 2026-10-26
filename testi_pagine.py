@@ -445,7 +445,7 @@ TESTI["privacy"] = dict(
 <p>Il sito non si rivolge ai bambini e parla di temi che riguardano la perdita e la fine della vita. I moduli sono per chi ha almeno quattordici anni; per i più piccoli occorre l'intervento di chi esercita la responsabilità genitoriale (art. 2-quinquies del Codice in materia di protezione dei dati personali).</p>
 
 <h3>Questa informativa</h3>
-<p>È stata aggiornata il {se-ricevute}{informativa-data}{/se-ricevute}{senza-ricevute}25 ottobre 2026, prima dell'apertura del sito{/senza-ricevute}, e verrà aggiornata ancora quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
+<p>È stata aggiornata il {se-ricevute}{informativa-data}{/se-ricevute}{senza-ricevute}26 ottobre 2026, prima dell'apertura del sito{/senza-ricevute}, e verrà aggiornata ancora quando cambierà qualcosa: per esempio se aggiungeremo un nuovo modo di donare o un nuovo fornitore. La data dell'ultimo aggiornamento sarà sempre indicata qui.</p>
 """ % dict(V=V))
 
 TESTI["cookie"] = dict(
