@@ -290,11 +290,36 @@ def controlla_ricevute(pagine):
         print("Ricevute: automatiche dal %s, Dona e informativa lo dicono" % giorno)
 
 
+def controlla_paypal(pagine):
+    """PayPal si sceglie sulla pagina di Stripe (Lux, 24.10): il pulsante Dona di PayPal non c’è più, perché Lux non legge
+    più il conto PayPal della Fondazione e le ricevute arrivano solo dalle donazioni fatte sulla pagina di Stripe. Dona,
+    informativa e cookie lo dicono. Senza STRIPE, PayPal sparisce da Dona insieme alla carta."""
+    dona = open(os.path.join(SITO, "dona", "index.html"), encoding="utf-8").read()
+    privacy = open(os.path.join(SITO, "privacy", "index.html"), encoding="utf-8").read()
+    cookie = open(os.path.join(SITO, "cookie", "index.html"), encoding="utf-8").read()
+    prima = len(problemi)
+    for rel, p in sorted(pagine.items()):
+        for i in p.indirizzi:
+            if re.match(r"^https://(www\.)?paypal\.(com/donate|me/)", i):
+                problemi.append("%s porta ancora a una donazione su PayPal: PayPal si sceglie sulla pagina di Stripe (%s)" % (rel, i))
+    if impostazione("STRIPE") and "il modo lo scegli sulla pagina di Stripe" not in dona:
+        problemi.append("Dona non dice che carta e PayPal si scelgono sulla pagina di Stripe")
+    if "si scelgono sulle pagine di <strong>Stripe</strong>" not in privacy:
+        problemi.append("L’informativa non dice che la carta e PayPal si scelgono sulle pagine di Stripe")
+    for vecchio in ("il pagamento avviene sulle pagine di <strong>PayPal</strong>", "legge nel conto PayPal"):
+        if vecchio in privacy:
+            problemi.append("L’informativa parla ancora del pulsante di PayPal: «%s»" % re.sub("<[^>]+>", "", vecchio))
+    if "se scegli PayPal, anche su quelle di PayPal" not in cookie:
+        problemi.append("La pagina dei cookie non dice che PayPal si sceglie sulla pagina di Stripe")
+    if len(problemi) == prima:
+        print("PayPal: si sceglie sulla pagina di Stripe, nessuna pagina porta al pulsante Dona di PayPal")
+
+
 def controlla_mensile(pagine):
     """Il mensile con Stripe (Elias, 20.10): acceso MENSILE, in Dona ci sono i pulsanti mensili di MENSILI e il portale di
-    Stripe per smettere, PayPal si sceglie sulla pagina di Stripe e il pulsante Dona di PayPal sparisce. Si accende solo
-    dopo che Lux fa le ricevute anche di PayPal e dei pagamenti mensili, quindi con RICEVUTE acceso. Spento, nessuna pagina
-    porta ai link mensili né al portale, e il mensile resta sul pulsante PayPal."""
+    Stripe per smettere. Si accende solo dopo che Lux fa le ricevute anche dei pagamenti mensili, quindi con RICEVUTE
+    acceso. Spento, nessuna pagina porta ai link mensili né al portale, e per donare ogni mese Dona propone il bonifico
+    periodico."""
     giorno = impostazione("MENSILE")
     mensili = impostazione_mensili()
     portale = impostazione("PORTALE")
@@ -307,10 +332,10 @@ def controlla_mensile(pagine):
             for i in p.indirizzi:
                 if any(i.startswith(v) for v in vietati):
                     problemi.append("MENSILE è spento, ma %s porta a un link mensile o al portale di Stripe: %s" % (rel, i))
-        if "paypal.com/donate" not in dona:
-            problemi.append("MENSILE è spento, ma in Dona manca il pulsante Dona di PayPal, l’unico modo di donare ogni mese")
+        if "bonifico periodico" not in dona:
+            problemi.append("MENSILE è spento, ma Dona non dice come donare ogni mese: con un bonifico periodico")
         if len(problemi) == prima:
-            print("Mensile: spento, si dona ogni mese con il pulsante PayPal")
+            print("Mensile: spento, per donare ogni mese Dona propone il bonifico periodico")
         return
     if not GIORNO.match(giorno):
         problemi.append("MENSILE in costruisci.py dev’essere un giorno come «3 novembre 2026»: %s" % giorno)
@@ -331,12 +356,10 @@ def controlla_mensile(pagine):
                         "(https://billing.stripe.com/p/login/…): %s" % (portale or "vuoto"))
     elif 'href="%s"' % portale not in dona:
         problemi.append("Nella pagina Dona manca il collegamento per smettere di donare ogni mese: %s" % portale)
-    if "paypal.com" in dona:
-        problemi.append("MENSILE è acceso, ma Dona porta ancora a PayPal: PayPal si sceglie sulla pagina di Stripe")
-    if "si scelgono sulle pagine di <strong>Stripe</strong>" not in privacy:
-        problemi.append("MENSILE è acceso, ma l’informativa non dice che PayPal si sceglie sulla pagina di Stripe")
+    if "Se doni ogni mese, Stripe conserva" not in privacy:
+        problemi.append("MENSILE è acceso, ma l’informativa non dice che Stripe conserva il modo di pagamento per i mesi successivi")
     if len(problemi) == prima:
-        print("Mensile: %d pulsanti mensili e il portale per smettere, PayPal sulla pagina di Stripe" % len([l for _, l in mensili if l]))
+        print("Mensile: %d pulsanti mensili e il portale per smettere" % len([l for _, l in mensili if l]))
 
 
 def controlla_partita_iva(pagine):
@@ -511,6 +534,7 @@ def main():
         controlla_indirizzi_da_fuori(pagine)
         controlla_stripe(pagine)
         controlla_ricevute(pagine)
+        controlla_paypal(pagine)
         controlla_mensile(pagine)
         controlla_partita_iva(pagine)
         controlla_sede(pagine)

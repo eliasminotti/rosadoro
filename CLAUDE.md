@@ -46,20 +46,22 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   proprietà dello script e in Vercel, mai in chat): riga «notizie» con Fonte «LUX», stessa email di
   conferma, stesso «Cancellami». Lux porta al riquadro delle notizie con `https://larosadoro.org/#notizie`:
   l’àncora `#notizie` non si cambia (la controlla `controlla.py`).
-- Nella pagina Dona la carta con Stripe è il primo modo di donare, poi bonifico e PayPal (Elias, 19.10).
+- Nella pagina Dona la carta con Stripe è il primo modo di donare, poi il bonifico (Elias, 19.10). PayPal si sceglie
+  sulla stessa pagina di Stripe (Lux, 24.10): il pulsante Dona di PayPal non c’è più, perché Lux non legge più il conto
+  PayPal e le ricevute partono solo da Stripe (lo controlla `controlla.py`); chi già dona ogni mese dal conto PayPal resta lì.
   `STRIPE` in `costruisci.py` è il Payment Link a importo libero che Elias crea nel pannello Stripe della
   Fondazione, lo stesso conto di Lux; la costruzione aggiunge `?locale=it&client_reference_id=sito-dona`, che
-  separa le donazioni del sito da quelle di Lux. Vuoto, la carta sparisce da Dona (`{se-stripe}…{/se-stripe}`).
+  separa le donazioni del sito da quelle di Lux. Vuoto, carta e PayPal spariscono da Dona (`{se-stripe}…{/se-stripe}`).
 - Le ricevute delle donazioni con la carta e con PayPal le manda da solo il sistema di Lux, 37 giorni dopo, da quando Lux
   passa ai pagamenti veri, dopo l’apertura del sito (Lux, 20.10). `RICEVUTE` in `costruisci.py` è quel giorno
   («27 ottobre 2026»): acceso, Dona lo dice e l’informativa nomina Vercel, Supabase e Resend e porta quella data
   (`{se-ricevute}`, `{senza-ricevute}`, `{informativa-data}`); vuoto, la ricevuta si chiede scrivendoci. Quel giorno Elias
   cambia anche il messaggio di conferma del link Stripe.
 - Il mensile con Stripe (Elias, 20.10): `MENSILE` in `costruisci.py` è il giorno da cui si dona ogni mese con i link di
-  `MENSILI` (10, 25, 50, 100 euro al mese e «Altro importo», da 1 euro a quantità regolabile) e PayPal si sceglie sulla
-  pagina di Stripe; `PORTALE` è il portale di Stripe dove chi dona ogni mese smette da sé. Acceso, sparisce il pulsante
-  Dona di PayPal e Dona, informativa e cookie lo dicono (`{se-mensile}`, `{senza-mensile}`, `{mensili}`, `{portale}`).
-  Si accende solo dopo che Lux fa le ricevute anche di PayPal e dei pagamenti mensili, quindi con `RICEVUTE` acceso.
+  `MENSILI` (10, 25, 50, 100 euro al mese e «Altro importo», da 1 euro a quantità regolabile); `PORTALE` è il portale di
+  Stripe dove chi dona ogni mese smette da sé. Acceso, Dona e informativa lo dicono (`{se-mensile}`, `{mensili}`,
+  `{portale}`); spento, per ogni mese Dona propone il bonifico periodico (`{senza-mensile}`).
+  Si accende solo dopo che Lux fa le ricevute anche dei pagamenti mensili, quindi con `RICEVUTE` acceso.
 - La partita IVA della Fondazione è lo stesso numero del codice fiscale (`CF_PIVA` in `costruisci.py`; Agenzia delle
   Entrate, verifica del 19.10.2026: attiva, inizio attività 28.2.2026). Va nella home (art. 35 c.1 DPR 633/1972; dal
   1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026): la costruzione la scrive nel piede di ogni pagina

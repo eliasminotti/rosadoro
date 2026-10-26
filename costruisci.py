@@ -51,24 +51,23 @@ USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 LUX = "https://lux.larosadoro.org/"       # il sito di Lux: la voce «Lux» in alto a sinistra e nel menu del telefono (Elias, 11.10).
                                           # Vuoto: la voce sparisce, per esempio se all'apertura del sito al pubblico
                                           # le donazioni di Lux non sono ancora aperte.
-STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link di Stripe per «Dona con la carta» (https://donate.stripe.com/…, con il pulsante «Dona»), che Elias crea
+STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link di Stripe per «Dona con la carta o con PayPal» (https://donate.stripe.com/…, con il pulsante «Dona»), che Elias crea
                                           # nel pannello Stripe della Fondazione, lo stesso conto di Lux. La carta è il primo modo
-                                          # di donare (Elias, 19.10). La costruzione aggiunge ?locale=it&client_reference_id=sito-dona:
+                                          # di donare (Elias, 19.10), e PayPal si sceglie sulla stessa pagina (Lux, 24.10). La costruzione aggiunge ?locale=it&client_reference_id=sito-dona:
                                           # la pagina di Stripe in italiano, e nel conto le donazioni del sito separate da quelle di Lux.
-                                          # Vuoto: la carta sparisce dalla pagina Dona, e restano il bonifico e PayPal.
+                                          # Vuoto: carta e PayPal spariscono dalla pagina Dona, e resta il bonifico.
                                           # Lux riconosce le donazioni del sito da questo link, per le ricevute: se cambia, va detto a Lux.
 RICEVUTE = ""                            # il giorno da cui le ricevute delle donazioni con la carta e con PayPal partono da sole,
                                           # col sistema di Lux, scritto come «27 ottobre 2026»: si accende il giorno in cui Lux passa ai
                                           # pagamenti veri, dopo l'apertura del sito (Lux, 20.10). Acceso, Dona lo dice
                                           # ({se-ricevute}…{/se-ricevute}) e l'informativa nomina i fornitori del sistema e porta
                                           # questa data ({informativa-data}). Vuoto: la ricevuta si chiede scrivendoci ({senza-ricevute}).
-MENSILE = ""                              # il giorno da cui si dona ogni mese con Stripe, scritto come «3 novembre 2026»; da quel giorno
-                                          # PayPal si sceglie sulla pagina di Stripe (Elias, 20.10). Si accende solo dopo che Lux fa le
-                                          # ricevute anche di PayPal e dei pagamenti mensili, quindi con RICEVUTE acceso. Acceso: in Dona
-                                          # una sola sezione «Con la carta o con PayPal», con il pulsante per donare una volta (STRIPE),
-                                          # i pulsanti di MENSILI e il collegamento PORTALE per smettere; niente pulsante Dona di PayPal.
-                                          # Informativa e cookie lo dicono ({se-mensile}…{/se-mensile}) e l'informativa porta questa data.
-                                          # Vuoto: si dona ogni mese con il pulsante PayPal ({senza-mensile}…{/senza-mensile}).
+MENSILE = ""                              # il giorno da cui si dona ogni mese con Stripe, scritto come «3 novembre 2026» (Elias, 20.10).
+                                          # Si accende solo dopo che Lux fa le ricevute anche dei pagamenti mensili, quindi con RICEVUTE
+                                          # acceso. Acceso: nella sezione «Con la carta o con PayPal» di Dona il pulsante per donare una
+                                          # volta (STRIPE), i pulsanti di MENSILI e il collegamento PORTALE per smettere. L'informativa lo
+                                          # dice ({se-mensile}…{/se-mensile}) e porta questa data. Vuoto: per donare ogni mese Dona
+                                          # propone il bonifico periodico ({senza-mensile}…{/senza-mensile}).
 MENSILI = (("10 euro al mese", ""),       # i Payment Link mensili di Stripe che Elias crea nel pannello, uno per pulsante, ognuno con un
            ("25 euro al mese", ""),       # prezzo fisso al mese. «Altro importo» è il link da 1 euro al mese in cui chi dona sceglie la
            ("50 euro al mese", ""),       # quantità: vuoto, il suo pulsante non c'è. Come per STRIPE, la costruzione aggiunge lingua e
