@@ -15,6 +15,8 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - nella pagina Dona la carta (Stripe) viene per prima, con un Payment Link vero e non di prova;
   - la partita IVA è in ogni pagina, home compresa: nel piede «C.F. e P.IVA …» e nella scheda per i motori di ricerca (vatID);
   - la sede legale è nel piede di ogni pagina, dopo la partita IVA, ed è la stessa della scheda per i motori di ricerca;
+  - i motori di ricerca: le pagine della mappa si lasciano indicizzare, mentre il giardino, le sue dediche e la foto della
+    bambina in Dopo di Noi restano fuori (robots.txt e «noindex»);
   - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js);
   - giardino.py porta nel giardino le dediche giuste, provato con un foglio e un sito finti (sorgenti/controlla-giardino.py);
   - i moduli delle pagine mandano allo script quello che devono e rispondono bene, provati in un browser
@@ -31,12 +33,13 @@ Sul sito pubblicato (lo fa il workflow .github/workflows/controlli.yml ogni matt
 Usa solo Python, più node per il JavaScript.
 """
 import html.parser, json, os, re, shutil, socket, ssl, subprocess, sys, tempfile, time
-import urllib.error, urllib.parse, urllib.request
+import urllib.error, urllib.parse, urllib.request, urllib.robotparser
 
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITO = os.path.join(RADICE, "sito")
 SITO_DI_PROVA = "https://eliasminotti.github.io/rosadoro/"   # dal 21.10.2026 porta a larosadoro.org
 DEDICHE = os.path.join("in-memoria", "giardino-dei-ricordi", "dediche.json")   # la scrive la pubblicazione, non la costruzione
+FOTO_BAMBINA = os.path.join("img", "foto", "bimba-1.jpg")   # Dopo di Noi: fuori da Google Immagini finché Elias e Dacia non decidono (26.10)
 CERTIFICATO_MINIMO = 10          # giorni: GitHub rinnova i certificati molto prima; sotto i 10 il rinnovo si è inceppato
 NAVIGATORE = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 rosadoro-controlli"
 
@@ -405,6 +408,42 @@ def controlla_sede(pagine):
         print("Sede legale: %s nel piede di ogni pagina e nella scheda per i motori di ricerca" % sede)
 
 
+def controlla_motori(pagine):
+    """Il sito è aperto ai motori di ricerca dal 26.10.2026 (Elias). Restano fuori la pagina del giardino e le sue dediche, come
+    promette l'informativa, e la foto della bambina in Dopo di Noi, finché Elias e Dacia non decidono se tenerla (Elias, 26.10):
+    robots.txt la chiude a tutti i motori, così non entra in Google Immagini. Le pagine della mappa per i motori non chiedono di
+    restare fuori («noindex»): Google lo segnalerebbe come errore."""
+    dominio = impostazione("DOMINIO").rstrip("/")
+    lettore = urllib.robotparser.RobotFileParser()
+    lettore.parse(open(os.path.join(SITO, "robots.txt"), encoding="utf-8").read().splitlines())
+    prima = len(problemi)
+    fuori = [DEDICHE] + ([FOTO_BAMBINA] if os.path.exists(os.path.join(SITO, FOTO_BAMBINA)) else [])
+    for rel in fuori:
+        indirizzo = dominio + "/" + rel.replace(os.sep, "/")
+        for motore in ("Googlebot", "Googlebot-Image", "bingbot"):
+            if lettore.can_fetch(motore, indirizzo):
+                problemi.append("robots.txt lascia %s a %s: deve restare fuori dai motori di ricerca" % (rel, motore))
+    giardino = os.path.join("in-memoria", "giardino-dei-ricordi", "index.html")
+    if 'name="robots" content="noindex' not in open(os.path.join(SITO, giardino), encoding="utf-8").read():
+        problemi.append("La pagina del giardino non chiede ai motori di restare fuori (noindex), come promette l’informativa")
+    if not lettore.can_fetch("Googlebot", dominio + "/"):
+        if len(problemi) == prima:
+            print("Motori di ricerca: il sito è ancora chiuso (ANTEPRIMA)")
+        return
+    mappa = open(os.path.join(SITO, "sitemap.xml"), encoding="utf-8").read()
+    voci = re.findall(r"<loc>([^<]+)</loc>", mappa)
+    for indirizzo in voci:
+        rel = indirizzo[len(dominio) + 1:] + "index.html"
+        if not indirizzo.startswith(dominio + "/") or rel not in pagine:
+            problemi.append("La mappa per i motori porta a una pagina che non c’è: %s" % indirizzo)
+        elif 'name="robots" content="noindex' in open(os.path.join(SITO, rel), encoding="utf-8").read():
+            problemi.append("%s è nella mappa per i motori, ma chiede di restarne fuori (noindex)" % rel)
+        elif not lettore.can_fetch("Googlebot", indirizzo):
+            problemi.append("%s è nella mappa per i motori, ma robots.txt la chiude" % rel)
+    if len(problemi) == prima:
+        print("Motori di ricerca: aperti, %d pagine nella mappa; giardino, dediche e foto della bambina restano fuori" % len(voci))
+
+
 def controlla_script_del_foglio():
     if not shutil.which("node"):
         problemi.append("Manca node: lo script del foglio non si può controllare")
@@ -538,6 +577,7 @@ def main():
         controlla_mensile(pagine)
         controlla_partita_iva(pagine)
         controlla_sede(pagine)
+        controlla_motori(pagine)
         controlla_script_del_foglio()
         controlla_giardino()
         controlla_moduli()

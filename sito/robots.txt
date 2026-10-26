@@ -1,3 +1,5 @@
 User-agent: *
-Disallow: /
+Disallow: /in-memoria/giardino-dei-ricordi/dediche.json
+Disallow: /img/foto/bimba-1.jpg
+Allow: /
 Sitemap: https://larosadoro.org/sitemap.xml
