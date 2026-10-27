@@ -85,7 +85,8 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   del giardino). Le colonne nuove del foglio le aggiunge lo script da sé.
 - La protezione dei moduli dallo spam (Elias, 22.10): prima di scrivere o mandare qualcosa lo script del foglio
   controlla ogni invio (`controllaInvio`): campo trappola `sito_web`, link nel nome o nell’oggetto, meno di tre secondi
-  dall’apertura della pagina, più di cinque invii in un’ora dallo stesso indirizzo, Cloudflare Turnstile. Spam e sospetti
+  dall’apertura della pagina, più di cinque invii in un’ora dallo stesso indirizzo, Cloudflare Turnstile (anche una risposta
+  già usata o nata su un altro sito: revisione di sicurezza del 27.10). Spam e sospetti
   (invio senza JavaScript, link solo nel messaggio senza il «persona» di Turnstile) vanno nella scheda «Spam» del foglio,
   senza avvisi né email. Con il «persona» di Turnstile un link nel messaggio entra «da verificare», con l’avviso alla
   segreteria e nessuna email a chi scrive; così anche quando Cloudflare non risponde. Se Turnstile non si carica, il modulo
@@ -96,6 +97,13 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   nelle proprietà dello script (`TURNSTILE_SEGRETO`) e si mette solo quando il sito con la chiave pubblica è già online:
   prima, ogni messaggio vero verrebbe rifiutato. Turnstile si carica solo quando si comincia a scrivere in un modulo:
   è l’unico script esterno del sito, chiesto da Elias; informativa e cookie ne parlano con `{se-turnstile}`.
+- La regola di sicurezza delle pagine (revisione di sicurezza del 27.10, Elias): ogni pagina porta in cima all’head un tag
+  meta Content-Security-Policy (`politica_sicurezza` in `costruisci.py`) e uno sul referrer, perché GitHub Pages non manda
+  intestazioni proprie. Il browser carica script, stili, immagini, caratteri e musica solo dal sito, Turnstile solo da
+  Cloudflare, e i moduli parlano solo con lo script del foglio (anche il suo rimando a googleusercontent). Un servizio
+  nuovo (un video, una mappa, uno script) va aggiunto lì, sennò il browser lo blocca in silenzio. `controlla.py` verifica la
+  regola in ogni pagina e `controlla-moduli.js` che i moduli, Turnstile, le dediche, la musica e la pagina «non trovata» non
+  la violino. frame-ancestors e X-Content-Type-Options non si possono dare da GitHub Pages: restano fuori.
 - L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
   `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 

@@ -1,4 +1,4 @@
-FONDAZIONE LA ROSA D’ORO ETS — IL SITO (aggiornato al 19 ottobre 2026)
+FONDAZIONE LA ROSA D’ORO ETS — IL SITO (aggiornato al 27 ottobre 2026)
 
 Che cosa c’è
   sito/              la cartella pubblicata così com’è (GitHub Pages)
@@ -46,7 +46,8 @@ I controlli
   Prima di pubblicare, a ogni pubblicazione (pages.yml): le pagine corrispondono ai testi, il JavaScript non ha errori,
   nessun collegamento interno è rotto, gli indirizzi che usano altri siti (#notizie per Lux) ci sono, nella pagina
   Dona la carta con Stripe viene per prima con un link di pagamento vero e non di prova, la partita IVA c'è in ogni
-  pagina (nel piede, e nella scheda per i motori di ricerca: la legge la vuole nella home), e lo script
+  pagina (nel piede, e nella scheda per i motori di ricerca: la legge la vuole nella home), la regola di sicurezza
+  (Content-Security-Policy) e quella sul referrer stanno in cima a ogni pagina, lo script
   del foglio fa quello che deve, provato con un foglio finto, e giardino.py porta nel giardino le dediche giuste.
   Se un controllo non passa non si pubblica niente: online resta la versione di prima.
   I moduli delle pagine (Contatti, notizie, progetti, dedica, «Confermo», «Cancellami», «Togli la dedica») si provano

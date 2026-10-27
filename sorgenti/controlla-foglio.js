@@ -707,6 +707,40 @@ controllo('con Turnstile: se Cloudflare dice che la risposta non vale, è spam',
   assert.deepStrictEqual(spam(schede).map(r => r['Perché']), Array(4).fill('spam: Turnstile dice che non è una persona'));
 });
 
+controllo('con Turnstile: una risposta già usata (Cloudflare: «timeout-or-duplicate») è spam, senza avvisi né email', () => {
+  // una risposta di Turnstile vale una volta sola: chi la rimanda è un programma che la ripete, non una persona
+  const giaUsata = () => ({ success: false, 'error-codes': ['timeout-or-duplicate'] });
+  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: giaUsata });
+  for (const r of [messaggio({ _turnstile: 'ripetuta', _tempo: '30', notizie: 'si', consenso: CONSENSO }), dedica({ _turnstile: 'ripetuta', _tempo: '30' }),
+                   progetto({ _turnstile: 'ripetuta', _tempo: '30' }), dalSito({ tipo: 'notizie', notizie: 'si', email: 'x@example.org', consenso: CONSENSO, _turnstile: 'ripetuta', _tempo: '30' })]) {
+    assert.strictEqual(json(script.doPost(r)).success, true, 'a un programma si finge di accettare');
+  }
+  assert.strictEqual(righe(schede.Contatti).length, 0, 'una risposta già usata è entrata nei Contatti');
+  assert.ok(!schede.Dediche && !schede.Progetti, 'una risposta già usata è entrata tra le dediche o i progetti');
+  assert.strictEqual(email.length, 0, 'è partita un’email: ' + email.map(m => m.subject).join(', '));
+  assert.deepStrictEqual(spam(schede).map(r => r['Perché']), Array(4).fill('spam: risposta di Turnstile già usata'));
+});
+
+controllo('con Turnstile: una risposta nata su un altro sito è spam; nata sul sito, o senza il nome del sito, passa', () => {
+  // Cloudflare dice su quale sito è nata la risposta (hostname): se non è il nostro, non viene da una persona sul sito
+  const altrove = () => ({ success: true, hostname: 'copia.example' });
+  const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: altrove });
+  for (const r of [messaggio({ _turnstile: 'buona', _tempo: '30', notizie: 'si', consenso: CONSENSO }), dedica({ _turnstile: 'buona', _tempo: '30' }),
+                   progetto({ _turnstile: 'buona', _tempo: '30' }), dalSito({ tipo: 'notizie', notizie: 'si', email: 'x@example.org', consenso: CONSENSO, _turnstile: 'buona', _tempo: '30' })]) {
+    assert.strictEqual(json(script.doPost(r)).success, true, 'a un programma si finge di accettare');
+  }
+  assert.strictEqual(righe(schede.Contatti).length, 0, 'una risposta di un altro sito è entrata nei Contatti');
+  assert.ok(!schede.Dediche && !schede.Progetti, 'una risposta di un altro sito è entrata tra le dediche o i progetti');
+  assert.strictEqual(email.length, 0, 'è partita un’email: ' + email.map(m => m.subject).join(', '));
+  assert.deepStrictEqual(spam(schede).map(r => r['Perché']), Array(4).fill('spam: risposta di Turnstile nata su un altro sito'));
+  for (const nome of ['larosadoro.org', 'LaRosadoro.org', 'eliasminotti.github.io', undefined]) {
+    const s = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: () => (nome ? { success: true, hostname: nome } : { success: true }) });
+    assert.strictEqual(json(s.script.doPost(messaggio({ _turnstile: 'buona', _tempo: '30' }))).success, true);
+    assert.strictEqual(righe(s.schede.Contatti).length, 1, 'con hostname «' + nome + '» il messaggio doveva entrare');
+    assert.strictEqual(spam(s.schede).length, 0, 'con hostname «' + nome + '» il messaggio è finito nello spam');
+  }
+});
+
 controllo('con Turnstile: senza la sua risposta l’invio va nello «Spam» e torna indietro con «controllo», senza avvisi né email', () => {
   const { script, schede, email } = nuovoScript({ TURNSTILE_SEGRETO }, { cloudflare: persona });
   for (const r of [messaggio({ _tempo: '30', notizie: 'si', consenso: CONSENSO }), dedica({ _tempo: '30' }), progetto({ _tempo: '30' }),

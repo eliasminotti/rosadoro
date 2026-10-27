@@ -17,6 +17,8 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - la sede legale è nel piede di ogni pagina, dopo la partita IVA, ed è la stessa della scheda per i motori di ricerca;
   - i motori di ricerca: le pagine della mappa si lasciano indicizzare, mentre il giardino, le sue dediche e la foto della
     bambina in Dopo di Noi restano fuori (robots.txt e «noindex»);
+  - la regola di sicurezza (Content-Security-Policy) e quella sul referrer stanno in cima a ogni pagina, permettono
+    Turnstile e lo script del foglio e ammettono con l'impronta il solo script scritto dentro la pagina «non trovata»;
   - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js);
   - giardino.py porta nel giardino le dediche giuste, provato con un foglio e un sito finti (sorgenti/controlla-giardino.py);
   - i moduli delle pagine mandano allo script quello che devono e rispondono bene, provati in un browser
@@ -32,7 +34,7 @@ Sul sito pubblicato (lo fa il workflow .github/workflows/controlli.yml ogni matt
 
 Usa solo Python, più node per il JavaScript.
 """
-import html.parser, json, os, re, shutil, socket, ssl, subprocess, sys, tempfile, time
+import base64, hashlib, html.parser, json, os, re, shutil, socket, ssl, subprocess, sys, tempfile, time
 import urllib.error, urllib.parse, urllib.request, urllib.robotparser
 
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -444,6 +446,75 @@ def controlla_motori(pagine):
         print("Motori di ricerca: aperti, %d pagine nella mappa; giardino, dediche e foto della bambina restano fuori" % len(voci))
 
 
+# la regola di sicurezza dentro le pagine (Content-Security-Policy, revisione di sicurezza del 27.10.2026): GitHub Pages
+# non manda intestazioni proprie, quindi sta in un tag meta in cima all'head, prima di tutto ciò che il browser carica.
+# Il browser carica script, stili, immagini e caratteri solo dal sito, lo script di Turnstile e la sua cornice solo da
+# Cloudflare, e i moduli parlano solo con lo script del foglio (che risponde con un rimando a googleusercontent).
+# frame-ancestors in un tag meta non vale, e X-Content-Type-Options non si può dare: restano fuori.
+CLOUDFLARE = "https://challenges.cloudflare.com"
+GOOGLEUSERCONTENT = "https://script.googleusercontent.com"
+REFERRER = '<meta name="referrer" content="strict-origin-when-cross-origin">'
+
+
+def impronta(testo):
+    """l'impronta con cui la regola ammette uno script scritto dentro la pagina"""
+    return "'sha256-%s'" % base64.b64encode(hashlib.sha256(testo.encode("utf-8")).digest()).decode("ascii")
+
+
+def controlla_sicurezza(pagine):
+    turnstile = impostazione("TURNSTILE")
+    foglio = impostazione("FOGLIO")
+    origine_foglio = "{0.scheme}://{0.netloc}".format(urllib.parse.urlsplit(foglio)) if foglio else ""
+    prima = len(problemi)
+    for rel in sorted(pagine):
+        testo = open(os.path.join(SITO, rel), encoding="utf-8").read()
+        testa = testo[:testo.index("</head>")] if "</head>" in testo else testo
+        meta = re.search(r'<meta http-equiv="Content-Security-Policy" content="([^"]*)">', testa)
+        if not meta:
+            problemi.append("%s: manca la regola di sicurezza (Content-Security-Policy) nell'head" % rel)
+            continue
+        if re.search(r"<(script|link|style)\b", testa[:meta.start()]):
+            problemi.append("%s: la regola di sicurezza viene dopo uno script, uno stile o un collegamento: deve stare prima" % rel)
+        regole = {}
+        for parte in meta.group(1).split(";"):
+            pezzi = parte.split()
+            if pezzi:
+                regole[pezzi[0]] = pezzi[1:]
+        for nome, valori in (("default-src", ["'self'"]), ("object-src", ["'none'"]), ("base-uri", ["'self'"])):
+            if regole.get(nome) != valori:
+                problemi.append("%s: nella regola di sicurezza %s deve essere %s" % (rel, nome, " ".join(valori)))
+        if "frame-ancestors" in regole:
+            problemi.append("%s: frame-ancestors in un tag meta non vale, il browser lo ignora: va tolto" % rel)
+        for parola in ("'unsafe-inline'", "'unsafe-eval'"):
+            if parola in regole.get("script-src", []):
+                problemi.append("%s: script-src non deve avere %s" % (rel, parola))
+        if turnstile:
+            for nome in ("script-src", "frame-src"):
+                if CLOUDFLARE not in regole.get(nome, []):
+                    problemi.append("%s: %s deve permettere %s, sennò Turnstile non parte" % (rel, nome, CLOUDFLARE))
+        if origine_foglio:
+            for nome in ("connect-src", "form-action"):
+                for origine in (origine_foglio, GOOGLEUSERCONTENT):
+                    if origine not in regole.get(nome, []):
+                        problemi.append("%s: %s deve permettere %s, sennò i moduli non partono" % (rel, nome, origine))
+        # gli script scritti dentro la pagina: solo i dati per i motori di ricerca (che non si eseguono) e, nella pagina
+        # «non trovata», quello che scrive la base, ammesso con la sua impronta
+        for m in re.finditer(r"<script\b([^>]*)>(.*?)</script>", testo, re.S):
+            attributi, corpo = m.group(1), m.group(2)
+            if "src=" in attributi or 'type="application/ld+json"' in attributi:
+                continue
+            if rel != "404.html":
+                problemi.append("%s: c'è uno script scritto dentro la pagina: la regola di sicurezza lo blocca" % rel)
+            elif impronta(corpo) not in regole.get("script-src", []):
+                problemi.append("%s: lo script scritto dentro la pagina non ha la sua impronta nella regola (%s)" % (rel, impronta(corpo)))
+        if re.search(r"<[a-z][^>]*\son[a-z]+=", testo, re.I) or 'href="javascript:' in testo:
+            problemi.append("%s: un'azione scritta dentro un tag (onclick, javascript:): la regola di sicurezza la blocca" % rel)
+        if REFERRER not in testa:
+            problemi.append("%s: manca la regola sul referrer (%s)" % (rel, REFERRER))
+    if len(problemi) == prima:
+        print("Regola di sicurezza (CSP) e referrer: in tutte le %d pagine" % len(pagine))
+
+
 def controlla_script_del_foglio():
     if not shutil.which("node"):
         problemi.append("Manca node: lo script del foglio non si può controllare")
@@ -578,6 +649,7 @@ def main():
         controlla_partita_iva(pagine)
         controlla_sede(pagine)
         controlla_motori(pagine)
+        controlla_sicurezza(pagine)
         controlla_script_del_foglio()
         controlla_giardino()
         controlla_moduli()

@@ -30,7 +30,8 @@
  *   - chi scrive una dedica riceve un’email con il collegamento per toglierla.
  * Prima di scrivere o mandare qualcosa, ogni invio dei moduli passa dal controllo contro i programmi automatici
  * (Elias, 22.10): campo trappola, link nel nome o nell’oggetto, troppa fretta, troppi invii dallo stesso indirizzo,
- * Cloudflare Turnstile. Spam e sospetti vanno nella scheda «Spam», senza avvisi né email (vedi controllaInvio).
+ * Cloudflare Turnstile (anche una risposta già usata o nata su un altro sito: revisione di sicurezza del 27.10).
+ * Spam e sospetti vanno nella scheda «Spam», senza avvisi né email (vedi controllaInvio).
  * Le colonne nuove le aggiunge lo script stesso, la prima volta che servono.
  *
  * Dove sta: nel foglio, dal menu Estensioni → Apps Script. Si pubblica come
@@ -51,6 +52,8 @@ var DA = 'segreteria@larosadoro.org';             // l’indirizzo da cui parton
                                                   // tra gli indirizzi «Invia come» della posta del proprietario del foglio
 var SITI = ['https://larosadoro.org/', 'https://eliasminotti.github.io/rosadoro/'];   // i soli indirizzi del sito
                                                   // a cui portano i collegamenti di conferma; il primo vale se il modulo non dice da dove arriva
+var OSPITI = SITI.map(function (s) { return s.replace(/^https?:\/\//, '').split('/')[0]; });   // i loro nomi: i soli siti su cui
+                                                  // può nascere una risposta di Turnstile (Cloudflare dice su quale è nata)
 var FUSO = 'Europe/Rome';
 var GIORNI_CONFERMA = 30;                         // per quanti giorni vale il collegamento di conferma
 var MINUTI_LUX = 10;                              // per quanti minuti vale la firma di una richiesta di Lux
@@ -214,7 +217,8 @@ function titoliCon(foglio, colonne) {
 /* il controllo di ogni invio dei moduli del sito, prima di scrivere o mandare qualcosa (Elias, 22.10).
    Spam: il campo trappola è pieno, c’è un link o del codice nel nome o nell’oggetto, il modulo è partito meno di
    SECONDI_MINIMI secondi dopo l’apertura della pagina (lo dice sito.js in _tempo), lo stesso indirizzo ha già scritto
-   INVII_ORA volte nell’ultima ora, o Cloudflare dice che la risposta di Turnstile non vale. Sospetto: un invio senza
+   INVII_ORA volte nell’ultima ora, o Cloudflare dice che la risposta di Turnstile non vale, è già stata usata o è nata
+   su un altro sito. Sospetto: un invio senza
    JavaScript; con Turnstile acceso, un invio senza la sua risposta; un link solo nel testo del messaggio, se Turnstile
    non ha detto «persona». Spam e sospetti tornano come { spam: perché } e vanno nella scheda «Spam», senza avvisi né
    email; senza la risposta di Turnstile anche { controllo: true }, perché la pagina proponga di scrivere dalla propria
@@ -232,6 +236,8 @@ function controllaInvio(p, modulo) {
   if (p._js !== '1') return { spam: 'sospetto: senza JavaScript' };
   var turnstile = verificaTurnstile(campo('_turnstile'));
   if (turnstile === 'no') return { spam: 'spam: Turnstile dice che non è una persona' };
+  if (turnstile === 'già usata') return { spam: 'spam: risposta di Turnstile già usata' };
+  if (turnstile === 'altro sito') return { spam: 'spam: risposta di Turnstile nata su un altro sito' };
   if (turnstile === 'non so' && !campo('_turnstile')) return { spam: 'sospetto: senza risposta di Turnstile', controllo: true };
   if (conLink(campi.testo)) {
     return turnstile === 'sì' ? { verifica: 'c’è un link nel testo, anche se Turnstile dice che chi scrive è una persona' }
@@ -251,9 +257,11 @@ function troppiInvii(email) {
   return invii >= INVII_ORA;
 }
 
-/* la risposta di Turnstile, verificata con Cloudflare: «sì» se è una persona; «no» se la risposta non vale, perché un
-   programma l’ha inventata; «non so» se manca, è scaduta o Cloudflare non risponde. «Spento» finché nelle proprietà
-   dello script manca la chiave segreta TURNSTILE_SEGRETO: allora Turnstile non conta */
+/* la risposta di Turnstile, verificata con Cloudflare: «sì» se è una persona sul nostro sito; «no» se la risposta non
+   vale, perché un programma l’ha inventata; «già usata» se è stata già verificata una volta (un programma la ripete:
+   Cloudflare risponde «timeout-or-duplicate»); «altro sito» se è nata su un sito che non è il nostro (hostname fuori
+   da OSPITI); «non so» se manca, è scaduta o Cloudflare non risponde. «Spento» finché nelle proprietà dello script
+   manca la chiave segreta TURNSTILE_SEGRETO: allora Turnstile non conta (revisione di sicurezza del 27.10) */
 function verificaTurnstile(risposta) {
   var segreto = PropertiesService.getScriptProperties().getProperty('TURNSTILE_SEGRETO');
   if (!segreto) return 'spento';
@@ -262,8 +270,13 @@ function verificaTurnstile(risposta) {
     var esito = JSON.parse(UrlFetchApp.fetch(TURNSTILE, {
       method: 'post', payload: { secret: segreto, response: risposta.slice(0, 2048) }, muteHttpExceptions: true
     }).getContentText());
-    if (esito.success === true) return 'sì';
-    return (esito['error-codes'] || []).indexOf('invalid-input-response') >= 0 ? 'no' : 'non so';
+    if (esito.success === true) {
+      var nato = String(esito.hostname || '').toLowerCase();
+      return !nato || OSPITI.indexOf(nato) >= 0 ? 'sì' : 'altro sito';
+    }
+    var codici = esito['error-codes'] || [];
+    if (codici.indexOf('timeout-or-duplicate') >= 0) return 'già usata';
+    return codici.indexOf('invalid-input-response') >= 0 ? 'no' : 'non so';
   } catch (errore) {
     console.error(errore);
     return 'non so';
