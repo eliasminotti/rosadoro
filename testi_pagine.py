@@ -937,6 +937,9 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 # MENSILE è spento, per ogni mese c’è il bonifico periodico. Per la Svizzera solo il bonifico a Orizzonti Celesti: il loro
 # PayPal.me non si pubblica finché Elias non chiarisce con PayPal lo stato del conto dell’associazione (Elias, 13.10).
 # Accanto all’IBAN di Orizzonti Celesti c’è la QR-fattura (Elias, 13.10 sera): il codice si rifà con sorgenti/qr-svizzera.py.
+# Sui link di pagamento Stripe converte sempre nella valuta di chi paga, con una commissione del 2-4% a carico di chi dona,
+# e non si spegne: sotto i pulsanti una riga dice a chi dona dalla Svizzera di scegliere EUR (Elias, 27.10). Quando
+# Orizzonti Celesti avrà la sua strada in franchi, la riga diventa il collegamento a quella.
 # I fondi convertibili restano fuori da questa pagina (Elias, 10.10). Chi dona dalla Svizzera passa per Orizzonti Celesti.
 TESTI["dona"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
@@ -951,7 +954,8 @@ TESTI["dona"] = dict(
 <p>Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, scegli quanto:</p>
 {mensili}
 <p>Puoi smettere quando vuoi, da te, dalla <a class="link" href="{portale}" target="_blank" rel="noopener">pagina della tua donazione mensile</a> su Stripe: scrivi l’indirizzo email con cui hai donato e ti arriva il collegamento per entrare.</p>
-{/se-mensile}{/se-stripe}<h3>Con un bonifico</h3>
+{/se-mensile}<p>Doni dalla Svizzera? Sulla pagina di Stripe scegli EUR: eviti la commissione di cambio di Stripe, anche se la tua banca potrebbe applicarne una sua.</p>
+{/se-stripe}<h3>Con un bonifico</h3>
 <p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.{senza-mensile} Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, puoi chiedere alla tua banca un bonifico periodico.{/senza-mensile}</p>
 <div class="coordinate">
 <p><strong>Intestato a</strong><br>Fondazione La Rosa d’Oro ETS</p>
