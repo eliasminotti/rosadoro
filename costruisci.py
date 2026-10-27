@@ -12,7 +12,7 @@ Il committente non deve mai eseguirlo: lo faccio io e consegno la cartella
 pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
-import os, re, shutil, datetime, subprocess, hashlib
+import os, re, shutil, datetime, subprocess, hashlib, base64
 from testi_pagine import TESTI, DESCRIZIONI, TITOLI
 import json
 
@@ -540,6 +540,34 @@ def secondo_ricevute(testo):
     testo = re.sub(r"\{senza-ricevute\}(.*?)\{/senza-ricevute\}", lambda m: "" if RICEVUTE else m.group(1), testo, flags=re.S)
     return testo.replace("{informativa-data}", MENSILE or RICEVUTE)
 
+def politica_sicurezza(script_interni=()):
+    """la regola di sicurezza di ogni pagina (Content-Security-Policy), in un tag meta perché GitHub Pages non manda
+    intestazioni proprie (revisione di sicurezza del 27.10): il browser carica script, stili, immagini, caratteri e musica
+    solo dal sito; lo script di Turnstile e la sua cornice solo da Cloudflare; i moduli parlano solo con lo script del
+    foglio, che risponde con un rimando a googleusercontent. Se un giorno uno script estraneo finisse in una pagina, il
+    browser non lo farebbe partire. «script_interni» sono i testi degli script scritti dentro la pagina (solo quello della
+    pagina «non trovata», che scrive la base), ammessi uno per uno con la loro impronta. frame-ancestors in un tag meta
+    non vale: resta fuori. La regola si verifica in sorgenti/controlla.py e nei moduli in un browser"""
+    script = ["'self'"] + (["https://challenges.cloudflare.com"] if TURNSTILE else [])
+    script += ["'sha256-%s'" % base64.b64encode(hashlib.sha256(t.encode("utf-8")).digest()).decode("ascii") for t in script_interni]
+    moduli = ["'self'"]
+    if FOGLIO:
+        moduli += ["https://script.google.com", "https://script.googleusercontent.com"]
+    elif FORMINIT:
+        moduli += ["https://forminit.com"]
+    regole = (("default-src", ["'self'"]),
+              ("script-src", script),
+              ("style-src", ["'self'", "'unsafe-inline'"]),        # gli stili scritti nei tag (style="…") e quelli di Turnstile
+              ("img-src", ["'self'", "data:"]),                     # la grana del hero è un SVG scritto nel foglio di stile
+              ("font-src", ["'self'"]),
+              ("media-src", ["'self'"]),                            # il valzer di Chopin
+              ("connect-src", moduli),                              # i moduli con JavaScript, e dediche.json
+              ("form-action", moduli),                              # i moduli senza JavaScript
+              ("frame-src", ["https://challenges.cloudflare.com"] if TURNSTILE else ["'none'"]),
+              ("base-uri", ["'self'"]),                             # la base della pagina «non trovata»
+              ("object-src", ["'none'"]))
+    return "; ".join("%s %s" % (nome, " ".join(valori)) for nome, valori in regole)
+
 def con_turnstile():
     """l'attributo con la chiave pubblica di Turnstile, per il tag <form> di ogni modulo: vuoto senza TURNSTILE"""
     return ' data-turnstile="%s"' % sfuggi(TURNSTILE) if TURNSTILE else ""
@@ -927,10 +955,14 @@ def pagina_html(da, p, extra_head=""):
     dati = DATI_STRUTTURATI
     if p["tipo"] != "404" and da:
         dati += '</script>\n<script type="application/ld+json">' + briciole(da, p)
+    # la regola di sicurezza e quella sul referrer vengono prima di tutto ciò che il browser carica o esegue
+    politica = politica_sicurezza(re.findall(r"<script>(.*?)</script>", extra_head, re.S))
     return """<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">%s
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="%s">
+<meta name="referrer" content="strict-origin-when-cross-origin">%s
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%s</title>
 <meta name="description" content="%s">
@@ -960,7 +992,7 @@ def pagina_html(da, p, extra_head=""):
 <script src="%s"></script>
 </body>
 </html>
-""" % (extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
+""" % (sfuggi(politica), extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
        robots, dati,
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
        SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))

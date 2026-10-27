@@ -118,12 +118,18 @@ async function apri(percorso, { foglio = () => ({ success: true }), dediche = nu
     }
     return route.fulfill({ status: 200, contentType: TIPI[path.extname(file)] || 'application/octet-stream', body: corpo });
   });
+  /* le violazioni della regola di sicurezza della pagina (Content-Security-Policy): quello che il browser ha bloccato */
+  await contesto.addInitScript(() => {
+    window.__violazioni = [];
+    document.addEventListener('securitypolicyviolation', e => window.__violazioni.push(e.violatedDirective + ' ← ' + e.blockedURI));
+  });
   const page = await contesto.newPage();
   page.on('dialog', d => { avvisi.push(d.message()); d.dismiss(); });
   const errori = [];
   page.on('pageerror', e => errori.push(String(e)));
   await page.goto(ORIGINE + percorso, referer ? { referer } : {});
-  return { page, allo, fuori, avvisi, errori, cloudflare, chiudi: () => contesto.close() };
+  const violazioni = () => page.evaluate(() => window.__violazioni || []);
+  return { page, allo, fuori, avvisi, errori, cloudflare, violazioni, chiudi: () => contesto.close() };
 }
 
 async function esitoDi(page, dove) {
@@ -346,6 +352,48 @@ controllo('ogni modulo ha il campo trappola «sito_web»: vuoto, invisibile, fuo
         assert.strictEqual(await trappola.getAttribute('autocomplete'), 'off');
         assert.strictEqual(await trappola.inputValue(), '');
       }
+    } finally { await p.chiudi(); }
+  }
+});
+
+/* ---- la regola di sicurezza dentro le pagine (Content-Security-Policy, revisione del 27.10): il browser carica script,
+        stili, immagini e caratteri solo dal sito, Turnstile solo da Cloudflare, e i moduli parlano solo con lo script del
+        foglio. Qui si guarda che la regola ci sia in ogni pagina e che niente di quello che le pagine fanno la violi ---- */
+
+controllo('la regola di sicurezza (CSP) e quella sul referrer stanno in ogni pagina, e moduli, Turnstile, dediche, musica e pagina «non trovata» non le violano', async () => {
+  const prove = [
+    ['contatti/index.html', { turnstile: 'passa', foglio: () => ({ success: true }) }, async p => {
+      await p.page.fill('#mc-nome', 'Carla');
+      await p.page.fill('#mc-posta', 'carla@example.org');
+      await p.page.fill('#mc-messaggio', 'Un messaggio');
+      await p.page.click('#modulo-contatti .invia');
+      await esitoDi(p.page, '#modulo-contatti');
+      assert.strictEqual(p.allo.length, 1, 'il messaggio non è partito');
+      assert.strictEqual(p.cloudflare.length, 1, 'Turnstile non si è caricato');
+    }],
+    [GIARDINO, { dediche: { versione: 'x', dediche: [{ nome: 'Nonna Lina', dedica: 'Ti pensiamo', immagine: 'Rosa' }] } }, async p => {
+      await p.page.locator('#nel-giardino .dedica').first().waitFor({ state: 'visible', timeout: 5000 });
+    }],
+    ['in-memoria/fondo-di-memoria/index.html', {}, async p => {
+      await p.page.waitForLoadState('networkidle');            /* il valzer di Chopin: la musica deve poter partire */
+    }],
+    ['404.html', {}, async p => {
+      assert.strictEqual(await p.page.evaluate(() => document.querySelector('base') && document.querySelector('base').href), ORIGINE,
+        'la pagina «non trovata» non ha scritto la sua base: lo script dentro la pagina è bloccato');
+    }]
+  ];
+  for (const [percorso, opzioni, prova] of prove) {
+    const p = await apri(percorso, opzioni);
+    try {
+      const regole = await p.page.evaluate(() => ({
+        csp: (document.querySelector('meta[http-equiv="Content-Security-Policy"]') || {}).content || '',
+        referrer: (document.querySelector('meta[name="referrer"]') || {}).content || ''
+      }));
+      assert.ok(regole.csp.includes("default-src 'self'"), percorso + ': manca la regola di sicurezza nella pagina');
+      assert.strictEqual(regole.referrer, 'strict-origin-when-cross-origin', percorso + ': manca la regola sul referrer');
+      await prova(p);
+      assert.deepStrictEqual(await p.violazioni(), [], percorso + ': la regola di sicurezza ha bloccato qualcosa');
+      assert.deepStrictEqual(p.errori, [], percorso + ': errori del JavaScript');
     } finally { await p.chiudi(); }
   }
 });
