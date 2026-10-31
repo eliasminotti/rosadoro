@@ -57,7 +57,7 @@ STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link 
                                           # la pagina di Stripe in italiano, e nel conto le donazioni del sito separate da quelle di Lux.
                                           # Vuoto: carta e PayPal spariscono dalla pagina Dona, e resta il bonifico.
                                           # Lux riconosce le donazioni del sito da questo link, per le ricevute: se cambia, va detto a Lux.
-RICEVUTE = ""                            # il giorno da cui le ricevute delle donazioni con la carta e con PayPal partono da sole,
+RICEVUTE = "26 ottobre 2026"              # il giorno da cui le ricevute delle donazioni con la carta e con PayPal partono da sole,
                                           # col sistema di Lux, scritto come «27 ottobre 2026»: si accende il giorno in cui Lux passa ai
                                           # pagamenti veri, dopo l'apertura del sito (Lux, 20.10). Acceso, Dona lo dice
                                           # ({se-ricevute}…{/se-ricevute}) e l'informativa nomina i fornitori del sistema e porta
