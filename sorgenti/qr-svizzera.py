@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Il codice QR della QR-fattura svizzera per le donazioni a Orizzonti Celesti (pagina Dona).
+Il codice QR della QR-fattura svizzera per le donazioni a Orizzonti Celesti, da mandare per email a chi
+ci scrive dalla Svizzera (dal 31.10.2026 non sta più sulla pagina Dona: Dacia ed Elias).
 Chi lo inquadra con l'app della sua banca trova il bonifico già compilato: il conto, il nome
 dell'associazione e la causale «Donazione»; l'importo lo sceglie chi dona.
 
@@ -9,8 +10,9 @@ degli errori M, indirizzo strutturato (S), nessun riferimento (NON), la croce sv
 al centro di un codice di 46 mm.
 
 Si rifà con:   python3 sorgenti/qr-svizzera.py     (serve la libreria segno: pip install segno)
-Scrive:        sito/img/qr-orizzonti-celesti.svg
-Deciso da Elias il 13.10.2026 («Svizzera: solo bonifico», in «SITO — operativa»).
+Scrive:        sorgenti/qr-orizzonti-celesti.svg (fuori dal sito pubblicato)
+Deciso da Elias il 13.10.2026 («Svizzera: solo bonifico», in «SITO — operativa»). Una copia del codice, anche in PNG,
+sta nella bozza in Gmail e nel documento su Drive «Donare dalla Svizzera».
 """
 import os
 import segno
@@ -20,7 +22,7 @@ CREDITORE = ("Orizzonti Celesti", "Via Mezzavilla", "12", "6503", "Bellinzona", 
 CAUSALE = "Donazione"
 
 QUI = os.path.dirname(os.path.abspath(__file__))
-USCITA = os.path.join(QUI, "..", "sito", "img", "qr-orizzonti-celesti.svg")
+USCITA = os.path.join(QUI, "qr-orizzonti-celesti.svg")
 
 
 def iban_giusto(iban):
