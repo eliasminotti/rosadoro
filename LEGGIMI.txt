@@ -25,7 +25,8 @@ Che cosa c’è
                      node sorgenti/stampa-pdf.js sorgenti/DAT-fac-simile.html sito/allegati/DAT-fac-simile.pdf;
                      condivisione.html, l’immagine delle condivisioni, che si rifà con
                      node sorgenti/fotografa.js sorgenti/condivisione.html sito/img/condivisione.jpg;
-                     qr-svizzera.py, la QR-fattura di Orizzonti Celesti nella pagina Dona
+                     qr-svizzera.py, la QR-fattura di Orizzonti Celesti (qr-orizzonti-celesti.svg), che non sta più
+                     sul sito: va nell’email per chi ci scrive dalla Svizzera
   CLAUDE.md          le regole del lavoro sul sito
   REGOLE-DI-QUALITA.txt  i segnali che fanno un sito serio: ogni modifica si confronta con questa lista
 

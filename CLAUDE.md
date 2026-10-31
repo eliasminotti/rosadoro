@@ -62,6 +62,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   Stripe dove chi dona ogni mese smette da sé. Acceso, Dona e informativa lo dicono (`{se-mensile}`, `{mensili}`,
   `{portale}`); spento, per ogni mese Dona propone il bonifico periodico (`{senza-mensile}`).
   Si accende solo dopo che Lux fa le ricevute anche dei pagamenti mensili, quindi con `RICEVUTE` acceso.
+- Chi vive in Svizzera e vuole la deduzione (Dacia ed Elias, 31.10): su Dona c’è solo la frase che finisce con «scrivici».
+  Il nome di Orizzonti Celesti, il suo IBAN e la QR-fattura non stanno sulla pagina: li mandiamo per email a chi ci scrive,
+  con il testo pronto nella bozza di Gmail e nel documento su Drive «Donare dalla Svizzera» (cartella «SITO — operativa»).
+  Il codice si rifà con `sorgenti/qr-svizzera.py`, che lo scrive fuori dal sito pubblicato.
 - La partita IVA della Fondazione è lo stesso numero del codice fiscale (`CF_PIVA` in `costruisci.py`; Agenzia delle
   Entrate, verifica del 19.10.2026: attiva, inizio attività 28.2.2026). Va nella home (art. 35 c.1 DPR 633/1972; dal
   1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026): la costruzione la scrive nel piede di ogni pagina
