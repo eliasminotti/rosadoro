@@ -468,19 +468,20 @@ TESTI["chi-siamo"] = dict(
 <figure class="logo-grande"><img src="{img:logo.jpg}" alt="Il logo della Fondazione: una rosa tra le spighe, in un cerchio d'oro" width="720" height="720"></figure>
 <p>La <strong class="oro">Fondazione La Rosa d'Oro</strong> è un ente non profit riconosciuto dal Registro unico nazionale del Terzo settore, con sede a Milano, costituito il 26 febbraio 2026. Ciò che ci caratterizza è:</p>
 <ul class="stelle">
-<li>l'<strong class="oro">attenzione</strong> alle esigenze della persona, del territorio e del terreno agricolo, insieme all'<strong class="oro">ascolto</strong> profondo della persona e dei gruppi di persone, e la sensibilità;</li>
-<li>la capacità di <strong class="oro">mediazione</strong>: facilitare il dialogo e risolvere i conflitti in ambito familiare e comunitario. Ciò avviene di pari passo con il networking, l'abilità relazionale e strategica di stabilire, sviluppare e mantenere relazioni a lungo termine con persone, aziende, istituzioni pubbliche e private, e di creare reti di comunità, grazie a cui si favorisce la sussidiarietà orizzontale. In particolare, la cooperazione a livello internazionale ci permette di ottenere risultati più forti;</li>
-<li>l'<strong class="oro">operosità</strong> e la <strong class="oro">concretezza</strong>: far vivere nella pratica un progetto, un ideale, con impegno concreto, attivo e instancabile;</li>
-<li>la <strong class="oro">responsabilità</strong>: rendersi protagonisti di piccoli grandi cambiamenti per il pianeta Terra;</li>
-<li>il <strong class="oro">coraggio</strong> di operare per il bene comune, con spirito civico, altruistico e solidale, attraverso interventi e servizi sociali, agricoli, paesaggistici e sociosanitari;</li>
-<li>lo spirito di <strong class="oro">innovazione</strong> e di <strong class="oro">ricerca</strong>: sostenere il progresso scientifico, artistico o sociale per creare un impatto positivo e nutrire l'anima;</li>
-<li>la <strong class="oro">trasparenza</strong>: la gestione etica e rendicontabile del patrimonio, la coerenza tra gli scopi dichiarati e le azioni.</li>
+<li>l'<strong class="oro">attenzione</strong> alle esigenze della persona, del territorio e del terreno agricolo, insieme all'<strong class="oro">ascolto</strong> profondo della persona e dei gruppi di persone, e la nostra sensibilità;</li>
+<li>la capacità di <strong class="oro">mediazione</strong>, ovvero di facilitare il dialogo e risolvere i conflitti in ambito familiare e comunitario. Ciò avviene di pari passo con il networking, l'abilità relazionale e strategica di stabilire, sviluppare e mantenere relazioni a lungo termine con persone, aziende, istituzioni pubbliche e private, e di creare reti di comunità, grazie a cui si favorisce la sussidiarietà orizzontale. In particolare, la cooperazione a livello internazionale ci permette di ottenere risultati più forti;</li>
+<li>l'<strong class="oro">operosità</strong> e la <strong class="oro">concretezza</strong>, per far vivere nella pratica un progetto, un ideale, con impegno concreto, attivo e instancabile;</li>
+<li>la <strong class="oro">responsabilità</strong>, il rendersi attori di piccoli grandi cambiamenti per il pianeta Terra, senza attendere;</li>
+<li>il <strong class="oro">coraggio</strong> di operare per il bene comune, con moralità, spirito civico, altruistico e solidale, attraverso, ad esempio, interventi e servizi sociali, agricoli, paesaggistici e sociosanitari;</li>
+<li>lo spirito di <strong class="oro">innovazione</strong> e di <strong class="oro">ricerca</strong>: sosteniamo il progresso scientifico, artistico o sociale per creare un impatto positivo e nutrire l'anima;</li>
+<li>la <strong class="oro">trasparenza</strong>: la gestione etica e rendicontabile del patrimonio, la <strong class="oro">coerenza</strong> tra gli scopi dichiarati e le azioni.</li>
 </ul>
-<p class="citazione">Coltiviamo la terra, accogliamo la vita, custodiamo il cammino fino alla fine.</p>
+<p class="citazione">Il coraggio è quello che ci vuole per alzarsi e parlare; il coraggio è anche quello che ci vuole per sedersi e ascoltare.</p>
 <p class="tre-parole">Fede, Amore e Speranza</p>
 <p>La Fondazione non ha scopo di lucro e persegue finalità civiche, solidaristiche e di utilità sociale, con attività in ambito sociale e sociosanitario. Ha carattere <strong>operativo</strong>, in quanto promuove, crea e gestisce progetti offrendo beni e servizi in prima persona, ed <strong>erogativo</strong>, in quanto fornisce consulenze e risorse, materiali o immateriali, a terzi.</p>
-<h3>Che cosa la Fondazione è nata per fare</h3>
-<p>Sono le attività che lo statuto le affida, e prendono forma un passo alla volta, con i partner che servono.</p>
+<h3>Per cosa è nata la Fondazione?</h3>
+<p>Ecco le principali attività previste dallo statuto, che prendono forma un passo alla volta, secondo i partner che si avvicinano alla Fondazione.</p>
+<p class="citazione">Coltiviamo la terra, accogliamo e curiamo ogni persona, custodiamo il cammino di vita fino alla fine.</p>
 <div class="offerte">
 <div class="box">
 <h4>Assistenza alle persone</h4>
@@ -514,15 +515,15 @@ TESTI["chi-siamo"] = dict(
 <p><a class="vai" href="{→progetti/da-sostenere}">Scopri i progetti della Fondazione, e come puoi fare la tua parte</a></p>
 <h3>La nostra storia</h3>
 {foto:ASSISI 2025|La basilica di San Francesco ad Assisi, settembre 2025|ritratto oro}
-<p>Tutto nasce ad Assisi, durante la festa di Michele, nel settembre del 2025. Si trovano lì un agricoltore, consulente bioforestale, e un medico, a parlare delle gioie e delle difficoltà nei reciproci campi. Osservano come sia la medicina sia l'agricoltura si trovino in uno spazio di transizione, in cui tanto deve essere fatto perché le due discipline lavorino davvero a favore dell'umano e per l'umano. Nello stesso tempo, dalle necessità portate dalle persone con cui entrambi hanno a che fare, arriva la domanda di aiuto: creare un ponte tra passato e futuro, facilitare la nascita di progetti e tutte quelle situazioni legate al lutto e alla successione, spesso complicate sul piano pratico e poco in linea con i desideri di chi non c'è più. Mentre camminano dalla basilica di San Francesco verso la Porziuncola, tra gli ulivi, il progetto sottilmente si crea.</p>
+<p>Tutto nasce ad Assisi, durante la festa di San Michele, il 29 settembre del 2025. Si trovano lì un agricoltore e tecnico, e una dottoressa, a parlare delle gioie e delle difficoltà nei reciproci campi. Osservano come sia la medicina sia l'agricoltura si trovino in un momento di transizione, in cui tanto deve essere fatto perché le due discipline lavorino davvero a favore dell'umano e per l'umano. Nello stesso tempo, dalle necessità portate dalle persone con cui entrambi hanno a che fare, arriva la richiesta: creare un ponte tra passato e futuro, facilitare la nascita di progetti grazie alla possibilità di donare, e occuparsi di promuovere un dignitoso fine vita. Mentre camminano dalla basilica di San Francesco verso la Porziuncola, tra gli ulivi, il progetto sottilmente si crea.</p>
 <div class="foto-riga">
 {foto:ULIVI DI ASSISI|Gli ulivi sotto la collina di Assisi|oro}
 {foto:SANTA CHIARA|La basilica di Santa Chiara|oro}
 </div>
 <p>Dopo profonde meditazioni durante le Notti Sante e valutazioni attente, i due lavorano alla creazione di una Fondazione, il cui statuto viene partorito il 7 gennaio 2026. Il 26 febbraio 2026 la Fondazione La Rosa d'Oro prende forma reale.</p>
 <h3>I fondatori</h3>
-<p><strong>Dr.ssa Dacia Dalla Libera</strong>, presidente. Medico chirurgo, neurologa ed esperta di medicina integrata (ayurveda, antroposofia); <em>quietude practitioner</em>, una figura di supporto spirituale e nel fine vita che offre cura emotiva e spirituale a chi affronta la morte, il fine vita e il lutto; formatrice.</p>
-<p><strong>Elias Minotti</strong>, vicepresidente. Agricoltore, tecnico, formatore e consulente negli ambiti agricolo, agroalimentare e forestale, della gestione ambientale, paesaggistica e del verde in genere.</p>
+<p><strong>Dr.ssa Dacia Dalla Libera</strong>, presidente, italiana. Medico chirurgo, neurologa ed esperta di medicina integrata (ayurveda, antroposofia); <em>quietude practitioner</em>, una figura di supporto nel morire che offre cura emotiva e spirituale a chi affronta il fine vita o il lutto; formatrice, ricercatrice, autrice di lavori scientifici e articoli divulgativi.</p>
+<p><strong>Elias Minotti</strong>, vicepresidente, svizzero. Agricoltore, tecnico, formatore e consulente negli ambiti agricolo, agroalimentare e forestale, della gestione ambientale, paesaggistica e del verde in genere. Si è occupato di reinserimento e di agricoltura sociale.</p>
 <p>Per conoscere il nostro statuto: <a class="link" href="{→documenti}">la pagina Documenti</a>.</p>
 <p class="citazione unica">Ammirare il Bello, Custodire il Vero, Venerare il Nobile, Decidere il Bene.</p>
 """)
@@ -693,19 +694,23 @@ TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
 <li>la formazione per la cittadinanza e il volontariato;</li>
 <li>la formazione online sulle DAT, le <a class="link" href="{→lasciti/la-liberta-del-come}">Disposizioni anticipate di trattamento</a>.</li>
 </ul>
-<h3 id="quietude-italia-2027">Quietude Italia 2027</h3>
+<h3 id="quietude-italia-2027">Quietude Italia: il primo percorso di formazione congiunta Italia–Regno Unito sul morire</h3>
 <div class="pieghevole">
 <a href="{img:quietude/pagina-1-grande.jpg}"><img src="{img:quietude/pagina-1.jpg}" width="480" height="680" loading="lazy" alt="Pagina 1 del pieghevole: la copertina, con il «Todesengel» di Ninetta Sombart"></a>
 <a href="{img:quietude/pagina-2-grande.jpg}"><img src="{img:quietude/pagina-2.jpg}" width="480" height="680" loading="lazy" alt="Pagina 2 del pieghevole: a chi è destinato il corso e che cosa si impara"></a>
 <a href="{img:quietude/pagina-3-grande.jpg}"><img src="{img:quietude/pagina-3.jpg}" width="480" height="680" loading="lazy" alt="Pagina 3 del pieghevole: a chi è rivolta la formazione, gli attestati e le date"></a>
 <a href="{img:quietude/pagina-4-grande.jpg}"><img src="{img:quietude/pagina-4.jpg}" width="480" height="680" loading="lazy" alt="Pagina 4 del pieghevole: i punti chiave, le iscrizioni e le quote"></a>
 </div>
-<p>Il pieghevole del corso: apri una pagina per vederla in grande, oppure <a class="link" href="{file:quietude-italia-2027.pdf}">scarica il pieghevole (PDF)</a>.</p>
-<p>Il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita: come offrire sostegno emotivo e spirituale a chi sta morendo o si prepara al passaggio della soglia. È per chiunque voglia stare accanto a chi vive l’ultimo tratto della vita, per sé o per lavoro, qualunque sia la sua fede, purché sia aperto all’idea di una vita dopo la morte.</p>
-<p>È pensato per familiari e caregiver, medici, infermieri, OSS e assistenti sociali, terapeuti e counselor, volontari e personale degli hospice, celebranti laici, e per chi cerca un nuovo orientamento o vuole prepararsi con consapevolezza alla propria morte.</p>
-<p>Lo guida Annie Blampied-Radojćin, fondatrice di Quietude®, con Juanna Grace Ladaga e Fiona Sim dal Regno Unito e, dall’Italia, Dacia Dalla Libera ed Elena Martinelli; collaborano Chiara Favaro e Francesca Zanuttini. Le lezioni sono in italiano, con la traduzione delle docenti inglesi. Il corso si fonda soprattutto sull’opera di Rudolf Steiner e approfondisce anche la filosofia e le pratiche del buddismo tibetano sul morire.</p>
+<p>Se vuoi vedere il pieghevole del corso, apri una pagina per vederla in grande, oppure <a class="link" href="{file:quietude-italia-2027.pdf}">scarica il pieghevole (PDF)</a>.</p>
+<p>Un percorso sull’accompagnamento al fine vita: come offrire sostegno emotivo e spirituale a chi sta morendo o desidera prepararsi al morire. È pensato per familiari e caregiver, medici, infermieri, OSS e assistenti sociali, terapeuti e counselor, volontari e personale degli hospice, celebranti laici, e per chi cerca un nuovo orientamento o vuole prepararsi con consapevolezza alla propria morte o a quella di una persona cara. È per chiunque, qualunque sia la sua fede, purché sia aperto all’idea di una vita dopo la morte.</p>
+<p>Come afferma Elisabeth Kübler-Ross nel titolo di uno dei suoi libri, «La morte è di vitale importanza», e occorre, come si dice in inglese, «befriending death», ovvero rendere amica la morte.</p>
+<p>La direttrice del corso è Annie Blampied-Radojćin, fondatrice di Quietude® (<a class="link" href="https://quietude.support/" rel="noopener">quietude.support</a>), che ha collaborato a lungo con l’Emerson College ed è da anni ministra interconfessionale, celebrante funebre e consulente spirituale. L’accompagneranno dal Regno Unito Juanna Grace Ladaga, ministra interconfessionale, e l’infermiera antroposofica Fiona Sim; dall’Italia la Dr.ssa Dacia Dalla Libera e l’arteterapeuta Elena Martinelli, con le collaboratrici Chiara Favaro e Francesca Zanuttini.</p>
+<p>Le lezioni sono in italiano, con la traduzione delle docenti inglesi.</p>
+<p>Il corso si fonda soprattutto sull’opera di Rudolf Steiner e approfondisce la filosofia e le pratiche del buddismo tibetano sul morire, oltre agli aspetti medico-psicologici e assistenziali e ad alcune tecniche di cura, come il tocco delicato della ‘M’ Technique®.</p>
 <p>Si comincia con una settimana residenziale dal 13 al 21 marzo 2027 alle Preseglie, a Desenzano del Garda, tra colline, vigneti e lago. Seguono otto incontri online, un giovedì ogni due settimane dalle 19 alle 21.30, dall’8 aprile al 15 luglio, e a settembre la presentazione del progetto di fine corso. Per tutto il percorso c’è un tutor italiano tra i docenti. A chi completa la formazione vanno l’attestato di Operatore Quietude® e il certificato ‘M’ Technique®.</p>
-<p>I posti sono 24 e le domande si accolgono in ordine di arrivo, entro il 17 gennaio 2027. Per iscriverti manda una lettera con i motivi per cui vuoi seguire il corso e una breve biografia legata ai suoi temi, scritte con parole tue, senza l’intelligenza artificiale. La quota è di 1.880 euro in due rate, oppure di 1.800 euro in un’unica soluzione entro il 30 novembre 2026; vitto, alloggio e viaggio sono a parte.</p>
+<p>I posti sono 24 e le domande si accolgono in ordine di arrivo, <strong>entro il 17 gennaio 2027</strong>.</p>
+<p>Per iscriverti manda una lettera con i motivi per cui vuoi seguire il corso e una breve biografia legata ai suoi temi, scritte con parole tue, senza l’intelligenza artificiale.</p>
+<p>La quota è di 1.880 euro in due rate, oppure di 1.800 euro in un’unica soluzione entro il 30 novembre 2026; vitto, alloggio e viaggio sono a parte.</p>
 <p>Per informazioni e iscrizioni scrivi alla segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 <p><a class="vai" href="{→contatti}">Vuoi partecipare? Scrivici</a></p>
 """)

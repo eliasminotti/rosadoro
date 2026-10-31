@@ -28,7 +28,7 @@ for (const dove of ['playwright', '/opt/node22/lib/node_modules/playwright']) {
 const SITO = path.join(__dirname, '..', 'sito');
 const ORIGINE = 'https://sito.prova/';              // l’indirizzo finto da cui si aprono le pagine di sito/
 const FOGLIO = 'https://script.google.com/';        // lo script del foglio (FOGLIO in costruisci.py)
-const CONSENSO = 'v1 ottobre 2026';
+const CONSENSO = 'v2 novembre 2026';   // la versione del testo della casella delle notizie (CONSENSO_NOTIZIE in costruisci.py)
 const SEGRETERIA = 'segreteria@larosadoro.org';
 const TIPI = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2',

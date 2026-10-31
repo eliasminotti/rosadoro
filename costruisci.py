@@ -44,9 +44,12 @@ TRAPPOLA = ('<input class="trappola" name="sito_web" type="text" value="" tabind
                                           # che riempiono tutto lo riempiono, e lo script del foglio li manda nella scheda «Spam»
 FASI = ("Un’idea", "Un progetto in corso di realizzazione", "Un progetto che esiste già",   # «A che punto è», nel modulo dei
         "Una realtà consolidata che cerca nuovi sviluppi")                                 # progetti: le stesse in FASI dello script
-CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella delle notizie: se il testo cambia,
-    "Vorrei ricevere ogni tanto le notizie della Fondazione per email. Posso cancellarmi quando voglio.")
+CONSENSO_NOTIZIE = ("v2 novembre 2026",  # la versione e il testo della casella delle notizie: se il testo cambia,
+    "Vorrei ricevere periodicamente le notizie della Fondazione per email. Potrò cancellarmi quando lo desidero.")
                                           # cambia anche la versione, che il foglio registra accanto al consenso.
+                                          # Le versioni di prima, per sapere a che cosa ha detto sì chi si è iscritto:
+                                          # v1 ottobre 2026 «Vorrei ricevere ogni tanto le notizie della Fondazione per email.
+                                          # Posso cancellarmi quando voglio.» (fino al novembre 2026)
 USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 LUX = "https://lux.larosadoro.org/"       # il sito di Lux: la voce «Lux» in alto a sinistra e nel menu del telefono (Elias, 11.10).
                                           # Vuoto: la voce sparisce, per esempio se all'apertura del sito al pubblico
@@ -95,7 +98,7 @@ ENTE = {
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
-    "tagline": "Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo, continui a fare del bene alla vita e nella vita: nel lavoro della terra, nella cura delle persone, nell’accompagnamento al fine vita.",   # scritta da Elias l’11.10; le alternative, per Dacia, sono nel Claude Doc della Home
+    "tagline": "Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo che sia, continui a fiorire e a seminare il bene nella vita degli altri. Un impegno d’amore e di continuità che si esprime nel rispetto e nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, con competenza, sacralità e delicatezza.",   # di Dacia (31.10), sulla frase scritta da Elias l’11.10
 }
 
 SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei tre registri: cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.]"
@@ -412,7 +415,7 @@ def riquadro_notizie(da):
           <input type="hidden" name="pagina" value="">
           <input type="hidden" name="_sito" value="">
           %s
-          <p class="nota">Ti mandiamo un’email per confermare l’indirizzo. Come usiamo i dati lo spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>
+          <p class="nota">Ti manderemo un’email per confermare l’indirizzo. Come usiamo i dati personali è spiegato nell’<a class="link" href="%s">informativa sulla privacy</a>.</p>
         </div>
         <p class="esito" role="status" tabindex="-1" hidden></p>
       </form>
@@ -823,14 +826,24 @@ def tavola_porta(da, s):
 
 # le due introduzioni della home (bozza di Claude dell’11.10 con le correzioni di Elias, dopo aver riletto il sito con «Fondi e strumenti» e il Family Office):
 # cosa siamo e che cosa facciamo adesso, poi che cosa la Fondazione è costituita per fare
-HOME_CHI_SIAMO = ("La Rosa d’Oro è nata per stare accanto alla vita in tutto il suo arco: la terra che ci nutre, le persone fragili che hanno "
-                  "bisogno di cura, chi si avvicina alla fine del suo cammino terreno e chi invece resta qui. Non lo fa da sola: cerca medici, agricoltori, operatori del sociale "
-                  "e professionisti con cui lavorare, e persone che scelgano di affidarle una parte di ciò che hanno, in vita o con un lascito, "
-                  "perché continui a fare del bene.")
-HOME_COSA_OFFRIAMO = ("La Fondazione è costituita per due compiti che vanno insieme. Il primo è verso le persone: l’accompagnamento nel fine vita, "
+# riscritta da Dacia il 31.10: chi cerca la Fondazione diventa un elenco, e accanto a «Chi siamo» c’è «Lavora con noi»
+HOME_CHI_SIAMO = ("La Rosa d’Oro è nata per stare accanto alla vita in tutto il suo arco, nel tempo e nello spazio: a partire dalla terra che ci nutre, "
+                  "per arrivare alle persone malate o con fragilità che necessitano di cura e il cui destino può sempre mutare, a chi si avvicina "
+                  "alla fine del suo cammino terreno e a chi invece resta qui.")
+HOME_OPERATO = "Il nostro operato vuole trarre forza e compimento dall’azione sinergica con il territorio."
+HOME_CERCA = (
+    "medici e altri operatori sanitari, agricoltori, operatori del sociale, consulenti legali e professionisti con cui lavorare, "
+    "di qualunque età e provenienza, che desiderino mettere il proprio lavoro al servizio degli altri;",
+    "persone che scelgano di affidarle una parte di ciò che hanno, in vita o con un lascito, perché venga custodita con cura "
+    "e quel bene continui a vivere nel tempo e per tutti;",
+    "giovani che coltivano progetti di utilità sociale, ecologica, agricola, tecnologica, scientifica, artistica e di ricerca, "
+    "con l’obiettivo di aiutarli a sviluppare competenze e di facilitare la realizzazione dei progetti – nella complessità "
+    "dello scenario attuale – per coltivare bellezza, nutrire il futuro, seminare speranza, portare luce e promuovere il benessere della comunità.",
+)
+HOME_COSA_OFFRIAMO = ("La Fondazione è costituita per due compiti che procedono di pari passo. Il primo è verso le persone: l’accompagnamento al morire, "
                       "il sostegno a chi è fragile, l’agricoltura sociale, l’ospitalità e l’orientamento, da realizzare con i partner del territorio. "
                       "Il secondo è verso chi vuole che una parte di ciò che ha continui a fare del bene: un lascito, un fondo con il proprio nome, "
-                      "il vitalizio, il Dopo di Noi, un piano per tutta la famiglia, da costruire con i suoi professionisti di fiducia "
+                      "il vitalizio, il Dopo di Noi, un piano per tutta la famiglia, da costruire con i propri professionisti di fiducia "
                       "o con gli studi partner della Fondazione.")
 
 NUMERI = {5: "Cinque", 6: "Sei", 7: "Sette", 8: "Otto", 9: "Nove", 10: "Dieci"}
@@ -864,9 +877,11 @@ def corpo_home(da, p):
       <div class="testo">
         <p class="occhiello">Chi siamo</p>
         <h2>Una fondazione costituita nel 2026</h2>
-        <p>La Fondazione La Rosa d'Oro è un Ente del Terzo Settore con sede a Milano, costituito il 26 febbraio 2026 e iscritto al Registro Unico Nazionale del Terzo Settore. Presidente Dacia Dalla Libera, vicepresidente Elias Minotti.</p>
+        <p>La Fondazione La Rosa d'Oro è un Ente del Terzo Settore con sede a Milano, costituito il 26 febbraio 2026 e iscritto al Registro Unico Nazionale del Terzo Settore. %s</p>
         <p>%s</p>
-        <p><a class="vai" href="%s">Chi siamo</a></p>
+        <p>La Fondazione non agisce da sola, ma cerca:</p>
+        <ul class="stelle">%s</ul>
+        <div class="rimandi"><a class="vai" href="%s">Chi siamo</a><a class="vai" href="%s">Lavora con noi</a></div>
       </div>
       <figure class="riquadro tavola-dentro"><img src="%s" alt="%s"><span class="squadra a"></span><span class="squadra b"></span></figure>
     </div></div>
@@ -887,7 +902,8 @@ def corpo_home(da, p):
       <div class="porte">%s</div>
     </div>
   </section>
-</main>""" % (sfuggi(HOME_CHI_SIAMO), verso(da, "chi-siamo"), risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"],
+</main>""" % (sfuggi(HOME_CHI_SIAMO), sfuggi(HOME_OPERATO), "".join("<li>%s</li>" % sfuggi(v) for v in HOME_CERCA),
+              verso(da, "chi-siamo"), verso(da, "lavora-con-noi"), risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"],
               sfuggi(HOME_COSA_OFFRIAMO),
               verso(da, "servizi"), verso(da, "fondi-e-strumenti"), verso(da, "professionisti"), NUMERI[len(SEZIONI)], "".join(porte))
 
