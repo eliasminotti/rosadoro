@@ -160,6 +160,62 @@ function parametro(collegamento, nome) {
 }
 
 
+/* un’email partita con il servizio Gmail: le intestazioni (le parole in codice tornano lettere) e, se ha due
+   versioni, il testo e l’HTML */
+function emailGrezza(raw) {
+  const grezzo = Buffer.from(raw.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8');
+  const fine = grezzo.indexOf('\r\n\r\n');
+  const intestazioni = grezzo.slice(0, fine), corpo = grezzo.slice(fine + 4);
+  const parola = s => s.replace(/=\?UTF-8\?B\?([^?]+)\?=/g, (_, b) => Buffer.from(b, 'base64').toString('utf8'));
+  const riga = (testa, nome) => parola((testa.split('\r\n').find(r => r.toLowerCase().startsWith(nome.toLowerCase() + ': ')) || '').slice(nome.length + 2));
+  const confine = (riga(intestazioni, 'Content-Type').match(/boundary="([^"]+)"/) || [])[1];
+  const versioni = {};
+  if (confine) {
+    for (const parte of corpo.split('--' + confine).slice(1, -1)) {
+      const f = parte.indexOf('\r\n\r\n');
+      const tipo = riga(parte.replace(/^\r\n/, ''), 'Content-Type').split(';')[0];
+      versioni[tipo] = Buffer.from(parte.slice(f + 4).replace(/\r\n/g, ''), 'base64').toString('utf8');
+    }
+  } else {
+    versioni['text/plain'] = Buffer.from(corpo.replace(/\r\n/g, ''), 'base64').toString('utf8');
+  }
+  return { riga: nome => riga(intestazioni, nome), testo: versioni['text/plain'] || '', html: versioni['text/html'] || '' };
+}
+
+const COLORI = ['#FAF6EE', '#1C1C1C', '#B88F3D', '#8D6E2A', '#7A1F2F'];     // REGOLE-DI-QUALITA, punto 4
+
+/* la versione HTML di un’email: porta gli stessi collegamenti del testo, con le regole del sito. Con un’etichetta,
+   il collegamento ?parametro= è un pulsante, con sotto l’indirizzo scritto per intero; senza, è un collegamento
+   discreto. Tutti i collegamenti portano al sito o alla segreteria */
+function controllaHtml(html, testo, parametro, etichetta) {
+  assert.ok(typeof html === 'string' && html.startsWith('<!doctype html>') && html.includes('<html lang="it">'), String(html).slice(0, 120));
+  const indirizzi = (testo.match(/https:\/\/\S+/g) || []);
+  assert.ok(indirizzi.length > 0, 'nel testo nessun collegamento');
+  for (const indirizzo of indirizzi) assert.ok(html.includes('href="' + indirizzo + '"'), 'nell’HTML manca ' + indirizzo);
+  for (const href of html.match(/href="[^"]*"/g) || []) {
+    assert.ok(/^href="(https:\/\/(larosadoro\.org|eliasminotti\.github\.io\/rosadoro)\/|mailto:segreteria@larosadoro\.org")/.test(href), href);
+  }
+  const principale = indirizzi.find(i => i.includes('?' + parametro + '='));
+  assert.ok(principale, 'nel testo manca ?' + parametro + '=');
+  const pulsanti = html.match(/<a [^>]*background:#1C1C1C[^>]*>[^<]*<\/a>/g) || [];
+  if (etichetta) {
+    assert.strictEqual(pulsanti.length, 1, 'un solo pulsante');
+    assert.ok(pulsanti[0].includes('href="' + principale + '"') && pulsanti[0].endsWith('>' + etichetta + '</a>'), pulsanti[0]);
+    assert.ok(html.includes('>' + principale + '</a>'), 'sotto il pulsante manca l’indirizzo scritto per intero');
+  } else {
+    assert.strictEqual(pulsanti.length, 0, 'nessun pulsante');
+  }
+  for (const colore of html.match(/#[0-9A-Fa-f]{3,8}\b/g) || []) assert.ok(COLORI.includes(colore.toUpperCase()), 'colore fuori dal sistema: ' + colore);
+  const visibile = html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ');
+  assert.ok(!visibile.includes('!'), 'un punto esclamativo');
+  assert.ok(!/["']|&quot;|&#39;/.test(visibile), 'virgolette o apostrofo dritti nel testo');
+  // il corpo del testo mai sotto i 17 px; il pulsante è come quelli del sito (12 px, maiuscolo)
+  const senzaPulsante = html.replace(/<a [^>]*background:#1C1C1C[^>]*>/g, '');
+  for (const px of senzaPulsante.match(/\b\d+px/g) || []) {
+    if (/font[^;"]*$/.test(senzaPulsante.slice(0, senzaPulsante.indexOf(px)).split(';').pop())) assert.ok(parseInt(px, 10) >= 17, 'testo sotto i 17 px: ' + px);
+  }
+}
+
 /* ---- i controlli ---- */
 
 const controlli = [];
@@ -181,7 +237,7 @@ controllo('una donazione di Lux con la casella spuntata diventa una riga «notiz
   assert.strictEqual(r['Testo del consenso'], CONSENSO);
   assert.strictEqual(r['Ente'], 'Fondazione');
   assert.strictEqual(r['Stato'], 'da confermare');
-  assert.ok(String(r['Per cancellarsi']).startsWith('https://larosadoro.org/contatti/index.html?cancella='), r['Per cancellarsi']);
+  assert.ok(String(r['Per cancellarsi']).startsWith('https://larosadoro.org/contatti/?cancella='), r['Per cancellarsi']);
 });
 
 controllo('chi arriva da Lux riceve la stessa email di conferma del sito, con la frase su Lux', () => {
@@ -192,8 +248,8 @@ controllo('chi arriva da Lux riceve la stessa email di conferma del sito, con la
   assert.strictEqual(m.to, 'donatrice@example.org');
   assert.strictEqual(m.subject, 'Conferma la tua email per le notizie della Fondazione');
   assert.ok(m.body.includes('donando a Lux, il progetto della Fondazione La Rosa d’Oro per un uso consapevole del digitale, hai chiesto di ricevere, ogni tanto, le nostre notizie per email.'), m.body);
-  assert.ok(m.body.includes('https://larosadoro.org/contatti/index.html?conferma='), m.body);
-  assert.ok(m.body.includes('https://larosadoro.org/contatti/index.html?cancella='), m.body);
+  assert.ok(m.body.includes('https://larosadoro.org/contatti/?conferma='), m.body);
+  assert.ok(m.body.includes('https://larosadoro.org/contatti/?cancella='), m.body);
 });
 
 controllo('«Confermo» e «Cancellami» funzionano sulla riga di Lux come su quelle del sito', () => {
@@ -256,7 +312,7 @@ controllo('per le prove, con _sito i collegamenti portano al sito di prova', () 
   const { script, schede, email } = nuovoScript({ SEGRETO_LUX });
   script.doPost(richiestaDiLux('donatrice@example.org', { _sito: 'https://eliasminotti.github.io/rosadoro/' }));
   assert.ok(String(righe(schede.Contatti)[0]['Per cancellarsi']).startsWith('https://eliasminotti.github.io/rosadoro/contatti/'));
-  assert.ok(email[0].body.includes('https://eliasminotti.github.io/rosadoro/contatti/index.html?conferma='));
+  assert.ok(email[0].body.includes('https://eliasminotti.github.io/rosadoro/contatti/?conferma='));
 });
 
 controllo('segretoPerLux crea il segreto una volta sola, lungo, e non tocca quello dei collegamenti', () => {
@@ -339,7 +395,7 @@ controllo('con la casella delle notizie la riga ha il consenso e parte l’email
   assert.strictEqual(json(script.doPost(messaggio({ notizie: 'si', consenso: CONSENSO }))).conferma, true);
   const r = righe(schede.Contatti)[0];
   assert.deepStrictEqual([r['Consenso alle notizie'], r['Testo del consenso']], ['sì', CONSENSO]);
-  assert.ok(String(r['Per cancellarsi']).startsWith(PROVA + 'contatti/index.html?cancella='), r['Per cancellarsi']);
+  assert.ok(String(r['Per cancellarsi']).startsWith(PROVA + 'contatti/?cancella='), r['Per cancellarsi']);
   const conferme = () => email.filter(m => m.to === 'carla@example.org');
   assert.strictEqual(conferme().length, 1);
   assert.ok(conferme()[0].body.includes('ci hai scritto dal sito della Fondazione La Rosa d’Oro'), conferme()[0].body);
@@ -420,7 +476,7 @@ controllo('chi scrive la dedica riceve l’email con il collegamento per toglier
   const ricevuta = email.find(m => m.to === 'carla@example.org');
   assert.ok(ricevuta, 'manca la ricevuta');
   assert.strictEqual(ricevuta.subject, 'La tua dedica nel giardino dei ricordi');
-  assert.ok(ricevuta.body.includes(PROVA + 'in-memoria/giardino-dei-ricordi/index.html?togli='), ricevuta.body);
+  assert.ok(ricevuta.body.includes(PROVA + 'in-memoria/giardino-dei-ricordi/?togli='), ricevuta.body);
   assert.ok(!ricevuta.body.includes('Nonna Lina') && !ricevuta.body.includes('Ti pensiamo'),
     'il modulo è aperto a tutti: la ricevuta non deve portare a un indirizzo qualsiasi parole scritte da altri');
 });
@@ -578,19 +634,33 @@ controllo('un collegamento di conferma di più di trenta giorni fa è scaduto', 
   assert.strictEqual(righe(schede.Contatti)[0]['Email confermata il'], '');
 });
 
-controllo('con il servizio Gmail acceso l’email di conferma parte da segreteria@, con il nome della Fondazione', () => {
+controllo('con il servizio Gmail acceso l’email di conferma parte da segreteria@, con il nome della Fondazione, in testo e in HTML', () => {
   const { script, email, gmail } = nuovoScript({}, { gmail: true });
   script.doPost(dalSito({ tipo: 'notizie', notizie: 'si', email: 'lettore@example.org', consenso: CONSENSO }));
   assert.strictEqual(email.length, 0, 'la conferma non doveva partire dal proprietario del foglio');
   assert.strictEqual(gmail.length, 1);
-  const grezzo = Buffer.from(gmail[0].raw.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8');
-  const [intestazioni, corpo] = grezzo.split('\r\n\r\n');
-  const riga = nome => (intestazioni.split('\r\n').find(r => r.startsWith(nome + ': ')) || '').slice(nome.length + 2);
-  const parola = t => t.replace(/=\?UTF-8\?B\?([^?]+)\?=/g, (_, b) => Buffer.from(b, 'base64').toString('utf8'));
-  assert.strictEqual(parola(riga('From')), 'Fondazione La Rosa d’Oro <segreteria@larosadoro.org>');
-  assert.deepStrictEqual([riga('To'), riga('Reply-To')], ['lettore@example.org', SEGRETERIA]);
-  assert.strictEqual(parola(riga('Subject')), 'Conferma la tua email per le notizie della Fondazione');
-  assert.ok(Buffer.from(corpo.replace(/\r\n/g, ''), 'base64').toString('utf8').includes(PROVA + 'contatti/index.html?conferma='));
+  const m = emailGrezza(gmail[0].raw);
+  assert.strictEqual(m.riga('From'), 'Fondazione La Rosa d’Oro <segreteria@larosadoro.org>');
+  assert.deepStrictEqual([m.riga('To'), m.riga('Reply-To')], ['lettore@example.org', SEGRETERIA]);
+  assert.strictEqual(m.riga('Subject'), 'Conferma la tua email per le notizie della Fondazione');
+  assert.ok(/^multipart\/alternative; boundary="[^"]+"$/.test(m.riga('Content-Type')), m.riga('Content-Type'));
+  assert.ok(m.testo.includes(PROVA + 'contatti/?conferma='), m.testo);
+  controllaHtml(m.html, m.testo, 'conferma', 'Conferma la tua email');
+});
+
+controllo('senza il servizio Gmail la conferma parte dal proprietario del foglio, con la stessa versione HTML', () => {
+  const { script, email } = nuovoScript({});
+  script.doPost(dalSito({ tipo: 'notizie', notizie: 'si', email: 'lettore@example.org', consenso: CONSENSO }));
+  assert.strictEqual(email.length, 1);
+  controllaHtml(email[0].htmlBody, email[0].body, 'conferma', 'Conferma la tua email');
+});
+
+controllo('l’email della dedica ha anche la versione HTML, con il collegamento per toglierla e senza pulsante', () => {
+  const { script, email } = nuovoScript({});
+  script.doPost(dedica());
+  const ricevuta = email.find(m => m.to === 'carla@example.org');
+  controllaHtml(ricevuta.htmlBody, ricevuta.body, 'togli', null);
+  assert.ok(!ricevuta.htmlBody.includes('Nonna Lina') && !ricevuta.htmlBody.includes('Ti pensiamo'), 'nell’HTML il nome ricordato o la dedica');
 });
 
 /* ---- la protezione dai programmi automatici (Elias, 22.10): spam e sospetti vanno nella scheda «Spam»,
@@ -796,6 +866,7 @@ controllo('l’email di conferma non porta mai il nome, l’oggetto o il messagg
   const conferma = email.find(m => m.to === 'carla@example.org');
   for (const parola of ['Nome Scritto', 'Oggetto Scritto', 'Testo Scritto']) {
     assert.ok(!conferma.subject.includes(parola) && !conferma.body.includes(parola), parola);
+    assert.ok(!String(conferma.htmlBody || '').includes(parola), parola + ' (nell’HTML)');
   }
 });
 

@@ -306,11 +306,16 @@ controllo('senza dediche il giardino non mostra la sezione dei nomi', async () =
   }
 });
 
+/* i collegamenti delle email portano a contatti/?conferma=… (dal 31.10, più corti) e quelli già partiti a
+   contatti/index.html?conferma=…: tutti e due devono aprire il riquadro */
 for (const [percorso, parametro, riquadro, testo] of [
+  ['contatti/', 'conferma', '#conferma-notizie', 'Grazie, il tuo indirizzo è confermato.'],
+  ['contatti/', 'cancella', '#cancella-notizie', 'Fatto: non ti manderemo più le notizie.'],
+  ['in-memoria/giardino-dei-ricordi/', 'togli', '#togli-dedica', 'Fatto: la dedica esce dal giardino entro un’ora.'],
   ['contatti/index.html', 'conferma', '#conferma-notizie', 'Grazie, il tuo indirizzo è confermato.'],
   ['contatti/index.html', 'cancella', '#cancella-notizie', 'Fatto: non ti manderemo più le notizie.'],
   [GIARDINO, 'togli', '#togli-dedica', 'Fatto: la dedica esce dal giardino entro un’ora.']]) {
-  controllo('con ?' + parametro + '= la pagina mostra il riquadro e chiede allo script solo quando si tocca il pulsante', async () => {
+  controllo('con ' + percorso + '?' + parametro + '= la pagina mostra il riquadro e chiede allo script solo quando si tocca il pulsante', async () => {
     const p = await apri(percorso + '?' + parametro + '=abc123.firma_-9', { foglio: () => ({ success: true, testo }) });
     try {
       await p.page.locator(riquadro).waitFor({ state: 'visible', timeout: 5000 });

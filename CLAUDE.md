@@ -83,6 +83,9 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   è nella colonna «Per cancellarsi», da mettere in fondo a ogni email delle notizie), e chi
   scrive una dedica riceve un’email con il collegamento per toglierla (`?togli=` sulla pagina
   del giardino). Le colonne nuove del foglio le aggiunge lo script da sé.
+  Le email a chi scrive partono in testo semplice e in HTML (Elias, 31.10): colori del sito, un pulsante per
+  l’azione principale con sotto l’indirizzo per intero, collegamenti senza «index.html» (quelli già partiti valgono
+  ancora). Dopo ogni modulo che fa partire un’email la pagina dice di guardare anche nella posta indesiderata.
 - La protezione dei moduli dallo spam (Elias, 22.10): prima di scrivere o mandare qualcosa lo script del foglio
   controlla ogni invio (`controllaInvio`): campo trappola `sito_web`, link nel nome o nell’oggetto, meno di tre secondi
   dall’apertura della pagina, più di cinque invii in un’ora dallo stesso indirizzo, Cloudflare Turnstile (anche una risposta
