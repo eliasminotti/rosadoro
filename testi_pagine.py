@@ -939,13 +939,15 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 # Stripe, si cambiano anche qui. PayPal si sceglie sulla stessa pagina di Stripe, come in Lux (Lux, 24.10): il pulsante
 # «Dona» di PayPal non c’è più, perché Lux non legge più il conto PayPal e le ricevute partono solo da Stripe. Chi già
 # dona ogni mese dal conto PayPal resta lì e lo segue la segreteria. A importo libero Stripe non fa il mensile: finché
-# MENSILE è spento, per ogni mese c’è il bonifico periodico. Per la Svizzera solo il bonifico a Orizzonti Celesti: il loro
-# PayPal.me non si pubblica finché Elias non chiarisce con PayPal lo stato del conto dell’associazione (Elias, 13.10).
-# Accanto all’IBAN di Orizzonti Celesti c’è la QR-fattura (Elias, 13.10 sera): il codice si rifà con sorgenti/qr-svizzera.py.
+# MENSILE è spento, per ogni mese c’è il bonifico periodico. Per chi vive in Svizzera e vuole la deduzione resta una frase
+# sola che finisce con «scrivici» (Dacia ed Elias, 31.10): il nome di Orizzonti Celesti, il suo IBAN e la QR-fattura non stanno
+# più sulla pagina e li mandiamo per email a chi ci scrive (bozza in Gmail e documento su Drive «Donare dalla Svizzera»;
+# il codice si rifà con sorgenti/qr-svizzera.py). Il PayPal.me dell’associazione non si dà finché Elias non chiarisce con
+# PayPal lo stato del conto (Elias, 13.10).
 # Sui link di pagamento Stripe converte sempre nella valuta di chi paga, con una commissione del 2-4% a carico di chi dona,
 # e non si spegne: sotto i pulsanti una riga dice a chi dona dalla Svizzera di scegliere EUR (Elias, 27.10). Quando
-# Orizzonti Celesti avrà la sua strada in franchi, la riga diventa il collegamento a quella.
-# I fondi convertibili restano fuori da questa pagina (Elias, 10.10). Chi dona dalla Svizzera passa per Orizzonti Celesti.
+# Orizzonti Celesti avrà la sua strada in franchi, se ne parla con Elias e Dacia: dal 31.10 il suo nome non sta su Dona.
+# I fondi convertibili restano fuori da questa pagina (Elias, 10.10).
 TESTI["dona"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
     corpo="""
@@ -971,16 +973,7 @@ TESTI["dona"] = dict(
 <h3>La ricevuta e i vantaggi fiscali</h3>
 <p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. {se-ricevute}Se doni con la carta o con PayPal sulla pagina di Stripe, la ricevuta della Fondazione ti arriva da sola per email 37 giorni dopo ogni donazione{se-mensile}, anche per quelle di ogni mese{/se-mensile}, all’indirizzo che hai scritto sulla pagina di Stripe. Se doni con il bonifico e ti serve{/se-ricevute}{senza-ricevute}Se ti serve{/senza-ricevute} anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 <h3>Se vivi in Svizzera</h3>
-<p>Se vivi in Svizzera e vuoi dedurre la donazione dalle imposte, dona all’Associazione Orizzonti Celesti, la realtà collegata alla Fondazione che opera sul versante elvetico: ti manda la ricevuta da allegare alla dichiarazione. Altrimenti puoi donare alla Fondazione, {se-stripe}con la carta, con PayPal o {/se-stripe}con il bonifico qui sopra.</p>
-<div class="coordinate">
-<p><strong>Intestato a</strong><br>Orizzonti Celesti<br>Via Mezzavilla 12, 6503 Bellinzona</p>
-<p><strong>IBAN</strong><br><span class="iban"><span>CH65 0900 0000</span> <span>1671 7692 4</span></span></p>
-<p><strong>BIC</strong><br>POFICHBEXXX</p>
-</div>
-<div class="qr-fattura">
-<img src="{img:qr-orizzonti-celesti.svg}" width="200" height="200" alt="Il codice QR della QR-fattura di Orizzonti Celesti, per il bonifico">
-<p>Oppure inquadra questo codice con l’app della tua banca: i dati del bonifico si compilano da soli, e l’importo lo scegli tu.</p>
-</div>
+<p>Se vivi in Svizzera e vuoi dedurre la donazione dalle imposte, <a class="link" href="{→contatti}">scrivici</a>.</p>
 <h3>Altri modi di sostenerci</h3>
 <ul class="stelle">
 <li>il <a class="link" href="{→cinque-per-mille}">5 per mille</a>, con una firma nella dichiarazione dei redditi;</li>
