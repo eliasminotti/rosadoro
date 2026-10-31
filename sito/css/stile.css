@@ -256,7 +256,8 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .sezione{padding:var(--ritmo) 0;border-top:1px solid var(--filo)}
 .sezione h2{margin-bottom:32px}
 .due-colonne{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center}
-.due-colonne .testo p{font-size:18px}
+.due-colonne .testo p,.due-colonne .testo li{font-size:18px}
+.due-colonne .rimandi{display:flex;gap:16px 40px;flex-wrap:wrap;margin-top:8px}   /* «Chi siamo» e «Lavora con noi» nella home (Dacia, 31.10) */
 .riquadro{position:relative;aspect-ratio:4/5;background:var(--carta);border:1px solid var(--filo-forte)}
 .riquadro.tavola-dentro{border:0;background:transparent}
 .riquadro img{width:100%;height:100%;object-fit:cover}
