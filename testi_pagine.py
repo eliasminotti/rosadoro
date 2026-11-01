@@ -18,8 +18,8 @@ TESTI = {}
 TESTI["in-memoria"] = dict(
     sotto="Modi concreti per onorare chi non c'è più e sostenere chi resta.",
     corpo="""
-<p class="citazione">Ciò che resta — di una persona, di una casa, di un sogno — può diventare l'inizio di qualcosa.</p>
-<p>In queste pagine trovi i modi in cui la Fondazione accompagna chi vive una perdita: un fondo per donare in memoria, un giardino di immagini a cui dedicare un pensiero, il funerale che diventa un'opera di bene, l'aiuto pratico per svuotare una casa, e una presenza accanto a chi si avvicina alla soglia.</p>
+<p class="citazione">Ciò che resta — di una persona, di una casa, di un sogno — può essere il seme di un nuovo inizio.</p>
+<p>In queste pagine trovi i modi in cui la Fondazione accompagna chi vive una perdita: un fondo per donare in memoria, un giardino di immagini da scegliere per dedicare un pensiero a un caro defunto, raccolte fondi per un progetto al posto di ghirlande e fiori per il funerale, l’aiuto pratico per svuotare una casa, e una presenza accanto a chi si avvicina alla soglia.</p>
 """)
 
 # ------------------------------------------------------------ A · il fondo
@@ -29,7 +29,7 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
     musica=True,
     corpo="""
 <p class="citazione unica">Le memorie più belle sono quelle che durano in eterno.<br>Le memorie più belle sono quelle che plasmano la realtà.</p>
-<p>Un fondo di memoria è una donazione o una raccolta fondi che commemora la vita di una persona speciale. Esso crea un ponte tra ciò che è stato e ciò che sarà, tra il mondo della materia e il mondo spirituale, tra il mondo del tuo agire e quello dei tuoi cari che non possono più compiere azione. Come un arcobaleno.</p>
+<p>Un fondo di memoria è una donazione o una raccolta fondi che commemora la vita di una persona speciale. Esso crea un ponte tra ciò che è stato e ciò che sarà, tra il mondo della materia e il mondo spirituale, tra il mondo del tuo agire e quello dei tuoi cari che non possono più compiere azioni con le loro mani. Un ponte, come un arcobaleno.</p>
 {foto:ARCOBALENO1|Un arcobaleno|cielo}
 <p>Scegliendo attivamente di onorare coloro che non ci sono più, crei un dialogo continuo di amore e memoria che arricchisce la tua vita e quella di chi ti circonda. Secondo alcune tradizioni spirituali e l'antroposofia, ad esempio, questo atto allevia anche le pene di chi è dipartito, magari prematuramente, lasciando in sospeso cose o situazioni.</p>
 <h3>Apri un fondo per onorare il tuo caro e i suoi valori, sostenendo un progetto</h3>
@@ -81,7 +81,8 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 
 # ------------------------------------------------------- B · il giardino
 TESTI["in-memoria/giardino-dei-ricordi"] = dict(
-    sotto="Scegli un'immagine, scrivi il nome di chi vuoi ricordare: la posiamo nel giardino.",
+    sotto="Scegli un’immagine, scrivi il nome di chi vuoi ricordare e, se vuoi, una dedica. La posiamo con te nel giardino dei ricordi.",
+    musica=True,     # la stessa musica del fondo di memoria (Dacia, 1.11)
     corpo="""
 <div class="da-collegamento" id="togli-dedica" hidden>
 <p>Vuoi togliere dal giardino la dedica che hai scritto? Tocca «Togli la dedica»: esce dal giardino entro un’ora.</p>
@@ -134,6 +135,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 <li><strong>la creazione di un'opera d'arte</strong> in memoria.</li>
 </ul>
 <p><a class="vai" href="{→contatti}">Contattaci</a></p>
+<p class="citazione lunga">«Pensando: “Mi ha dato questo, ha fatto questo per me, era mio parente, mio compagno, mio amico”, si dovrebbero fare doni per i defunti, ricordando ciò che hanno fatto in passato. Poiché né le lacrime, né il dolore, né altre lamentazioni sono di alcuna utilità per chi è trapassato, finché i parenti continuano a disperarsi in questo modo. Ma il dono che è stato fatto, ben riposto nella Comunità, è per loro di beneficio a lungo, e subito.»<span class="fonte">Tirokudda Sutta, «Il discorso degli spiriti fuori dalle mura» (Khuddakapatha 7), testo buddista del canone pali</span></p>
 
 <div class="velo-dialogo" id="velo-dedica" role="dialog" aria-modal="true" aria-labelledby="dedica-titolo" hidden>
   <form class="dialogo" id="modulo-dedica" action="{foglio}" method="post" data-indirizzo="segreteria@larosadoro.org"{turnstile} novalidate>
@@ -204,19 +206,24 @@ TESTI["in-memoria/svuota-e-sorridi"] = dict(
 
 # ------------------------------------------------- E · io sono qui per te
 TESTI["in-memoria/io-sono-qui-per-te"] = dict(
-    sotto="Accanto a chi si avvicina alla soglia, e a chi gli vuole bene.",
+    sotto="Sarai sostenuto in tutti i passaggi verso il futuro, per ricominciare a vivere.",
     corpo="""
 <p>Stai attraversando la fase più delicata della vita e hai bisogno di una persona che ti aiuti? Accompagni un familiare al passaggio della soglia?</p>
-<p><strong>Siamo qui per sostenere le persone nel fine vita, le loro famiglie e i loro cari, in modo concreto e spirituale, prendendo in considerazione tutto quanto è attorno a te.</strong></p>
-<p>Siamo qui per orientarti tra le decisioni e le scelte della fase finale della vita: dal funerale al testamento, fino a decidere chi si occuperà del tuo cane e del tuo gatto.</p>
+<p><strong>Siamo qui per sostenere le persone nel fine vita, le loro famiglie e i loro cari, in modo concreto e spirituale, prendendo in considerazione tutto quanto è attorno a te.</strong> Contattaci per conoscere la possibilità di attivare un’équipe di terapeuti o un <em>quietude practitioner</em> vicino a dove vivi. Questo accompagnamento può affiancare anche le cure mediche, senza sostituirle, aiutando con delicatezza e presenza alcuni passaggi, e infondendo fiducia e forze spirituali.</p>
+<p>Siamo qui per orientarti tra le decisioni e le scelte della fase finale della vita: dal funerale al testamento, fino a decidere chi si occuperà del tuo cane e del tuo gatto. La figura del <em>quietude practitioner</em> fa anche questo: la racconta la pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento al morire</a>.</p>
 <p>Hai voglia di liberare casa, destinare i vari oggetti, ma non ne hai la forza? Siamo qui per aiutarti a svuotare casa: il «riordino svedese» (Margareta Magnusson, <em>The Gentle Art of Swedish Death Cleaning</em>) accompagna un distacco graduale e sereno, e gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a> possono darti una mano concreta.</p>
 <h3>Un percorso con un counselor</h3>
-<p>Fai fatica a uscire dal lutto e a elaborarlo? <strong>Siamo qui per aiutarti. Contattaci per un percorso con uno dei nostri counselor.</strong> Il counselor non cura — il lutto non è una malattia, è un processo naturale — ma offre uno spazio protetto, sicuro e non giudicante per esplorare le emozioni e ricostruire una quotidianità interrotta. Secondo le tue inclinazioni puoi scegliere chi lavora con piccole strategie di adattamento, con la meditazione, con l'arteterapia o con la scrittura espressiva. Sarai sostenuto in tutti i passaggi verso il futuro, per ricominciare a vivere.</p>
+<p>Fai fatica a uscire dal lutto e a elaborarlo? <strong>Siamo qui per aiutarti. Contattaci per un percorso con uno dei nostri counselor.</strong> Il counselor non cura — il lutto non è una malattia, è un processo naturale — ma offre uno spazio protetto, sicuro e non giudicante per esplorare le emozioni e ricostruire una quotidianità interrotta. Secondo le tue inclinazioni puoi scegliere chi lavora con piccole strategie di adattamento, con la meditazione, con l'arteterapia o con la scrittura espressiva.</p>
 <p><a class="vai" href="{→contatti}">Avvia la procedura per essere messo in contatto</a></p>
 <p>Possiamo rispondere anche a qualsiasi altra domanda tu abbia riguardo alla morte, al morire e alle malattie. Non sei solo.</p>
 <h3>Incontri e workshop</h3>
 <p>Gli incontri dedicati al tema della morte sono un buon modo per approfondire, conoscere persone che vivono situazioni simili, porre domande e condividere. Se ti interessa organizzarne uno nella tua città, <a class="link" href="{→contatti}">contattaci</a> — e guarda la <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}">formazione all'accompagnamento</a> e gli <a class="link" href="{→eventi-e-formazione/eventi}">eventi</a>.</p>
 <p>Per approfondire: <a class="link" href="{→in-memoria/elaborare-il-lutto}">Elaborare il lutto</a>.</p>
+<div class="invito">
+<p>Stiamo costruendo la nostra rete.</p>
+<p>Sei un counselor, uno psicologo o un terapeuta olistico esperto dell’accompagnamento al morire? <a class="link" href="{→contatti}">Scrivici</a> e considereremo insieme tutte le possibilità.</p>
+<p>Conosci una persona in difficoltà? Girale il sito della Fondazione: il passaparola è più importante di qualunque altro mezzo, e ognuno di noi ha una responsabilità sociale.</p>
+</div>
 """)
 
 # ------------------------------------------------------- approfondimento
@@ -247,7 +254,7 @@ TESTI["in-memoria/elaborare-il-lutto"] = dict(
 V = '<span class="da-verificare">da verificare</span>'
 
 TESTI["lasciti"] = dict(
-    sotto="Un futuro che aspetta di essere scritto.",
+    sotto="Il tuo amore per la vita, oltre il tempo.",
     corpo="""
 <p class="citazione">C'è un futuro che aspetta di essere scritto. Diventa tu l'inchiostro.</p>
 <p>Negli ultimi anni il testamento solidale ha acquisito una rilevanza crescente a livello internazionale. In Italia è ancora poco diffuso; in altri paesi europei, come il Regno Unito, la cultura del lascito solidale è ormai radicata, e quell'esperienza offre spunti per rendere questa scelta sempre più accessibile.</p>
@@ -1020,6 +1027,9 @@ TESTI["partnership"] = dict(
 <p>Per diventare partner, la porta è quella della tua categoria: <a class="link" href="{→professionisti}">Per professionisti</a>, <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>, <a class="link" href="{→aziende-e-istituzioni/istituzioni}">Per le istituzioni</a>. Se sei un’associazione o un ente del Terzo settore, scrivici.</p>
 <h3>Siti amici</h3>
 <p>Qui raccoglieremo, man mano, i siti di realtà che stimiamo e che lavorano su temi vicini ai nostri. Un sito amico non è un partner e non fa parte della Fondazione: è un indirizzo che ti consigliamo.</p>
+<ul class="stelle">
+<li><a class="link" href="https://quietude.support/" rel="noopener">Quietude®</a>: il sostegno spirituale a chi attraversa il morire, e la formazione di chi lo offre, nel Regno Unito. Dalla sua fondatrice, Annie Blampied-Radojćin, e dalle sue docenti nasce con noi <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">Quietude Italia</a>.</li>
+</ul>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)
 
@@ -1340,10 +1350,11 @@ TESTI["eventi-e-formazione/eventi"] = dict(
 """)
 
 TESTI["eventi-e-formazione/formazione-medica"] = dict(
-    sotto="Formazione e aggiornamento per medici, personale sanitario e operatori delle discipline terapeutiche.",
+    sotto="Formazione e aggiornamento per medici, personale sanitario e operatori delle discipline olistiche.",
     corpo="""
 <p>Lo statuto costituisce la Fondazione per la formazione e l’aggiornamento continuo di medici, personale sanitario e operatori delle discipline terapeutiche e del benessere: corsi, seminari, master e scuole di specializzazione, con uno sguardo che tiene insieme corpo, mente e spirito.</p>
-<p>La presidente, Dacia Dalla Libera, è medico chirurgo, neurologa e formatrice. I primi percorsi li presenteremo qui, con il programma e le date. Se sei un medico o un operatore e vuoi seguirli o proporne uno, <a class="link" href="{→contatti}">scrivici</a>.</p>
+<p>La presidente, la dottoressa Dacia Dalla Libera, è medico chirurgo, neurologa, esperta di medicina integrata, counselor biografico e docente. Se sei straniero, la dottoressa parla anche l’inglese.</p>
+<p>I primi percorsi li presenteremo qui, con il programma e le date. Se sei un medico o un operatore e vuoi seguirli o proporne uno, o hai un argomento che vorresti approfondire con noi, <a class="link" href="{→contatti}">scrivici</a>. Il nostro obiettivo è essere aperti e rispondere alle richieste del mondo.</p>
 """)
 
 TESTI["eventi-e-formazione/formazione-agricola"] = dict(

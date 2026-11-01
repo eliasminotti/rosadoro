@@ -138,7 +138,8 @@ SEZIONI = [
          intro="Il lascito testamentario e come si fa; perché farlo alla Rosa d'Oro, con i vantaggi fiscali; il testamento redatto con noi; il Dopo di Noi per chi ha un familiare fragile.",
          pagine=[
              dict(slug="il-lascito-testamentario", voce="Così volli che fosse", titolo="Così volli che fosse", riga="Il lascito testamentario"),
-             dict(slug="perche-donare", voce="Perché donare alla Rosa d'Oro", titolo="Perché donare alla Rosa d'Oro", riga="E i vantaggi fiscali"),
+             dict(slug="perche-donare", voce="Perché donare alla Rosa d'Oro", titolo="Perché donare alla Rosa d'Oro", riga="E i vantaggi fiscali",
+                  oro=True),   # in oro nel menu (Dacia, 1.11)
              dict(slug="il-tuo-testamento", voce="Redigi il tuo testamento con noi", titolo="Redigi il tuo testamento con noi", riga="I tipi di testamento", tavola="lettera"),
              dict(slug="la-liberta-del-come", voce="La libertà del come", titolo="La libertà del come", riga="Le DAT e il fiduciario", art="Legge 219/2017", tavola="pergamena"),
              dict(slug="dopo-di-noi", voce="Il Dopo di Noi", titolo="Il Dopo di Noi", riga="La protezione dei fragili", art="Legge 112/2016"),
@@ -349,7 +350,8 @@ def sottomenu(s, da):
             righe.append('<li class="separa" role="separator" aria-hidden="true"></li>')
             continue
         cartella = p["slug"] if p.get("radice") else s["chiave"] + "/" + p["slug"]
-        attuale = ' class="attuale"' if cartella == da else ""
+        classi = (["attuale"] if cartella == da else []) + (["oro"] if p.get("oro") else [])
+        attuale = (' class="%s"' % " ".join(classi)) if classi else ""
         riga = ('<span class="riga">%s</span>' % sfuggi(p["riga"])) if p.get("riga") else ""
         righe.append('<li%s><a href="%s">%s%s</a></li>' % (attuale, verso(da, cartella), sfuggi(p["voce"]), riga))
     return '<div class="sottomenu"><ul>%s</ul></div>' % "".join(righe)
