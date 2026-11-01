@@ -171,6 +171,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 # ---------------------------------------------------------- C · funerali
 TESTI["in-memoria/funerali"] = dict(
     sotto="Non fiori ma opere di bene.",
+    musica="lacrimosa",      # il Lacrimosa del Requiem di Mozart (Dacia, 1.11; scelta di Elias: Karajan 1962)
     corpo="""
 <p>Al posto di ghirlande e fiori, per il funerale si possono raccogliere fondi per un progetto. Chi partecipa scrive un messaggio di vicinanza per coloro che restano, e sostiene con la propria donazione una causa:</p>
 <div class="azioni">
