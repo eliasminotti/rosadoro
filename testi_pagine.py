@@ -52,7 +52,7 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 </ul>
 <p class="citazione">Trasforma la perdita in speranza per il mondo.</p>
 {foto:AURORA BOREALE|L'aurora boreale|ritratto}
-<p class="citazione lunga">«I defunti non ci abbandonano; essi vivono in un’altra forma, ma la loro attività penetra nel mondo terreno. Se ci lasciamo dominare dal dolore, ostacoliamo la loro vita spirituale. Se invece riusciamo a superare il dolore e volgere loro pensieri pieni di amore e di fiducia, diventiamo loro collaboratori.»<span class="fonte">Liberamente da Rudolf Steiner, «Il legame fra i vivi e i morti», conferenze del 1916 (Opera omnia 168)</span></p>
+<p class="citazione lunga">«I defunti non ci abbandonano; essi vivono in un’altra forma, ma la loro attività penetra nel mondo terreno. Se ci lasciamo dominare dal dolore, ostacoliamo la loro vita spirituale. Se invece riusciamo a superare il dolore e volgere loro pensieri pieni di amore e di fiducia, diventiamo loro collaboratori.»<span class="fonte">Rudolf Steiner, «Il legame fra i vivi e i morti», conferenze del 1916 (Opera omnia 168)</span></p>
 <h3>Che cosa puoi donare</h3>
 <ul>
 <li>una somma di denaro;</li>
