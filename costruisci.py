@@ -60,23 +60,23 @@ STRIPE = "https://donate.stripe.com/28E7sL3Nf6063OC6Rw8Ra00"  # il Payment Link 
                                           # la pagina di Stripe in italiano, e nel conto le donazioni del sito separate da quelle di Lux.
                                           # Vuoto: carta e PayPal spariscono dalla pagina Dona, e resta il bonifico.
                                           # Lux riconosce le donazioni del sito da questo link, per le ricevute: se cambia, va detto a Lux.
-RICEVUTE = ""                            # il giorno da cui le ricevute delle donazioni con la carta e con PayPal partono da sole,
+RICEVUTE = "1 novembre 2026"              # il giorno da cui le ricevute delle donazioni con la carta e con PayPal partono da sole,
                                           # col sistema di Lux, scritto come «27 ottobre 2026»: si accende il giorno in cui Lux passa ai
-                                          # pagamenti veri, dopo l'apertura del sito (Lux, 20.10). Acceso, Dona lo dice
+                                          # pagamenti veri (Lux, 20.10): l'1 novembre 2026 (Lux, 1.11). Acceso, Dona lo dice
                                           # ({se-ricevute}…{/se-ricevute}) e l'informativa nomina i fornitori del sistema e porta
                                           # questa data ({informativa-data}). Vuoto: la ricevuta si chiede scrivendoci ({senza-ricevute}).
-MENSILE = ""                              # il giorno da cui si dona ogni mese con Stripe, scritto come «3 novembre 2026» (Elias, 20.10).
+MENSILE = "1 novembre 2026"               # il giorno da cui si dona ogni mese con Stripe, scritto come «3 novembre 2026» (Elias, 20.10).
                                           # Si accende solo dopo che Lux fa le ricevute anche dei pagamenti mensili, quindi con RICEVUTE
                                           # acceso. Acceso: nella sezione «Con la carta o con PayPal» di Dona il pulsante per donare una
                                           # volta (STRIPE), i pulsanti di MENSILI e il collegamento PORTALE per smettere. L'informativa lo
                                           # dice ({se-mensile}…{/se-mensile}) e porta questa data. Vuoto: per donare ogni mese Dona
                                           # propone il bonifico periodico ({senza-mensile}…{/senza-mensile}).
-MENSILI = (("10 euro al mese", ""),       # i Payment Link mensili di Stripe che Elias crea nel pannello, uno per pulsante, ognuno con un
-           ("25 euro al mese", ""),       # prezzo fisso al mese. «Altro importo» è il link da 1 euro al mese in cui chi dona sceglie la
-           ("50 euro al mese", ""),       # quantità: vuoto, il suo pulsante non c'è. Come per STRIPE, la costruzione aggiunge lingua e
-           ("100 euro al mese", ""),      # segno «sito-dona», e Lux riconosce le donazioni del sito da questi link: se cambiano, va
-           ("Altro importo", ""))         # detto a Lux.
-PORTALE = ""                              # il collegamento al portale di Stripe in cui chi dona ogni mese smette da sé, con la sua email
+MENSILI = (("10 euro al mese", "https://buy.stripe.com/eVq00jfvXewC2KycbQ8Ra01"),       # i Payment Link mensili di Stripe che Elias crea nel pannello, uno per pulsante, ognuno con un
+           ("25 euro al mese", "https://buy.stripe.com/dRmcN5gA1bkqcl8ejY8Ra02"),       # prezzo fisso al mese. «Altro importo» è il link da 1 euro al mese in cui chi dona sceglie la
+           ("50 euro al mese", "https://buy.stripe.com/aFa9AT97zbkq3OC5Ns8Ra03"),       # quantità: vuoto, il suo pulsante non c'è. Come per STRIPE, la costruzione aggiunge lingua e
+           ("100 euro al mese", "https://buy.stripe.com/dRm9AT1F79ci3OC5Ns8Ra04"),      # segno «sito-dona», e Lux riconosce le donazioni del sito da questi link: se cambiano, va
+           ("Altro importo", "https://buy.stripe.com/9B66oH6ZrewCcl81xc8Ra05"))         # detto a Lux.
+PORTALE = "https://billing.stripe.com/p/login/28E7sL3Nf6063OC6Rw8Ra00"   # il collegamento al portale di Stripe in cui chi dona ogni mese smette da sé, con la sua email
                                           # (https://billing.stripe.com/p/login/…): lo attiva Elias nel pannello, ed è lo stesso di Lux.
 
 CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
@@ -538,10 +538,10 @@ def secondo_mensile(testo):
 def secondo_ricevute(testo):
     """con RICEVUTE resta ciò che sta tra {se-ricevute} e {/se-ricevute}, senza resta ciò che sta tra {senza-ricevute}
     e {/senza-ricevute}; {informativa-data} è il giorno dell'ultimo aggiornamento dell'informativa, quello di MENSILE
-    o di RICEVUTE"""
+    o di RICEVUTE, con il primo del mese scritto «1°» («aggiornata il 1° novembre 2026»)"""
     testo = re.sub(r"\{se-ricevute\}(.*?)\{/se-ricevute\}", lambda m: m.group(1) if RICEVUTE else "", testo, flags=re.S)
     testo = re.sub(r"\{senza-ricevute\}(.*?)\{/senza-ricevute\}", lambda m: "" if RICEVUTE else m.group(1), testo, flags=re.S)
-    return testo.replace("{informativa-data}", MENSILE or RICEVUTE)
+    return testo.replace("{informativa-data}", re.sub(r"^1 ", "1° ", MENSILE or RICEVUTE))
 
 def politica_sicurezza(script_interni=()):
     """la regola di sicurezza di ogni pagina (Content-Security-Policy), in un tag meta perché GitHub Pages non manda
