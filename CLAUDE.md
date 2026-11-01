@@ -102,8 +102,24 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   La conferma delle notizie parte al massimo una volta ogni tre giorni per indirizzo e non porta mai testo di chi compila.
   `TURNSTILE` in `costruisci.py` è la chiave pubblica del widget (account Cloudflare di Elias); la chiave segreta sta solo
   nelle proprietà dello script (`TURNSTILE_SEGRETO`) e si mette solo quando il sito con la chiave pubblica è già online:
-  prima, ogni messaggio vero verrebbe rifiutato. Turnstile si carica solo quando si comincia a scrivere in un modulo:
-  è l’unico script esterno del sito, chiesto da Elias; informativa e cookie ne parlano con `{se-turnstile}`.
+  prima, ogni messaggio vero verrebbe rifiutato. Turnstile si carica solo quando si comincia a scrivere in un modulo,
+  chiesto da Elias; informativa e cookie ne parlano con `{se-turnstile}`. L’altro script esterno è Google Analytics,
+  solo con il consenso (sotto).
+- La misura per Google Ad Grants (Elias, 1.11): `GOOGLE_TAG` in `costruisci.py` è l’ID della proprietà Google Analytics 4
+  (G-…) che Elias crea con il suo account; `MISURA` il giorno in cui si accende («3 novembre 2026»), che diventa la data
+  dell’informativa. Vuoti, il sito è com’era: nessun banner, nessun cookie, informativa e cookie dicono che non si traccia.
+  Accesi: in ogni pagina il banner dei cookie (`banner_cookie`), «Accetta» e «Rifiuta» dello stesso peso, la X vale come
+  rifiuto, «Preferenze cookie» nel piede lo riapre; la scelta vale sei mesi (linee guida del Garante del 10.6.2021).
+  Google (gtag.js) si carica solo dopo «Accetta», mai nel giardino (`SENZA_MISURA`), e riceve l’indirizzo della pagina
+  senza i codici delle email e quattro eventi: `messaggio_contatti`, `iscrizione_notizie` (il «Confermo» dell’email),
+  `progetto_inviato`, `donazione_completata`. La donazione si conta sulla pagina «Grazie» (`dona/grazie/`, fuori dai
+  motori), dove il Payment Link di Stripe rimanda dopo il pagamento con `?session_id={CHECKOUT_SESSION_ID}`: la pagina dice
+  già che cosa succede alla ricevuta (`{se-ricevute}`), quindi il giorno di `RICEVUTE` il messaggio di Stripe non si cambia
+  più. Informativa e cookie ne parlano con `{se-google}`/`{senza-google}`; la regola di sicurezza apre i domini di Google
+  solo con `GOOGLE_TAG` (`GOOGLE_CSP`). `controlla.py` verifica le due posizioni, `controlla-moduli.js` le prova nel browser
+  con un sito costruito apposta con il tag acceso. In Google Analytics: conservazione dei dati due mesi, Google Signals spento,
+  nella misura avanzata solo le visualizzazioni di pagina (spenti clic in uscita, interazioni con i moduli, ricerca nel sito,
+  cambi di pagina dalla cronologia): un clic in uscita porterebbe a Google il collegamento a Gmail con il testo del messaggio.
 - La regola di sicurezza delle pagine (revisione di sicurezza del 27.10, Elias): ogni pagina porta in cima all’head un tag
   meta Content-Security-Policy (`politica_sicurezza` in `costruisci.py`) e uno sul referrer, perché GitHub Pages non manda
   intestazioni proprie. Il browser carica script, stili, immagini, caratteri e musica solo dal sito, Turnstile solo da

@@ -18,14 +18,17 @@
 'use strict';
 const assert = require('assert');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { execFileSync } = require('child_process');
 
 let playwright = null;
 for (const dove of ['playwright', '/opt/node22/lib/node_modules/playwright']) {
   try { playwright = require(dove); break; } catch (e) { /* si prova il prossimo */ }
 }
 
-const SITO = path.join(__dirname, '..', 'sito');
+const RADICE = path.join(__dirname, '..');
+const SITO = path.join(RADICE, 'sito');
 const ORIGINE = 'https://sito.prova/';              // l’indirizzo finto da cui si aprono le pagine di sito/
 const FOGLIO = 'https://script.google.com/';        // lo script del foglio (FOGLIO in costruisci.py)
 const CONSENSO = 'v2 novembre 2026';   // la versione del testo della casella delle notizie (CONSENSO_NOTIZIE in costruisci.py)
@@ -62,6 +65,37 @@ const TURNSTILE_FINTO = `(function () {
   if (pronto && window[pronto]) window[pronto]();
 })();`;
 
+/* Google finto (gtag.js di Google Analytics): conta quante volte si carica e manda quello che manda il vero, una misura a
+   Google Analytics, un'immagine a google.com e una cornice di Google Tag Manager, così la regola di sicurezza della pagina
+   si prova con tutto quello che Google chiede di caricare */
+const GTAG_FINTO = `(function () {
+  window.__gtag = (window.__gtag || 0) + 1;
+  try { fetch('https://region1.google-analytics.com/g/collect?v=2&tid=prova', { method: 'POST', mode: 'no-cors', keepalive: true }); } catch (e) {}
+  var immagine = new Image();
+  immagine.src = 'https://www.google.com/ads/ga-audiences?v=1&prova=1';
+  var cornice = document.createElement('iframe');
+  cornice.src = 'https://www.googletagmanager.com/static/service_worker/prova/sw_iframe.html';
+  cornice.style.display = 'none';
+  document.body.appendChild(cornice);
+})();`;
+const VERSO_GOOGLE = /^https:\/\/([a-z0-9-]+\.)*(googletagmanager\.com|google-analytics\.com|analytics\.google\.com|google\.[a-z]{2,3}|doubleclick\.net|googleadservices\.com|googlesyndication\.com)\//;
+const ID_GOOGLE = 'G-PROVA1234';                    // la proprietà di Google Analytics (GOOGLE_TAG in costruisci.py), finta
+const SCELTA = 'rosadoro-cookie';                   // dove sito.js ricorda la scelta sul banner dei cookie
+
+/* il sito costruito con la misura di Google Analytics accesa (GOOGLE_TAG e MISURA in costruisci.py), in una cartella a parte:
+   i controlli della misura girano anche quando nel sito vero la misura è spenta */
+let sitoGoogle = null;
+function conGoogle() {
+  if (sitoGoogle) return sitoGoogle;
+  const cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'rosadoro-google-'));
+  for (const f of ['costruisci.py', 'testi_pagine.py']) fs.copyFileSync(path.join(RADICE, f), path.join(cartella, f));
+  fs.cpSync(SITO, path.join(cartella, 'sito'), { recursive: true, filter: f => !f.endsWith('dediche.json') });
+  execFileSync('python3', ['-c', 'import costruisci as c\nc.GOOGLE_TAG = "' + ID_GOOGLE + '"\nc.MISURA = "3 novembre 2026"\nc.costruisci()'],
+    { cwd: cartella, stdio: 'pipe' });
+  sitoGoogle = path.join(cartella, 'sito');
+  return sitoGoogle;
+}
+
 /* i campi di un modulo mandato con FormData (multipart/form-data) */
 function campiDi(richiesta) {
   const tipo = richiesta.headers()['content-type'] || '';
@@ -80,10 +114,18 @@ function campiDi(richiesta) {
 /* apre una pagina del sito. foglio(richiesta) dice che cosa risponde lo script: un oggetto (diventa JSON)
    oppure null, e allora la richiesta non arriva (rete giù). dediche: il contenuto di dediche.json.
    turnstile: 'passa' mette la chiave di Turnstile nei moduli e risponde con Turnstile finto; 'non si carica' mette
-   la chiave ma Cloudflare non risponde; senza, i moduli non hanno la chiave */
-async function apri(percorso, { foglio = () => ({ success: true }), dediche = null, referer, turnstile } = {}) {
-  const contesto = await browser.newContext({ permissions: ['clipboard-read', 'clipboard-write'] });
-  const allo = [], fuori = [], avvisi = [], cloudflare = [];
+   la chiave ma Cloudflare non risponde; senza, i moduli non hanno la chiave.
+   sito: la cartella da cui si aprono le pagine (conGoogle() per quella con Google Analytics acceso). scelta: la scelta
+   sui cookie già fatta nel browser, 'si' o 'no' (oppure com'è salvata), null per nessuna. schermo: { width, height } */
+async function apri(percorso, { foglio = () => ({ success: true }), dediche = null, referer, turnstile, sito = SITO, scelta = 'no', schermo } = {}) {
+  const contesto = await browser.newContext(Object.assign({ permissions: ['clipboard-read', 'clipboard-write'] }, schermo ? { viewport: schermo } : {}));
+  const allo = [], fuori = [], avvisi = [], cloudflare = [], google = [];
+  if (scelta !== null) {
+    const salvata = JSON.stringify(typeof scelta === 'object' ? scelta : { scelta, quando: Date.now(), versione: 1 });
+    await contesto.addInitScript(([chiave, valore]) => {
+      try { if (location.origin === 'https://sito.prova' && localStorage.getItem(chiave) === null) localStorage.setItem(chiave, valore); } catch (e) { /* niente */ }
+    }, [SCELTA, salvata]);
+  }
   await contesto.route('**/*', async route => {
     const richiesta = route.request();
     const indirizzo = richiesta.url();
@@ -99,6 +141,11 @@ async function apri(percorso, { foglio = () => ({ success: true }), dediche = nu
       if (risposta === null) return route.abort();
       return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(risposta) });
     }
+    if (VERSO_GOOGLE.test(indirizzo)) {
+      google.push(indirizzo);
+      if (indirizzo.startsWith('https://www.googletagmanager.com/gtag/js')) return route.fulfill({ status: 200, contentType: 'text/javascript', body: GTAG_FINTO });
+      return route.fulfill({ status: 204, body: '' });
+    }
     if (!indirizzo.startsWith(ORIGINE)) {
       fuori.push(indirizzo);
       return route.abort();
@@ -109,8 +156,8 @@ async function apri(percorso, { foglio = () => ({ success: true }), dediche = nu
       return dediche === null ? route.fulfill({ status: 404, body: '' })
         : route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(dediche) });
     }
-    const file = path.join(SITO, rel);
-    if (!file.startsWith(SITO) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) return route.fulfill({ status: 404, body: '' });
+    const file = path.join(sito, rel);
+    if (!file.startsWith(sito) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) return route.fulfill({ status: 404, body: '' });
     let corpo = fs.readFileSync(file);
     if (file.endsWith('.html')) {
       corpo = corpo.toString('utf8').replace(/ data-turnstile="[^"]*"/g, '');
@@ -129,7 +176,7 @@ async function apri(percorso, { foglio = () => ({ success: true }), dediche = nu
   page.on('pageerror', e => errori.push(String(e)));
   await page.goto(ORIGINE + percorso, referer ? { referer } : {});
   const violazioni = () => page.evaluate(() => window.__violazioni || []);
-  return { page, allo, fuori, avvisi, errori, cloudflare, violazioni, chiudi: () => contesto.close() };
+  return { page, allo, fuori, avvisi, errori, cloudflare, google, violazioni, chiudi: () => contesto.close() };
 }
 
 async function esitoDi(page, dove) {
@@ -555,8 +602,278 @@ controllo('aprendo le pagine con i moduli nessuna richiesta esce dal sito, e il 
     try {
       await p.page.waitForLoadState('networkidle');
       assert.deepStrictEqual(p.fuori, [], percorso + ': richieste fuori dal sito');
+      assert.deepStrictEqual(p.google, [], percorso + ': richieste a Google senza consenso');
       assert.deepStrictEqual(p.allo, [], percorso + ': lo script del foglio chiamato senza che nessuno abbia scritto');
       assert.deepStrictEqual(p.errori, [], percorso + ': errori del JavaScript');
+    } finally { await p.chiudi(); }
+  }
+});
+
+
+/* ---- i cookie di Google Analytics, solo con il consenso (Elias, 1.11.2026; linee guida del Garante, provv. 231 del 10.6.2021):
+        un banner con «Accetta» e «Rifiuta» dello stesso peso, la X che vale come rifiuto, «Preferenze cookie» nel piede per
+        cambiare idea; Google parte solo dopo «Accetta». Con il consenso si contano le azioni che contano per gli annunci:
+        il messaggio dei Contatti, la conferma delle notizie, il progetto proposto, la donazione tornando da Stripe ---- */
+
+const BANNER = '#consenso-cookie';
+const MESE = 30 * 24 * 3600 * 1000;
+
+function apriConGoogle(percorso, opzioni = {}) {
+  return apri(percorso, Object.assign({ sito: conGoogle(), scelta: null }, opzioni));
+}
+
+/* quello che la pagina ha dato a Google: le righe di window.dataLayer, come liste */
+function datiPerGoogle(page) {
+  return page.evaluate(() => (window.dataLayer || []).map(riga =>
+    JSON.parse(JSON.stringify(Array.prototype.slice.call(riga).map(x => (x instanceof Date ? 'data' : x))))));
+}
+async function eventiPerGoogle(page) {
+  return (await datiPerGoogle(page)).filter(r => r[0] === 'event').map(r => r[1]);
+}
+function sceltaSalvata(page) {
+  return page.evaluate(k => { const v = localStorage.getItem(k); return v ? JSON.parse(v).scelta : null; }, SCELTA);
+}
+const accetta = page => page.locator(BANNER + ' button', { hasText: 'Accetta' });
+const rifiuta = page => page.locator(BANNER + ' button', { hasText: 'Rifiuta' });
+
+controllo('Google: senza una scelta compare il banner, con «Accetta» e «Rifiuta» dello stesso peso, e Google non parte', async () => {
+  const p = await apriConGoogle('index.html');
+  try {
+    await p.page.locator(BANNER).waitFor({ state: 'visible', timeout: 5000 });
+    assert.strictEqual(await accetta(p.page).count(), 1, 'manca «Accetta»');
+    assert.strictEqual(await rifiuta(p.page).count(), 1, 'manca «Rifiuta»');
+    const peso = b => b.evaluate(e => {
+      const s = getComputedStyle(e), r = e.getBoundingClientRect();
+      return [e.className, s.backgroundColor, s.color, s.fontSize, s.fontWeight, s.padding, s.borderTopColor, Math.round(r.height)].join(' | ');
+    });
+    assert.strictEqual(await peso(accetta(p.page)), await peso(rifiuta(p.page)), '«Accetta» e «Rifiuta» devono avere lo stesso peso');
+    assert.strictEqual(await p.page.locator(BANNER + ' button.chiudi-consenso').count(), 1, 'manca la X per chiudere');
+    assert.ok(/cookie\/(index\.html)?$/.test(await p.page.getAttribute(BANNER + ' a.link', 'href')), 'manca il collegamento all’informativa sui cookie');
+    const corpo = await p.page.locator(BANNER + ' p').first().evaluate(e => parseFloat(getComputedStyle(e).fontSize));
+    assert.ok(corpo >= 17, 'il testo del banner è sotto i 17 px: ' + corpo);
+    await p.page.keyboard.press('Tab');
+    assert.ok(await p.page.evaluate(() => !!document.activeElement.closest('#consenso-cookie')), 'con la tastiera il banner deve venire per primo');
+    await p.page.waitForLoadState('networkidle');
+    assert.deepStrictEqual(p.google, [], 'Google è partito senza il consenso');
+    assert.strictEqual(await p.page.evaluate(() => typeof window.dataLayer), 'undefined', 'senza consenso la pagina prepara i dati per Google');
+    assert.strictEqual(await p.page.evaluate(() => document.cookie), '', 'senza consenso ci sono cookie');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('Google: «Rifiuta» e la X chiudono il banner, Google non parte e la scelta vale anche nelle altre pagine', async () => {
+  for (const come of ['Rifiuta', 'la X']) {
+    const p = await apriConGoogle('index.html');
+    try {
+      await p.page.locator(BANNER).waitFor({ state: 'visible', timeout: 5000 });
+      await (come === 'la X' ? p.page.locator(BANNER + ' button.chiudi-consenso') : rifiuta(p.page)).click();
+      assert.ok(await p.page.locator(BANNER).isHidden(), come + ': il banner resta');
+      assert.strictEqual(await sceltaSalvata(p.page), 'no', come + ': la scelta non è ricordata come rifiuto');
+      await p.page.goto(ORIGINE + 'lasciti/index.html');
+      await p.page.waitForLoadState('networkidle');
+      assert.ok(await p.page.locator(BANNER).isHidden(), come + ': il banner ricompare nella pagina dopo');
+      assert.deepStrictEqual(p.google, [], come + ': Google è partito');
+      assert.deepStrictEqual(p.errori, []);
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('Google: «Accetta» fa partire Google solo adesso, senza i codici dei collegamenti delle email, e vale nelle altre pagine', async () => {
+  const p = await apriConGoogle('contatti/index.html?conferma=abc123.firma_-9&gclid=prova-gclid', { referer: ORIGINE + 'contatti/?cancella=segreto.x' });
+  try {
+    await p.page.locator(BANNER).waitFor({ state: 'visible', timeout: 5000 });
+    await p.page.waitForTimeout(300);
+    assert.deepStrictEqual(p.google, [], 'Google è partito prima di «Accetta»');
+    await accetta(p.page).click();
+    await p.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    assert.ok(await p.page.locator(BANNER).isHidden(), 'dopo «Accetta» il banner resta');
+    assert.strictEqual(await sceltaSalvata(p.page), 'si');
+    assert.ok(p.google[0].startsWith('https://www.googletagmanager.com/gtag/js?id=' + ID_GOOGLE), p.google[0]);
+    const dati = await datiPerGoogle(p.page);
+    const consenso = dati.findIndex(r => r[0] === 'consent' && r[1] === 'default');
+    const config = dati.findIndex(r => r[0] === 'config');
+    assert.ok(consenso >= 0 && config > consenso, 'il consenso deve arrivare a Google prima della configurazione');
+    assert.deepStrictEqual(dati[consenso][2], { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'denied' });
+    const c = dati[config];
+    assert.strictEqual(c[1], ID_GOOGLE);
+    assert.strictEqual(c[2].page_location, ORIGINE + 'contatti/index.html?gclid=prova-gclid', 'l’indirizzo per Google tiene solo il segno degli annunci');
+    assert.strictEqual(c[2].page_referrer, ORIGINE + 'contatti/');
+    assert.strictEqual(c[2].allow_google_signals, false, 'Google Signals deve restare spento');
+    assert.strictEqual(c[2].allow_ad_personalization_signals, false, 'la pubblicità personalizzata deve restare spenta');
+    assert.ok(c[2].cookie_expires > 0 && c[2].cookie_expires <= 183 * 24 * 3600, 'i cookie di Google devono durare al massimo sei mesi');
+    const tutto = JSON.stringify(dati);
+    assert.ok(!tutto.includes('abc123') && !tutto.includes('segreto'), 'a Google arriva il codice di un collegamento delle email');
+    await p.page.waitForLoadState('networkidle');
+    assert.deepStrictEqual(await p.violazioni(), [], 'la regola di sicurezza blocca Google');
+    await p.page.goto(ORIGINE + 'lasciti/index.html');
+    await p.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    assert.ok(await p.page.locator(BANNER).isHidden(), 'dopo «Accetta» il banner non deve ricomparire');
+    await p.page.waitForLoadState('networkidle');
+    assert.deepStrictEqual(await p.violazioni(), [], 'la regola di sicurezza blocca Google');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('Google: «Preferenze cookie» nel piede riapre la scelta; «Rifiuta» dopo «Accetta» cancella i cookie di Google e Google non riparte', async () => {
+  const p = await apriConGoogle('lasciti/index.html', { scelta: 'si' });
+  try {
+    await p.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    assert.ok(await p.page.locator(BANNER).isHidden(), 'con la scelta già fatta il banner non deve comparire');
+    const piede = p.page.locator('.pie a.apri-consenso');
+    assert.strictEqual((await piede.textContent()).trim(), 'Preferenze cookie');
+    assert.ok(/cookie\/(index\.html)?#preferenze$/.test(await piede.getAttribute('href')), 'senza JavaScript «Preferenze cookie» porta all’informativa');
+    await p.page.evaluate(() => {
+      document.cookie = '_ga=GA1.1.123.456; path=/';
+      document.cookie = '_ga_PROVA1234=GS1.1.1; path=/';
+      document.cookie = '_gcl_au=1.1.1; path=/';
+      document.cookie = '_gid=GA1.1.9; path=/; domain=.sito.prova';
+      document.cookie = 'altro=resta; path=/';
+    });
+    await piede.click();
+    await p.page.locator(BANNER).waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await p.page.evaluate(() => !!document.activeElement.closest('#consenso-cookie')), 'riaperto, il banner deve avere il fuoco');
+    await Promise.all([p.page.waitForEvent('load'), rifiuta(p.page).click()]);
+    assert.strictEqual(await p.page.evaluate(() => document.cookie), 'altro=resta', 'i cookie di Google devono sparire');
+    assert.strictEqual(await sceltaSalvata(p.page), 'no');
+    await p.page.waitForLoadState('networkidle');
+    assert.strictEqual(await p.page.evaluate(() => typeof window.__gtag), 'undefined', 'dopo il rifiuto Google è ancora nella pagina');
+    assert.ok(await p.page.locator(BANNER).isHidden());
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+/* compila e manda il modulo dei Contatti, conferma le notizie dal collegamento dell'email, manda un progetto, torna da Stripe:
+   le quattro azioni che contano. Dà gli eventi arrivati a Google e le richieste partite verso Google */
+async function quattroAzioni(scelta) {
+  const eventi = [], google = [];
+  const giro = async (percorso, opzioni, fai) => {
+    const p = await apriConGoogle(percorso, Object.assign({ scelta }, opzioni));
+    try {
+      await fai(p.page);
+      await p.page.waitForLoadState('networkidle');
+      eventi.push(...await eventiPerGoogle(p.page));
+      google.push(...p.google);
+      assert.deepStrictEqual(p.errori, [], percorso);
+    } finally { await p.chiudi(); }
+  };
+  await giro('contatti/index.html', { foglio: () => ({ success: true }) }, async page => {
+    await page.fill('#mc-nome', 'Carla');
+    await page.fill('#mc-posta', 'carla@example.org');
+    await page.fill('#mc-messaggio', 'Un messaggio');
+    await page.click('#modulo-contatti .invia');
+    await esitoDi(page, '#modulo-contatti');
+  });
+  await giro('contatti/?conferma=abc123.firma_-9', { foglio: () => ({ success: true, testo: 'Grazie, il tuo indirizzo è confermato.' }) }, async page => {
+    await page.locator('#conferma-notizie').waitFor({ state: 'visible', timeout: 5000 });
+    await page.click('#conferma-notizie .invia');
+    await esitoDi(page, '#conferma-notizie');
+  });
+  await giro('progetti/presenta-il-tuo-progetto/index.html', { foglio: () => ({ success: true, progetto: true }) }, async page => {
+    await page.fill('#mp-progetto', 'Orto in comune');
+    await page.check('#mp-fase-1');
+    await page.fill('#mp-descrizione', 'Un orto per il quartiere.');
+    await page.fill('#mp-nome', 'Paolo');
+    await page.fill('#mp-posta', 'paolo@example.org');
+    await page.click('#modulo-progetto .invia');
+    await esitoDi(page, '#modulo-progetto');
+  });
+  await giro('dona/grazie/?session_id=cs_live_a1B2c3D4', {}, async page => {
+    await page.waitForTimeout(300);
+  });
+  return { eventi, google };
+}
+
+controllo('Google: con il consenso si contano il messaggio, la conferma delle notizie, il progetto e la donazione; senza, nulla parte', async () => {
+  const si = await quattroAzioni('si');
+  assert.deepStrictEqual(si.eventi, ['messaggio_contatti', 'iscrizione_notizie', 'progetto_inviato', 'donazione_completata']);
+  const no = await quattroAzioni('no');
+  assert.deepStrictEqual(no.eventi, [], 'senza consenso si contano eventi');
+  assert.deepStrictEqual(no.google, [], 'senza consenso partono richieste verso Google');
+});
+
+controllo('Google: un modulo che non arriva, o una conferma che non riesce, non si conta', async () => {
+  const p = await apriConGoogle('contatti/?conferma=abc123', { scelta: 'si', foglio: i => (i.metodo === 'GET' ? { success: false, testo: 'Questo collegamento non vale più.' } : { success: false, error: 'email' }) });
+  try {
+    await p.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    await p.page.click('#conferma-notizie .invia');
+    await esitoDi(p.page, '#conferma-notizie');
+    await p.page.fill('#mc-nome', 'Carla');
+    await p.page.fill('#mc-posta', 'carla@example.org');
+    await p.page.fill('#mc-messaggio', 'Un messaggio');
+    await p.page.click('#modulo-contatti .invia');
+    await esitoDi(p.page, '#modulo-contatti');
+    assert.deepStrictEqual(await eventiPerGoogle(p.page), []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('Google: la pagina di ringraziamento conta la donazione una volta sola, e solo se si arriva da Stripe', async () => {
+  const senza = await apriConGoogle('dona/grazie/', { scelta: 'si' });
+  try {
+    await senza.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    assert.deepStrictEqual(await eventiPerGoogle(senza.page), [], 'senza il segno di Stripe non è una donazione');
+    assert.strictEqual(await senza.page.evaluate(() => document.querySelector('meta[name="robots"]') && document.querySelector('meta[name="robots"]').content), 'noindex, follow');
+  } finally { await senza.chiudi(); }
+  const p = await apriConGoogle('dona/grazie/?session_id=cs_live_a1B2c3D4', { scelta: 'si' });
+  try {
+    await p.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    assert.deepStrictEqual(await eventiPerGoogle(p.page), ['donazione_completata']);
+    assert.strictEqual(await p.page.evaluate(() => location.search), '', 'il segno di Stripe deve sparire dall’indirizzo');
+    await p.page.reload();
+    await p.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    assert.deepStrictEqual(await eventiPerGoogle(p.page), [], 'ricaricando la pagina la donazione si conta due volte');
+  } finally { await p.chiudi(); }
+});
+
+controllo('Google: chi torna da Stripe senza aver ancora scelto vede il banner; se accetta lì, la donazione si conta', async () => {
+  const p = await apriConGoogle('dona/grazie/?session_id=cs_test_a1B2c3D4');
+  try {
+    await p.page.locator(BANNER).waitFor({ state: 'visible', timeout: 5000 });
+    await p.page.waitForTimeout(300);
+    assert.deepStrictEqual(p.google, []);
+    await accetta(p.page).click();
+    await p.page.waitForFunction(() => window.__gtag === 1, null, { timeout: 5000 });
+    assert.deepStrictEqual(await eventiPerGoogle(p.page), ['donazione_completata']);
+  } finally { await p.chiudi(); }
+});
+
+controllo('Google: nel giardino dei ricordi niente banner e niente Google, neppure con il consenso', async () => {
+  for (const scelta of [null, 'si']) {
+    const p = await apriConGoogle(GIARDINO, { scelta, dediche: { versione: 'x', dediche: [] } });
+    try {
+      await p.page.waitForLoadState('networkidle');
+      assert.ok(await p.page.locator(BANNER).isHidden(), 'il banner nel giardino (' + scelta + ')');
+      assert.deepStrictEqual(p.google, [], 'Google nel giardino (' + scelta + ')');
+      assert.deepStrictEqual(p.errori, []);
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('Google: la scelta vale sei mesi, poi il banner ricompare', async () => {
+  for (const [fa, ricompare] of [[5 * MESE, false], [7 * MESE, true]]) {
+    for (const scelta of ['si', 'no']) {
+      const p = await apriConGoogle('index.html', { scelta: { scelta, quando: Date.now() - fa, versione: 1 } });
+      try {
+        await p.page.waitForLoadState('networkidle');
+        assert.strictEqual(await p.page.locator(BANNER).isVisible(), ricompare, scelta + ' di ' + fa / MESE + ' mesi fa');
+        if (ricompare) assert.deepStrictEqual(p.google, [], 'una scelta scaduta non vale come consenso');
+      } finally { await p.chiudi(); }
+    }
+  }
+});
+
+controllo('Google: sul telefono il banner non sfonda la pagina e lascia libera la barra in basso', async () => {
+  for (const schermo of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 1280, height: 800 }]) {
+    const p = await apriConGoogle('index.html', { schermo });
+    try {
+      await p.page.locator(BANNER).waitFor({ state: 'visible', timeout: 5000 });
+      const m = await p.page.evaluate(() => {
+        const b = document.getElementById('consenso-cookie').getBoundingClientRect();
+        const barra = document.querySelector('.barra-fissa').getBoundingClientRect();
+        return { largo: document.documentElement.scrollWidth, basso: b.bottom, barra: barra.top, alto: b.height };
+      });
+      assert.ok(m.largo <= schermo.width, schermo.width + ' px: la pagina si allarga a ' + m.largo);
+      assert.ok(m.basso <= m.barra + 1, schermo.width + ' px: il banner copre la barra in basso');
+      assert.ok(m.alto <= schermo.height * 0.6, schermo.width + ' px: il banner è troppo alto (' + Math.round(m.alto) + ' px)');
     } finally { await p.chiudi(); }
   }
 });
@@ -586,6 +903,7 @@ controllo('aprendo le pagine con i moduli nessuna richiesta esce dal sito, e il 
     }
   }
   await browser.close();
+  if (sitoGoogle) fs.rmSync(path.dirname(sitoGoogle), { recursive: true, force: true });
   console.log(falliti ? '%d controlli dei moduli su %d non passano' : 'Moduli nel browser: %d controlli passati su %d',
               falliti || controlli.length, controlli.length);
   process.exitCode = falliti ? 1 : 0;
