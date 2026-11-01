@@ -671,3 +671,23 @@ a.azione:hover h4{color:var(--accento)}
 .invito p:last-child{margin:0}
 /* Eredità solidale: l’elenco dentro la prima voce (Dacia, 1.11) */
 .testo ul.stelle ul.stelle{margin:.4em 0 .6em}
+
+/* il banner dei cookie (Elias, 1.11): c’è solo con Google Analytics acceso (GOOGLE_TAG in costruisci.py) e compare finché
+   non si sceglie. Sta in basso, sopra la barra delle azioni e sotto la finestra della dedica; «Accetta» e «Rifiuta» sono
+   lo stesso pulsante, con lo stesso peso. Sul telefono non supera i tre quinti dello schermo: oltre, scorre al suo interno */
+#consenso-cookie{position:fixed;left:0;right:0;bottom:var(--barra);z-index:70;background:var(--avorio);border-top:1px solid var(--oro);display:flex;flex-wrap:wrap;align-items:center;gap:16px 40px;padding:22px max(56px,calc((100% - 1160px) / 2)) 22px max(var(--lato),calc((100% - 1160px) / 2));max-height:calc(60vh - var(--barra));overflow-y:auto}
+#consenso-cookie:focus{outline:none}
+#consenso-cookie p{flex:1 1 520px;margin:0;font-size:17px;line-height:1.5;color:var(--antracite)}
+#consenso-cookie .link{color:var(--oro-scuro)}
+#consenso-cookie .pulsanti{flex:0 0 auto;display:flex;gap:12px}
+#consenso-cookie .scelta{min-width:120px;padding:13px 20px;border-color:var(--oro);color:var(--antracite);background:var(--avorio)}
+#consenso-cookie .scelta:hover{border-color:var(--antracite)}
+#consenso-cookie .chiudi-consenso{position:absolute;top:6px;right:8px;width:44px;height:44px;padding:0;border:0;background:none;font-family:var(--sans);font-size:28px;line-height:44px;color:var(--antracite);cursor:pointer}
+#consenso-cookie .chiudi-consenso:hover{color:var(--nero)}
+@media (max-width:600px){
+  #consenso-cookie{padding:18px 48px 18px 16px;gap:14px}
+  #consenso-cookie p{flex-basis:100%}
+  #consenso-cookie .pulsanti{flex:1 1 100%;position:sticky;bottom:-18px;background:var(--avorio);padding:10px 0 18px;margin:-10px 0 -18px}   /* se il testo scorre, i pulsanti restano a vista */
+  #consenso-cookie .scelta{flex:1 1 0;min-width:0}
+  #consenso-cookie .chiudi-consenso{top:2px;right:2px}
+}

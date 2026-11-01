@@ -15,6 +15,9 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - nella pagina Dona la carta (Stripe) viene per prima, con un Payment Link vero e non di prova;
   - la partita IVA è in ogni pagina, home compresa: nel piede «C.F. e P.IVA …» e nella scheda per i motori di ricerca (vatID);
   - la sede legale è nel piede di ogni pagina, dopo la partita IVA, ed è la stessa della scheda per i motori di ricerca;
+  - la misura con Google Analytics: spenta, nessuna pagina la carica e non c'è il banner dei cookie; accesa, ogni pagina ha il
+    banner e «Preferenze cookie», la regola di sicurezza permette Google, l'informativa ne parla e porta la data giusta;
+    la pagina di ringraziamento dopo Stripe c'è sempre, fuori dai motori di ricerca;
   - i motori di ricerca: le pagine della mappa si lasciano indicizzare, mentre il giardino, le sue dediche e la foto della
     bambina in Dopo di Noi restano fuori (robots.txt e «noindex»);
   - la regola di sicurezza (Content-Security-Policy) e quella sul referrer stanno in cima a ogni pagina, permettono
@@ -248,7 +251,18 @@ def controlla_stripe(pagine):
 GIORNO = re.compile(r"^[1-9]\d? (gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre) 20\d\d$")
 SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senza-ricevute}", "{informativa-data}",
                   "{se-mensile}", "{/se-mensile}", "{senza-mensile}", "{/senza-mensile}", "{mensili}", "{portale}",
-                  "{se-turnstile}", "{/se-turnstile}", "{senza-turnstile}", "{/senza-turnstile}", "{turnstile}", "{trappola}")
+                  "{se-turnstile}", "{/se-turnstile}", "{senza-turnstile}", "{/senza-turnstile}", "{turnstile}", "{trappola}",
+                  "{se-google}", "{/se-google}", "{senza-google}", "{/senza-google}")
+MESI = ("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre")
+
+
+def ultimo_giorno(*giorni):
+    """il più recente fra i giorni scritti come «27 ottobre 2026» (i vuoti non contano): la data dell'informativa"""
+    def chiave(g):
+        n, mese, anno = g.split()
+        return (int(anno), MESI.index(mese), int(n))
+    validi = [g for g in giorni if g and GIORNO.match(g)]
+    return max(validi, key=chiave) if validi else ""
 
 
 def controlla_ricevute(pagine):
@@ -286,13 +300,101 @@ def controlla_ricevute(pagine):
     for f in fornitori:
         if f not in privacy:
             problemi.append("RICEVUTE è acceso, ma l’informativa non nomina %s" % re.sub("<[^>]+>", "", f))
-    data = impostazione("MENSILE") or giorno          # l'informativa porta il giorno dell'ultimo dei due interruttori
+    data = ultimo_giorno(impostazione("MENSILE"), giorno, impostazione("MISURA"))   # l'informativa porta il giorno dell'ultimo interruttore
     if "aggiornata il %s," % data not in privacy:
         problemi.append("RICEVUTE è acceso, ma l’informativa non porta la data %s" % data)
     if re.search(r"prima dell.apertura del sito", privacy):
         problemi.append("RICEVUTE è acceso, ma l’informativa dice ancora «prima dell’apertura del sito»")
     if len(problemi) == prima:
         print("Ricevute: automatiche dal %s, Dona e informativa lo dicono" % giorno)
+
+
+# la misura con Google Analytics (Elias, 1.11.2026): si accende con GOOGLE_TAG (la proprietà G-…) e MISURA (il giorno) in
+# costruisci.py. Accesa, ogni pagina ha il banner dei cookie con «Accetta» e «Rifiuta» dello stesso peso e la X, il piede ha
+# «Preferenze cookie», la regola di sicurezza permette Google Tag Manager e Google Analytics, il giardino resta senza misura,
+# l'informativa e la pagina dei cookie ne parlano. Spenta, nessuna pagina parla di Google Analytics né lo può caricare.
+GOOGLE_VERO = re.compile(r"^G-[A-Z0-9]{6,12}$")
+GTM = "https://www.googletagmanager.com"
+GRAZIE = os.path.join("dona", "grazie", "index.html")
+GIARDINO = os.path.join("in-memoria", "giardino-dei-ricordi", "index.html")
+
+
+def regole_csp(testo):
+    meta = re.search(r'<meta http-equiv="Content-Security-Policy" content="([^"]*)">', testo)
+    regole = {}
+    for parte in (meta.group(1).split(";") if meta else []):
+        pezzi = parte.split()
+        if pezzi:
+            regole[pezzi[0]] = pezzi[1:]
+    return regole
+
+
+def controlla_misura(pagine):
+    tag, giorno = impostazione("GOOGLE_TAG"), impostazione("MISURA")
+    prima = len(problemi)
+    testi = {rel: open(os.path.join(SITO, rel), encoding="utf-8").read() for rel in pagine}
+    # la pagina dove Stripe riporta chi ha donato c'è sempre, e resta fuori dai motori di ricerca e dalla mappa
+    if GRAZIE not in testi:
+        problemi.append("Manca la pagina di ringraziamento dopo Stripe (dona/grazie/)")
+    else:
+        if 'name="robots" content="noindex' not in testi[GRAZIE]:
+            problemi.append("La pagina di ringraziamento dopo Stripe deve restare fuori dai motori di ricerca (noindex)")
+        if "/dona/grazie/" in open(os.path.join(SITO, "sitemap.xml"), encoding="utf-8").read():
+            problemi.append("La pagina di ringraziamento dopo Stripe non deve stare nella mappa per i motori")
+    cookie, privacy = testi.get(os.path.join("cookie", "index.html"), ""), testi.get(os.path.join("privacy", "index.html"), "")
+    if not tag:
+        if giorno:
+            problemi.append("MISURA in costruisci.py è acceso ma GOOGLE_TAG è vuoto")
+        for rel, testo in sorted(testi.items()):
+            if "googletagmanager" in testo or 'id="consenso-cookie"' in testo or "apri-consenso" in testo:
+                problemi.append("%s carica Google Analytics o ha il banner dei cookie, ma GOOGLE_TAG in costruisci.py è vuoto" % rel)
+        for nome, testo in (("La pagina dei cookie", cookie), ("L’informativa", privacy)):
+            if "Google Analytics" in testo:
+                problemi.append("%s parla di Google Analytics, ma GOOGLE_TAG in costruisci.py è vuoto" % nome)
+        if len(problemi) == prima:
+            print("Misura: spenta, nessuna pagina carica Google Analytics e non c’è il banner dei cookie")
+        return
+    if not GOOGLE_VERO.match(tag):
+        problemi.append("GOOGLE_TAG in costruisci.py dev’essere l’ID di una proprietà di Google Analytics (G-…): %s" % tag)
+    if not GIORNO.match(giorno):
+        problemi.append("MISURA in costruisci.py dev’essere il giorno da cui il sito misura, come «3 novembre 2026»: %r" % giorno)
+    for rel, testo in sorted(testi.items()):
+        banner = re.search(r'<div class="consenso" id="consenso-cookie"[^>]*data-google="([^"]*)"[^>]*>(.*?)</div>', testo, re.S)
+        if not banner or banner.group(1) != tag:
+            problemi.append("%s: manca il banner dei cookie con la proprietà %s" % (rel, tag))
+            continue
+        if "<header" in testo and testo.index('id="consenso-cookie"') > testo.index("<header"):
+            problemi.append("%s: il banner dei cookie deve venire prima della testata, per chi usa la tastiera" % rel)
+        pulsanti = re.findall(r'<button type="button" class="([^"]+)" data-consenso="(si|no)">([^<]+)</button>', banner.group(2))
+        if sorted((c, t) for c, _, t in pulsanti) != [("scelta", "Accetta"), ("scelta", "Rifiuta")]:
+            problemi.append("%s: il banner deve avere «Accetta» e «Rifiuta» con la stessa classe: %s" % (rel, pulsanti))
+        if 'class="chiudi-consenso"' not in banner.group(2):
+            problemi.append("%s: il banner dei cookie non ha la X per chiudere" % rel)
+        piede = testo[testo.find('<footer'):]
+        if not re.search(r'<a class="apri-consenso" href="[^"]*cookie/(index\.html)?#preferenze">Preferenze cookie</a>', piede):
+            problemi.append("%s: manca «Preferenze cookie» nel piede" % rel)
+        regole = regole_csp(testo)
+        for nome, voci in (("script-src", [GTM]), ("frame-src", [GTM]), ("img-src", [GTM, "https://*.google-analytics.com"]),
+                           ("connect-src", [GTM, "https://*.google-analytics.com", "https://*.analytics.google.com"])):
+            for voce in voci:
+                if voce not in regole.get(nome, []):
+                    problemi.append("%s: %s deve permettere %s, sennò Google Analytics non parte" % (rel, nome, voce))
+    if GIARDINO in testi and 'data-misura="no"' not in testi[GIARDINO]:
+        problemi.append("Nel giardino dei ricordi Google Analytics non deve partire (data-misura=\"no\")")
+    if GRAZIE in testi and 'data-misura="donazione"' not in testi[GRAZIE]:
+        problemi.append("La pagina di ringraziamento dopo Stripe non conta la donazione (data-misura=\"donazione\")")
+    if "Google Analytics" not in cookie or 'id="preferenze"' not in cookie:
+        problemi.append("La pagina dei cookie non spiega Google Analytics o non ha la parte «Preferenze» (id=\"preferenze\")")
+    if re.search(r"statiche e <strong>non usa cookie|Questo sito non usa cookie|Per questo non trovi un banner", cookie):
+        problemi.append("La pagina dei cookie dice ancora che il sito non usa cookie, ma GOOGLE_TAG è acceso")
+    if "Google Analytics" not in privacy:
+        problemi.append("L’informativa non parla di Google Analytics, ma GOOGLE_TAG è acceso")
+    data = ultimo_giorno(impostazione("MENSILE"), impostazione("RICEVUTE"), giorno)
+    if data and "aggiornata il %s," % data not in privacy:
+        problemi.append("La misura è accesa, ma l’informativa non porta la data %s" % data)
+    if len(problemi) == prima:
+        print("Misura: Google Analytics %s dal %s, solo con il consenso; banner e «Preferenze cookie» in tutte le %d pagine"
+              % (tag, giorno, len(testi)))
 
 
 def controlla_paypal(pagine):
@@ -648,6 +750,7 @@ def main():
         controlla_mensile(pagine)
         controlla_partita_iva(pagine)
         controlla_sede(pagine)
+        controlla_misura(pagine)
         controlla_motori(pagine)
         controlla_sicurezza(pagine)
         controlla_script_del_foglio()

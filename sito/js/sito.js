@@ -6,11 +6,13 @@
       - ogni voce ha una propria sezione osservata (data-spia)
       - vince la sezione più vicina al centro della fascia visibile
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
-   Nulla registra chi visita. Escono dal sito soltanto la dedica del giardino (4),
-   il messaggio del modulo dei Contatti (5), il progetto proposto (6) e l'email
-   del riquadro delle notizie in fondo alle pagine (7), quando chi scrive li manda;
-   e, con la chiave di Turnstile, il controllo di Cloudflare contro i programmi
-   automatici, solo quando qualcuno comincia a scrivere in un modulo.
+   Senza il permesso di chi visita, nulla lo registra. Escono dal sito soltanto la
+   dedica del giardino (4), il messaggio del modulo dei Contatti (5), il progetto
+   proposto (6) e l'email del riquadro delle notizie in fondo alle pagine (7), quando
+   chi scrive li manda; con la chiave di Turnstile, il controllo di Cloudflare contro
+   i programmi automatici, solo quando qualcuno comincia a scrivere in un modulo; e,
+   con la proprietà di Google Analytics (GOOGLE_TAG in costruisci.py), la misura di
+   Google, solo dopo «Accetta» nel banner dei cookie, mai nel giardino (8).
    ========================================================================== */
 (function () {
   'use strict';
@@ -296,7 +298,7 @@ function dallaPosta(modulo, indirizzo, contenuto) {
 /* chi apre un collegamento delle nostre email arriva su una pagina con ?conferma=…, ?cancella=… o ?togli=…:
    compare il riquadro, e la richiesta allo script del foglio parte solo quando la persona tocca il pulsante,
    perché i programmi che controllano i collegamenti nella posta non lo facciano al posto suo */
-function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
+function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, quandoRiesce) {
   var codice = (location.search.match(new RegExp('[?&]' + parametro + '=([A-Za-z0-9_.\\-]+)')) || [])[1];
   if (!riquadro || !codice || !foglio || !window.fetch) return;
   var pulsante = riquadro.querySelector('.invia');
@@ -315,6 +317,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
         if (!risposta || !risposta.testo) throw new Error('nessuna risposta');
         scriviEsito(esito, risposta.testo, !risposta.success);
         if (risposta.success) pulsante.hidden = true;
+        if (risposta.success && quandoRiesce) quandoRiesce();
         esito.focus();
       })
       .catch(function () {
@@ -548,6 +551,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
         dici(esito, 'Grazie, il tuo messaggio è arrivato. Ti rispondiamo di persona, all’indirizzo che ci hai lasciato.' +
           (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' + seNonLaVedi(indirizzo) : ''));
         esito.focus();
+        conta('messaggio_contatti');
       })
       .catch(function () {
         dici(esito, 'Il messaggio non è partito. Riprova tra poco, oppure scrivici a', true, true);
@@ -562,7 +566,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
      «Cancellami» ritira il consenso */
   if (!foglio) return;
   daCollegamento(document.getElementById('conferma-notizie'), 'conferma', modulo.action, indirizzo,
-    'Non siamo riusciti a confermare. Riprova tra poco, oppure scrivici a');
+    'Non siamo riusciti a confermare. Riprova tra poco, oppure scrivici a', function () { conta('iscrizione_notizie'); });
   daCollegamento(document.getElementById('cancella-notizie'), 'cancella', modulo.action, indirizzo,
     'Non siamo riusciti a cancellarti. Riprova tra poco, oppure scrivici a');
 })();
@@ -610,6 +614,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
         scriviEsito(esito, 'Grazie, il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.' +
           (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' + seNonLaVedi(indirizzo) : ''));
         esito.focus({ preventScroll: true });
+        conta('progetto_inviato');
       })
       .catch(function () {
         scriviEsito(esito, 'Il progetto non è partito. Riprova tra poco, oppure scrivici a', true, indirizzo);
@@ -672,3 +677,113 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
       });
   });
 })();
+
+/* ---- 8. la misura di Google Analytics, solo con il consenso (Elias, 1.11; linee guida del Garante del 10.6.2021).
+        Con la proprietà di Google Analytics (GOOGLE_TAG in costruisci.py) ogni pagina ha il banner dei cookie, nascosto:
+        compare finché non si sceglie. «Accetta» carica Google; «Rifiuta» e la X sono la stessa cosa, e Google non parte.
+        La scelta resta nel browser per sei mesi; «Preferenze cookie», nel piede, riapre il banner. Ritirare il consenso
+        cancella i cookie di Google e ricarica la pagina, perché Google non resti in memoria.
+        A Google arrivano solo l'indirizzo della pagina senza i codici dei collegamenti delle email (resta il segno degli
+        annunci) e, con il consenso, le quattro azioni che contano: il messaggio dei Contatti (5), la conferma delle
+        notizie (5), il progetto proposto (6) e la donazione, quando si torna da Stripe sulla pagina «Grazie».
+        Nel giardino dei ricordi (data-misura="no") Google non parte mai ---- */
+var misuraGoogle = (function () {
+  'use strict';
+  var banner = document.getElementById('consenso-cookie');
+  var id = banner && banner.getAttribute('data-google');
+  if (!id) return null;
+  var qui = document.body.getAttribute('data-misura');           /* "no" nel giardino, "donazione" nella pagina «Grazie» */
+  var CHIAVE = 'rosadoro-cookie', VERSIONE = 1, SEI_MESI = 183 * 24 * 3600 * 1000;
+  var TIENI = /^(gclid|gbraid|wbraid|gad_source|gad_campaignid|utm_[a-z_]+)$/;   /* i segni degli annunci, nient'altro */
+  var ricordata = null, caricato = false, coda = [];
+
+  function leggi() {
+    var v = ricordata;
+    try { v = JSON.parse(localStorage.getItem(CHIAVE)) || ricordata; } catch (e) { /* il browser non salva: vale la memoria */ }
+    if (!v || (v.scelta !== 'si' && v.scelta !== 'no') || v.versione !== VERSIONE || !(Date.now() - v.quando < SEI_MESI)) return null;
+    return v.scelta;
+  }
+  function salva(scelta) {
+    ricordata = { scelta: scelta, quando: Date.now(), versione: VERSIONE };
+    try { localStorage.setItem(CHIAVE, JSON.stringify(ricordata)); } catch (e) { /* vale per questa pagina */ }
+  }
+  /* l'indirizzo per Google: senza i codici dei collegamenti delle email (?conferma=, ?cancella=, ?togli=) né il segno di Stripe */
+  function pulito(indirizzo) {
+    var u;
+    try { u = new URL(indirizzo); } catch (e) { return ''; }
+    var resta = [];
+    u.searchParams.forEach(function (v, k) { if (TIENI.test(k)) resta.push(encodeURIComponent(k) + '=' + encodeURIComponent(v)); });
+    return u.origin + u.pathname + (resta.length ? '?' + resta.join('&') : '');
+  }
+  function carica() {
+    if (caricato || qui === 'no') return;
+    caricato = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    var dove = { page_location: pulito(location.href), page_referrer: document.referrer ? pulito(document.referrer) : '' };
+    window.gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'denied' });
+    window.gtag('js', new Date());
+    window.gtag('set', dove);
+    window.gtag('config', id, { page_location: dove.page_location, page_referrer: dove.page_referrer,
+      allow_google_signals: false, allow_ad_personalization_signals: false, cookie_expires: 180 * 24 * 3600 });
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+    document.head.appendChild(s);
+    coda.splice(0).forEach(function (evento) { window.gtag('event', evento); });
+  }
+  /* i cookie di Google, sull'indirizzo del sito e sui domini sopra (Google li mette su «.larosadoro.org») */
+  function cancellaCookie() {
+    var parti = location.hostname.split('.'), domini = [''];
+    for (var i = 0; i < parti.length - 1; i++) domini.push('; domain=' + parti.slice(i).join('.'));
+    document.cookie.split(';').forEach(function (c) {
+      var nome = c.split('=')[0].trim();
+      if (!/^(_ga|_gid|_gat|_gcl)/.test(nome)) return;
+      domini.forEach(function (d) { document.cookie = nome + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d; });
+    });
+  }
+  function mostra(conFuoco) {
+    banner.hidden = false;
+    if (conFuoco) { banner.setAttribute('tabindex', '-1'); banner.focus(); }
+  }
+  function accetta() {
+    salva('si');
+    banner.hidden = true;
+    carica();
+  }
+  function rifiuta() {
+    salva('no');
+    banner.hidden = true;
+    coda = [];
+    cancellaCookie();
+    if (caricato) location.reload();
+  }
+
+  var bottoni = banner.querySelectorAll('[data-consenso]');
+  for (var i = 0; i < bottoni.length; i++) bottoni[i].addEventListener('click', function () {
+    if (this.getAttribute('data-consenso') === 'si') accetta(); else rifiuta();
+  });
+  banner.querySelector('.chiudi-consenso').addEventListener('click', rifiuta);   /* la X vale come «Rifiuta» */
+  var preferenze = document.querySelectorAll('a.apri-consenso');
+  for (var j = 0; j < preferenze.length; j++) preferenze[j].addEventListener('click', function (e) {
+    e.preventDefault();
+    mostra(true);
+  });
+
+  var scelta = leggi();
+  if (scelta === 'si') carica();
+  else if (scelta === null && qui !== 'no') mostra(false);
+
+  function segna(evento) {
+    if (qui === 'no' || leggi() === 'no') return;
+    if (caricato) window.gtag('event', evento);
+    else coda.push(evento);                       /* senza una scelta: parte solo se si accetta, in questa pagina */
+  }
+  /* tornando da Stripe la pagina «Grazie» ha ?session_id=cs_…: la donazione si conta una volta, poi il segno sparisce */
+  if (qui === 'donazione' && /[?&]session_id=cs_(live|test)_[A-Za-z0-9]+/.test(location.search)) {
+    segna('donazione_completata');
+    if (history.replaceState) history.replaceState(null, '', location.pathname + location.hash);
+  }
+  return { conta: segna };
+})();
+function conta(evento) { if (misuraGoogle) misuraGoogle.conta(evento); }

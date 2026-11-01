@@ -78,6 +78,18 @@ MENSILI = (("10 euro al mese", ""),       # i Payment Link mensili di Stripe che
            ("Altro importo", ""))         # detto a Lux.
 PORTALE = ""                              # il collegamento al portale di Stripe in cui chi dona ogni mese smette da sé, con la sua email
                                           # (https://billing.stripe.com/p/login/…): lo attiva Elias nel pannello, ed è lo stesso di Lux.
+GOOGLE_TAG = ""                           # l’ID della proprietà Google Analytics 4 della Fondazione (G-…), che Elias crea con il suo account
+                                          # Google e collega all’account di Google Ad Grants, da cui Google Ads importa le conversioni
+                                          # (Elias, 1.11.2026). Pieno: ogni pagina ha il banner dei cookie («Accetta» e «Rifiuta» dello stesso
+                                          # peso, la X che vale come rifiuto) e «Preferenze cookie» nel piede; sito.js carica Google Analytics
+                                          # solo dopo «Accetta» e conta le azioni che contano (messaggio, conferma delle notizie, progetto,
+                                          # donazione); la regola di sicurezza lo permette, e l’informativa e la pagina dei cookie ne parlano
+                                          # ({se-google}…{/se-google}). Vuoto: niente banner né Google Analytics, e i testi dicono che il sito
+                                          # non usa cookie ({senza-google}…{/senza-google}).
+MISURA = ""                               # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
+                                          # porta la data del più recente fra MISURA, RICEVUTE e MENSILE.
+SENZA_MISURA = ("in-memoria/giardino-dei-ricordi",)   # le pagine dove Google Analytics non parte mai, neppure con il consenso,
+                                          # e il banner non compare da sé: il giardino è un luogo di lutto, e resta fuori anche dai motori
 
 CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
                                           # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
@@ -216,6 +228,9 @@ SEZIONI = [
 SERVIZIO = [
     dict(cartella="chi-siamo", voce="Chi siamo", titolo="Chi siamo", occhiello="La Fondazione", hero="rosa", dove="barra", tipo="chi-siamo"),
     dict(cartella="dona", voce="Dona ora", titolo="Sostieni la Fondazione", occhiello="Donazioni", hero="avorio", dove="barra"),
+    # dove Stripe riporta chi ha donato con il Payment Link del sito (Elias, 1.11): fuori dai menu e dai motori di ricerca.
+    # Con Google Analytics acceso e il consenso, conta la donazione (sito.js), che altrimenti succede su Stripe e non si vede
+    dict(cartella="dona/grazie", voce="Grazie", titolo="Grazie", occhiello="Donazioni", hero="avorio", dove=""),
     dict(cartella="partnership", voce="Partnership e siti amici", titolo="Partnership e siti amici", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="documenti", voce="Documenti", titolo="Documenti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="contatti", voce="Contatti", titolo="Contatti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
@@ -428,6 +443,8 @@ def footer(da):
                    for p in SERVIZIO if p["dove"] in ("barra", "secondario"))
     legali = " · ".join('<a href="%s">%s</a>' % (verso(da, p["cartella"]), sfuggi(p["titolo"]))
                         for p in SERVIZIO if p["dove"] == "footer")
+    if GOOGLE_TAG:                                 # per cambiare idea sui cookie: con JavaScript riapre il banner, senza porta all'informativa
+        legali += ' · <a class="apri-consenso" href="%s#preferenze">Preferenze cookie</a>' % verso(da, "cookie")
     return """<footer class="pie">
   <div class="pagina">
     <div class="pie-alto">
@@ -517,7 +534,7 @@ def gettoni(html, da):
         html = html.replace("{modulo-progetto}", modulo_progetto(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
-    return secondo_turnstile(secondo_ricevute(secondo_mensile(secondo_stripe(html))))
+    return secondo_google(secondo_turnstile(secondo_ricevute(secondo_mensile(secondo_stripe(html)))))
 
 SEGNO_SITO = "?locale=it&client_reference_id=sito-dona"   # la pagina di Stripe in italiano, e le donazioni del sito separate da quelle di Lux
 
@@ -535,13 +552,28 @@ def secondo_mensile(testo):
                         for scritta, link in MENSILI if link)
     return testo.replace("{mensili}", '<p class="mensili">%s</p>' % pulsanti).replace("{portale}", sfuggi(PORTALE))
 
+MESI = ("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre")
+
+def data_informativa():
+    """il giorno dell'ultimo aggiornamento dell'informativa: il più recente fra MISURA, RICEVUTE e MENSILE, scritti come
+    «27 ottobre 2026»; se nessuno è acceso, quello della versione dell'apertura"""
+    def chiave(g):
+        n, mese, anno = g.split()
+        return (int(anno), MESI.index(mese), int(n))
+    giorni = [g for g in (MENSILE, RICEVUTE, MISURA) if g]
+    return max(giorni, key=chiave) if giorni else "26 ottobre 2026, prima dell'apertura del sito"
+
 def secondo_ricevute(testo):
     """con RICEVUTE resta ciò che sta tra {se-ricevute} e {/se-ricevute}, senza resta ciò che sta tra {senza-ricevute}
-    e {/senza-ricevute}; {informativa-data} è il giorno dell'ultimo aggiornamento dell'informativa, quello di MENSILE
-    o di RICEVUTE"""
+    e {/senza-ricevute}; {informativa-data} è il giorno dell'ultimo aggiornamento dell'informativa (data_informativa)"""
     testo = re.sub(r"\{se-ricevute\}(.*?)\{/se-ricevute\}", lambda m: m.group(1) if RICEVUTE else "", testo, flags=re.S)
     testo = re.sub(r"\{senza-ricevute\}(.*?)\{/senza-ricevute\}", lambda m: "" if RICEVUTE else m.group(1), testo, flags=re.S)
-    return testo.replace("{informativa-data}", MENSILE or RICEVUTE)
+    return testo.replace("{informativa-data}", data_informativa())
+
+def secondo_google(testo):
+    """con GOOGLE_TAG resta ciò che sta tra {se-google} e {/se-google}, senza resta ciò che sta tra {senza-google} e {/senza-google}"""
+    testo = re.sub(r"\{se-google\}(.*?)\{/se-google\}", lambda m: m.group(1) if GOOGLE_TAG else "", testo, flags=re.S)
+    return re.sub(r"\{senza-google\}(.*?)\{/senza-google\}", lambda m: "" if GOOGLE_TAG else m.group(1), testo, flags=re.S)
 
 def politica_sicurezza(script_interni=()):
     """la regola di sicurezza di ogni pagina (Content-Security-Policy), in un tag meta perché GitHub Pages non manda
@@ -550,8 +582,12 @@ def politica_sicurezza(script_interni=()):
     foglio, che risponde con un rimando a googleusercontent. Se un giorno uno script estraneo finisse in una pagina, il
     browser non lo farebbe partire. «script_interni» sono i testi degli script scritti dentro la pagina (solo quello della
     pagina «non trovata», che scrive la base), ammessi uno per uno con la loro impronta. frame-ancestors in un tag meta
-    non vale: resta fuori. La regola si verifica in sorgenti/controlla.py e nei moduli in un browser"""
+    non vale: resta fuori. Con GOOGLE_TAG si aggiungono gli indirizzi che la guida di Google sulla Content-Security-Policy
+    chiede per Google Analytics con le funzioni per Google Ads (GOOGLE_CSP): sito.js li usa solo dopo «Accetta».
+    La regola si verifica in sorgenti/controlla.py e nei moduli in un browser"""
     script = ["'self'"] + (["https://challenges.cloudflare.com"] if TURNSTILE else [])
+    google = GOOGLE_CSP if GOOGLE_TAG else {}
+    script += google.get("script-src", [])
     script += ["'sha256-%s'" % base64.b64encode(hashlib.sha256(t.encode("utf-8")).digest()).decode("ascii") for t in script_interni]
     moduli = ["'self'"]
     if FOGLIO:
@@ -561,15 +597,45 @@ def politica_sicurezza(script_interni=()):
     regole = (("default-src", ["'self'"]),
               ("script-src", script),
               ("style-src", ["'self'", "'unsafe-inline'"]),        # gli stili scritti nei tag (style="…") e quelli di Turnstile
-              ("img-src", ["'self'", "data:"]),                     # la grana del hero è un SVG scritto nel foglio di stile
+              ("img-src", ["'self'", "data:"] + google.get("img-src", [])),   # la grana del hero è un SVG scritto nel foglio di stile
               ("font-src", ["'self'"]),
               ("media-src", ["'self'"]),                            # il valzer di Chopin
-              ("connect-src", moduli),                              # i moduli con JavaScript, e dediche.json
+              ("connect-src", moduli + google.get("connect-src", [])),   # i moduli con JavaScript, e dediche.json
               ("form-action", moduli),                              # i moduli senza JavaScript
-              ("frame-src", ["https://challenges.cloudflare.com"] if TURNSTILE else ["'none'"]),
+              ("frame-src", (["https://challenges.cloudflare.com"] if TURNSTILE else []) + google.get("frame-src", []) or ["'none'"]),
               ("base-uri", ["'self'"]),                             # la base della pagina «non trovata»
               ("object-src", ["'none'"]))
     return "; ".join("%s %s" % (nome, " ".join(valori)) for nome, valori in regole)
+
+# gli indirizzi di Google Analytics, con le funzioni per Google Ads (le conversioni importate in Ad Grants), dalla guida di Google
+# «Use a Content Security Policy» (developers.google.com/tag-platform/security/guides/csp, letta l'1.11.2026). Per i domini
+# nazionali di Google («google.<TLD>») bastano quelli di chi ci legge di più: Italia e Svizzera
+GOOGLE_CSP = {
+    "script-src": ["https://www.googletagmanager.com"],
+    "img-src": ["https://www.googletagmanager.com", "https://*.google-analytics.com", "https://*.google.com", "https://*.google.it",
+                "https://*.google.ch", "https://*.g.doubleclick.net"],
+    "connect-src": ["https://www.googletagmanager.com", "https://*.google-analytics.com", "https://*.analytics.google.com",
+                    "https://*.google.com", "https://*.google.it", "https://*.google.ch", "https://*.g.doubleclick.net",
+                    "https://pagead2.googlesyndication.com"],
+    "frame-src": ["https://www.googletagmanager.com"],
+}
+
+def banner_cookie(da):
+    """il banner dei cookie (Elias, 1.11.2026; linee guida del Garante, provv. 231 del 10.6.2021): «Accetta» e «Rifiuta»
+    dello stesso peso, la X che vale come rifiuto, il collegamento all'informativa. Sta in cima al body, così chi usa la
+    tastiera lo trova per primo, e il foglio di stile lo tiene in basso, sopra la barra. Nascosto: lo mostra sito.js
+    finché non c'è una scelta, e lo riapre «Preferenze cookie» nel piede. Senza GOOGLE_TAG non c'è"""
+    if not GOOGLE_TAG:
+        return ""
+    return ('<div class="consenso" id="consenso-cookie" role="region" aria-label="La tua scelta sui cookie" data-google="%s" hidden>'
+            '<button type="button" class="chiudi-consenso" aria-label="Chiudi: è come rifiutare">×</button>'
+            '<p>Con il tuo permesso usiamo i cookie di Google Analytics per sapere quante persone visitano le pagine e quante, '
+            'arrivate dai nostri annunci su Google, poi donano, ci scrivono o si iscrivono alle notizie. Se rifiuti o chiudi, '
+            'Google Analytics non parte e il sito funziona allo stesso modo. Puoi cambiare idea da «Preferenze cookie», in fondo a ogni pagina. '
+            '<a class="link" href="%s">Informativa sui cookie</a></p>'
+            '<p class="pulsanti"><button type="button" class="scelta" data-consenso="si">Accetta</button>'
+            '<button type="button" class="scelta" data-consenso="no">Rifiuta</button></p></div>\n'
+            % (sfuggi(GOOGLE_TAG), verso(da, "cookie")))
 
 def con_turnstile():
     """l'attributo con la chiave pubblica di Turnstile, per il tag <form> di ogni modulo: vuoto senza TURNSTILE"""
@@ -914,7 +980,8 @@ IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno ind
 # le pagine che non si offrono mai ai motori di ricerca: il giardino, come promette l'informativa sulla privacy;
 # le schede dei fondi convertibili e della riqualificazione etica, di cui si parla a tu per tu (Elias, 9.10): si leggono
 # dal sito, ma non si cercano su Google
-NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica")
+# dal 1.11.2026 anche la pagina dove Stripe riporta chi ha donato: serve solo a chi arriva da lì
+NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica", "dona/grazie")
 # i file che robots.txt chiude a tutti i motori: le dediche del giardino (dediche.json, che la pubblicazione scrive accanto
 # alla pagina) e la foto della bambina in Dopo di Noi, che resta sul sito ma non entra in Google Immagini (Elias e Dacia, 26.10)
 FUORI_DAI_MOTORI = ("in-memoria/giardino-dei-ricordi/dediche.json", "img/foto/bimba-1.jpg")
@@ -928,7 +995,7 @@ def pagina_html(da, p, extra_head=""):
         scheda = secondo_stripe(TITOLI[da]) if da == "" else "%s — %s" % (secondo_stripe(TITOLI[da]), NOME_SCHEDA)
     else:
         scheda = ENTE["nome"] if da == "" else "%s — %s" % (p["titolo"], NOME_SCHEDA)
-    descrizione = secondo_stripe(DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"])))
+    descrizione = secondo_google(secondo_stripe(DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"]))))
     url = DOMINIO + ("/" if da == "" else "/" + da + "/")
     if p["tipo"] == "home":
         sotto = sfuggi(ENTE["tagline"])
@@ -949,7 +1016,7 @@ def pagina_html(da, p, extra_head=""):
         sotto = sfuggi("[Sottotitolo: si scrive al punto 4.]")
         corpo = corpo_pagina(da, p)
     if da in TESTI and TESTI[da].get("sotto"):
-        sotto = sfuggi(TESTI[da]["sotto"])
+        sotto = sfuggi(secondo_google(TESTI[da]["sotto"]))
     if da in TESTI and TESTI[da].get("musica"):
         # se il file c'è, il pulsante si vede subito: sul telefono il browser non scarica nulla prima del tocco
         nascosto = "" if os.path.exists(os.path.join(USCITA, "audio", "valzer-op-69.mp3")) else " hidden"
@@ -958,6 +1025,10 @@ def pagina_html(da, p, extra_head=""):
     # il motto: la frase d'apertura tutta in un rigo, più grande ed evidente (Dacia, 6.9)
     classe_sotto = "sotto" + (" motto" if TESTI.get(da, {}).get("motto") else "") + (" unica" if TESTI.get(da, {}).get("unica") else "")
     classe_body = ' class="notte"' if p.get("notte") else ""
+    if GOOGLE_TAG and da in SENZA_MISURA:          # per sito.js: qui Google Analytics non parte mai
+        classe_body += ' data-misura="no"'
+    elif GOOGLE_TAG and da == "dona/grazie":       # qui sito.js conta la donazione di chi torna da Stripe
+        classe_body += ' data-misura="donazione"'
     # una pagina ancora senza testo non si fa indicizzare: diventa visibile ai motori quando arriva il testo
     attesa = p["tipo"] != "404" and ('class="segnaposto"' in corpo or "si scrive al punto 4" in sotto or "in costruzione" in sotto)
     if attesa:
@@ -999,7 +1070,7 @@ def pagina_html(da, p, extra_head=""):
 <link rel="stylesheet" href="%s">
 </head>
 <body%s>
-%s
+%s%s
 %s
 %s
 %s
@@ -1011,7 +1082,7 @@ def pagina_html(da, p, extra_head=""):
 """ % (sfuggi(politica), extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
        robots, dati,
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
-       SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
+       banner_cookie(da), SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
 
 # la scheda per i motori di ricerca: chi siamo, in forma leggibile dalle macchine (schema.org).
 # Serve anche agli assistenti di intelligenza artificiale per non confondere la Fondazione con altre «Rosa d’Oro».
