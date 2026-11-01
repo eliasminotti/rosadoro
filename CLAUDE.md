@@ -53,15 +53,15 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   Fondazione, lo stesso conto di Lux; la costruzione aggiunge `?locale=it&client_reference_id=sito-dona`, che
   separa le donazioni del sito da quelle di Lux. Vuoto, carta e PayPal spariscono da Dona (`{se-stripe}…{/se-stripe}`).
 - Le ricevute delle donazioni con la carta e con PayPal le manda da solo il sistema di Lux, 37 giorni dopo, da quando Lux
-  passa ai pagamenti veri (Lux, 20.10), la sera del 26 ottobre 2026 (Elias, 26.10). `RICEVUTE` in `costruisci.py` è quel giorno
-  («26 ottobre 2026»): acceso, Dona lo dice e l’informativa nomina Vercel, Supabase e Resend e porta quella data
-  (`{se-ricevute}`, `{senza-ricevute}`, `{informativa-data}`); vuoto, la ricevuta si chiede scrivendoci. Quel giorno Elias
-  cambia anche il messaggio di conferma del link Stripe.
+  è passato ai pagamenti veri (Lux, 20.10): l’1 novembre 2026 (Lux, 1.11). `RICEVUTE` in `costruisci.py` è quel giorno
+  («1 novembre 2026»; nella pagina il primo del mese diventa «1°»): acceso, Dona lo dice e l’informativa nomina Vercel,
+  Supabase e Resend e porta quella data (`{se-ricevute}`, `{senza-ricevute}`, `{informativa-data}`); vuoto, la ricevuta si
+  chiede scrivendoci. Il messaggio di conferma del link Stripe per donare una volta lo dice anche lui (Elias, nel pannello).
 - Il mensile con Stripe (Elias, 20.10): `MENSILE` in `costruisci.py` è il giorno da cui si dona ogni mese con i link di
-  `MENSILI` (10, 25, 50, 100 euro al mese e «Altro importo», da 1 euro a quantità regolabile); `PORTALE` è il portale di
-  Stripe dove chi dona ogni mese smette da sé. Acceso, Dona e informativa lo dicono (`{se-mensile}`, `{mensili}`,
+  `MENSILI` (10, 25, 50, 100 euro al mese e «Altro importo», da 1 euro a quantità regolabile, almeno 5); `PORTALE` è il
+  portale di Stripe dove chi dona ogni mese smette da sé. Acceso, Dona e informativa lo dicono (`{se-mensile}`, `{mensili}`,
   `{portale}`); spento, per ogni mese Dona propone il bonifico periodico (`{senza-mensile}`).
-  Si accende solo dopo che Lux fa le ricevute anche dei pagamenti mensili, quindi con `RICEVUTE` acceso.
+  Si accende solo con `RICEVUTE` acceso e le ricevute mensili di Lux attive: acceso con le ricevute l’1 novembre 2026 (Lux, 1.11).
 - Chi vive in Svizzera e vuole la deduzione (Dacia ed Elias, 31.10): su Dona c’è solo la frase che finisce con «scrivici».
   Il nome di Orizzonti Celesti, il suo IBAN e la QR-fattura non stanno sulla pagina: li mandiamo per email a chi ci scrive,
   con il testo pronto nella bozza di Gmail e nel documento su Drive «Donare dalla Svizzera» (cartella «SITO — operativa»).

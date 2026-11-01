@@ -286,7 +286,8 @@ def controlla_ricevute(pagine):
     for f in fornitori:
         if f not in privacy:
             problemi.append("RICEVUTE è acceso, ma l’informativa non nomina %s" % re.sub("<[^>]+>", "", f))
-    data = impostazione("MENSILE") or giorno          # l'informativa porta il giorno dell'ultimo dei due interruttori
+    data = impostazione("MENSILE") or giorno          # l'informativa porta il giorno dell'ultimo dei due interruttori,
+    data = re.sub(r"^1 ", "1° ", data)                # con il primo del mese scritto «1°»
     if "aggiornata il %s," % data not in privacy:
         problemi.append("RICEVUTE è acceso, ma l’informativa non porta la data %s" % data)
     if re.search(r"prima dell.apertura del sito", privacy):
