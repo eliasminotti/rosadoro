@@ -52,6 +52,7 @@ TESTI["in-memoria/fondo-di-memoria"] = dict(
 </ul>
 <p class="citazione">Trasforma la perdita in speranza per il mondo.</p>
 {foto:AURORA BOREALE|L'aurora boreale|ritratto}
+<p class="citazione lunga">«I defunti non ci abbandonano; essi vivono in un’altra forma, ma la loro attività penetra nel mondo terreno. Se ci lasciamo dominare dal dolore, ostacoliamo la loro vita spirituale. Se invece riusciamo a superare il dolore e volgere loro pensieri pieni di amore e di fiducia, diventiamo loro collaboratori.»<span class="fonte">Liberamente da Rudolf Steiner, «Il legame fra i vivi e i morti», conferenze del 1916 (Opera omnia 168)</span></p>
 <h3>Che cosa puoi donare</h3>
 <ul>
 <li>una somma di denaro;</li>
@@ -266,7 +267,7 @@ TESTI["lasciti/il-lascito-testamentario"] = dict(
     corpo="""
 <p>Il lascito testamentario è una disposizione inserita nel testamento con cui decidi, in vita, di destinare una parte o la totalità del tuo patrimonio — denaro, immobili, titoli, oggetti di valore — a persone, enti o organizzazioni non profit, dopo la tua morte.</p>
 <p>La legge italiana permette a ciascuno di destinare liberamente una parte del proprio patrimonio, la cosiddetta <strong>quota disponibile</strong>, anche a organizzazioni non profit (artt. 536 e seguenti del codice civile). Nessuno viene penalizzato: i tuoi cari sono sempre tutelati dalla <strong>quota di legittima</strong>, che spetta di diritto ai parenti più stretti, al coniuge o alla persona unita civilmente. Le quote variano con la composizione della famiglia: con un solo figlio e senza coniuge, per esempio, metà del patrimonio spetta a lui per legge (art. 537 c.c.) e l'altra metà è disponibile, da destinare secondo le tue volontà; con il coniuge la ripartizione cambia (art. 542 c.c.). È solo un esempio: la base di calcolo è il patrimonio al netto dei debiti, più le donazioni fatte in vita (art. 556 c.c.), e il conto preciso lo fa un professionista.</p>
-<p>Senza testamento, i beni si dividono secondo le regole della successione legittima, che possono assegnarli a persone meno vicine a te o, in mancanza di parenti entro il sesto grado (art. 572 c.c.), allo Stato (art. 586 c.c.).</p>
+<p>Senza testamento, i beni si dividono secondo le regole della successione legittima e possono essere assegnati a persone meno vicine a te o, in mancanza di parenti entro il sesto grado (art. 572 c.c.), allo Stato (art. 586 c.c.).</p>
 <p><strong>Fare un lascito testamentario significa operare con libertà e coscienza.</strong> Un testamento è un modo sicuro per garantire che i tuoi desideri vengano rispettati e che i tuoi ideali continuino a realizzarsi anche dopo di te.</p>
 <p class="citazione">Dona a ciò che per te è vita.</p>
 {foto:ROSA|Una rosa|ritratto}
@@ -304,7 +305,7 @@ TESTI["lasciti/il-lascito-testamentario"] = dict(
 <li>conserva il testamento in un luogo sicuro — depositato dal notaio, e affidato a una persona di fiducia — perché sia facilmente reperibile;</li>
 <li>se vuoi, comunicaci il tuo impegno: ci dà l'opportunità di esprimerti la nostra gratitudine mentre sei in vita e di discutere i dettagli della tua visione. Su richiesta, inviamo il modulo di impegno da compilare.</li>
 </ol>
-<p>Molte persone evitano la pianificazione anticipata delle cure a causa del disagio nel discutere del tema della morte. È il tuo caso? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Contatta uno dei nostri counselor</a>.</p>
+<p>Molte persone evitano la pianificazione anticipata delle cure a causa del disagio nel discutere il tema della morte. È il tuo caso? <a class="link" href="{→in-memoria/io-sono-qui-per-te}">Contatta uno dei nostri counselor</a>.</p>
 """)
 
 TESTI["lasciti/perche-donare"] = dict(
@@ -334,6 +335,7 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
     sotto="Facile, attraente, sociale, tempestivo: un gesto di pochi minuti.",
     corpo="""
 <p>Compilare un testamento con noi è un gesto di pochi minuti. Ci ispiriamo a una strategia adottata con successo nel Regno Unito, il modello EAST — <em>Easy, Attractive, Social, Timely</em> — che favorisce l'adozione di comportamenti virtuosi: rendere il testamento solidale semplice significa ridurre le difficoltà burocratiche, agevolarne la compilazione e far crescere la cultura del dono. La Fondazione è qui per aiutarti in questo.</p>
+<p>Scrivere un testamento significa mettere ordine e dona pace nella mente e nel cuore. Il testamento è il compimento di una visione e diventa un’azione attraente, perché permette alla persona di proiettare i propri valori, la propria storia e le proprie passioni nel futuro, garantendo che continuino a vivere. Sostenere una causa (come i percorsi di inclusione sociale, le cure o l’agricoltura) trasforma un documento burocratico in un atto creativo e generativo: con il tuo lascito ti sentirai parte attiva di un cambiamento positivo.</p>
 <h3>I tipi di testamento</h3>
 <h4>1. Il testamento olografo: il più semplice</h4>
 <p>Deve essere scritto, datato (giorno, mese, anno) e firmato interamente a mano dal testatore — senza computer, macchina da scrivere o mano di terzi. Il suo vantaggio è la rapidità con cui si redige e si modifica. È consigliabile farne tre copie: una da conservare, una per il notaio, una per una persona fidata.</p>
@@ -1029,6 +1031,7 @@ TESTI["partnership"] = dict(
 <p>Qui raccoglieremo, man mano, i siti di realtà che stimiamo e che lavorano su temi vicini ai nostri. Un sito amico non è un partner e non fa parte della Fondazione: è un indirizzo che ti consigliamo.</p>
 <ul class="stelle">
 <li><a class="link" href="https://quietude.support/" rel="noopener">Quietude®</a>: il sostegno spirituale a chi attraversa il morire, e la formazione di chi lo offre, nel Regno Unito. Dalla sua fondatrice, Annie Blampied-Radojćin, e dalle sue docenti nasce con noi <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">Quietude Italia</a>.</li>
+<li><a class="link" href="https://actonotai.it/" rel="noopener">Il notaio Fabio Franco</a> e il suo studio associato, a Milano, Monza e Caravaggio: successioni, famiglia, enti del Terzo settore. La Fondazione è nata con un suo atto, il 26 febbraio 2026.</li>
 </ul>
 <p><a class="vai" href="{→contatti}">Scrivici</a></p>
 """)

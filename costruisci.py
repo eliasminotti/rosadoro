@@ -110,7 +110,7 @@ ENTE = {
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
-    "tagline": "Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo che sia, continui a fiorire e a seminare il bene nella vita degli altri. Un impegno d’amore e di continuità che si esprime nel rispetto e nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, con competenza, sacralità e delicatezza.",   # di Dacia (31.10), sulla frase scritta da Elias l’11.10
+    "tagline": "Creata perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo che sia, continui a fiorire e a seminare il bene nella vita degli altri. Un impegno d’amore e di continuità che si esprime nel rispetto e nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, con competenza, sacralità e delicatezza.",   # di Dacia (31.10; «Creata» dall’1.11), sulla frase scritta da Elias l’11.10
 }
 
 SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei tre registri: cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.]"
