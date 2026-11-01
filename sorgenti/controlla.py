@@ -257,12 +257,13 @@ MESI = ("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", 
 
 
 def ultimo_giorno(*giorni):
-    """il più recente fra i giorni scritti come «27 ottobre 2026» (i vuoti non contano): la data dell'informativa"""
+    """il più recente fra i giorni scritti come «27 ottobre 2026» (i vuoti non contano): la data dell'informativa,
+    con il primo del mese scritto «1°» («aggiornata il 1° novembre 2026»)"""
     def chiave(g):
         n, mese, anno = g.split()
         return (int(anno), MESI.index(mese), int(n))
     validi = [g for g in giorni if g and GIORNO.match(g)]
-    return max(validi, key=chiave) if validi else ""
+    return re.sub(r"^1 ", "1° ", max(validi, key=chiave)) if validi else ""
 
 
 def controlla_ricevute(pagine):
