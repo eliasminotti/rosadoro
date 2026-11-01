@@ -664,3 +664,10 @@ a.azione:hover h4{color:var(--accento)}
 /* Chi siamo: la spunta d’oro accanto a un’attività già avviata, con il collegamento (Dacia, 31.10) */
 .box p.avviata{margin-top:-2px;font-size:17px}
 .avviata .spunta{color:var(--oro);font-weight:700;margin-right:.35em}
+/* Per professionisti: l’invito che ricorre in fondo alle schede, in evidenza (Dacia, 1.11) */
+.invito{border:1px solid var(--filo-forte);border-left:4px solid var(--oro);background:var(--carta);padding:22px 26px;margin:2.4em 0 0;max-width:60ch}
+.invito p{margin:0 0 8px;max-width:none}
+.invito p:first-child{font-family:var(--display);font-style:italic;font-size:22px;line-height:1.35;color:var(--accento)}
+.invito p:last-child{margin:0}
+/* Eredità solidale: l’elenco dentro la prima voce (Dacia, 1.11) */
+.testo ul.stelle ul.stelle{margin:.4em 0 .6em}
