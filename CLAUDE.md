@@ -106,8 +106,8 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   chiesto da Elias; informativa e cookie ne parlano con `{se-turnstile}`. L’altro script esterno è Google Analytics,
   solo con il consenso (sotto).
 - La misura per Google Ad Grants (Elias, 1.11): `GOOGLE_TAG` in `costruisci.py` è l’ID della proprietà Google Analytics 4
-  (G-…) che Elias crea con il suo account; `MISURA` il giorno in cui si accende («3 novembre 2026»), che diventa la data
-  dell’informativa. Vuoti, il sito è com’era: nessun banner, nessun cookie, informativa e cookie dicono che non si traccia.
+  (G-…) che Elias crea con il suo account (G-FC78G2JWBL, flusso «Sito», Elias 1.11); `MISURA` il giorno in cui si accende
+  («1 novembre 2026»), che diventa la data dell’informativa. Vuoti, il sito è com’era: nessun banner, nessun cookie, informativa e cookie dicono che non si traccia.
   Accesi: in ogni pagina il banner dei cookie (`banner_cookie`), «Accetta» e «Rifiuta» dello stesso peso, la X vale come
   rifiuto, «Preferenze cookie» nel piede lo riapre; la scelta vale sei mesi (linee guida del Garante del 10.6.2021).
   Google (gtag.js) si carica solo dopo «Accetta», mai nel giardino (`SENZA_MISURA`), e riceve l’indirizzo della pagina

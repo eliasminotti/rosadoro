@@ -78,7 +78,7 @@ MENSILI = (("10 euro al mese", "https://buy.stripe.com/eVq00jfvXewC2KycbQ8Ra01")
            ("Altro importo", "https://buy.stripe.com/9B66oH6ZrewCcl81xc8Ra05"))         # detto a Lux.
 PORTALE = "https://billing.stripe.com/p/login/28E7sL3Nf6063OC6Rw8Ra00"   # il collegamento al portale di Stripe in cui chi dona ogni mese smette da sé, con la sua email
                                           # (https://billing.stripe.com/p/login/…): lo attiva Elias nel pannello, ed è lo stesso di Lux.
-GOOGLE_TAG = ""                           # l’ID della proprietà Google Analytics 4 della Fondazione (G-…), che Elias crea con il suo account
+GOOGLE_TAG = "G-FC78G2JWBL"               # l’ID della proprietà Google Analytics 4 della Fondazione (G-…), che Elias crea con il suo account
                                           # Google e collega all’account di Google Ad Grants, da cui Google Ads importa le conversioni
                                           # (Elias, 1.11.2026). Pieno: ogni pagina ha il banner dei cookie («Accetta» e «Rifiuta» dello stesso
                                           # peso, la X che vale come rifiuto) e «Preferenze cookie» nel piede; sito.js carica Google Analytics
@@ -86,7 +86,7 @@ GOOGLE_TAG = ""                           # l’ID della proprietà Google Analy
                                           # donazione); la regola di sicurezza lo permette, e l’informativa e la pagina dei cookie ne parlano
                                           # ({se-google}…{/se-google}). Vuoto: niente banner né Google Analytics, e i testi dicono che il sito
                                           # non usa cookie ({senza-google}…{/senza-google}).
-MISURA = ""                               # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
+MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
                                           # porta la data del più recente fra MISURA, RICEVUTE e MENSILE.
 SENZA_MISURA = ("in-memoria/giardino-dei-ricordi",)   # le pagine dove Google Analytics non parte mai, neppure con il consenso,
                                           # e il banner non compare da sé: il giardino è un luogo di lutto, e resta fuori anche dai motori
