@@ -661,3 +661,6 @@ a.azione:hover h4{color:var(--accento)}
   .dediche{grid-template-columns:1fr 1fr;gap:28px 16px}
   .dedica figcaption{font-size:17px}
 }
+/* Chi siamo: la spunta d’oro accanto a un’attività già avviata, con il collegamento (Dacia, 31.10) */
+.box p.avviata{margin-top:-2px;font-size:17px}
+.avviata .spunta{color:var(--oro);font-weight:700;margin-right:.35em}

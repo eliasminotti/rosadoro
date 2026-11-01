@@ -168,7 +168,7 @@ SEZIONI = [
              dict(slug="eventi", voce="Eventi", titolo="Eventi", riga=""),
              dict(slug="formazione-medica", voce="Formazione medico-terapeutica", titolo="Formazione medico-terapeutica", riga=""),
              dict(slug="formazione-agricola", voce="Formazione agricola", titolo="Formazione agricola", riga=""),
-             dict(slug="formazione-accompagnamento", voce="Formazione accompagnamento alla morte", titolo="Formazione accompagnamento alla morte", riga="", hero="lemniscata"),
+             dict(slug="formazione-accompagnamento", voce="Formazione accompagnamento al morire", titolo="Formazione accompagnamento al morire", riga="", hero="lemniscata"),
          ]),
     # Servizi resta nel menu con la sua pagina «in costruzione» (Elias, 11.10). Le quattro pagine sono spente: escono dal menu,
     # dalla pagina della sezione, dalla home e dalla mappa per i motori di ricerca, ma restano nel sito (Chi siamo le collega).
@@ -459,8 +459,8 @@ def lastra_foto(da):
 def hero(da, p, sotto, classe_sotto="sotto"):
     tipo = p["hero"]
     occhiello = '<p class="occhiello">%s</p>' % sfuggi(p["occhiello"])
-    if tipo == "casa":                             # la home saluta (Dacia ed Elias, 3.10): un «Benvenuti.» discreto al posto della riga istituzionale
-        occhiello = '<p class="saluto">Benvenuti.</p>'
+    if tipo == "casa":                             # la home saluta (Dacia ed Elias, 3.10): un «Benvenuti» discreto al posto della riga istituzionale, senza punto (Dacia, 31.10)
+        occhiello = '<p class="saluto">Benvenuti</p>'
     fonte = ('<p class="fonte">%s</p>' % sfuggi(p["art"])) if p.get("art") else ""
     testo = '%s%s<h1>%s</h1><hr class="filo"><p class="%s">%s</p>' % (occhiello, fonte, sfuggi(p["titolo"]), classe_sotto, sotto)
     if tipo == "avorio":

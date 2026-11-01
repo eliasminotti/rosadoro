@@ -486,6 +486,7 @@ TESTI["chi-siamo"] = dict(
 <div class="box">
 <h4>Assistenza alle persone</h4>
 <p>L'accompagnamento medico-assistenziale e spirituale nel fine vita: il nostro impegno va oltre le cure mediche e assistenziali, e offre un accompagnamento che tocca anche la sfera spirituale, garantendo dignità, sollievo e calore umano in ogni fase della vita, fino agli istanti più delicati.</p>
+<p class="avviata"><span class="spunta" role="img" aria-label="Già avviato:">✓</span> <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">Quietude Italia</a></p>
 <p>L'assistenza a persone fragili: anziani, persone con patologie croniche, con dipendenze, minori in difficoltà, persone con disturbi dello spettro autistico, con grave disabilità, con patologie neurologiche e neuropsichiatriche.</p>
 <p>L'uso delle risorse agricole per migliorare le condizioni di salute e la qualità della vita — di bambini con patologie oncologiche, di giovani a rischio di esclusione sociale — perché il contatto con la terra aiuta a ritrovare una dimensione individuale e sociale e una propria identità produttiva: i ragazzi sono coinvolti nell'intera filiera e accompagnati verso la vita adulta e l'indipendenza economica. E l'agricoltura sociale: attività agricole produttive, biologiche, biodinamiche e rigenerative, per la tutela del paesaggio, della biodiversità e del suolo, che garantisce alimenti sani come strumento di prevenzione.</p>
 <p class="citazione">Proteggiamo e custodiamo la Terra, perché un ambiente sano e un cibo sano significano una vita migliore per tutti.</p>
@@ -659,7 +660,7 @@ TESTI["aziende-e-istituzioni/istituzioni"] = dict(
 <li><strong>Lotta alla povertà educativa</strong>: bandi congiunti, come il fondo nazionale per il contrasto della povertà educativa minorile, per sostenere scuole, doposcuola e centri giovanili nei contesti svantaggiati.</li>
 <li><strong>Inclusione sociale e socio-sanitaria</strong>: progetti di housing sociale per persone in difficoltà economica, anziani o persone con disabilità, in cui il Comune offre la struttura o le autorizzazioni e la fondazione finanzia la ristrutturazione e i servizi di assistenza.</li>
 </ul>
-<h3>3. Formazione in ambito agricolo, sanitario e nell'accompagnamento alla morte</h3>
+<h3>3. Formazione in ambito agricolo, sanitario e nell'accompagnamento al morire</h3>
 <ul class="stelle">
 <li>la formazione dei volontari e della cittadinanza;</li>
 <li>percorsi di reinserimento e di riallenamento;</li>
@@ -687,7 +688,7 @@ TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
     sotto="Stare accanto a chi si trova nell'ultimo tratto della vita: competenze emotive, pratiche e spirituali.",
     corpo="""
 <figure class="tavola"><img src="{img:tavola-candela.svg}" alt="Una candela accesa, incisa"></figure>
-<p>La formazione per l'accompagnamento alla morte, o al fine vita, è un percorso multidisciplinare rivolto a professionisti sanitari, volontari e cittadini che desiderano acquisire competenze emotive, pratiche e spirituali per stare accanto a chi si trova nell'ultimo tratto della vita.</p>
+<p>La formazione per l'accompagnamento al morire, o al fine vita, è un percorso multidisciplinare rivolto a professionisti sanitari, volontari e cittadini che desiderano acquisire competenze emotive, pratiche e spirituali per stare accanto a chi si trova nell'ultimo tratto della vita.</p>
 <p>I percorsi formativi sono diversi:</p>
 <ul class="stelle">
 <li><strong><a class="link" href="#quietude-italia-2027">Quietude Italia</a></strong>;</li>
@@ -702,14 +703,14 @@ TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
 <a href="{img:quietude/pagina-4-grande.jpg}"><img src="{img:quietude/pagina-4.jpg}" width="480" height="680" loading="lazy" alt="Pagina 4 del pieghevole: i punti chiave, le iscrizioni e le quote"></a>
 </div>
 <p>Se vuoi vedere il pieghevole del corso, apri una pagina per vederla in grande, oppure <a class="link" href="{file:quietude-italia-2027.pdf}">scarica il pieghevole (PDF)</a>.</p>
-<p>Un percorso sull’accompagnamento al fine vita: come offrire sostegno emotivo e spirituale a chi sta morendo o desidera prepararsi al morire. È pensato per familiari e caregiver, medici, infermieri, OSS e assistenti sociali, terapeuti e counselor, volontari e personale degli hospice, celebranti laici, e per chi cerca un nuovo orientamento o vuole prepararsi con consapevolezza alla propria morte o a quella di una persona cara. È per chiunque, qualunque sia la sua fede, purché sia aperto all’idea di una vita dopo la morte.</p>
+<p>Un percorso sull’accompagnamento al fine vita: come offrire sostegno emotivo e spirituale a chi sta morendo o desidera prepararsi al morire. È pensato per familiari e caregiver, medici, infermieri, OSS e assistenti sociali, terapeuti e counselor, volontari e personale degli hospice, celebranti laici, e per chi cerca un nuovo orientamento o vuole prepararsi con consapevolezza alla propria morte o a quella di una persona cara.</p>
 <p>Come afferma Elisabeth Kübler-Ross nel titolo di uno dei suoi libri, «La morte è di vitale importanza», e occorre, come si dice in inglese, «befriending death», ovvero rendere amica la morte.</p>
 <p>La direttrice del corso è Annie Blampied-Radojćin, fondatrice di Quietude® (<a class="link" href="https://quietude.support/" rel="noopener">quietude.support</a>), che ha collaborato a lungo con l’Emerson College ed è da anni ministra interconfessionale, celebrante funebre e consulente spirituale. L’accompagneranno dal Regno Unito Juanna Grace Ladaga, ministra interconfessionale, e l’infermiera antroposofica Fiona Sim; dall’Italia la Dr.ssa Dacia Dalla Libera e l’arteterapeuta Elena Martinelli, con le collaboratrici Chiara Favaro e Francesca Zanuttini.</p>
 <p>Le lezioni sono in italiano, con la traduzione delle docenti inglesi.</p>
-<p>Il corso si fonda soprattutto sull’opera di Rudolf Steiner e approfondisce la filosofia e le pratiche del buddismo tibetano sul morire, oltre agli aspetti medico-psicologici e assistenziali e ad alcune tecniche di cura, come il tocco delicato della ‘M’ Technique®.</p>
+<p>Il corso si fonda soprattutto sull’opera di Rudolf Steiner e approfondisce la filosofia e le pratiche del buddismo tibetano sul morire, oltre agli aspetti medico-psicologici e assistenziali e ad alcuni tipi di trattamenti.</p>
 <p>Si comincia con una settimana residenziale dal 13 al 21 marzo 2027 alle Preseglie, a Desenzano del Garda, tra colline, vigneti e lago. Seguono otto incontri online, un giovedì ogni due settimane dalle 19 alle 21.30, dall’8 aprile al 15 luglio, e a settembre la presentazione del progetto di fine corso. Per tutto il percorso c’è un tutor italiano tra i docenti. A chi completa la formazione vanno l’attestato di Operatore Quietude® e il certificato ‘M’ Technique®.</p>
 <p>I posti sono 24 e le domande si accolgono in ordine di arrivo, <strong>entro il 17 gennaio 2027</strong>.</p>
-<p>Per iscriverti manda una lettera con i motivi per cui vuoi seguire il corso e una breve biografia legata ai suoi temi, scritte con parole tue, senza l’intelligenza artificiale.</p>
+<p>Per iscriverti manda una lettera con i motivi per cui vuoi seguire il corso e una breve biografia, scritta con parole tue, senza l’intelligenza artificiale.</p>
 <p>La quota è di 1.880 euro in due rate, oppure di 1.800 euro in un’unica soluzione entro il 30 novembre 2026; vitto, alloggio e viaggio sono a parte.</p>
 <p>Per informazioni e iscrizioni scrivi alla segreteria della Fondazione, <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 <p><a class="vai" href="{→contatti}">Vuoi partecipare? Scrivici</a></p>
@@ -745,7 +746,7 @@ TESTI["news"] = dict(
 <h3>Il sito della Fondazione è online</h3>
 <p><em>26 ottobre 2026.</em> Da oggi il sito della Fondazione La Rosa d’Oro è aperto a tutti. Racconta chi siamo, che cosa la Fondazione è costituita per fare, nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, e che cosa stiamo facendo. Da qui puoi <a class="link" href="{→contatti}">scriverci</a>, <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentarci un progetto</a> e lasciare una dedica nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>. Le novità arriveranno su questa pagina, una alla volta.</p>
 <h3>Quietude Italia 2027: aperte le iscrizioni</h3>
-<p><em>21 ottobre 2026.</em> Il 13 marzo 2027 comincia Quietude Italia, il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita, guidato da Annie Blampied-Radojćin, fondatrice di Quietude®, con Dacia Dalla Libera e le altre docenti. Le iscrizioni sono aperte fino al 17 gennaio 2027 e i posti sono 24: il programma e il pieghevole sono nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento alla morte</a>.</p>
+<p><em>21 ottobre 2026.</em> Il 13 marzo 2027 comincia Quietude Italia, il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita, guidato da Annie Blampied-Radojćin, fondatrice di Quietude®, con Dacia Dalla Libera e le altre docenti. Le iscrizioni sono aperte fino al 17 gennaio 2027 e i posti sono 24: il programma e il pieghevole sono nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento al morire</a>.</p>
 """)
 
 
@@ -1281,7 +1282,7 @@ TESTI["eventi-e-formazione/eventi"] = dict(
     sotto="Incontri, seminari e laboratori della Fondazione e dei suoi partner.",
     corpo="""
 <p>Qui trovi gli incontri organizzati dalla Fondazione o insieme ai suoi partner, con la data, il luogo e il modo per partecipare: seminari, laboratori, convegni, attività culturali aperte a tutti.</p>
-<p><strong>Dal 13 marzo 2027, Quietude Italia</strong>: il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita. Si comincia con una settimana residenziale alle Preseglie, a Desenzano del Garda, e si continua con incontri online fino a luglio. Le iscrizioni sono aperte fino al 17 gennaio 2027: il programma è nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento alla morte</a>.</p>
+<p><strong>Dal 13 marzo 2027, Quietude Italia</strong>: il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita. Si comincia con una settimana residenziale alle Preseglie, a Desenzano del Garda, e si continua con incontri online fino a luglio. Le iscrizioni sono aperte fino al 17 gennaio 2027: il programma è nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento al morire</a>.</p>
 <p>Gli altri incontri li annunceremo qui e nelle <a class="link" href="{→news}">News</a>. Se vuoi organizzarne uno con noi, <a class="link" href="{→contatti}">scrivici</a>.</p>
 """)
 
@@ -1318,8 +1319,8 @@ DESCRIZIONI = {
     "lasciti/la-liberta-del-come": "Le Disposizioni anticipate di trattamento (DAT): che cosa sono, come si redigono, il fiduciario, che cosa specificare. Con il fac-simile da scaricare.",
     "lasciti/dopo-di-noi": "Il Dopo di Noi (legge 112/2016): tutelare un familiare con disabilità grave per quando non ci sarai più. Come la Fondazione può aiutare.",
     "progetti": "I progetti della Fondazione La Rosa d'Oro: da avviare, da sostenere, in corso, realizzati. E come presentare il tuo.",
-    "eventi-e-formazione": "Incontri e percorsi di formazione della Fondazione: medico-terapeutica, agricola, accompagnamento alla morte.",
-    "eventi-e-formazione/formazione-accompagnamento": "Formazione all'accompagnamento alla morte: percorsi per professionisti sanitari, volontari e cittadini, per stare accanto a chi vive l'ultimo tratto della vita.",
+    "eventi-e-formazione": "Incontri e percorsi di formazione della Fondazione: medico-terapeutica, agricola, accompagnamento al morire.",
+    "eventi-e-formazione/formazione-accompagnamento": "Formazione all'accompagnamento al morire: percorsi per professionisti sanitari, volontari e cittadini, per stare accanto a chi vive l'ultimo tratto della vita.",
     "servizi": "I servizi alle persone della Fondazione: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento. Sezione in costruzione.",
     "fondi-e-strumenti": "Gli strumenti della Rosa d’Oro: un fondo con il tuo nome, il Family Office, il vitalizio, l’esecutore testamentario, il Dopo di Noi, l’eredità solidale.",
     "fondi-e-strumenti/dopo-di-noi": "Il Dopo di Noi (legge 112/2016): la Fondazione come gestore o guardiano del trust per un familiare con disabilità grave. Come funziona.",
