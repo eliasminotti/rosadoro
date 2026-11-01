@@ -62,6 +62,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   Stripe dove chi dona ogni mese smette da sé. Acceso, Dona e informativa lo dicono (`{se-mensile}`, `{mensili}`,
   `{portale}`); spento, per ogni mese Dona propone il bonifico periodico (`{senza-mensile}`).
   Si accende solo dopo che Lux fa le ricevute anche dei pagamenti mensili, quindi con `RICEVUTE` acceso.
+- Chi vive in Svizzera e vuole la deduzione (Dacia ed Elias, 31.10): su Dona c’è solo la frase che finisce con «scrivici».
+  Il nome di Orizzonti Celesti, il suo IBAN e la QR-fattura non stanno sulla pagina: li mandiamo per email a chi ci scrive,
+  con il testo pronto nella bozza di Gmail e nel documento su Drive «Donare dalla Svizzera» (cartella «SITO — operativa»).
+  Il codice si rifà con `sorgenti/qr-svizzera.py`, che lo scrive fuori dal sito pubblicato.
 - La partita IVA della Fondazione è lo stesso numero del codice fiscale (`CF_PIVA` in `costruisci.py`; Agenzia delle
   Entrate, verifica del 19.10.2026: attiva, inizio attività 28.2.2026). Va nella home (art. 35 c.1 DPR 633/1972; dal
   1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026): la costruzione la scrive nel piede di ogni pagina
@@ -83,9 +87,13 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   è nella colonna «Per cancellarsi», da mettere in fondo a ogni email delle notizie), e chi
   scrive una dedica riceve un’email con il collegamento per toglierla (`?togli=` sulla pagina
   del giardino). Le colonne nuove del foglio le aggiunge lo script da sé.
+  Le email a chi scrive partono in testo semplice e in HTML (Elias, 31.10): colori del sito, un pulsante per
+  l’azione principale con sotto l’indirizzo per intero, collegamenti senza «index.html» (quelli già partiti valgono
+  ancora). Dopo ogni modulo che fa partire un’email la pagina dice di guardare anche nella posta indesiderata.
 - La protezione dei moduli dallo spam (Elias, 22.10): prima di scrivere o mandare qualcosa lo script del foglio
   controlla ogni invio (`controllaInvio`): campo trappola `sito_web`, link nel nome o nell’oggetto, meno di tre secondi
-  dall’apertura della pagina, più di cinque invii in un’ora dallo stesso indirizzo, Cloudflare Turnstile. Spam e sospetti
+  dall’apertura della pagina, più di cinque invii in un’ora dallo stesso indirizzo, Cloudflare Turnstile (anche una risposta
+  già usata o nata su un altro sito: revisione di sicurezza del 27.10). Spam e sospetti
   (invio senza JavaScript, link solo nel messaggio senza il «persona» di Turnstile) vanno nella scheda «Spam» del foglio,
   senza avvisi né email. Con il «persona» di Turnstile un link nel messaggio entra «da verificare», con l’avviso alla
   segreteria e nessuna email a chi scrive; così anche quando Cloudflare non risponde. Se Turnstile non si carica, il modulo
@@ -96,6 +104,13 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   nelle proprietà dello script (`TURNSTILE_SEGRETO`) e si mette solo quando il sito con la chiave pubblica è già online:
   prima, ogni messaggio vero verrebbe rifiutato. Turnstile si carica solo quando si comincia a scrivere in un modulo:
   è l’unico script esterno del sito, chiesto da Elias; informativa e cookie ne parlano con `{se-turnstile}`.
+- La regola di sicurezza delle pagine (revisione di sicurezza del 27.10, Elias): ogni pagina porta in cima all’head un tag
+  meta Content-Security-Policy (`politica_sicurezza` in `costruisci.py`) e uno sul referrer, perché GitHub Pages non manda
+  intestazioni proprie. Il browser carica script, stili, immagini, caratteri e musica solo dal sito, Turnstile solo da
+  Cloudflare, e i moduli parlano solo con lo script del foglio (anche il suo rimando a googleusercontent). Un servizio
+  nuovo (un video, una mappa, uno script) va aggiunto lì, sennò il browser lo blocca in silenzio. `controlla.py` verifica la
+  regola in ogni pagina e `controlla-moduli.js` che i moduli, Turnstile, le dediche, la musica e la pagina «non trovata» non
+  la violino. frame-ancestors e X-Content-Type-Options non si possono dare da GitHub Pages: restano fuori.
 - L’immagine delle condivisioni (`sito/img/condivisione.jpg`) si rifà da
   `sorgenti/condivisione.html` con `node sorgenti/fotografa.js`.
 
@@ -113,14 +128,20 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.
   Un testo nuovo segue la stessa regola.
 - `ANTEPRIMA` e `LINK_PULITI` in `costruisci.py` sono gli interruttori della
-  pubblicazione: restano come sono finché Elias non dice di pubblicare.
+  pubblicazione: tutti e due nella posizione dell’apertura dal 26.10.2026 (Elias) e
+  non si toccano senza le sue parole.
+- Dal 26.10.2026 il sito è aperto ai motori di ricerca (Elias). Restano fuori il giardino e le
+  sue dediche (lo promette l’informativa), le due schede per professionisti di `NON_INDICIZZARE`,
+  le pagine con un segnaposto e la foto della bambina in Dopo di Noi, che resta sul sito ma non va
+  in Google Immagini (`FUORI_DAI_MOTORI`, Elias e Dacia, 26.10). `controlla.py` verifica giardino,
+  dediche e foto, e che ogni pagina della mappa si lasci indicizzare. Nei primi giorni è una prova
+  aperta con persone vicine: foto e testi possono ancora cambiare; la promozione larga viene dopo.
 
 ## Rami e pubblicazione
 
 - Il ramo principale è `claude/rosadoro-foundation-site-6hc5hu`: ogni push lì
   pubblica `sito/` su https://larosadoro.org/ con `.github/workflows/pages.yml`.
-  Fino all’apertura le pagine chiedono ai motori di non indicizzarle (`ANTEPRIMA`);
-  il vecchio indirizzo di prova https://eliasminotti.github.io/rosadoro/ porta lì.
+  Il vecchio indirizzo di prova https://eliasminotti.github.io/rosadoro/ porta lì.
 - Ogni lavoro si fa su un ramo suo e arriva sul ramo principale solo dopo
   l'approvazione di Elias.
 - Il sito pubblicato si controlla da solo con `.github/workflows/controlli.yml`

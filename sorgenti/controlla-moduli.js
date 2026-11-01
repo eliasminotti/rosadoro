@@ -28,7 +28,7 @@ for (const dove of ['playwright', '/opt/node22/lib/node_modules/playwright']) {
 const SITO = path.join(__dirname, '..', 'sito');
 const ORIGINE = 'https://sito.prova/';              // l’indirizzo finto da cui si aprono le pagine di sito/
 const FOGLIO = 'https://script.google.com/';        // lo script del foglio (FOGLIO in costruisci.py)
-const CONSENSO = 'v1 ottobre 2026';
+const CONSENSO = 'v2 novembre 2026';   // la versione del testo della casella delle notizie (CONSENSO_NOTIZIE in costruisci.py)
 const SEGRETERIA = 'segreteria@larosadoro.org';
 const TIPI = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.woff2': 'font/woff2',
@@ -118,12 +118,18 @@ async function apri(percorso, { foglio = () => ({ success: true }), dediche = nu
     }
     return route.fulfill({ status: 200, contentType: TIPI[path.extname(file)] || 'application/octet-stream', body: corpo });
   });
+  /* le violazioni della regola di sicurezza della pagina (Content-Security-Policy): quello che il browser ha bloccato */
+  await contesto.addInitScript(() => {
+    window.__violazioni = [];
+    document.addEventListener('securitypolicyviolation', e => window.__violazioni.push(e.violatedDirective + ' ← ' + e.blockedURI));
+  });
   const page = await contesto.newPage();
   page.on('dialog', d => { avvisi.push(d.message()); d.dismiss(); });
   const errori = [];
   page.on('pageerror', e => errori.push(String(e)));
   await page.goto(ORIGINE + percorso, referer ? { referer } : {});
-  return { page, allo, fuori, avvisi, errori, cloudflare, chiudi: () => contesto.close() };
+  const violazioni = () => page.evaluate(() => window.__violazioni || []);
+  return { page, allo, fuori, avvisi, errori, cloudflare, violazioni, chiudi: () => contesto.close() };
 }
 
 async function esitoDi(page, dove) {
@@ -157,7 +163,7 @@ controllo('il modulo dei Contatti manda allo script i campi giusti, con la pagin
     assert.ok(!('tipo' in c), 'il modulo dei Contatti non ha «tipo»');
     assert.ok(!('_turnstile' in c), 'senza la chiave di Turnstile non c’è la sua risposta');
     assert.deepStrictEqual(p.cloudflare, []);
-    assert.ok(esito.startsWith('Grazie, il tuo messaggio è arrivato.') && esito.includes('tocca «Confermo»'), esito);
+    assert.ok(esito.startsWith('Grazie, il tuo messaggio è arrivato.') && esito.includes('tocca «Confermo»') && esito.includes('posta indesiderata'), esito);
     assert.ok(await p.page.locator('#modulo-contatti .campi').isHidden(), 'i campi dovevano sparire');
   } finally { await p.chiudi(); }
 });
@@ -199,7 +205,8 @@ controllo('il riquadro delle notizie manda l’email con la pagina in cui si tro
       const c = p.allo[0].campi;
       assert.deepStrictEqual([c.tipo, c.notizie, c.email, c.consenso, c.pagina, c._sito, c._js],
         ['notizie', 'si', 'lettore@example.org', CONSENSO, pagina, ORIGINE, '1'], percorso);
-      assert.strictEqual(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.');
+      assert.strictEqual(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.' +
+        ' Se non la vedi entro qualche minuto, guarda nella posta indesiderata e aggiungi segreteria@larosadoro.org ai tuoi contatti.');
     } finally { await p.chiudi(); }
   }
 });
@@ -249,7 +256,7 @@ controllo('la dedica manda l’immagine scelta, il nome da ricordare e chi scriv
     const c = p.allo[0].campi;
     assert.deepStrictEqual([c.tipo, c.ricordo, c.dedica, c.immagine, c.nome, c.email, c.consenso, c._sito, c._js],
       ['dedica', 'Nonna Lina', 'Ti pensiamo ogni giorno', foto, 'Carla', 'carla@example.org', 'si', ORIGINE, '1']);
-    assert.ok(esito.startsWith('Grazie. La dedica per Nonna Lina è arrivata') && esito.includes('collegamento per toglierla'), esito);
+    assert.ok(esito.startsWith('Grazie. La dedica per Nonna Lina è arrivata') && esito.includes('collegamento per toglierla') && esito.includes('posta indesiderata'), esito);
   } finally { await p.chiudi(); }
 });
 
@@ -299,11 +306,16 @@ controllo('senza dediche il giardino non mostra la sezione dei nomi', async () =
   }
 });
 
+/* i collegamenti delle email portano a contatti/?conferma=… (dal 31.10, più corti) e quelli già partiti a
+   contatti/index.html?conferma=…: tutti e due devono aprire il riquadro */
 for (const [percorso, parametro, riquadro, testo] of [
+  ['contatti/', 'conferma', '#conferma-notizie', 'Grazie, il tuo indirizzo è confermato.'],
+  ['contatti/', 'cancella', '#cancella-notizie', 'Fatto: non ti manderemo più le notizie.'],
+  ['in-memoria/giardino-dei-ricordi/', 'togli', '#togli-dedica', 'Fatto: la dedica esce dal giardino entro un’ora.'],
   ['contatti/index.html', 'conferma', '#conferma-notizie', 'Grazie, il tuo indirizzo è confermato.'],
   ['contatti/index.html', 'cancella', '#cancella-notizie', 'Fatto: non ti manderemo più le notizie.'],
   [GIARDINO, 'togli', '#togli-dedica', 'Fatto: la dedica esce dal giardino entro un’ora.']]) {
-  controllo('con ?' + parametro + '= la pagina mostra il riquadro e chiede allo script solo quando si tocca il pulsante', async () => {
+  controllo('con ' + percorso + '?' + parametro + '= la pagina mostra il riquadro e chiede allo script solo quando si tocca il pulsante', async () => {
     const p = await apri(percorso + '?' + parametro + '=abc123.firma_-9', { foglio: () => ({ success: true, testo }) });
     try {
       await p.page.locator(riquadro).waitFor({ state: 'visible', timeout: 5000 });
@@ -346,6 +358,48 @@ controllo('ogni modulo ha il campo trappola «sito_web»: vuoto, invisibile, fuo
         assert.strictEqual(await trappola.getAttribute('autocomplete'), 'off');
         assert.strictEqual(await trappola.inputValue(), '');
       }
+    } finally { await p.chiudi(); }
+  }
+});
+
+/* ---- la regola di sicurezza dentro le pagine (Content-Security-Policy, revisione del 27.10): il browser carica script,
+        stili, immagini e caratteri solo dal sito, Turnstile solo da Cloudflare, e i moduli parlano solo con lo script del
+        foglio. Qui si guarda che la regola ci sia in ogni pagina e che niente di quello che le pagine fanno la violi ---- */
+
+controllo('la regola di sicurezza (CSP) e quella sul referrer stanno in ogni pagina, e moduli, Turnstile, dediche, musica e pagina «non trovata» non le violano', async () => {
+  const prove = [
+    ['contatti/index.html', { turnstile: 'passa', foglio: () => ({ success: true }) }, async p => {
+      await p.page.fill('#mc-nome', 'Carla');
+      await p.page.fill('#mc-posta', 'carla@example.org');
+      await p.page.fill('#mc-messaggio', 'Un messaggio');
+      await p.page.click('#modulo-contatti .invia');
+      await esitoDi(p.page, '#modulo-contatti');
+      assert.strictEqual(p.allo.length, 1, 'il messaggio non è partito');
+      assert.strictEqual(p.cloudflare.length, 1, 'Turnstile non si è caricato');
+    }],
+    [GIARDINO, { dediche: { versione: 'x', dediche: [{ nome: 'Nonna Lina', dedica: 'Ti pensiamo', immagine: 'Rosa' }] } }, async p => {
+      await p.page.locator('#nel-giardino .dedica').first().waitFor({ state: 'visible', timeout: 5000 });
+    }],
+    ['in-memoria/fondo-di-memoria/index.html', {}, async p => {
+      await p.page.waitForLoadState('networkidle');            /* il valzer di Chopin: la musica deve poter partire */
+    }],
+    ['404.html', {}, async p => {
+      assert.strictEqual(await p.page.evaluate(() => document.querySelector('base') && document.querySelector('base').href), ORIGINE,
+        'la pagina «non trovata» non ha scritto la sua base: lo script dentro la pagina è bloccato');
+    }]
+  ];
+  for (const [percorso, opzioni, prova] of prove) {
+    const p = await apri(percorso, opzioni);
+    try {
+      const regole = await p.page.evaluate(() => ({
+        csp: (document.querySelector('meta[http-equiv="Content-Security-Policy"]') || {}).content || '',
+        referrer: (document.querySelector('meta[name="referrer"]') || {}).content || ''
+      }));
+      assert.ok(regole.csp.includes("default-src 'self'"), percorso + ': manca la regola di sicurezza nella pagina');
+      assert.strictEqual(regole.referrer, 'strict-origin-when-cross-origin', percorso + ': manca la regola sul referrer');
+      await prova(p);
+      assert.deepStrictEqual(await p.violazioni(), [], percorso + ': la regola di sicurezza ha bloccato qualcosa');
+      assert.deepStrictEqual(p.errori, [], percorso + ': errori del JavaScript');
     } finally { await p.chiudi(); }
   }
 });

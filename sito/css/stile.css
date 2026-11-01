@@ -256,7 +256,8 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .sezione{padding:var(--ritmo) 0;border-top:1px solid var(--filo)}
 .sezione h2{margin-bottom:32px}
 .due-colonne{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center}
-.due-colonne .testo p{font-size:18px}
+.due-colonne .testo p,.due-colonne .testo li{font-size:18px}
+.due-colonne .rimandi{display:flex;gap:16px 40px;flex-wrap:wrap;margin-top:8px}   /* «Chi siamo» e «Lavora con noi» nella home (Dacia, 31.10) */
 .riquadro{position:relative;aspect-ratio:4/5;background:var(--carta);border:1px solid var(--filo-forte)}
 .riquadro.tavola-dentro{border:0;background:transparent}
 .riquadro img{width:100%;height:100%;object-fit:cover}
@@ -331,6 +332,7 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .tavola{position:relative;margin:80px 0 0;border:1px solid var(--filo-forte);background:var(--carta)}
 .tavola img{width:100%}
 .tavola.stretta{max-width:480px}
+.testo>.tavola:first-child{margin-top:2.2em}   /* la tavola che apre il testo sta dove starebbe la fotografia */
 .tavola-fascia{position:relative;margin:var(--ritmo) 0 0;border:1px solid var(--filo-forte)}
 .tavola-fascia img{width:100%}
 .tavola figcaption{position:absolute;right:16px;bottom:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--testo-45)}
@@ -478,10 +480,6 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .coordinate p:last-child{margin:0}
 .coordinate .iban{color:var(--testo);letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .coordinate .iban span{white-space:nowrap}   /* sul telefono l’IBAN va a capo a metà, non sull’ultimo gruppo */
-/* la QR-fattura di Orizzonti Celesti, sotto le sue coordinate: il codice sempre nero su bianco, perché le banche lo leggano */
-.qr-fattura{display:flex;gap:26px;align-items:center;margin:-.4em 0 2em;max-width:60ch}
-.qr-fattura img{width:200px;height:200px;flex:none;border:1px solid var(--filo-forte)}
-.qr-fattura p{margin:0}
 
 /* l'elenco con le stelline (Perché donare alla Rosa d'Oro) */
 .testo ul.stelle{list-style:none;padding-left:1.4em}
@@ -622,7 +620,6 @@ a.azione:hover h4{color:var(--accento)}
   .apri-menu{padding:10px 12px;letter-spacing:.1em}
   .testa-bassa .pagina{gap:12px}
   .coordinate{padding:18px}
-  .qr-fattura{flex-direction:column;align-items:flex-start;gap:16px}
 }
 /* a 320 px l’apostrofo tipografico di «d’Oro», più largo, spingeva «Menu» fuori di un pixel */
 @media (max-width:360px){
@@ -664,3 +661,13 @@ a.azione:hover h4{color:var(--accento)}
   .dediche{grid-template-columns:1fr 1fr;gap:28px 16px}
   .dedica figcaption{font-size:17px}
 }
+/* Chi siamo: la spunta d’oro accanto a un’attività già avviata, con il collegamento (Dacia, 31.10) */
+.box p.avviata{margin-top:-2px;font-size:17px}
+.avviata .spunta{color:var(--oro);font-weight:700;margin-right:.35em}
+/* Per professionisti: l’invito che ricorre in fondo alle schede, in evidenza (Dacia, 1.11) */
+.invito{border:1px solid var(--filo-forte);border-left:4px solid var(--oro);background:var(--carta);padding:22px 26px;margin:2.4em 0 0;max-width:60ch}
+.invito p{margin:0 0 8px;max-width:none}
+.invito p:first-child{font-family:var(--display);font-style:italic;font-size:22px;line-height:1.35;color:var(--accento)}
+.invito p:last-child{margin:0}
+/* Eredità solidale: l’elenco dentro la prima voce (Dacia, 1.11) */
+.testo ul.stelle ul.stelle{margin:.4em 0 .6em}

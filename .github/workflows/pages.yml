@@ -1,6 +1,6 @@
 # Pubblica la cartella «sito/» su GitHub Pages a ogni push, e ogni ora per le dediche del giardino.
 # L'indirizzo è https://larosadoro.org/ (dal 21.10.2026; https://eliasminotti.github.io/rosadoro/ porta lì).
-# Fino all'apertura le pagine chiedono ai motori di ricerca di non indicizzarle (ANTEPRIMA = True in costruisci.py).
+# Dal 26.10.2026 il sito è aperto ai motori di ricerca (ANTEPRIMA = False in costruisci.py).
 #
 # Prima di pubblicare, sorgenti/controlla.py controlla che le pagine corrispondano ai testi, che il JavaScript
 # non abbia errori e che nessun collegamento interno sia rotto. Se un controllo non passa non si pubblica niente:

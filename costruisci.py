@@ -12,7 +12,7 @@ Il committente non deve mai eseguirlo: lo faccio io e consegno la cartella
 pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
-import os, re, shutil, datetime, subprocess, hashlib
+import os, re, shutil, datetime, subprocess, hashlib, base64
 from testi_pagine import TESTI, DESCRIZIONI, TITOLI
 import json
 
@@ -20,7 +20,7 @@ import json
 # impostazioni
 # --------------------------------------------------------------------------
 DOMINIO = "https://larosadoro.org"      # [VERIFICARE] il dominio definitivo
-ANTEPRIMA = True                          # True: le pagine chiedono ai motori di ricerca di non indicizzarle (indirizzo di prova)
+ANTEPRIMA = False                         # False dal 26.10.2026 (Elias): il sito è aperto ai motori di ricerca. True: le pagine chiedono di non indicizzarle
 TESTATA_CENTRATA = True                   # prova del 15.9 (Dacia, ok Elias): logo e nome sopra, menu sotto; False = una riga
 LINK_PULITI = True                        # False: i collegamenti finiscono in «index.html», così il sito
                                           #        funziona anche aperto da una cartella sul computer.
@@ -44,9 +44,12 @@ TRAPPOLA = ('<input class="trappola" name="sito_web" type="text" value="" tabind
                                           # che riempiono tutto lo riempiono, e lo script del foglio li manda nella scheda «Spam»
 FASI = ("Un’idea", "Un progetto in corso di realizzazione", "Un progetto che esiste già",   # «A che punto è», nel modulo dei
         "Una realtà consolidata che cerca nuovi sviluppi")                                 # progetti: le stesse in FASI dello script
-CONSENSO_NOTIZIE = ("v1 ottobre 2026",    # la versione e il testo della casella delle notizie: se il testo cambia,
-    "Vorrei ricevere ogni tanto le notizie della Fondazione per email. Posso cancellarmi quando voglio.")
+CONSENSO_NOTIZIE = ("v2 novembre 2026",  # la versione e il testo della casella delle notizie: se il testo cambia,
+    "Vorrei ricevere periodicamente le notizie della Fondazione per email. Potrò cancellarmi quando lo desidero.")
                                           # cambia anche la versione, che il foglio registra accanto al consenso.
+                                          # Le versioni di prima, per sapere a che cosa ha detto sì chi si è iscritto:
+                                          # v1 ottobre 2026 «Vorrei ricevere ogni tanto le notizie della Fondazione per email.
+                                          # Posso cancellarmi quando voglio.» (fino al novembre 2026)
 USCITA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sito")
 LUX = "https://lux.larosadoro.org/"       # il sito di Lux: la voce «Lux» in alto a sinistra e nel menu del telefono (Elias, 11.10).
                                           # Vuoto: la voce sparisce, per esempio se all'apertura del sito al pubblico
@@ -95,7 +98,7 @@ ENTE = {
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
-    "tagline": "Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo, continui a fare del bene alla vita e nella vita: nel lavoro della terra, nella cura delle persone, nell’accompagnamento al fine vita.",   # scritta da Elias l’11.10; le alternative, per Dacia, sono nel Claude Doc della Home
+    "tagline": "Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo che sia, continui a fiorire e a seminare il bene nella vita degli altri. Un impegno d’amore e di continuità che si esprime nel rispetto e nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, con competenza, sacralità e delicatezza.",   # di Dacia (31.10), sulla frase scritta da Elias l’11.10
 }
 
 SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei tre registri: cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.]"
@@ -165,7 +168,7 @@ SEZIONI = [
              dict(slug="eventi", voce="Eventi", titolo="Eventi", riga=""),
              dict(slug="formazione-medica", voce="Formazione medico-terapeutica", titolo="Formazione medico-terapeutica", riga=""),
              dict(slug="formazione-agricola", voce="Formazione agricola", titolo="Formazione agricola", riga=""),
-             dict(slug="formazione-accompagnamento", voce="Formazione accompagnamento alla morte", titolo="Formazione accompagnamento alla morte", riga="", hero="lemniscata"),
+             dict(slug="formazione-accompagnamento", voce="Formazione accompagnamento al morire", titolo="Formazione accompagnamento al morire", riga="", hero="lemniscata"),
          ]),
     # Servizi resta nel menu con la sua pagina «in costruzione» (Elias, 11.10). Le quattro pagine sono spente: escono dal menu,
     # dalla pagina della sezione, dalla home e dalla mappa per i motori di ricerca, ma restano nel sito (Chi siamo le collega).
@@ -412,7 +415,7 @@ def riquadro_notizie(da):
           <input type="hidden" name="pagina" value="">
           <input type="hidden" name="_sito" value="">
           %s
-          <p class="nota">Ti mandiamo un’email per confermare l’indirizzo. Come usiamo i dati lo spiega l’<a class="link" href="%s">informativa sulla privacy</a>.</p>
+          <p class="nota">Ti manderemo un’email per confermare l’indirizzo. Come usiamo i dati personali è spiegato nell’<a class="link" href="%s">informativa sulla privacy</a>.</p>
         </div>
         <p class="esito" role="status" tabindex="-1" hidden></p>
       </form>
@@ -456,8 +459,8 @@ def lastra_foto(da):
 def hero(da, p, sotto, classe_sotto="sotto"):
     tipo = p["hero"]
     occhiello = '<p class="occhiello">%s</p>' % sfuggi(p["occhiello"])
-    if tipo == "casa":                             # la home saluta (Dacia ed Elias, 3.10): un «Benvenuti.» discreto al posto della riga istituzionale
-        occhiello = '<p class="saluto">Benvenuti.</p>'
+    if tipo == "casa":                             # la home saluta (Dacia ed Elias, 3.10): un «Benvenuti» discreto al posto della riga istituzionale, senza punto (Dacia, 31.10)
+        occhiello = '<p class="saluto">Benvenuti</p>'
     fonte = ('<p class="fonte">%s</p>' % sfuggi(p["art"])) if p.get("art") else ""
     testo = '%s%s<h1>%s</h1><hr class="filo"><p class="%s">%s</p>' % (occhiello, fonte, sfuggi(p["titolo"]), classe_sotto, sotto)
     if tipo == "avorio":
@@ -539,6 +542,34 @@ def secondo_ricevute(testo):
     testo = re.sub(r"\{se-ricevute\}(.*?)\{/se-ricevute\}", lambda m: m.group(1) if RICEVUTE else "", testo, flags=re.S)
     testo = re.sub(r"\{senza-ricevute\}(.*?)\{/senza-ricevute\}", lambda m: "" if RICEVUTE else m.group(1), testo, flags=re.S)
     return testo.replace("{informativa-data}", MENSILE or RICEVUTE)
+
+def politica_sicurezza(script_interni=()):
+    """la regola di sicurezza di ogni pagina (Content-Security-Policy), in un tag meta perché GitHub Pages non manda
+    intestazioni proprie (revisione di sicurezza del 27.10): il browser carica script, stili, immagini, caratteri e musica
+    solo dal sito; lo script di Turnstile e la sua cornice solo da Cloudflare; i moduli parlano solo con lo script del
+    foglio, che risponde con un rimando a googleusercontent. Se un giorno uno script estraneo finisse in una pagina, il
+    browser non lo farebbe partire. «script_interni» sono i testi degli script scritti dentro la pagina (solo quello della
+    pagina «non trovata», che scrive la base), ammessi uno per uno con la loro impronta. frame-ancestors in un tag meta
+    non vale: resta fuori. La regola si verifica in sorgenti/controlla.py e nei moduli in un browser"""
+    script = ["'self'"] + (["https://challenges.cloudflare.com"] if TURNSTILE else [])
+    script += ["'sha256-%s'" % base64.b64encode(hashlib.sha256(t.encode("utf-8")).digest()).decode("ascii") for t in script_interni]
+    moduli = ["'self'"]
+    if FOGLIO:
+        moduli += ["https://script.google.com", "https://script.googleusercontent.com"]
+    elif FORMINIT:
+        moduli += ["https://forminit.com"]
+    regole = (("default-src", ["'self'"]),
+              ("script-src", script),
+              ("style-src", ["'self'", "'unsafe-inline'"]),        # gli stili scritti nei tag (style="…") e quelli di Turnstile
+              ("img-src", ["'self'", "data:"]),                     # la grana del hero è un SVG scritto nel foglio di stile
+              ("font-src", ["'self'"]),
+              ("media-src", ["'self'"]),                            # il valzer di Chopin
+              ("connect-src", moduli),                              # i moduli con JavaScript, e dediche.json
+              ("form-action", moduli),                              # i moduli senza JavaScript
+              ("frame-src", ["https://challenges.cloudflare.com"] if TURNSTILE else ["'none'"]),
+              ("base-uri", ["'self'"]),                             # la base della pagina «non trovata»
+              ("object-src", ["'none'"]))
+    return "; ".join("%s %s" % (nome, " ".join(valori)) for nome, valori in regole)
 
 def con_turnstile():
     """l'attributo con la chiave pubblica di Turnstile, per il tag <form> di ogni modulo: vuoto senza TURNSTILE"""
@@ -795,14 +826,24 @@ def tavola_porta(da, s):
 
 # le due introduzioni della home (bozza di Claude dell’11.10 con le correzioni di Elias, dopo aver riletto il sito con «Fondi e strumenti» e il Family Office):
 # cosa siamo e che cosa facciamo adesso, poi che cosa la Fondazione è costituita per fare
-HOME_CHI_SIAMO = ("La Rosa d’Oro è nata per stare accanto alla vita in tutto il suo arco: la terra che ci nutre, le persone fragili che hanno "
-                  "bisogno di cura, chi si avvicina alla fine del suo cammino terreno e chi invece resta qui. Non lo fa da sola: cerca medici, agricoltori, operatori del sociale "
-                  "e professionisti con cui lavorare, e persone che scelgano di affidarle una parte di ciò che hanno, in vita o con un lascito, "
-                  "perché continui a fare del bene.")
-HOME_COSA_OFFRIAMO = ("La Fondazione è costituita per due compiti che vanno insieme. Il primo è verso le persone: l’accompagnamento nel fine vita, "
+# riscritta da Dacia il 31.10: chi cerca la Fondazione diventa un elenco, e accanto a «Chi siamo» c’è «Lavora con noi»
+HOME_CHI_SIAMO = ("La Rosa d’Oro è nata per stare accanto alla vita in tutto il suo arco, nel tempo e nello spazio: a partire dalla terra che ci nutre, "
+                  "per arrivare alle persone malate o con fragilità che necessitano di cura e il cui destino può sempre mutare, a chi si avvicina "
+                  "alla fine del suo cammino terreno e a chi invece resta qui.")
+HOME_OPERATO = "Il nostro operato vuole trarre forza e compimento dall’azione sinergica con il territorio."
+HOME_CERCA = (
+    "medici e altri operatori sanitari, agricoltori, operatori del sociale, consulenti legali e professionisti con cui lavorare, "
+    "di qualunque età e provenienza, che desiderino mettere il proprio lavoro al servizio degli altri;",
+    "persone che scelgano di affidarle una parte di ciò che hanno, in vita o con un lascito, perché venga custodita con cura "
+    "e quel bene continui a vivere nel tempo e per tutti;",
+    "giovani che coltivano progetti di utilità sociale, ecologica, agricola, tecnologica, scientifica, artistica e di ricerca, "
+    "con l’obiettivo di aiutarli a sviluppare competenze e di facilitare la realizzazione dei progetti – nella complessità "
+    "dello scenario attuale – per coltivare bellezza, nutrire il futuro, seminare speranza, portare luce e promuovere il benessere della comunità.",
+)
+HOME_COSA_OFFRIAMO = ("La Fondazione è costituita per due compiti che procedono di pari passo. Il primo è verso le persone: l’accompagnamento al morire, "
                       "il sostegno a chi è fragile, l’agricoltura sociale, l’ospitalità e l’orientamento, da realizzare con i partner del territorio. "
                       "Il secondo è verso chi vuole che una parte di ciò che ha continui a fare del bene: un lascito, un fondo con il proprio nome, "
-                      "il vitalizio, il Dopo di Noi, un piano per tutta la famiglia, da costruire con i suoi professionisti di fiducia "
+                      "il vitalizio, il Dopo di Noi, un piano per tutta la famiglia, da costruire con i propri professionisti di fiducia "
                       "o con gli studi partner della Fondazione.")
 
 NUMERI = {5: "Cinque", 6: "Sei", 7: "Sette", 8: "Otto", 9: "Nove", 10: "Dieci"}
@@ -836,9 +877,11 @@ def corpo_home(da, p):
       <div class="testo">
         <p class="occhiello">Chi siamo</p>
         <h2>Una fondazione costituita nel 2026</h2>
-        <p>La Fondazione La Rosa d'Oro è un Ente del Terzo Settore con sede a Milano, costituito il 26 febbraio 2026 e iscritto al Registro Unico Nazionale del Terzo Settore. Presidente Dacia Dalla Libera, vicepresidente Elias Minotti.</p>
+        <p>La Fondazione La Rosa d'Oro è un Ente del Terzo Settore con sede a Milano, costituito il 26 febbraio 2026 e iscritto al Registro Unico Nazionale del Terzo Settore. %s</p>
         <p>%s</p>
-        <p><a class="vai" href="%s">Chi siamo</a></p>
+        <p>La Fondazione non agisce da sola, ma cerca:</p>
+        <ul class="stelle">%s</ul>
+        <div class="rimandi"><a class="vai" href="%s">Chi siamo</a><a class="vai" href="%s">Lavora con noi</a></div>
       </div>
       <figure class="riquadro tavola-dentro"><img src="%s" alt="%s"><span class="squadra a"></span><span class="squadra b"></span></figure>
     </div></div>
@@ -859,7 +902,8 @@ def corpo_home(da, p):
       <div class="porte">%s</div>
     </div>
   </section>
-</main>""" % (sfuggi(HOME_CHI_SIAMO), verso(da, "chi-siamo"), risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"],
+</main>""" % (sfuggi(HOME_CHI_SIAMO), sfuggi(HOME_OPERATO), "".join("<li>%s</li>" % sfuggi(v) for v in HOME_CERCA),
+              verso(da, "chi-siamo"), verso(da, "lavora-con-noi"), risorsa(da, "img/tavola-spighe.svg"), TAVOLE_ALT["spighe"],
               sfuggi(HOME_COSA_OFFRIAMO),
               verso(da, "servizi"), verso(da, "fondi-e-strumenti"), verso(da, "professionisti"), NUMERI[len(SEZIONI)], "".join(porte))
 
@@ -871,6 +915,9 @@ IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno ind
 # le schede dei fondi convertibili e della riqualificazione etica, di cui si parla a tu per tu (Elias, 9.10): si leggono
 # dal sito, ma non si cercano su Google
 NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica")
+# i file che robots.txt chiude a tutti i motori: le dediche del giardino (dediche.json, che la pubblicazione scrive accanto
+# alla pagina) e la foto della bambina in Dopo di Noi, che resta sul sito ma non entra in Google Immagini (Elias e Dacia, 26.10)
+FUORI_DAI_MOTORI = ("in-memoria/giardino-dei-ricordi/dediche.json", "img/foto/bimba-1.jpg")
 
 def pagina_html(da, p, extra_head=""):
     # il titolo della scheda è anche il titolo che Google mostra: per le pagine dal titolo evocativo
@@ -924,10 +971,14 @@ def pagina_html(da, p, extra_head=""):
     dati = DATI_STRUTTURATI
     if p["tipo"] != "404" and da:
         dati += '</script>\n<script type="application/ld+json">' + briciole(da, p)
+    # la regola di sicurezza e quella sul referrer vengono prima di tutto ciò che il browser carica o esegue
+    politica = politica_sicurezza(re.findall(r"<script>(.*?)</script>", extra_head, re.S))
     return """<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">%s
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="%s">
+<meta name="referrer" content="strict-origin-when-cross-origin">%s
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%s</title>
 <meta name="description" content="%s">
@@ -957,7 +1008,7 @@ def pagina_html(da, p, extra_head=""):
 <script src="%s"></script>
 </body>
 </html>
-""" % (extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
+""" % (sfuggi(politica), extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
        robots, dati,
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
        SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
@@ -1006,8 +1057,9 @@ def costruisci():
     with open(os.path.join(USCITA, "img", "favicon.svg"), "w", encoding="utf-8") as f:
         f.write(FAVICON)
     with open(os.path.join(USCITA, "robots.txt"), "w", encoding="utf-8") as f:
-        # le dediche del giardino (dediche.json, che la pubblicazione scrive accanto alla pagina) non si offrono ai motori
-        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else "User-agent: *\nAllow: /\nDisallow: /in-memoria/giardino-dei-ricordi/dediche.json\n")
+        # i divieti prima di «Allow: /»: i programmi più semplici seguono la prima regola che corrisponde
+        f.write(("User-agent: *\nDisallow: /\n" if ANTEPRIMA else
+                 "User-agent: *\n" + "".join("Disallow: /%s\n" % x for x in FUORI_DAI_MOTORI) + "Allow: /\n")
                 + "Sitemap: %s/sitemap.xml\n" % DOMINIO)
     # la pagina «non trovata»: GitHub Pages la serve da qualsiasi indirizzo, quindi i percorsi partono dalla radice del sito
     base = "<script>document.write('<base href=\"' + (location.hostname.slice(-9) === 'github.io' ? '/rosadoro/' : '/') + '\">')</script>"

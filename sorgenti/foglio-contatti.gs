@@ -30,8 +30,13 @@
  *   - chi scrive una dedica riceve un’email con il collegamento per toglierla.
  * Prima di scrivere o mandare qualcosa, ogni invio dei moduli passa dal controllo contro i programmi automatici
  * (Elias, 22.10): campo trappola, link nel nome o nell’oggetto, troppa fretta, troppi invii dallo stesso indirizzo,
- * Cloudflare Turnstile. Spam e sospetti vanno nella scheda «Spam», senza avvisi né email (vedi controllaInvio).
+ * Cloudflare Turnstile (anche una risposta già usata o nata su un altro sito: revisione di sicurezza del 27.10).
+ * Spam e sospetti vanno nella scheda «Spam», senza avvisi né email (vedi controllaInvio).
  * Le colonne nuove le aggiunge lo script stesso, la prima volta che servono.
+ * Le email a chi scrive (conferma delle notizie, ricevuta della dedica) partono in due versioni dagli stessi
+ * pezzi (Elias, 31.10): il testo semplice, e l’HTML con i colori del sito e un pulsante per l’azione principale,
+ * con sotto l’indirizzo scritto per intero. I collegamenti portano a contatti/?… e giardino-dei-ricordi/?…,
+ * senza «index.html»; quelli già partiti, con «index.html», valgono ancora: la firma è la stessa.
  *
  * Dove sta: nel foglio, dal menu Estensioni → Apps Script. Si pubblica come
  * «App web», eseguita come il proprietario del foglio, accessibile a chiunque:
@@ -51,6 +56,8 @@ var DA = 'segreteria@larosadoro.org';             // l’indirizzo da cui parton
                                                   // tra gli indirizzi «Invia come» della posta del proprietario del foglio
 var SITI = ['https://larosadoro.org/', 'https://eliasminotti.github.io/rosadoro/'];   // i soli indirizzi del sito
                                                   // a cui portano i collegamenti di conferma; il primo vale se il modulo non dice da dove arriva
+var OSPITI = SITI.map(function (s) { return s.replace(/^https?:\/\//, '').split('/')[0]; });   // i loro nomi: i soli siti su cui
+                                                  // può nascere una risposta di Turnstile (Cloudflare dice su quale è nata)
 var FUSO = 'Europe/Rome';
 var GIORNI_CONFERMA = 30;                         // per quanti giorni vale il collegamento di conferma
 var MINUTI_LUX = 10;                              // per quanti minuti vale la firma di una richiesta di Lux
@@ -214,7 +221,8 @@ function titoliCon(foglio, colonne) {
 /* il controllo di ogni invio dei moduli del sito, prima di scrivere o mandare qualcosa (Elias, 22.10).
    Spam: il campo trappola è pieno, c’è un link o del codice nel nome o nell’oggetto, il modulo è partito meno di
    SECONDI_MINIMI secondi dopo l’apertura della pagina (lo dice sito.js in _tempo), lo stesso indirizzo ha già scritto
-   INVII_ORA volte nell’ultima ora, o Cloudflare dice che la risposta di Turnstile non vale. Sospetto: un invio senza
+   INVII_ORA volte nell’ultima ora, o Cloudflare dice che la risposta di Turnstile non vale, è già stata usata o è nata
+   su un altro sito. Sospetto: un invio senza
    JavaScript; con Turnstile acceso, un invio senza la sua risposta; un link solo nel testo del messaggio, se Turnstile
    non ha detto «persona». Spam e sospetti tornano come { spam: perché } e vanno nella scheda «Spam», senza avvisi né
    email; senza la risposta di Turnstile anche { controllo: true }, perché la pagina proponga di scrivere dalla propria
@@ -232,6 +240,8 @@ function controllaInvio(p, modulo) {
   if (p._js !== '1') return { spam: 'sospetto: senza JavaScript' };
   var turnstile = verificaTurnstile(campo('_turnstile'));
   if (turnstile === 'no') return { spam: 'spam: Turnstile dice che non è una persona' };
+  if (turnstile === 'già usata') return { spam: 'spam: risposta di Turnstile già usata' };
+  if (turnstile === 'altro sito') return { spam: 'spam: risposta di Turnstile nata su un altro sito' };
   if (turnstile === 'non so' && !campo('_turnstile')) return { spam: 'sospetto: senza risposta di Turnstile', controllo: true };
   if (conLink(campi.testo)) {
     return turnstile === 'sì' ? { verifica: 'c’è un link nel testo, anche se Turnstile dice che chi scrive è una persona' }
@@ -251,9 +261,11 @@ function troppiInvii(email) {
   return invii >= INVII_ORA;
 }
 
-/* la risposta di Turnstile, verificata con Cloudflare: «sì» se è una persona; «no» se la risposta non vale, perché un
-   programma l’ha inventata; «non so» se manca, è scaduta o Cloudflare non risponde. «Spento» finché nelle proprietà
-   dello script manca la chiave segreta TURNSTILE_SEGRETO: allora Turnstile non conta */
+/* la risposta di Turnstile, verificata con Cloudflare: «sì» se è una persona sul nostro sito; «no» se la risposta non
+   vale, perché un programma l’ha inventata; «già usata» se è stata già verificata una volta (un programma la ripete:
+   Cloudflare risponde «timeout-or-duplicate»); «altro sito» se è nata su un sito che non è il nostro (hostname fuori
+   da OSPITI); «non so» se manca, è scaduta o Cloudflare non risponde. «Spento» finché nelle proprietà dello script
+   manca la chiave segreta TURNSTILE_SEGRETO: allora Turnstile non conta (revisione di sicurezza del 27.10) */
 function verificaTurnstile(risposta) {
   var segreto = PropertiesService.getScriptProperties().getProperty('TURNSTILE_SEGRETO');
   if (!segreto) return 'spento';
@@ -262,8 +274,13 @@ function verificaTurnstile(risposta) {
     var esito = JSON.parse(UrlFetchApp.fetch(TURNSTILE, {
       method: 'post', payload: { secret: segreto, response: risposta.slice(0, 2048) }, muteHttpExceptions: true
     }).getContentText());
-    if (esito.success === true) return 'sì';
-    return (esito['error-codes'] || []).indexOf('invalid-input-response') >= 0 ? 'no' : 'non so';
+    if (esito.success === true) {
+      var nato = String(esito.hostname || '').toLowerCase();
+      return !nato || OSPITI.indexOf(nato) >= 0 ? 'sì' : 'altro sito';
+    }
+    var codici = esito['error-codes'] || [];
+    if (codici.indexOf('timeout-or-duplicate') >= 0) return 'già usata';
+    return codici.indexOf('invalid-input-response') >= 0 ? 'no' : 'non so';
   } catch (errore) {
     console.error(errore);
     return 'non so';
@@ -365,20 +382,16 @@ function mandaLaRicevuta(email, sito, codice) {
   manda({
     to: email,
     subject: 'La tua dedica nel giardino dei ricordi',
-    body: [
+    pezzi: [
       'Buongiorno,',
-      '',
       'la tua dedica per il giardino dei ricordi della Fondazione La Rosa d’Oro è arrivata. La leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.',
-      '',
       'Se un giorno vorrai toglierla, apri questo collegamento e tocca «Togli la dedica»:',
-      '',
-      sito + 'in-memoria/giardino-dei-ricordi/index.html?togli=' + codice + '.' + firma('togli|' + codice),
-      '',
+      // un collegamento discreto, non un pulsante: l’email è un ringraziamento, togliere la dedica non è la cosa da fare
+      { indirizzo: sito + 'in-memoria/giardino-dei-ricordi/?togli=' + codice + '.' + firma('togli|' + codice),
+        parole: 'La pagina per togliere la dedica' },
       'Se la dedica non l’hai scritta tu, apri lo stesso collegamento per toglierla, oppure rispondi a questa email.',
-      '',
-      'Fondazione La Rosa d’Oro ETS',
-      AVVISI_A
-    ].join('\n')
+      FIRMA
+    ]
   });
   memoria.put(chiave, String(mandate + 1), 6 * 60 * 60);
   return true;
@@ -669,26 +682,19 @@ function chiediConferma(email, sito, motivo) {
   if (confermaRecente(email)) return true;         // una sola email di conferma ogni GIORNI_TRA_CONFERME giorni per indirizzo
   var quando = String(Math.floor(Date.now() / 1000));
   var codice = base64url(email) + '.' + quando + '.' + firma(email + '|' + quando);
-  var collegamento = sito + 'contatti/index.html?conferma=' + codice;
+  var collegamento = sito + 'contatti/?conferma=' + codice;
   manda({
     to: email,
     subject: 'Conferma la tua email per le notizie della Fondazione',
-    body: [
+    pezzi: [
       'Buongiorno,',
-      '',
       perche[0] + ' di ricevere, ogni tanto, le nostre notizie per email. Per confermare che questo indirizzo è tuo apri il collegamento qui sotto e tocca «Confermo»:',
-      '',
-      collegamento,
-      '',
+      { indirizzo: collegamento, pulsante: 'Conferma la tua email' },
       'Se la richiesta non viene da te, o hai cambiato idea, non fare niente: non ti manderemo notizie.' + (perche[1] ? ' ' + perche[1] : ''),
-      '',
       'Quando vorrai smettere di ricevere le notizie, ti basterà aprire questo collegamento e toccare «Cancellami»:',
-      '',
-      collegamentoPerCancellarsi(email, sito),
-      '',
-      'Fondazione La Rosa d’Oro ETS',
-      AVVISI_A
-    ].join('\n')
+      { indirizzo: collegamentoPerCancellarsi(email, sito), parole: 'La pagina per cancellarti dalle notizie' },
+      FIRMA
+    ]
   });
   segnaConferma(email);
   return true;
@@ -720,7 +726,7 @@ function segnaConferma(email) {
    Porta alla pagina Contatti del sito, dove si tocca «Cancellami» */
 function collegamentoPerCancellarsi(email, sito) {
   if (SITI.indexOf(sito) < 0) sito = SITI[0];
-  return sito + 'contatti/index.html?cancella=' + base64url(email) + '.' + firma('cancella|' + email);
+  return sito + 'contatti/?cancella=' + base64url(email) + '.' + firma('cancella|' + email);
 }
 
 /* la pagina Contatti del sito, quando si tocca «Confermo», chiede qui con ?conferma=…, e con ?cancella=…
@@ -900,33 +906,86 @@ function pagina(titolo, corpo) {
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
-/* manda un’email a chi ha scritto, dall’indirizzo DA, con il servizio Gmail (permesso: solo inviare).
-   Se il servizio non è acceso o l’invio non riesce, parte come prima, dal proprietario del foglio,
-   con le risposte che vanno ad AVVISI_A: la conferma arriva comunque */
+/* manda un’email a chi ha scritto, dall’indirizzo DA, con il servizio Gmail (permesso: solo inviare), in due
+   versioni dagli stessi pezzi: il testo semplice e l’HTML (vedi emailInHtml). Se il servizio non è acceso o
+   l’invio non riesce, parte come prima, dal proprietario del foglio, con le risposte che vanno ad AVVISI_A:
+   la conferma arriva comunque */
 function manda(m) {
+  var testoSemplice = emailInTesto(m.pezzi);
+  var html = emailInHtml(m.pezzi, m.subject);
   if (typeof Gmail !== 'undefined') {
     try {
       var b64 = function (t) { return Utilities.base64Encode(t, Utilities.Charset.UTF_8); };
       // nelle intestazioni le lettere accentate e l’apostrofo ’ viaggiano in codice
       var parole = function (t) { return /^[ -~]*$/.test(t) ? t : '=?UTF-8?B?' + b64(t) + '?='; };
+      var confine = 'rosadoro-' + Utilities.getUuid();
+      var versione = function (tipo, contenuto) {
+        return ['--' + confine, 'Content-Type: ' + tipo + '; charset=UTF-8', 'Content-Transfer-Encoding: base64', '',
+                b64(contenuto).replace(/(.{76})/g, '$1\r\n')].join('\r\n');
+      };
       var intestazioni = [
         'From: ' + parole(MITTENTE) + ' <' + DA + '>',
         'To: ' + m.to,
         'Reply-To: ' + AVVISI_A,
         'Subject: ' + parole(m.subject),
         'MIME-Version: 1.0',
-        'Content-Type: text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding: base64'
+        'Content-Type: multipart/alternative; boundary="' + confine + '"'
       ];
-      var corpo = b64(m.body).replace(/(.{76})/g, '$1\r\n');
-      var grezzo = intestazioni.join('\r\n') + '\r\n\r\n' + corpo;
+      var grezzo = intestazioni.join('\r\n') + '\r\n\r\n' + versione('text/plain', testoSemplice) + '\r\n' +
+                   versione('text/html', html) + '\r\n--' + confine + '--\r\n';
       Gmail.Users.Messages.send({ raw: Utilities.base64EncodeWebSafe(grezzo) }, 'me');
       return;
     } catch (errore) {
       console.error(errore);
     }
   }
-  MailApp.sendEmail({ to: m.to, replyTo: AVVISI_A, name: MITTENTE, subject: m.subject, body: m.body });
+  MailApp.sendEmail({ to: m.to, replyTo: AVVISI_A, name: MITTENTE, subject: m.subject, body: testoSemplice, htmlBody: html });
+}
+
+/* i pezzi di un’email: un paragrafo è una stringa; un collegamento è { indirizzo, pulsante } per l’azione
+   principale, o { indirizzo, parole } per un collegamento discreto; FIRMA chiude. Tutto il testo è nostro:
+   le email a chi scrive non portano mai parole scritte da altri */
+var FIRMA = { firma: true };
+
+/* il testo semplice, come prima: i paragrafi separati da una riga vuota, e ogni collegamento è l’indirizzo da solo */
+function emailInTesto(pezzi) {
+  return pezzi.map(function (p) {
+    if (typeof p === 'string') return p;
+    return p.firma ? 'Fondazione La Rosa d’Oro ETS\n' + AVVISI_A : p.indirizzo;
+  }).join('\n\n');
+}
+
+/* l’HTML, che i programmi di posta mostrano di solito: i colori e i caratteri del sito, il corpo a 17 px, il pulsante
+   come quelli del sito con sotto l’indirizzo scritto per intero (chi è prudente vede dove porta), gli stili dentro
+   gli elementi (molti programmi di posta tolgono il blocco <style>) */
+function emailInHtml(pezzi, oggetto) {
+  var paragrafo = 'margin:0 0 20px;font:17px/1.6 Helvetica,Arial,sans-serif;color:#1C1C1C';
+  var legame = 'color:#8D6E2A;text-decoration:underline';
+  var corpo = pezzi.map(function (p) {
+    if (typeof p === 'string') return '<p style="' + paragrafo + '">' + inHtml(p) + '</p>';
+    if (p.firma) {
+      return '<p style="' + paragrafo + ';margin-top:32px">Fondazione La Rosa d’Oro ETS<br>' +
+        '<a href="mailto:' + AVVISI_A + '" style="' + legame + '">' + AVVISI_A + '</a></p>';
+    }
+    var indirizzo = inHtml(p.indirizzo);
+    if (p.pulsante) {
+      return '<p style="margin:4px 0 16px"><a href="' + indirizzo + '" style="display:inline-block;background:#1C1C1C;' +
+        'color:#FAF6EE;border:1px solid #1C1C1C;text-decoration:none;font:500 12px/16px Helvetica,Arial,sans-serif;' +
+        'letter-spacing:.14em;text-transform:uppercase;padding:15px 28px">' + inHtml(p.pulsante) + '</a></p>' +
+        '<p style="' + paragrafo + '">Se il pulsante non si apre, copia questo indirizzo nel browser:<br>' +
+        '<a href="' + indirizzo + '" style="' + legame + ';word-break:break-all">' + indirizzo + '</a></p>';
+    }
+    return '<p style="' + paragrafo + '"><a href="' + indirizzo + '" style="' + legame + '">' + inHtml(p.parole) + '</a></p>';
+  }).join('\n');
+  return '<!doctype html>\n<html lang="it"><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1"><title>' + inHtml(oggetto) + '</title></head>' +
+    '<body style="margin:0;padding:0;background:#FAF6EE">' +
+    '<div style="max-width:560px;margin:0 auto;padding:32px 20px;background:#FAF6EE">\n' + corpo + '\n</div></body></html>';
+}
+
+/* un testo dentro l’HTML: i caratteri che l’HTML legge come codice diventano caratteri e basta */
+function inHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 /* toglie gli spazi in eccesso e taglia i testi troppo lunghi */

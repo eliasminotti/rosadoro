@@ -15,6 +15,10 @@ se un controllo fallisce non si pubblica niente e online resta la versione di pr
   - nella pagina Dona la carta (Stripe) viene per prima, con un Payment Link vero e non di prova;
   - la partita IVA è in ogni pagina, home compresa: nel piede «C.F. e P.IVA …» e nella scheda per i motori di ricerca (vatID);
   - la sede legale è nel piede di ogni pagina, dopo la partita IVA, ed è la stessa della scheda per i motori di ricerca;
+  - i motori di ricerca: le pagine della mappa si lasciano indicizzare, mentre il giardino, le sue dediche e la foto della
+    bambina in Dopo di Noi restano fuori (robots.txt e «noindex»);
+  - la regola di sicurezza (Content-Security-Policy) e quella sul referrer stanno in cima a ogni pagina, permettono
+    Turnstile e lo script del foglio e ammettono con l'impronta il solo script scritto dentro la pagina «non trovata»;
   - lo script del foglio fa quello che deve, provato con un foglio finto (sorgenti/controlla-foglio.js);
   - giardino.py porta nel giardino le dediche giuste, provato con un foglio e un sito finti (sorgenti/controlla-giardino.py);
   - i moduli delle pagine mandano allo script quello che devono e rispondono bene, provati in un browser
@@ -30,13 +34,14 @@ Sul sito pubblicato (lo fa il workflow .github/workflows/controlli.yml ogni matt
 
 Usa solo Python, più node per il JavaScript.
 """
-import html.parser, json, os, re, shutil, socket, ssl, subprocess, sys, tempfile, time
-import urllib.error, urllib.parse, urllib.request
+import base64, hashlib, html.parser, json, os, re, shutil, socket, ssl, subprocess, sys, tempfile, time
+import urllib.error, urllib.parse, urllib.request, urllib.robotparser
 
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITO = os.path.join(RADICE, "sito")
 SITO_DI_PROVA = "https://eliasminotti.github.io/rosadoro/"   # dal 21.10.2026 porta a larosadoro.org
 DEDICHE = os.path.join("in-memoria", "giardino-dei-ricordi", "dediche.json")   # la scrive la pubblicazione, non la costruzione
+FOTO_BAMBINA = os.path.join("img", "foto", "bimba-1.jpg")   # Dopo di Noi: fuori da Google Immagini finché Elias e Dacia non decidono (26.10)
 CERTIFICATO_MINIMO = 10          # giorni: GitHub rinnova i certificati molto prima; sotto i 10 il rinnovo si è inceppato
 NAVIGATORE = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 rosadoro-controlli"
 
@@ -405,6 +410,111 @@ def controlla_sede(pagine):
         print("Sede legale: %s nel piede di ogni pagina e nella scheda per i motori di ricerca" % sede)
 
 
+def controlla_motori(pagine):
+    """Il sito è aperto ai motori di ricerca dal 26.10.2026 (Elias). Restano fuori la pagina del giardino e le sue dediche, come
+    promette l'informativa, e la foto della bambina in Dopo di Noi, finché Elias e Dacia non decidono se tenerla (Elias, 26.10):
+    robots.txt la chiude a tutti i motori, così non entra in Google Immagini. Le pagine della mappa per i motori non chiedono di
+    restare fuori («noindex»): Google lo segnalerebbe come errore."""
+    dominio = impostazione("DOMINIO").rstrip("/")
+    lettore = urllib.robotparser.RobotFileParser()
+    lettore.parse(open(os.path.join(SITO, "robots.txt"), encoding="utf-8").read().splitlines())
+    prima = len(problemi)
+    fuori = [DEDICHE] + ([FOTO_BAMBINA] if os.path.exists(os.path.join(SITO, FOTO_BAMBINA)) else [])
+    for rel in fuori:
+        indirizzo = dominio + "/" + rel.replace(os.sep, "/")
+        for motore in ("Googlebot", "Googlebot-Image", "bingbot"):
+            if lettore.can_fetch(motore, indirizzo):
+                problemi.append("robots.txt lascia %s a %s: deve restare fuori dai motori di ricerca" % (rel, motore))
+    giardino = os.path.join("in-memoria", "giardino-dei-ricordi", "index.html")
+    if 'name="robots" content="noindex' not in open(os.path.join(SITO, giardino), encoding="utf-8").read():
+        problemi.append("La pagina del giardino non chiede ai motori di restare fuori (noindex), come promette l’informativa")
+    if not lettore.can_fetch("Googlebot", dominio + "/"):
+        if len(problemi) == prima:
+            print("Motori di ricerca: il sito è ancora chiuso (ANTEPRIMA)")
+        return
+    mappa = open(os.path.join(SITO, "sitemap.xml"), encoding="utf-8").read()
+    voci = re.findall(r"<loc>([^<]+)</loc>", mappa)
+    for indirizzo in voci:
+        rel = indirizzo[len(dominio) + 1:] + "index.html"
+        if not indirizzo.startswith(dominio + "/") or rel not in pagine:
+            problemi.append("La mappa per i motori porta a una pagina che non c’è: %s" % indirizzo)
+        elif 'name="robots" content="noindex' in open(os.path.join(SITO, rel), encoding="utf-8").read():
+            problemi.append("%s è nella mappa per i motori, ma chiede di restarne fuori (noindex)" % rel)
+        elif not lettore.can_fetch("Googlebot", indirizzo):
+            problemi.append("%s è nella mappa per i motori, ma robots.txt la chiude" % rel)
+    if len(problemi) == prima:
+        print("Motori di ricerca: aperti, %d pagine nella mappa; giardino, dediche e foto della bambina restano fuori" % len(voci))
+
+
+# la regola di sicurezza dentro le pagine (Content-Security-Policy, revisione di sicurezza del 27.10.2026): GitHub Pages
+# non manda intestazioni proprie, quindi sta in un tag meta in cima all'head, prima di tutto ciò che il browser carica.
+# Il browser carica script, stili, immagini e caratteri solo dal sito, lo script di Turnstile e la sua cornice solo da
+# Cloudflare, e i moduli parlano solo con lo script del foglio (che risponde con un rimando a googleusercontent).
+# frame-ancestors in un tag meta non vale, e X-Content-Type-Options non si può dare: restano fuori.
+CLOUDFLARE = "https://challenges.cloudflare.com"
+GOOGLEUSERCONTENT = "https://script.googleusercontent.com"
+REFERRER = '<meta name="referrer" content="strict-origin-when-cross-origin">'
+
+
+def impronta(testo):
+    """l'impronta con cui la regola ammette uno script scritto dentro la pagina"""
+    return "'sha256-%s'" % base64.b64encode(hashlib.sha256(testo.encode("utf-8")).digest()).decode("ascii")
+
+
+def controlla_sicurezza(pagine):
+    turnstile = impostazione("TURNSTILE")
+    foglio = impostazione("FOGLIO")
+    origine_foglio = "{0.scheme}://{0.netloc}".format(urllib.parse.urlsplit(foglio)) if foglio else ""
+    prima = len(problemi)
+    for rel in sorted(pagine):
+        testo = open(os.path.join(SITO, rel), encoding="utf-8").read()
+        testa = testo[:testo.index("</head>")] if "</head>" in testo else testo
+        meta = re.search(r'<meta http-equiv="Content-Security-Policy" content="([^"]*)">', testa)
+        if not meta:
+            problemi.append("%s: manca la regola di sicurezza (Content-Security-Policy) nell'head" % rel)
+            continue
+        if re.search(r"<(script|link|style)\b", testa[:meta.start()]):
+            problemi.append("%s: la regola di sicurezza viene dopo uno script, uno stile o un collegamento: deve stare prima" % rel)
+        regole = {}
+        for parte in meta.group(1).split(";"):
+            pezzi = parte.split()
+            if pezzi:
+                regole[pezzi[0]] = pezzi[1:]
+        for nome, valori in (("default-src", ["'self'"]), ("object-src", ["'none'"]), ("base-uri", ["'self'"])):
+            if regole.get(nome) != valori:
+                problemi.append("%s: nella regola di sicurezza %s deve essere %s" % (rel, nome, " ".join(valori)))
+        if "frame-ancestors" in regole:
+            problemi.append("%s: frame-ancestors in un tag meta non vale, il browser lo ignora: va tolto" % rel)
+        for parola in ("'unsafe-inline'", "'unsafe-eval'"):
+            if parola in regole.get("script-src", []):
+                problemi.append("%s: script-src non deve avere %s" % (rel, parola))
+        if turnstile:
+            for nome in ("script-src", "frame-src"):
+                if CLOUDFLARE not in regole.get(nome, []):
+                    problemi.append("%s: %s deve permettere %s, sennò Turnstile non parte" % (rel, nome, CLOUDFLARE))
+        if origine_foglio:
+            for nome in ("connect-src", "form-action"):
+                for origine in (origine_foglio, GOOGLEUSERCONTENT):
+                    if origine not in regole.get(nome, []):
+                        problemi.append("%s: %s deve permettere %s, sennò i moduli non partono" % (rel, nome, origine))
+        # gli script scritti dentro la pagina: solo i dati per i motori di ricerca (che non si eseguono) e, nella pagina
+        # «non trovata», quello che scrive la base, ammesso con la sua impronta
+        for m in re.finditer(r"<script\b([^>]*)>(.*?)</script>", testo, re.S):
+            attributi, corpo = m.group(1), m.group(2)
+            if "src=" in attributi or 'type="application/ld+json"' in attributi:
+                continue
+            if rel != "404.html":
+                problemi.append("%s: c'è uno script scritto dentro la pagina: la regola di sicurezza lo blocca" % rel)
+            elif impronta(corpo) not in regole.get("script-src", []):
+                problemi.append("%s: lo script scritto dentro la pagina non ha la sua impronta nella regola (%s)" % (rel, impronta(corpo)))
+        if re.search(r"<[a-z][^>]*\son[a-z]+=", testo, re.I) or 'href="javascript:' in testo:
+            problemi.append("%s: un'azione scritta dentro un tag (onclick, javascript:): la regola di sicurezza la blocca" % rel)
+        if REFERRER not in testa:
+            problemi.append("%s: manca la regola sul referrer (%s)" % (rel, REFERRER))
+    if len(problemi) == prima:
+        print("Regola di sicurezza (CSP) e referrer: in tutte le %d pagine" % len(pagine))
+
+
 def controlla_script_del_foglio():
     if not shutil.which("node"):
         problemi.append("Manca node: lo script del foglio non si può controllare")
@@ -538,6 +648,8 @@ def main():
         controlla_mensile(pagine)
         controlla_partita_iva(pagine)
         controlla_sede(pagine)
+        controlla_motori(pagine)
+        controlla_sicurezza(pagine)
         controlla_script_del_foglio()
         controlla_giardino()
         controlla_moduli()

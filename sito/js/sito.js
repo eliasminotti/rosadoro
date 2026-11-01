@@ -106,6 +106,12 @@ var RADICE = (function () {
 
 /* l'esito di un modulo, sotto il pulsante: con un indirizzo, la frase finisce con l'email da scrivere a mano,
    l'alternativa sicura quando l'invio non riesce */
+/* le nostre email partono da segreteria@larosadoro.org: a un indirizzo nuovo qualche programma di posta le mette tra
+   quelle indesiderate, e chi non le vede non conferma. Dopo ogni invio che fa partire un'email lo diciamo (Elias, 31.10) */
+function seNonLaVedi(indirizzo) {
+  return ' Se non la vedi entro qualche minuto, guarda nella posta indesiderata e aggiungi ' + indirizzo + ' ai tuoi contatti.';
+}
+
 function scriviEsito(dove, testo, errore, indirizzo) {
   dove.textContent = testo;
   dove.classList.toggle('errore', !!errore);
@@ -428,7 +434,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
         campi.hidden = true;
         dopo.hidden = false;
         scriviEsito(esito, 'Grazie. La dedica per ' + nome + ' è arrivata: la leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.' +
-          (risposta.ricevuta ? ' Ti abbiamo mandato un’email con il collegamento per toglierla, se un giorno vorrai.' : ''));
+          (risposta.ricevuta ? ' Ti abbiamo mandato un’email con il collegamento per toglierla, se un giorno vorrai.' + seNonLaVedi(indirizzo) : ''));
         esito.focus({ preventScroll: true });
       })
       .catch(function () {
@@ -540,7 +546,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
         modulo.reset();
         campi.hidden = true;
         dici(esito, 'Grazie, il tuo messaggio è arrivato. Ti rispondiamo di persona, all’indirizzo che ci hai lasciato.' +
-          (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' : ''));
+          (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' + seNonLaVedi(indirizzo) : ''));
         esito.focus();
       })
       .catch(function () {
@@ -602,7 +608,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
         modulo.reset();
         campi.hidden = true;
         scriviEsito(esito, 'Grazie, il tuo progetto è arrivato. Lo leggiamo con attenzione e ti rispondiamo di persona, all’indirizzo che ci hai lasciato.' +
-          (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' : ''));
+          (risposta.conferma ? ' Per le notizie ti abbiamo mandato un’email: aprila e tocca «Confermo».' + seNonLaVedi(indirizzo) : ''));
         esito.focus({ preventScroll: true });
       })
       .catch(function () {
@@ -654,7 +660,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce) {
         if (!risposta || !risposta.success) throw new Error('non arrivato');
         modulo.reset();
         campi.hidden = true;
-        scriviEsito(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.');
+        scriviEsito(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.' + seNonLaVedi(indirizzo));
         esito.focus({ preventScroll: true });
       })
       .catch(function () {
