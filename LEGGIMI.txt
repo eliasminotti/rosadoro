@@ -9,7 +9,9 @@ Che cosa c’è
                      e misura di Google Analytics (solo con GOOGLE_TAG e solo dopo «Accetta»)
     font/            i caratteri ospitati nel sito (Cormorant Garamond, Instrument Sans), con le loro licenze OFL
     img/             le tavole incise, le fotografie, la favicon, l’immagine delle condivisioni
-    audio/           il valzer op. 69 n. 1 di Chopin per il fondo di memoria (Luke Faulkner, Musopen, pubblico dominio)
+    audio/           il valzer op. 69 n. 1 di Chopin per il fondo di memoria e il giardino (Luke Faulkner, Musopen, pubblico dominio)
+                     e il Lacrimosa del Requiem di Mozart per i Funerali (Karajan, Berliner Philharmoniker, Wiener Singverein,
+                     Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti; da IMSLP, file 581264)
     allegati/        i documenti da scaricare: lo statuto con la carta intestata della Fondazione e il fac-simile delle DAT
   costruisci.py      l’assemblatore: la mappa del sito, menu, testata e piede; scrive tutte le pagine
   testi_pagine.py    i testi delle pagine (la sezione «In memoria» è quella di Dacia)

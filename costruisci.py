@@ -91,6 +91,13 @@ MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con 
 SENZA_MISURA = ("in-memoria/giardino-dei-ricordi",)   # le pagine dove Google Analytics non parte mai, neppure con il consenso,
                                           # e il banner non compare da sé: il giardino è un luogo di lutto, e resta fuori anche dai motori
 
+MUSICHE = {                               # la musica su scelta (musica= in testi_pagine.py): il file in sito/ e il nome sul pulsante
+    "valzer": ("audio/valzer-op-69.mp3", "Chopin, valzer op. 69", ""),    # Luke Faulkner, Musopen: pubblico dominio ovunque
+    "lacrimosa": ("audio/lacrimosa.mp3", "Mozart, Lacrimosa",             # il terzo è il nome per intero, che compare col mouse
+                  "Mozart, Lacrimosa dal Requiem K. 626. Herbert von Karajan, Berliner Philharmoniker, Wiener Singverein, 1962"),
+}                                         # Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti
+                                          # (Elias, 1.11: se arriva una richiesta di toglierlo, si passa a una versione per pianoforte)
+
 CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
                                           # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
                                           # (art. 35 c.1 DPR 633/1972; dal 1.1.2027 art. 68 c.1 del testo unico IVA, D.Lgs. 10/2026):
@@ -110,7 +117,7 @@ ENTE = {
     "runts": "RUNTS sez. g, rep. n. 170120",
     "atto": "Atto costitutivo 26 febbraio 2026",
     "email": "segreteria@larosadoro.org",
-    "tagline": "Costituita perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo che sia, continui a fiorire e a seminare il bene nella vita degli altri. Un impegno d’amore e di continuità che si esprime nel rispetto e nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, con competenza, sacralità e delicatezza.",   # di Dacia (31.10), sulla frase scritta da Elias l’11.10
+    "tagline": "Creata perché ciò che una persona ha costruito, così come il suo patrimonio, grande o piccolo che sia, continui a fiorire e a seminare il bene nella vita degli altri. Un impegno d’amore e di continuità che si esprime nel rispetto e nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, con competenza, sacralità e delicatezza.",   # di Dacia (31.10; «Creata» dall’1.11), sulla frase scritta da Elias l’11.10
 }
 
 SEGNAPOSTO = "[Il testo di questa pagina si scrive al punto 4, con la regola dei tre registri: cosa siamo, cosa la Fondazione è costituita per fare, cosa stiamo facendo.]"
@@ -603,7 +610,7 @@ def politica_sicurezza(script_interni=()):
               ("style-src", ["'self'", "'unsafe-inline'"]),        # gli stili scritti nei tag (style="…") e quelli di Turnstile
               ("img-src", ["'self'", "data:"] + google.get("img-src", [])),   # la grana del hero è un SVG scritto nel foglio di stile
               ("font-src", ["'self'"]),
-              ("media-src", ["'self'"]),                            # il valzer di Chopin
+              ("media-src", ["'self'"]),                            # la musica (MUSICHE), solo dal sito
               ("connect-src", moduli + google.get("connect-src", [])),   # i moduli con JavaScript, e dediche.json
               ("form-action", moduli),                              # i moduli senza JavaScript
               ("frame-src", (["https://challenges.cloudflare.com"] if TURNSTILE else []) + google.get("frame-src", []) or ["'none'"]),
@@ -1022,10 +1029,13 @@ def pagina_html(da, p, extra_head=""):
     if da in TESTI and TESTI[da].get("sotto"):
         sotto = sfuggi(secondo_google(TESTI[da]["sotto"]))
     if da in TESTI and TESTI[da].get("musica"):
-        # se il file c'è, il pulsante si vede subito: sul telefono il browser non scarica nulla prima del tocco
-        nascosto = "" if os.path.exists(os.path.join(USCITA, "audio", "valzer-op-69.mp3")) else " hidden"
-        sotto += ('</p><button type="button" class="ascolta" data-audio="%s"%s>Ascolta · Chopin, valzer op. 69'
-                  '</button><p hidden>' % (risorsa(da, "audio/valzer-op-69.mp3"), nascosto))
+        # musica=True è il valzer di Chopin; un nome sceglie un’altra musica di MUSICHE.
+        # Se il file c'è, il pulsante si vede subito: sul telefono il browser non scarica nulla prima del tocco
+        file, titolo, per_intero = MUSICHE["valzer" if TESTI[da]["musica"] is True else TESTI[da]["musica"]]
+        nascosto = "" if os.path.exists(os.path.join(USCITA, file)) else " hidden"
+        intero = ' title="%s"' % sfuggi(per_intero) if per_intero else ""
+        sotto += ('</p><button type="button" class="ascolta" data-audio="%s"%s%s>Ascolta · %s'
+                  '</button><p hidden>' % (risorsa(da, file), intero, nascosto, titolo))
     # il motto: la frase d'apertura tutta in un rigo, più grande ed evidente (Dacia, 6.9)
     classe_sotto = "sotto" + (" motto" if TESTI.get(da, {}).get("motto") else "") + (" unica" if TESTI.get(da, {}).get("unica") else "")
     classe_body = ' class="notte"' if p.get("notte") else ""

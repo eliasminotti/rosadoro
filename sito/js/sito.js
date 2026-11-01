@@ -87,14 +87,15 @@
   for (var i = 0; i < bottoni.length; i++) {
     (function (b) {
       var suono = new Audio();
+      var etichetta = b.textContent;          /* ogni pulsante dice la sua musica: Chopin, Mozart… */
       suono.preload = 'metadata';
       suono.src = b.getAttribute('data-audio');
       suono.addEventListener('canplay', function () { b.hidden = false; });
       b.addEventListener('click', function () {
         if (suono.paused) { suono.play(); b.classList.add('suona'); b.textContent = 'Ferma la musica'; }
-        else { suono.pause(); suono.currentTime = 0; b.classList.remove('suona'); b.textContent = 'Ascolta · Chopin, valzer op. 69'; }
+        else { suono.pause(); suono.currentTime = 0; b.classList.remove('suona'); b.textContent = etichetta; }
       });
-      suono.addEventListener('ended', function () { b.classList.remove('suona'); b.textContent = 'Ascolta · Chopin, valzer op. 69'; });
+      suono.addEventListener('ended', function () { b.classList.remove('suona'); b.textContent = etichetta; });
     })(bottoni[i]);
   }
 })();

@@ -451,6 +451,33 @@ controllo('la regola di sicurezza (CSP) e quella sul referrer stanno in ogni pag
   }
 });
 
+/* ---- la musica su scelta: il valzer di Chopin nel fondo di memoria e nel giardino, il Lacrimosa di Mozart nei Funerali
+        (Dacia ed Elias, 1.11). Ogni pulsante dice la sua musica, parte solo col tocco, e quando si ferma torna a dire la sua ---- */
+
+controllo('la musica: ogni pagina ha il suo pulsante, che parte al tocco, si ferma e torna a dire la sua musica', async () => {
+  const pagine = [
+    ['in-memoria/fondo-di-memoria/index.html', 'audio/valzer-op-69.mp3', 'Ascolta · Chopin, valzer op. 69'],
+    ['in-memoria/funerali/index.html', 'audio/lacrimosa.mp3', 'Ascolta · Mozart, Lacrimosa']
+  ];
+  for (const [percorso, file, etichetta] of pagine) {
+    const p = await apri(percorso);
+    try {
+      const b = p.page.locator('.ascolta[data-audio]');
+      assert.strictEqual(await b.count(), 1, percorso + ': il pulsante della musica non c’è');
+      assert.ok((await b.getAttribute('data-audio')).endsWith(file), percorso + ': il pulsante non porta a ' + file);
+      await b.waitFor({ state: 'visible', timeout: 5000 });
+      assert.strictEqual((await b.textContent()).trim(), etichetta, percorso + ': il pulsante non dice la sua musica');
+      await b.click();
+      await p.page.waitForFunction(() => document.querySelector('.ascolta').classList.contains('suona'), null, { timeout: 5000 });
+      assert.strictEqual((await b.textContent()).trim(), 'Ferma la musica', percorso + ': mentre suona il pulsante non dice «Ferma la musica»');
+      await b.click();
+      assert.strictEqual((await b.textContent()).trim(), etichetta, percorso + ': fermata la musica, il pulsante non torna a dire la sua');
+      assert.deepStrictEqual(await p.violazioni(), [], percorso + ': la regola di sicurezza ha bloccato la musica');
+      assert.deepStrictEqual(p.errori, [], percorso + ': errori del JavaScript');
+    } finally { await p.chiudi(); }
+  }
+});
+
 controllo('con Turnstile: nessuna pagina chiama Cloudflare finché nessuno scrive in un modulo', async () => {
   for (const [percorso] of PAGINE_CON_MODULI) {
     const p = await apri(percorso, { turnstile: 'passa', dediche: { versione: 'x', dediche: [] } });
