@@ -155,6 +155,7 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .sottomenu .riga{display:block;font-size:12px;line-height:16px;color:var(--testo-45);letter-spacing:0;margin-top:1px}
 .sottomenu .separa{height:1px;background:var(--oro);margin:8px 22px;opacity:.7}
 .sottomenu .attuale>a{color:var(--testo);box-shadow:inset 2px 0 0 var(--oro)}
+.sottomenu .oro>a,.sottomenu .oro>a:hover{color:var(--oro-scuro);font-weight:500}   /* «Perché donare alla Rosa d’Oro», in oro (Dacia, 1.11) */
 
 /* la settima voce: nero e oro, e il suo pannello è nero */
 .voce.pro>a{background:var(--nero);color:var(--oro);padding-left:14px;padding-right:14px;border-bottom-color:var(--nero);margin-left:10px}
@@ -404,6 +405,7 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
   .sottomenu a:hover{background:transparent}
   .sottomenu .separa{margin:8px 0 8px 16px}
   .sottomenu .attuale>a{box-shadow:none;border-left-color:var(--oro)}
+  .sottomenu .oro>a{background:var(--carta)}   /* sul fondo avorio l’oro non si legge abbastanza: su bianco sì (4,8 a 1) */
   .voce.pro{margin-top:8px;border:1px solid rgba(184,143,61,.55);background:var(--nero);padding:0 14px}
   .voce.pro>a{background:transparent;margin:0;padding-left:0;padding-right:0;color:var(--oro)}
   .voce.pro .freccia{color:var(--oro)}
@@ -468,6 +470,8 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .citazione{font-family:var(--display);font-style:italic;font-weight:400;font-size:26px;line-height:1.4;color:var(--accento);max-width:40ch;margin:2em 0}
 .citazione.unica{max-width:none}          /* le frasi che Dacia vuole su una linea sola */
 .citazione.apre{margin-bottom:.5em}       /* la frase in oro che apre il paragrafo sotto */
+.citazione.lunga{font-size:21px;max-width:none}   /* le citazioni di più righe, con la fonte sotto (Dacia, 1.11) */
+.citazione .fonte{display:block;margin-top:.7em;font-family:var(--sans);font-style:normal;font-size:17px;line-height:1.5;letter-spacing:0;color:var(--testo-70)}
 .testo>.citazione:first-child{margin-top:0}
 .testo ul{margin:0 0 1.2em;padding-left:1.15em}
 .testo ul li{margin:.45em 0}
