@@ -660,7 +660,7 @@ TESTI["aziende-e-istituzioni/istituzioni"] = dict(
 <li><strong>Lotta alla povertà educativa</strong>: bandi congiunti, come il fondo nazionale per il contrasto della povertà educativa minorile, per sostenere scuole, doposcuola e centri giovanili nei contesti svantaggiati.</li>
 <li><strong>Inclusione sociale e socio-sanitaria</strong>: progetti di housing sociale per persone in difficoltà economica, anziani o persone con disabilità, in cui il Comune offre la struttura o le autorizzazioni e la fondazione finanzia la ristrutturazione e i servizi di assistenza.</li>
 </ul>
-<h3>3. Formazione in ambito agricolo, sanitario e nell'accompagnamento alla morte</h3>
+<h3>3. Formazione in ambito agricolo, sanitario e nell'accompagnamento al morire</h3>
 <ul class="stelle">
 <li>la formazione dei volontari e della cittadinanza;</li>
 <li>percorsi di reinserimento e di riallenamento;</li>
@@ -688,7 +688,7 @@ TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
     sotto="Stare accanto a chi si trova nell'ultimo tratto della vita: competenze emotive, pratiche e spirituali.",
     corpo="""
 <figure class="tavola"><img src="{img:tavola-candela.svg}" alt="Una candela accesa, incisa"></figure>
-<p>La formazione per l'accompagnamento alla morte, o al fine vita, è un percorso multidisciplinare rivolto a professionisti sanitari, volontari e cittadini che desiderano acquisire competenze emotive, pratiche e spirituali per stare accanto a chi si trova nell'ultimo tratto della vita.</p>
+<p>La formazione per l'accompagnamento al morire, o al fine vita, è un percorso multidisciplinare rivolto a professionisti sanitari, volontari e cittadini che desiderano acquisire competenze emotive, pratiche e spirituali per stare accanto a chi si trova nell'ultimo tratto della vita.</p>
 <p>I percorsi formativi sono diversi:</p>
 <ul class="stelle">
 <li><strong><a class="link" href="#quietude-italia-2027">Quietude Italia</a></strong>;</li>
@@ -746,7 +746,7 @@ TESTI["news"] = dict(
 <h3>Il sito della Fondazione è online</h3>
 <p><em>26 ottobre 2026.</em> Da oggi il sito della Fondazione La Rosa d’Oro è aperto a tutti. Racconta chi siamo, che cosa la Fondazione è costituita per fare, nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, e che cosa stiamo facendo. Da qui puoi <a class="link" href="{→contatti}">scriverci</a>, <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentarci un progetto</a> e lasciare una dedica nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>. Le novità arriveranno su questa pagina, una alla volta.</p>
 <h3>Quietude Italia 2027: aperte le iscrizioni</h3>
-<p><em>21 ottobre 2026.</em> Il 13 marzo 2027 comincia Quietude Italia, il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita, guidato da Annie Blampied-Radojćin, fondatrice di Quietude®, con Dacia Dalla Libera e le altre docenti. Le iscrizioni sono aperte fino al 17 gennaio 2027 e i posti sono 24: il programma e il pieghevole sono nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento alla morte</a>.</p>
+<p><em>21 ottobre 2026.</em> Il 13 marzo 2027 comincia Quietude Italia, il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita, guidato da Annie Blampied-Radojćin, fondatrice di Quietude®, con Dacia Dalla Libera e le altre docenti. Le iscrizioni sono aperte fino al 17 gennaio 2027 e i posti sono 24: il programma e il pieghevole sono nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento al morire</a>.</p>
 """)
 
 
@@ -1282,7 +1282,7 @@ TESTI["eventi-e-formazione/eventi"] = dict(
     sotto="Incontri, seminari e laboratori della Fondazione e dei suoi partner.",
     corpo="""
 <p>Qui trovi gli incontri organizzati dalla Fondazione o insieme ai suoi partner, con la data, il luogo e il modo per partecipare: seminari, laboratori, convegni, attività culturali aperte a tutti.</p>
-<p><strong>Dal 13 marzo 2027, Quietude Italia</strong>: il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita. Si comincia con una settimana residenziale alle Preseglie, a Desenzano del Garda, e si continua con incontri online fino a luglio. Le iscrizioni sono aperte fino al 17 gennaio 2027: il programma è nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento alla morte</a>.</p>
+<p><strong>Dal 13 marzo 2027, Quietude Italia</strong>: il primo percorso di formazione congiunta tra Italia e Regno Unito sull’accompagnamento al fine vita. Si comincia con una settimana residenziale alle Preseglie, a Desenzano del Garda, e si continua con incontri online fino a luglio. Le iscrizioni sono aperte fino al 17 gennaio 2027: il programma è nella pagina della <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">formazione all’accompagnamento al morire</a>.</p>
 <p>Gli altri incontri li annunceremo qui e nelle <a class="link" href="{→news}">News</a>. Se vuoi organizzarne uno con noi, <a class="link" href="{→contatti}">scrivici</a>.</p>
 """)
 
@@ -1319,8 +1319,8 @@ DESCRIZIONI = {
     "lasciti/la-liberta-del-come": "Le Disposizioni anticipate di trattamento (DAT): che cosa sono, come si redigono, il fiduciario, che cosa specificare. Con il fac-simile da scaricare.",
     "lasciti/dopo-di-noi": "Il Dopo di Noi (legge 112/2016): tutelare un familiare con disabilità grave per quando non ci sarai più. Come la Fondazione può aiutare.",
     "progetti": "I progetti della Fondazione La Rosa d'Oro: da avviare, da sostenere, in corso, realizzati. E come presentare il tuo.",
-    "eventi-e-formazione": "Incontri e percorsi di formazione della Fondazione: medico-terapeutica, agricola, accompagnamento alla morte.",
-    "eventi-e-formazione/formazione-accompagnamento": "Formazione all'accompagnamento alla morte: percorsi per professionisti sanitari, volontari e cittadini, per stare accanto a chi vive l'ultimo tratto della vita.",
+    "eventi-e-formazione": "Incontri e percorsi di formazione della Fondazione: medico-terapeutica, agricola, accompagnamento al morire.",
+    "eventi-e-formazione/formazione-accompagnamento": "Formazione all'accompagnamento al morire: percorsi per professionisti sanitari, volontari e cittadini, per stare accanto a chi vive l'ultimo tratto della vita.",
     "servizi": "I servizi alle persone della Fondazione: sostegno alle persone fragili, agricoltura sociale, ospitalità, consulenza e orientamento. Sezione in costruzione.",
     "fondi-e-strumenti": "Gli strumenti della Rosa d’Oro: un fondo con il tuo nome, il Family Office, il vitalizio, l’esecutore testamentario, il Dopo di Noi, l’eredità solidale.",
     "fondi-e-strumenti/dopo-di-noi": "Il Dopo di Noi (legge 112/2016): la Fondazione come gestore o guardiano del trust per un familiare con disabilità grave. Come funziona.",
