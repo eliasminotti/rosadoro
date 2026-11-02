@@ -125,7 +125,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 <section class="nel-giardino" id="nel-giardino" hidden>
 <h3>I nomi posati nel giardino</h3>
 <div class="dediche"></div>
-<p>Ogni nome e ogni dedica entrano nel giardino solo dopo che li abbiamo letti. Se pensi che una dedica non dovrebbe esserci, scrivici a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a> dicendoci quale e perché: ti rispondiamo.</p>
+<p>Leggiamo ogni dedica prima di posarla nel giardino. Se pensi che una non dovrebbe esserci, scrivici a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 </section>
 <h3>Contattaci inoltre per</h3>
 <ul>

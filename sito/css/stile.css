@@ -644,7 +644,8 @@ a.azione:hover h4{color:var(--accento)}
    che con i tuoi recapiti è più lunga e sul telefono scorre al suo interno */
 .nel-giardino{margin:2.6em 0}
 .dediche{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:36px 28px;margin-top:1.4em}
-.dediche+p{margin-top:2.2em}   /* come segnalare una dedica: staccata dai nomi */
+.dediche+p{margin-top:2.8em;font-size:17px;line-height:1.5;color:var(--testo-45);max-width:52ch}   /* come segnalare una dedica: staccata dai nomi e sommessa, ma non sotto i 17 px (Dacia ed Elias, 2.11) */
+.dediche+p .link{color:inherit}
 .dedica{margin:0}
 .dedica .foto{margin:0 0 14px}
 .dedica figcaption{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70)}
