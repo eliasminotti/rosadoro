@@ -67,9 +67,16 @@ const TURNSTILE_FINTO = `(function () {
 
 /* Google finto (gtag.js di Google Analytics): conta quante volte si carica e manda quello che manda il vero, una misura a
    Google Analytics, un'immagine a google.com e una cornice di Google Tag Manager, così la regola di sicurezza della pagina
-   si prova con tutto quello che Google chiede di caricare */
+   si prova con tutto quello che Google chiede di caricare. Come il vero, salva i suoi cookie e, con il collegamento a
+   Google Ads, «_gcl_ls» nella memoria del browser; e quando si lascia la pagina riscrive il cookie della sessione, anche
+   se la pagina l'ha appena cancellato (visto con il vero gtag.js il 2.11.2026) */
 const GTAG_FINTO = `(function () {
   window.__gtag = (window.__gtag || 0) + 1;
+  var dominio = '; path=/; domain=.' + location.hostname;
+  document.cookie = '_ga=GA1.1.123.456' + dominio;
+  document.cookie = '_ga_PROVA1234=GS2.1.s1' + dominio;
+  try { localStorage.setItem('_gcl_ls', '{"schema":"gcl","value":{"value":{"gclid":"prova"}}}'); } catch (e) {}
+  addEventListener('pagehide', function () { document.cookie = '_ga_PROVA1234=GS2.1.s2' + dominio; });
   try { fetch('https://region1.google-analytics.com/g/collect?v=2&tid=prova', { method: 'POST', mode: 'no-cors', keepalive: true }); } catch (e) {}
   var immagine = new Image();
   immagine.src = 'https://www.google.com/ads/ga-audiences?v=1&prova=1';
@@ -760,9 +767,10 @@ controllo('Google: «Preferenze cookie» nel piede riapre la scelta; «Rifiuta»
     await p.page.locator(BANNER).waitFor({ state: 'visible', timeout: 5000 });
     assert.ok(await p.page.evaluate(() => !!document.activeElement.closest('#consenso-cookie')), 'riaperto, il banner deve avere il fuoco');
     await Promise.all([p.page.waitForEvent('load'), rifiuta(p.page).click()]);
-    assert.strictEqual(await p.page.evaluate(() => document.cookie), 'altro=resta', 'i cookie di Google devono sparire');
-    assert.strictEqual(await sceltaSalvata(p.page), 'no');
     await p.page.waitForLoadState('networkidle');
+    assert.strictEqual(await p.page.evaluate(() => document.cookie), 'altro=resta', 'i cookie di Google devono sparire, anche quello che Google riscrive lasciando la pagina');
+    assert.deepStrictEqual(await p.page.evaluate(() => Object.keys(localStorage).filter(k => /^_g/.test(k))), [], 'quello che Google ha salvato nella memoria del browser deve sparire');
+    assert.strictEqual(await sceltaSalvata(p.page), 'no');
     assert.strictEqual(await p.page.evaluate(() => typeof window.__gtag), 'undefined', 'dopo il rifiuto Google è ancora nella pagina');
     assert.ok(await p.page.locator(BANNER).isHidden());
     assert.deepStrictEqual(p.errori, []);
