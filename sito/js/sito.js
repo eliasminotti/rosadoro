@@ -733,8 +733,9 @@ var misuraGoogle = (function () {
     document.head.appendChild(s);
     coda.splice(0).forEach(function (evento) { window.gtag('event', evento); });
   }
-  /* i cookie di Google, sull'indirizzo del sito e sui domini sopra (Google li mette su «.larosadoro.org») */
-  function cancellaCookie() {
+  /* quello che Google salva nel browser: i cookie, sull'indirizzo del sito e sui domini sopra (Google li mette su
+     «.larosadoro.org»), e «_gcl_ls» nella memoria del browser, per gli annunci */
+  function cancellaGoogle() {
     var parti = location.hostname.split('.'), domini = [''];
     for (var i = 0; i < parti.length - 1; i++) domini.push('; domain=' + parti.slice(i).join('.'));
     document.cookie.split(';').forEach(function (c) {
@@ -742,6 +743,9 @@ var misuraGoogle = (function () {
       if (!/^(_ga|_gid|_gat|_gcl)/.test(nome)) return;
       domini.forEach(function (d) { document.cookie = nome + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d; });
     });
+    try {
+      Object.keys(localStorage).forEach(function (k) { if (/^(_ga|_gcl)/.test(k)) localStorage.removeItem(k); });
+    } catch (e) { /* il browser non dà la memoria: Google non ci ha salvato niente */ }
   }
   function mostra(conFuoco) {
     banner.hidden = false;
@@ -756,7 +760,8 @@ var misuraGoogle = (function () {
     salva('no');
     banner.hidden = true;
     coda = [];
-    cancellaCookie();
+    if (caricato) window.gtag('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    cancellaGoogle();
     if (caricato) location.reload();
   }
 
@@ -771,9 +776,13 @@ var misuraGoogle = (function () {
     mostra(true);
   });
 
+  /* dopo il rifiuto non resta niente di Google, neppure il cookie che Google riscrive lasciando la pagina (visto il
+     2.11.2026). Senza una scelta non si tocca niente: i cookie su «.larosadoro.org» li vedono anche gli altri siti
+     della Fondazione, come Lux */
   var scelta = leggi();
   if (scelta === 'si') carica();
-  else if (scelta === null && qui !== 'no') mostra(false);
+  else if (scelta === 'no') cancellaGoogle();
+  if (scelta === null && qui !== 'no') mostra(false);
 
   function segna(evento) {
     if (qui === 'no' || leggi() === 'no') return;
