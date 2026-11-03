@@ -646,11 +646,36 @@ a.azione:hover h4{color:var(--accento)}
 .dediche{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:36px 28px;margin-top:1.4em}
 .dediche+p{margin-top:2.8em;font-size:17px;line-height:1.5;color:var(--testo-45);max-width:52ch}   /* come segnalare una dedica: staccata dai nomi e sommessa, ma non sotto i 17 px (Dacia ed Elias, 2.11) */
 .dediche+p .link{color:inherit}
-.dedica{margin:0}
-.dedica .foto{margin:0 0 14px}
-.dedica figcaption{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70)}
-.dedica figcaption strong{display:block;color:var(--testo)}   /* come «Nonna Clelia», l’esempio qui sopra */
-.dedica figcaption span{white-space:pre-line}
+/* sotto ogni immagine solo il nome e la prima riga della dedica, con i puntini: tutte le dediche hanno la stessa altezza,
+   anche senza parole, e la griglia resta regolare; si tocca tutta, immagine compresa, e si apre la pergamena (Dacia, 3.11) */
+.dedica{margin:0;position:relative;min-width:0}   /* senza, sul telefono la riga lunga allarga la colonna */
+.dedica .foto{margin:0 0 14px;transition:border-color .2s}
+.dedica figcaption{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70);min-height:2.9em}
+.dedica .leggi{display:block;width:100%;margin:0;padding:0;border:0;background:none;font:inherit;line-height:inherit;color:inherit;text-align:left;cursor:pointer}
+.dedica .leggi::after{content:"";position:absolute;inset:0}
+.dedica .leggi:focus{outline:none}
+.dedica .leggi:focus-visible::after{outline:2px solid var(--oro);outline-offset:6px}
+.dedica strong{display:block;color:var(--testo);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}   /* come «Nonna Clelia», l’esempio qui sopra */
+.dedica .riga{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* senza «»: dopo i puntini la » resterebbe staccata */
+.dedica:hover .foto{border-color:var(--oro)}
+.dedica:hover strong{color:var(--accento)}
+
+/* la pergamena: la dedica intera, con l’immagine e il nome, su un foglio avorio tra due rotoli d’oro (Dacia, 3.11) */
+.velo-pergamena{align-items:flex-start}
+.pergamena{position:relative;margin:auto;width:100%;max-width:520px;padding:48px 48px 32px;text-align:center;
+  background:radial-gradient(ellipse at 50% 42%,var(--avorio) 58%,rgba(184,143,61,.12) 100%),var(--avorio);
+  border-left:1px solid var(--filo-forte);border-right:1px solid var(--filo-forte);box-shadow:0 24px 60px rgba(28,28,28,.3)}
+.pergamena::before,.pergamena::after{content:"";position:absolute;left:-10px;right:-10px;height:14px;border-radius:7px;
+  background:linear-gradient(180deg,var(--oro-scuro) 0%,var(--oro) 38%,rgba(250,246,238,.9) 50%,var(--oro) 62%,var(--oro-scuro) 100%)}
+.pergamena::before{top:-7px}
+.pergamena::after{bottom:-7px}
+.pergamena .foto{width:200px;margin:0 auto 26px;border-color:var(--oro)}
+.pergamena h3{font-family:var(--display);font-style:italic;font-weight:400;font-size:32px;line-height:1.2;color:var(--testo);margin:0;overflow-wrap:anywhere}
+.pergamena h3::after{content:"";display:block;width:56px;height:1px;background:var(--oro);margin:18px auto 0}
+.pergamena-dedica{font-family:var(--display);font-style:italic;font-size:22px;line-height:1.55;color:var(--testo-80);white-space:pre-line;overflow-wrap:anywhere;margin:20px auto 0;max-width:none}
+.pergamena .righe{display:flex;justify-content:center;margin-top:28px}
+.pergamena .righe button{font-family:var(--sans);font-size:12px;line-height:16px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:11px 16px;border:1px solid var(--filo-forte);background:none;color:var(--accento);cursor:pointer;transition:border-color .2s,color .2s}
+.pergamena .righe button:hover{border-color:var(--oro);color:var(--testo)}
 .velo-dialogo{overflow-y:auto;margin:0}   /* il margine dei paragrafi del testo spostava il velo di 22 px dal bordo in alto */
 .dialogo{max-height:100%;overflow-y:auto}
 .dialogo .righe .invia{background:var(--antracite);color:var(--avorio);border-color:var(--antracite)}   /* il pulsante principale, nero come nei Contatti */
@@ -665,6 +690,11 @@ a.azione:hover h4{color:var(--accento)}
   .dialogo{padding:24px 20px}
   .dediche{grid-template-columns:1fr 1fr;gap:28px 16px}
   .dedica figcaption{font-size:17px}
+  .velo-pergamena{padding:24px 16px}
+  .pergamena{padding:40px 22px 26px}
+  .pergamena .foto{width:150px;margin-bottom:20px}
+  .pergamena h3{font-size:26px}
+  .pergamena-dedica{font-size:19px}
 }
 /* Chi siamo: la spunta d’oro accanto a un’attività già avviata, con il collegamento (Dacia, 31.10) */
 .box p.avviata{margin-top:-2px;font-size:17px}

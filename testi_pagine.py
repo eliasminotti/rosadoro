@@ -9,7 +9,8 @@ Gettoni usati nei testi, sostituiti dall'assemblatore:
   {file:nome.pdf}    percorso di un allegato da scaricare, in allegati/
   {modulo-contatti}  il modulo dei Contatti, che scrive nel foglio della Fondazione,
                      o il pulsante «Scrivici» se il modulo non è ancora attivo
-  {foto:NOME|didascalia|classe}   posto di una fotografia non ancora consegnata
+  {foto:NOME|didascalia|classe}   una fotografia di img/foto (NOME in maiuscolo: GIARDINO 002 è giardino-002.webp
+                     o .jpg), o il suo posto segnato finché non è consegnata
 """
 
 TESTI = {}
@@ -115,6 +116,56 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   <div class="pianta">{foto:IRIS|L'iris|quadra}<button type="button" data-foto="L'iris">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GRANO|Il grano giovane|quadra}<button type="button" data-foto="Il grano giovane">Scegli questa immagine</button></div>
   <div class="pianta">{foto:MARGHERITE|Le margherite nel prato|quadra}<button type="button" data-foto="Le margherite nel prato">Scegli questa immagine</button></div>
+  <!-- le foto scelte da Dacia il 3.11.2026, con il numero della cartella di Elias -->
+  <div class="pianta">{foto:GIARDINO 002|Lo specchio del lago|quadra}<button type="button" data-foto="Lo specchio del lago">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 003|Il prato dei lupini|quadra}<button type="button" data-foto="Il prato dei lupini">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 004|Il prato al tramonto|quadra}<button type="button" data-foto="Il prato al tramonto">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 011|I fiori tra le pietre|quadra}<button type="button" data-foto="I fiori tra le pietre">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 013|Il croco nel prato|quadra}<button type="button" data-foto="Il croco nel prato">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 025|La valle tra i monti|quadra}<button type="button" data-foto="La valle tra i monti">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 034|La luce tra gli alberi|quadra}<button type="button" data-foto="La luce tra gli alberi">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 041|Il fiore tra i semprevivi|quadra}<button type="button" data-foto="Il fiore tra i semprevivi">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 043|L'ape sull'olivagno|quadra}<button type="button" data-foto="L'ape sull'olivagno">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 054|Le orchidee selvatiche|quadra}<button type="button" data-foto="Le orchidee selvatiche">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 072|La coccinella sui fiori bianchi|quadra}<button type="button" data-foto="La coccinella sui fiori bianchi">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 074|Le nuvole sulla montagna|quadra}<button type="button" data-foto="Le nuvole sulla montagna">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 079|I fiori viola nel prato|quadra}<button type="button" data-foto="I fiori viola nel prato">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 086|I fiori nella roccia|quadra}<button type="button" data-foto="I fiori nella roccia">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 154|La stella viola|quadra}<button type="button" data-foto="La stella viola">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 160|I due crochi|quadra}<button type="button" data-foto="I due crochi">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 176|Il prato alpino tra le nuvole|quadra}<button type="button" data-foto="Il prato alpino tra le nuvole">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 185|La calla bianca|quadra}<button type="button" data-foto="La calla bianca">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 190|Le rose sul lago|quadra}<button type="button" data-foto="Le rose sul lago">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 215|Le violette|quadra}<button type="button" data-foto="Le violette">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 248|L'epilobio sul lago|quadra}<button type="button" data-foto="L'epilobio sul lago">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 264|La ninfea|quadra}<button type="button" data-foto="La ninfea">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 267|La farfalla sull'achillea|quadra}<button type="button" data-foto="La farfalla sull'achillea">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 278|La pervinca|quadra}<button type="button" data-foto="La pervinca">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 293|La neve sul lago|quadra}<button type="button" data-foto="La neve sul lago">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 296|La pratolina|quadra}<button type="button" data-foto="La pratolina">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 340|Il mare di nuvole|quadra}<button type="button" data-foto="Il mare di nuvole">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 352|I fiori gialli di topinambur|quadra}<button type="button" data-foto="I fiori gialli di topinambur">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 372|L'ultima luce sui monti|quadra}<button type="button" data-foto="L'ultima luce sui monti">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 386|L'erba cipollina nel prato|quadra}<button type="button" data-foto="L'erba cipollina nel prato">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 459|L'ombrella di semi|quadra}<button type="button" data-foto="L'ombrella di semi">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 486|L'ipomea dopo la pioggia|quadra}<button type="button" data-foto="L'ipomea dopo la pioggia">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 505|Le cosmee|quadra}<button type="button" data-foto="Le cosmee">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 532|Le coreopsis|quadra}<button type="button" data-foto="Le coreopsis">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 570|Gli anemoni dei boschi|quadra}<button type="button" data-foto="Gli anemoni dei boschi">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 593|La rosa rossa|quadra}<button type="button" data-foto="La rosa rossa">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 615|La malvarosa|quadra}<button type="button" data-foto="La malvarosa">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 638|La strelitzia sul mare|quadra}<button type="button" data-foto="La strelitzia sul mare">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 643|Il croco d'autunno|quadra}<button type="button" data-foto="Il croco d'autunno">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 656|La lewisia|quadra}<button type="button" data-foto="La lewisia">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 662|L'armeria sulla roccia|quadra}<button type="button" data-foto="L'armeria sulla roccia">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 670|I crochi viola|quadra}<button type="button" data-foto="I crochi viola">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 673|Le dimorfoteche bianche|quadra}<button type="button" data-foto="Le dimorfoteche bianche">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 676|La pulsatilla gialla|quadra}<button type="button" data-foto="La pulsatilla gialla">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 681|La valeriana bianca|quadra}<button type="button" data-foto="La valeriana bianca">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 702|L'aquilegia|quadra}<button type="button" data-foto="L'aquilegia">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 703|Il trifoglio amabile|quadra}<button type="button" data-foto="Il trifoglio amabile">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 715|L'erba cipollina in fiore|quadra}<button type="button" data-foto="L'erba cipollina in fiore">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 716|Il timo in fiore|quadra}<button type="button" data-foto="Il timo in fiore">Scegli questa immagine</button></div>
 </div>
 <button type="button" class="scorri-freccia" aria-label="Scorri le immagini">»</button>
 </div>
@@ -137,6 +188,15 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
 </ul>
 <p><a class="vai" href="{→contatti}">Contattaci</a></p>
 <p class="citazione lunga">«Pensando: “Mi ha dato questo, ha fatto questo per me, era mio parente, mio compagno, mio amico”, si dovrebbero fare doni per i defunti, ricordando ciò che hanno fatto in passato. Poiché né le lacrime, né il dolore, né altre lamentazioni sono di alcuna utilità per chi è trapassato, finché i parenti continuano a disperarsi in questo modo. Ma il dono che è stato fatto, ben riposto nella Comunità, è per loro di beneficio a lungo, e subito.»<span class="fonte">Tirokudda Sutta, «Il discorso degli spiriti fuori dalle mura» (Khuddakapatha 7), testo buddista del canone pali</span></p>
+
+<div class="velo-dialogo velo-pergamena" id="velo-pergamena" role="dialog" aria-modal="true" aria-labelledby="pergamena-nome" hidden>
+  <div class="pergamena">
+    <div class="foto quadra"></div>
+    <h3 id="pergamena-nome"></h3>
+    <p class="pergamena-dedica"></p>
+    <div class="righe"><button type="button" class="chiudi-dialogo">Chiudi</button></div>
+  </div>
+</div>
 
 <div class="velo-dialogo" id="velo-dedica" role="dialog" aria-modal="true" aria-labelledby="dedica-titolo" hidden>
   <form class="dialogo" id="modulo-dedica" action="{foglio}" method="post" data-indirizzo="segreteria@larosadoro.org"{turnstile} novalidate>

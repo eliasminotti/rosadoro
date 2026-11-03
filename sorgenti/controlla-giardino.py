@@ -164,6 +164,43 @@ def _():
     assert d == "Ci manchi più di un po’", d
 
 
+def nomi(g):
+    return [d["nome"] for d in g["scritto"]["dediche"]]
+
+
+@controllo("due dediche sulla stessa immagine non stanno una dopo l’altra; per il resto resta l’ordine del foglio (Dacia, 3.11)")
+def _():
+    g = giro({DAL_FOGLIO: dal_foglio(una("Anna", "", "Rosa"), una("Bruno", "", "Rosa"), una("Carla", "", "Salice")), GIA_ONLINE: None})
+    assert nomi(g) == ["Anna", "Carla", "Bruno"], nomi(g)
+    # già distanziate: l’ordine del foglio, le più recenti prima, non cambia
+    g = giro({DAL_FOGLIO: dal_foglio(una("Anna", "", "Rosa"), una("Bruno", "", "Salice"), una("Carla", "", "Rosa")), GIA_ONLINE: None})
+    assert nomi(g) == ["Anna", "Bruno", "Carla"], nomi(g)
+    # tre sulla stessa immagine: le altre si mettono in mezzo, senza lasciarne due vicine in fondo
+    g = giro({DAL_FOGLIO: dal_foglio(una("Anna", "", "Rosa"), una("Bruno", "", "Rosa"), una("Carla", "", "Rosa"),
+                                     una("Dario", "", "Salice"), una("Elena", "", "Tulipano")), GIA_ONLINE: None})
+    assert nomi(g) == ["Anna", "Dario", "Bruno", "Elena", "Carla"], nomi(g)
+    # le dediche senza immagine non contano come una stessa immagine
+    g = giro({DAL_FOGLIO: dal_foglio(una("Anna", "", ""), una("Bruno", "", ""), una("Carla", "", "Rosa")), GIA_ONLINE: None})
+    assert nomi(g) == ["Anna", "Bruno", "Carla"], nomi(g)
+
+
+@controllo("quando non si può evitarlo del tutto, le dediche sulla stessa immagine vicine sono il meno possibile, e non se ne perde nessuna")
+def _():
+    g = giro({DAL_FOGLIO: dal_foglio(una("Anna", "", "Rosa"), una("Bruno", "", "Rosa"), una("Carla", "", "Rosa"),
+                                     una("Dario", "", "Salice")), GIA_ONLINE: None})
+    dediche = g["scritto"]["dediche"]
+    assert sorted(nomi(g)) == ["Anna", "Bruno", "Carla", "Dario"], nomi(g)
+    vicine = sum(1 for a, b in zip(dediche, dediche[1:]) if a["immagine"] == b["immagine"])
+    assert vicine == 1, nomi(g)
+
+
+@controllo("anche le dediche già pubblicate, quando il foglio non risponde, restano distanziate")
+def _():
+    gia = {"versione": "c0", "dediche": [una("Anna", "", "Rosa"), una("Bruno", "", "Rosa"), una("Carla", "", "Salice")]}
+    g = giro({GIA_ONLINE: gia})
+    assert nomi(g) == ["Anna", "Carla", "Bruno"], nomi(g)
+
+
 @controllo("se il foglio non risponde restano le dediche già pubblicate")
 def _():
     gia = {"versione": "c0", "dediche": [una("Anna", "Ti pensiamo")]}
