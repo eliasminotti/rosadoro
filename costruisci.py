@@ -634,7 +634,7 @@ GOOGLE_CSP = {
 }
 
 def banner_cookie(da):
-    """il banner dei cookie (Elias, 1.11.2026; linee guida del Garante, provv. 231 del 10.6.2021): «Accetta» e «Rifiuta»
+    """il banner dei cookie (Elias, 1.11.2026; testo più corto 3.11; linee guida del Garante, provv. 231 del 10.6.2021, par. 7.1): «Accetta» e «Rifiuta»
     dello stesso peso, la X che vale come rifiuto, il collegamento all'informativa. Sta in cima al body, così chi usa la
     tastiera lo trova per primo, e il foglio di stile lo tiene in basso, sopra la barra. Nascosto: lo mostra sito.js
     finché non c'è una scelta, e lo riapre «Preferenze cookie» nel piede. Senza GOOGLE_TAG non c'è"""
@@ -642,9 +642,8 @@ def banner_cookie(da):
         return ""
     return ('<div class="consenso" id="consenso-cookie" role="region" aria-label="La tua scelta sui cookie" data-google="%s" hidden>'
             '<button type="button" class="chiudi-consenso" aria-label="Chiudi: è come rifiutare">×</button>'
-            '<p>Con il tuo permesso usiamo i cookie di Google Analytics per sapere quante persone visitano le pagine e quante, '
-            'arrivate dai nostri annunci su Google, poi donano, ci scrivono o si iscrivono alle notizie. Se rifiuti o chiudi, '
-            'Google Analytics non parte e il sito funziona allo stesso modo. Puoi cambiare idea da «Preferenze cookie», in fondo a ogni pagina. '
+            '<p>Con il tuo permesso usiamo i cookie di Google Analytics per contare le visite e misurare i risultati dei nostri '
+            'annunci su Google. Se rifiuti o chiudi, Google Analytics non parte. '
             '<a class="link" href="%s">Informativa sui cookie</a></p>'
             '<p class="pulsanti"><button type="button" class="scelta" data-consenso="si">Accetta</button>'
             '<button type="button" class="scelta" data-consenso="no">Rifiuta</button></p></div>\n'
