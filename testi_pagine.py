@@ -125,13 +125,13 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   <div class="pianta">{foto:GIARDINO 025|La valle tra i monti|quadra}<button type="button" data-foto="La valle tra i monti">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 034|La luce tra gli alberi|quadra}<button type="button" data-foto="La luce tra gli alberi">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 041|Il fiore tra i semprevivi|quadra}<button type="button" data-foto="Il fiore tra i semprevivi">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 043|L'ape sul caprifoglio|quadra}<button type="button" data-foto="L'ape sul caprifoglio">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 043|L'ape sull'olivagno|quadra}<button type="button" data-foto="L'ape sull'olivagno">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 054|Le orchidee selvatiche|quadra}<button type="button" data-foto="Le orchidee selvatiche">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 072|La coccinella sui fiori bianchi|quadra}<button type="button" data-foto="La coccinella sui fiori bianchi">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 074|Le nuvole sulla montagna|quadra}<button type="button" data-foto="Le nuvole sulla montagna">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 079|I fiori viola nel prato|quadra}<button type="button" data-foto="I fiori viola nel prato">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 086|I fiori nella roccia|quadra}<button type="button" data-foto="I fiori nella roccia">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 154|La barba di becco|quadra}<button type="button" data-foto="La barba di becco">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 154|La stella viola|quadra}<button type="button" data-foto="La stella viola">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 160|I due crochi|quadra}<button type="button" data-foto="I due crochi">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 176|Il prato alpino tra le nuvole|quadra}<button type="button" data-foto="Il prato alpino tra le nuvole">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 185|La calla bianca|quadra}<button type="button" data-foto="La calla bianca">Scegli questa immagine</button></div>
@@ -144,9 +144,9 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   <div class="pianta">{foto:GIARDINO 293|La neve sul lago|quadra}<button type="button" data-foto="La neve sul lago">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 296|La pratolina|quadra}<button type="button" data-foto="La pratolina">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 340|Il mare di nuvole|quadra}<button type="button" data-foto="Il mare di nuvole">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 352|I fiori gialli al sole|quadra}<button type="button" data-foto="I fiori gialli al sole">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 352|I fiori gialli di topinambur|quadra}<button type="button" data-foto="I fiori gialli di topinambur">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 372|L'ultima luce sui monti|quadra}<button type="button" data-foto="L'ultima luce sui monti">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 386|I fiori azzurri nel prato|quadra}<button type="button" data-foto="I fiori azzurri nel prato">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 386|L'erba cipollina nel prato|quadra}<button type="button" data-foto="L'erba cipollina nel prato">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 459|L'ombrella di semi|quadra}<button type="button" data-foto="L'ombrella di semi">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 486|L'ipomea dopo la pioggia|quadra}<button type="button" data-foto="L'ipomea dopo la pioggia">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 505|Le cosmee|quadra}<button type="button" data-foto="Le cosmee">Scegli questa immagine</button></div>
@@ -156,17 +156,16 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
   <div class="pianta">{foto:GIARDINO 615|La malvarosa|quadra}<button type="button" data-foto="La malvarosa">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 638|La strelitzia sul mare|quadra}<button type="button" data-foto="La strelitzia sul mare">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 643|Il croco d'autunno|quadra}<button type="button" data-foto="Il croco d'autunno">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 656|I fiori rosa e crema|quadra}<button type="button" data-foto="I fiori rosa e crema">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 656|La lewisia|quadra}<button type="button" data-foto="La lewisia">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 662|L'armeria sulla roccia|quadra}<button type="button" data-foto="L'armeria sulla roccia">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 670|I crochi viola|quadra}<button type="button" data-foto="I crochi viola">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 673|Le dimorfoteche bianche|quadra}<button type="button" data-foto="Le dimorfoteche bianche">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 676|Il fiore giallo pallido|quadra}<button type="button" data-foto="Il fiore giallo pallido">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 676|La pulsatilla gialla|quadra}<button type="button" data-foto="La pulsatilla gialla">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 681|La valeriana bianca|quadra}<button type="button" data-foto="La valeriana bianca">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 702|L'aquilegia|quadra}<button type="button" data-foto="L'aquilegia">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 703|Il fiore fucsia nell'erba|quadra}<button type="button" data-foto="Il fiore fucsia nell'erba">Scegli questa immagine</button></div>
+  <div class="pianta">{foto:GIARDINO 703|Il trifoglio amabile|quadra}<button type="button" data-foto="Il trifoglio amabile">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 715|L'erba cipollina in fiore|quadra}<button type="button" data-foto="L'erba cipollina in fiore">Scegli questa immagine</button></div>
   <div class="pianta">{foto:GIARDINO 716|Il timo in fiore|quadra}<button type="button" data-foto="Il timo in fiore">Scegli questa immagine</button></div>
-  <div class="pianta">{foto:GIARDINO 717|I due fiori gialli|quadra}<button type="button" data-foto="I due fiori gialli">Scegli questa immagine</button></div>
 </div>
 <button type="button" class="scorri-freccia" aria-label="Scorri le immagini">»</button>
 </div>
