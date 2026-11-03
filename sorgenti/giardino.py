@@ -81,6 +81,43 @@ def pulite(dediche):
     return uscita
 
 
+def distanziate(dediche):
+    """le dediche nell’ordine del foglio, le più recenti prima, ma due sulla stessa immagine mai una dopo l’altra
+    (Dacia, 3.11): a ogni posto va la prima dedica rimasta con un’immagine diversa da quella di prima, purché le
+    altre si possano ancora distanziare. Se un’immagine ha più dediche di quante le altre possano separarne, si
+    alterna lei con le altre finché si può: le dediche vicine sulla stessa immagine restano il meno possibile.
+    Le dediche senza immagine contano ognuna per sé"""
+    resto = [(d["immagine"] or ("", i), d) for i, d in enumerate(dediche)]
+    uscita, prima = [], None
+
+    def si_puo(conti, quante, prima):
+        # quante dediche restano, e la prima di loro non può avere l’immagine «prima»
+        return all(n <= (quante // 2 if k == prima else (quante + 1) // 2) for k, n in conti.items())
+
+    while resto:
+        conti = {}
+        for k, _ in resto:
+            conti[k] = conti.get(k, 0) + 1
+        scelta = None
+        for i, (k, _) in enumerate(resto):
+            if k == prima:
+                continue
+            conti[k] -= 1
+            if si_puo(conti, len(resto) - 1, k):
+                scelta = i
+            conti[k] += 1
+            if scelta is not None:
+                break
+        if scelta is None:
+            # non si può distanziarle tutte: prima l’immagine con più dediche, se non è quella di prima
+            piu = max(conti, key=lambda k: conti[k])
+            diverse = [i for i, (k, _) in enumerate(resto) if k != prima]
+            scelta = next((i for i in diverse if resto[i][0] == piu), diverse[0] if diverse else 0)
+        prima, d = resto.pop(scelta)
+        uscita.append(d)
+    return uscita
+
+
 def main():
     sito = (sys.argv[1] if len(sys.argv) > 1 else "").rstrip("/")
     commit = sys.argv[2] if len(sys.argv) > 2 else ""
@@ -103,14 +140,14 @@ def main():
             risposta = leggi(foglio + "?giardino=1")
             if not (isinstance(risposta, dict) and risposta.get("success") is True and "dediche" in risposta):
                 raise ValueError("risposta inattesa")
-            dediche = pulite(risposta["dediche"])
+            dediche = distanziate(pulite(risposta["dediche"]))
         except Exception as e:
             # lo script del foglio non risponde, o non è ancora la versione con il giardino: restano le dediche di prima
             print("Il foglio non dà le dediche (%s): restano quelle già pubblicate" % e)
             if sito_muto:
                 # nessuno dei due risponde: meglio non pubblicare che svuotare il giardino
                 raise SystemExit("Né il foglio né il sito rispondono: non si pubblica, riprova più tardi.")
-            dediche = pulite((pubblicate or {}).get("dediche", []))
+            dediche = distanziate(pulite((pubblicate or {}).get("dediche", [])))
 
     uscita = {"versione": commit, "dediche": dediche}
     percorso = os.path.join(RADICE, "sito", DOVE)
