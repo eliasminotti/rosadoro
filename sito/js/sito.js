@@ -450,7 +450,10 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       });
   });
 
-  /* i nomi posati nel giardino, ciascuno con l'immagine scelta: le più recenti prima */
+  /* i nomi posati nel giardino, ciascuno con l'immagine scelta, nell'ordine di dediche.json: le più recenti prima,
+     e mai due sulla stessa immagine una dopo l'altra (lo decide giardino.py). Sotto l'immagine solo il nome e la prima
+     riga della dedica, con i puntini, così la griglia resta regolare; toccandola, la dedica intera si apre nella
+     pergamena (Dacia, 3.11) */
   var sezione = document.getElementById('nel-giardino');
   if (!sezione || !window.fetch) return;
   var immagini = {};
@@ -459,6 +462,47 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
     var b = piante[k].querySelector('button[data-foto]'), img = piante[k].querySelector('img');
     if (b && img) immagini[b.getAttribute('data-foto')] = img.getAttribute('src');
   }
+
+  var veloPergamena = document.getElementById('velo-pergamena');
+  var apertaDa = null;
+  if (veloPergamena) {
+    document.body.appendChild(veloPergamena);
+    var cornicePergamena = veloPergamena.querySelector('.foto');
+    var nomePergamena = document.getElementById('pergamena-nome');
+    var parolePergamena = veloPergamena.querySelector('.pergamena-dedica');
+    var chiudiPergamena = veloPergamena.querySelector('.chiudi-dialogo');
+    var chiudi = function () {
+      if (veloPergamena.hidden) return;
+      veloPergamena.hidden = true;
+      if (apertaDa) apertaDa.focus();
+    };
+    chiudiPergamena.addEventListener('click', chiudi);
+    veloPergamena.addEventListener('click', function (e) { if (e.target === veloPergamena) chiudi(); });
+    document.addEventListener('keydown', function (e) {
+      if (veloPergamena.hidden) return;
+      if (e.key === 'Escape') chiudi();
+      if (e.key === 'Tab') { e.preventDefault(); chiudiPergamena.focus(); }   /* «Chiudi» è l'unica cosa da toccare */
+    });
+  }
+  function apriPergamena(d, bottone) {
+    if (!veloPergamena) return;
+    cornicePergamena.textContent = '';
+    cornicePergamena.hidden = !immagini[d.immagine];
+    if (immagini[d.immagine]) {
+      var foto = document.createElement('img');
+      foto.src = immagini[d.immagine];
+      foto.alt = d.immagine;
+      cornicePergamena.appendChild(foto);
+    }
+    nomePergamena.textContent = d.nome;
+    parolePergamena.textContent = d.dedica ? '«' + d.dedica + '»' : '';
+    parolePergamena.hidden = !d.dedica;
+    apertaDa = bottone;
+    veloPergamena.hidden = false;
+    veloPergamena.scrollTop = 0;
+    chiudiPergamena.focus();
+  }
+
   fetch('dediche.json', { cache: 'no-cache' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (dati) {
@@ -479,14 +523,21 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
           figura.appendChild(cornice);
         }
         var dida = document.createElement('figcaption');
+        var bottone = document.createElement('button');
+        bottone.type = 'button';
+        bottone.className = 'leggi';
+        bottone.setAttribute('aria-haspopup', 'dialog');
         var nome = document.createElement('strong');
         nome.textContent = d.nome;
-        dida.appendChild(nome);
+        bottone.appendChild(nome);
         if (d.dedica) {
-          var parole = document.createElement('span');
-          parole.textContent = '«' + d.dedica + '»';
-          dida.appendChild(parole);
+          var riga = document.createElement('span');          /* la prima riga; il foglio di stile la chiude con i puntini */
+          riga.className = 'riga';
+          riga.textContent = d.dedica;
+          bottone.appendChild(riga);
         }
+        bottone.addEventListener('click', function () { apriPergamena(d, bottone); });
+        dida.appendChild(bottone);
         figura.appendChild(dida);
         lista.appendChild(figura);
       });

@@ -342,12 +342,136 @@ controllo('il giardino mostra i nomi di dediche.json con la loro immagine, e li 
     const figure = q.page.locator('#nel-giardino .dedica');
     assert.strictEqual(await figure.count(), 2);
     assert.strictEqual(await figure.nth(0).locator('strong').textContent(), 'Nonna Lina');
-    assert.strictEqual(await figure.nth(0).locator('figcaption span').textContent(), '«Ti pensiamo»');
+    assert.strictEqual(await figure.nth(0).locator('.riga').textContent(), 'Ti pensiamo');
     assert.strictEqual(await figure.nth(0).locator('img').count(), 1, 'manca l’immagine scelta');
     assert.strictEqual(await figure.nth(1).locator('strong').textContent(), strano);
     assert.strictEqual(await figure.nth(1).locator('img, b').count(), 0, 'una dedica è diventata codice della pagina');
     assert.deepStrictEqual(q.avvisi, []);
   } finally { await q.chiudi(); }
+});
+
+/* le dediche di prova per la griglia e la pergamena (Dacia, 3.11): una lunga su più righe, una corta, una senza parole,
+   un nome lunghissimo */
+const LUNGA = 'Grazie per il tuo cuore grande, per il tuo esempio e coraggio, per le tue spalle forti\nE come diceva la nostra canzone\nTi voglio bene';
+async function conDediche(schermo) {
+  const p = await apri(GIARDINO, { dediche: { versione: 'x', dediche: [] } });
+  const foto = await p.page.locator('.pianta button[data-foto]').evaluateAll(b => b.slice(0, 3).map(x => x.getAttribute('data-foto')));
+  await p.chiudi();
+  const q = await apri(GIARDINO, { schermo, dediche: { versione: 'x', dediche: [
+    { nome: 'Stefano', dedica: LUNGA, immagine: foto[0] },
+    { nome: 'Renato', dedica: 'Grazie', immagine: foto[1] },
+    { nome: 'Pippo', dedica: '', immagine: foto[2] },
+    { nome: 'Nonna Clelia e nonno Giuseppe, con tutto il nostro amore di sempre', dedica: 'Ci mancate', immagine: foto[0] }] } });
+  await q.page.locator('#nel-giardino .dedica').first().waitFor({ state: 'visible', timeout: 5000 });
+  q.foto = foto;
+  return q;
+}
+
+controllo('sotto ogni immagine il nome e la prima riga della dedica, con i puntini e senza virgolette, e le dediche hanno tutte la stessa altezza (Dacia, 3.11)', async () => {
+  for (const schermo of [{ width: 1280, height: 900 }, { width: 390, height: 844 }, { width: 320, height: 640 }]) {
+    const p = await conDediche(schermo);
+    try {
+      const m = await p.page.evaluate(() => {
+        const figure = [...document.querySelectorAll('#nel-giardino .dedica')];
+        const riga = figure[0].querySelector('.riga'), dentro = riga;
+        const corpo = el => parseFloat(getComputedStyle(el).fontSize);
+        return {
+          alte: figure.map(f => Math.round(f.getBoundingClientRect().height)),
+          riga: riga ? riga.getBoundingClientRect().height : 0,
+          corpoRiga: riga ? corpo(riga) : 0,
+          corpoNome: corpo(figure[0].querySelector('strong')),
+          nome: figure[3].querySelector('strong').getBoundingClientRect().height,
+          puntini: dentro ? getComputedStyle(dentro).textOverflow : '',
+          tagliata: dentro ? dentro.scrollWidth > dentro.clientWidth : false,
+          prima: riga ? getComputedStyle(riga, '::before').content : '',
+          dopo: riga ? getComputedStyle(riga, '::after').content : '',
+          largo: document.documentElement.scrollWidth
+        };
+      });
+      const w = schermo.width + ' px: ';
+      assert.ok(Math.max(...m.alte) - Math.min(...m.alte) <= 1, w + 'le dediche hanno altezze diverse ' + m.alte.join(', '));
+      assert.ok(m.riga > 0 && m.riga <= m.corpoRiga * 1.6, w + 'la dedica non sta in una riga (' + m.riga + ' px)');
+      assert.ok(m.nome <= m.corpoNome * 1.6, w + 'il nome lungo non sta in una riga (' + m.nome + ' px)');
+      assert.strictEqual(m.puntini, 'ellipsis', w + 'la riga tagliata non finisce con i puntini');
+      assert.ok(m.tagliata, w + 'la dedica lunga non è tagliata');
+      assert.deepStrictEqual([m.prima, m.dopo], ['none', 'none'], w + 'virgolette intorno alla prima riga: dopo i puntini la » resta staccata');
+      assert.ok(m.corpoRiga >= 17 && m.corpoNome >= 17, w + 'testo sotto i 17 px');
+      assert.ok(m.largo <= schermo.width, w + 'la pagina si allarga a ' + m.largo);
+      assert.deepStrictEqual(p.errori, []);
+    } finally { await p.chiudi(); }
+  }
+});
+
+/* tocca un punto della pagina, come una persona: al centro di ciò che si vede (la dedica intera si tocca, anche sopra la foto) */
+async function tocca(page, dove) {
+  await dove.scrollIntoViewIfNeeded();
+  const r = await dove.boundingBox();
+  await page.mouse.click(r.x + r.width / 2, r.y + r.height / 2);
+}
+
+controllo('toccando una dedica si apre la pergamena con l’immagine, il nome e la dedica intera; si chiude con «Chiudi», con Esc e toccando fuori', async () => {
+  const p = await conDediche();
+  try {
+    const pergamena = p.page.locator('#velo-pergamena');
+    assert.ok(await pergamena.isHidden(), 'la pergamena è aperta prima di toccare una dedica');
+    await tocca(p.page, p.page.locator('#nel-giardino .dedica').nth(0).locator('img'));
+    await pergamena.waitFor({ state: 'visible', timeout: 2000 });
+    assert.strictEqual(await pergamena.getAttribute('role'), 'dialog');
+    assert.strictEqual(await pergamena.getAttribute('aria-modal'), 'true');
+    assert.strictEqual(await p.page.locator('#pergamena-nome').textContent(), 'Stefano');
+    const parole = p.page.locator('#velo-pergamena .pergamena-dedica');
+    assert.strictEqual(await parole.textContent(), '«' + LUNGA + '»');
+    assert.strictEqual(await parole.evaluate(e => getComputedStyle(e).whiteSpace), 'pre-line', 'gli a capo di chi scrive si perdono');
+    const src = await p.page.locator('.pianta button[data-foto="' + p.foto[0] + '"]').evaluate(b => b.closest('.pianta').querySelector('img').src);
+    assert.strictEqual(await p.page.locator('#velo-pergamena img').evaluate(i => i.src), src, 'non è l’immagine scelta');
+    assert.strictEqual(await p.page.evaluate(() => document.activeElement && document.activeElement.textContent), 'Chiudi');
+    await p.page.keyboard.press('Tab');
+    assert.strictEqual(await p.page.evaluate(() => document.activeElement && document.activeElement.textContent), 'Chiudi', 'il tasto Tab esce dalla pergamena');
+    await p.page.keyboard.press('Escape');
+    assert.ok(await pergamena.isHidden(), 'Esc non chiude la pergamena');
+    assert.strictEqual(await p.page.evaluate(() => document.activeElement && document.activeElement.closest('.dedica') &&
+      document.activeElement.closest('.dedica').querySelector('strong').textContent), 'Stefano', 'chiusa la pergamena, non si torna alla dedica');
+    // con la tastiera, e senza parole: solo il nome
+    await p.page.locator('#nel-giardino .dedica').nth(2).locator('button').focus();
+    await p.page.keyboard.press('Enter');
+    await pergamena.waitFor({ state: 'visible', timeout: 2000 });
+    assert.strictEqual(await p.page.locator('#pergamena-nome').textContent(), 'Pippo');
+    assert.ok(await parole.isHidden(), 'senza dedica la pergamena mostra le virgolette vuote');
+    await p.page.locator('#velo-pergamena button.chiudi-dialogo').click();
+    assert.ok(await pergamena.isHidden(), '«Chiudi» non chiude la pergamena');
+    await tocca(p.page, p.page.locator('#nel-giardino .dedica').nth(1).locator('strong'));
+    await pergamena.waitFor({ state: 'visible', timeout: 2000 });
+    assert.strictEqual(await parole.textContent(), '«Grazie»');
+    await p.page.mouse.click(4, 4);
+    assert.ok(await pergamena.isHidden(), 'toccando fuori la pergamena resta aperta');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('nella pergamena il nome e la dedica restano testo, e sul telefono la pergamena sta nello schermo', async () => {
+  const strano = '<img src=x onerror=alert(1)>';
+  for (const schermo of [{ width: 320, height: 640 }, { width: 390, height: 844 }]) {
+    const p = await apri(GIARDINO, { schermo, dediche: { versione: 'x', dediche: [{ nome: strano, dedica: '<b>ciao</b> ' + LUNGA.repeat(3), immagine: 'nessuna' }] } });
+    try {
+      await p.page.locator('#nel-giardino .dedica').first().waitFor({ state: 'visible', timeout: 5000 });
+      await p.page.locator('#nel-giardino .dedica button').first().click();
+      await p.page.locator('#velo-pergamena').waitFor({ state: 'visible', timeout: 2000 });
+      assert.strictEqual(await p.page.locator('#pergamena-nome').textContent(), strano);
+      assert.strictEqual(await p.page.locator('#velo-pergamena .pergamena-dedica b, #pergamena-nome img').count(), 0, 'la dedica è diventata codice');
+      const m = await p.page.evaluate(() => {
+        const r = document.querySelector('#velo-pergamena .pergamena').getBoundingClientRect();
+        return { sinistra: r.left, destra: r.right, corpo: parseFloat(getComputedStyle(document.querySelector('#velo-pergamena .pergamena-dedica')).fontSize),
+                 largo: document.documentElement.scrollWidth };
+      });
+      const w = schermo.width + ' px: ';
+      assert.ok(m.sinistra >= 0 && m.destra <= schermo.width, w + 'la pergamena esce dallo schermo');
+      assert.ok(m.corpo >= 17, w + 'la dedica nella pergamena è sotto i 17 px');
+      assert.ok(m.largo <= schermo.width, w + 'la pagina si allarga a ' + m.largo);
+      await p.page.locator('#velo-pergamena button.chiudi-dialogo').click();   // anche una dedica lunghissima lascia raggiungere «Chiudi»
+      assert.ok(await p.page.locator('#velo-pergamena').isHidden());
+      assert.deepStrictEqual(p.avvisi, []);
+    } finally { await p.chiudi(); }
+  }
 });
 
 controllo('senza dediche il giardino non mostra la sezione dei nomi', async () => {
@@ -431,8 +555,11 @@ controllo('la regola di sicurezza (CSP) e quella sul referrer stanno in ogni pag
       assert.strictEqual(p.allo.length, 1, 'il messaggio non è partito');
       assert.strictEqual(p.cloudflare.length, 1, 'Turnstile non si è caricato');
     }],
-    [GIARDINO, { dediche: { versione: 'x', dediche: [{ nome: 'Nonna Lina', dedica: 'Ti pensiamo', immagine: 'Rosa' }] } }, async p => {
+    [GIARDINO, { dediche: { versione: 'x', dediche: [{ nome: 'Nonna Lina', dedica: 'Ti pensiamo', immagine: 'La rosa bianca' }] } }, async p => {
       await p.page.locator('#nel-giardino .dedica').first().waitFor({ state: 'visible', timeout: 5000 });
+      await p.page.locator('#nel-giardino .dedica button').first().click();        /* la pergamena, con l’immagine */
+      await p.page.locator('#velo-pergamena img').waitFor({ state: 'visible', timeout: 2000 });
+      await p.page.waitForLoadState('networkidle');
     }],
     ['in-memoria/fondo-di-memoria/index.html', {}, async p => {
       await p.page.waitForLoadState('networkidle');            /* il valzer di Chopin: la musica deve poter partire */

@@ -521,15 +521,17 @@ def hero(da, p, sotto, classe_sotto="sotto"):
 # i corpi delle pagine
 # --------------------------------------------------------------------------
 def gettoni(html, da):
-    """sostituisce {→cartella}, {img:file} e {foto:NOME|didascalia|classe} nei testi"""
+    """sostituisce {→cartella}, {img:file} e {foto:NOME|didascalia|classe} nei testi (NOME è il file in img/foto,
+    .webp o .jpg, scritto in maiuscolo e con gli spazi al posto dei trattini: GIARDINO 002 è giardino-002.webp)"""
     html = re.sub(r"\{\u2192([a-z0-9\-/]*)\}", lambda m: verso(da, m.group(1)), html)
     html = re.sub(r"\{img:([^}]+)\}", lambda m: risorsa(da, "img/" + m.group(1)), html)
     html = re.sub(r"\{file:([^}]+)\}", lambda m: risorsa(da, "allegati/" + m.group(1)), html)   # i PDF da scaricare
     def foto(m):
         nome, dida, classe = m.group(1), m.group(2), m.group(3)
         classe = (" " + classe) if classe else ""
-        # se la fotografia è arrivata (img/foto/<nome>.jpg), entra al suo posto; altrimenti resta il posto segnato
-        file = re.sub(r"[^a-z0-9]+", "-", nome.lower()).strip("-") + ".jpg"
+        # se la fotografia è arrivata (img/foto/<nome>.webp o .jpg), entra al suo posto; altrimenti resta il posto segnato
+        base = re.sub(r"[^a-z0-9]+", "-", nome.lower()).strip("-")
+        file = next((base + e for e in (".webp", ".jpg") if os.path.exists(os.path.join(USCITA, "img", "foto", base + e))), base + ".jpg")
         if os.path.exists(os.path.join(USCITA, "img", "foto", file)):
             squadre = "" if "quadra" in classe else '<span class="squadra a"></span><span class="squadra b"></span>'
             return ('<figure class="foto%s"><img src="%s" alt="%s" loading="lazy">%s</figure>'
