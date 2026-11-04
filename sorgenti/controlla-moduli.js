@@ -168,7 +168,7 @@ async function apri(percorso, { foglio = () => ({ success: true }), dediche = nu
     let corpo = fs.readFileSync(file);
     if (file.endsWith('.html')) {
       corpo = corpo.toString('utf8').replace(/ data-turnstile="[^"]*"/g, '');
-      if (turnstile) corpo = corpo.replace(/(<form class="(?:modulo|dialogo)" id="modulo-[a-z]+")/g, '$1 data-turnstile="' + CHIAVE + '"');
+      if (turnstile) corpo = corpo.replace(/(<form class="(?:modulo|dialogo)[^"]*" id="modulo-[a-z]+")/g, '$1 data-turnstile="' + CHIAVE + '"');
     }
     return route.fulfill({ status: 200, contentType: TIPI[path.extname(file)] || 'application/octet-stream', body: corpo });
   });
@@ -250,7 +250,7 @@ controllo('se lo script non risponde, i Contatti danno l’indirizzo di posta', 
 });
 
 controllo('il riquadro delle notizie manda l’email con la pagina in cui si trova e chiede di confermare', async () => {
-  for (const [percorso, pagina] of [['index.html', 'home'], ['lasciti/index.html', 'lasciti']]) {
+  for (const [percorso, pagina] of [['index.html', 'home'], ['lasciti/index.html', 'lasciti'], ['dona/grazie/index.html', 'dona/grazie']]) {
     const p = await apri(percorso, { foglio: () => ({ success: true, conferma: true, iscrizione: true }) });
     try {
       await p.page.fill('#mn-posta', 'lettore@example.org');
@@ -262,6 +262,88 @@ controllo('il riquadro delle notizie manda l’email con la pagina in cui si tro
       assert.strictEqual(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.' +
         ' Se non la vedi entro qualche minuto, guarda nella posta indesiderata e aggiungi segreteria@larosadoro.org ai tuoi contatti.');
     } finally { await p.chiudi(); }
+  }
+});
+
+/* ---- il riquadro delle notizie più in vista (Elias e Dacia, 4.11): una fascia «Restiamo in contatto» subito prima del piede,
+        una volta sola per pagina, con una riga che in alcune pagine parla di quella pagina; nella pagina «Grazie» il riquadro sta
+        dentro il testo, subito dopo il ringraziamento. Niente che si apre da solo ---- */
+
+const CONSENSO_TESTO = 'Vorrei ricevere periodicamente le notizie della Fondazione per email. Potrò cancellarmi quando lo desidero.';
+const RIGA_NOTIZIE = 'Ogni tanto ti scriviamo che cosa fa la Fondazione: i progetti che nascono, gli incontri, il giardino che cresce. Le notizie non ti chiedono di donare.';
+
+controllo('il riquadro delle notizie sta una volta sola per pagina: nella fascia «Restiamo in contatto» subito prima del piede, e nella pagina «Grazie» dentro il testo', async () => {
+  const pagine = [
+    ['index.html', 'fascia', 'Restiamo in contatto', RIGA_NOTIZIE],
+    ['lasciti/index.html', 'fascia', 'Restiamo in contatto', RIGA_NOTIZIE],
+    ['news/index.html', 'fascia', 'Restiamo in contatto', 'Le novità arrivano qui, una alla volta. Se vuoi, te le mandiamo anche per email.'],
+    ['eventi-e-formazione/index.html', 'fascia', 'Restiamo in contatto', 'Ti scriviamo quando c’è un incontro o un percorso nuovo.'],
+    ['eventi-e-formazione/formazione-accompagnamento/index.html', 'fascia', 'Restiamo in contatto',
+     'Vuoi sapere quando ci sono novità su Quietude Italia e sugli altri percorsi della Fondazione?'],
+    ['progetti/in-corso/index.html', 'fascia', 'Restiamo in contatto', 'Ti raccontiamo i progetti quando partono e come procedono.'],
+    [GIARDINO, 'fascia', 'Restiamo in contatto', RIGA_NOTIZIE],
+    ['contatti/index.html', 'fascia', 'Restiamo in contatto', RIGA_NOTIZIE],
+    ['dona/grazie/index.html', 'testo', 'Vuoi sapere che cosa nasce dalla tua donazione?',
+     'Ogni tanto ti raccontiamo i progetti, gli incontri e come usiamo ciò che riceviamo. Le notizie non ti chiedono di donare.']
+  ];
+  for (const [percorso, dove, titolo, riga] of pagine) {
+    const p = await apri(percorso, { dediche: { versione: 'x', dediche: [] } });
+    try {
+      const m = await p.page.evaluate(() => {
+        const r = document.getElementById('notizie');
+        const piede = document.querySelector('footer.pie');
+        const testo = s => (s || '').replace(/\s+/g, ' ').trim();
+        const vai = document.querySelector('main .vai');
+        return {
+          moduli: document.querySelectorAll('#modulo-notizie').length, ancore: document.querySelectorAll('#notizie').length,
+          dentro: !!(r && r.querySelector('#modulo-notizie')), nelPiede: !!(piede && piede.querySelector('#modulo-notizie')),
+          primaDelPiede: !!(piede && r && piede.previousElementSibling === r), nelTesto: !!(r && r.closest('main')),
+          titolo: r && r.querySelector('h2') ? testo(r.querySelector('h2').textContent) : '',
+          riga: r && r.querySelector('.riga') ? testo(r.querySelector('.riga').textContent) : '',
+          consenso: r && r.querySelector('.consenso-notizie') ? testo(r.querySelector('.consenso-notizie').textContent) : '',
+          primaDelLink: !!(r && vai && (r.compareDocumentPosition(vai) & Node.DOCUMENT_POSITION_FOLLOWING)),
+          rimanda: /riquadro in fondo/.test(document.querySelector('main') ? document.querySelector('main').textContent : '')
+        };
+      });
+      assert.strictEqual(m.moduli, 1, percorso + ': moduli delle notizie nella pagina: ' + m.moduli);
+      assert.strictEqual(m.ancore, 1, percorso + ': #notizie nella pagina: ' + m.ancore);
+      assert.ok(m.dentro, percorso + ': il modulo non sta dentro #notizie, dove porta il collegamento di Lux');
+      assert.ok(!m.nelPiede, percorso + ': il riquadro è ancora dentro il piede');
+      if (dove === 'fascia') {
+        assert.ok(m.primaDelPiede, percorso + ': la fascia delle notizie non sta subito prima del piede');
+      } else {
+        assert.ok(m.nelTesto && !m.primaDelPiede, percorso + ': il riquadro doveva stare dentro il testo della pagina');
+        assert.ok(m.primaDelLink, percorso + ': il riquadro doveva venire prima di «Torna alla home»');
+      }
+      assert.strictEqual(m.titolo, titolo, percorso);
+      assert.strictEqual(m.riga, riga, percorso);
+      assert.strictEqual(m.consenso, CONSENSO_TESTO, percorso + ': la frase del consenso deve restare quella di Dacia');
+      assert.ok(!m.rimanda, percorso + ': il testo rimanda ancora al «riquadro in fondo»');
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('sul telefono la fascia delle notizie e il riquadro della pagina «Grazie» stanno nello schermo, con il testo ad almeno 17 px', async () => {
+  for (const schermo of [{ width: 320, height: 640 }, { width: 390, height: 844 }]) {
+    for (const percorso of ['index.html', 'dona/grazie/index.html']) {
+      const p = await apri(percorso, { schermo });
+      try {
+        await p.page.locator('#notizie').scrollIntoViewIfNeeded();
+        const m = await p.page.evaluate(() => {
+          const r = document.getElementById('notizie'), b = r.getBoundingClientRect();
+          const corpi = Array.prototype.map.call(r.querySelectorAll('.riga, .consenso-notizie, input[type="email"], .nota'),
+            e => parseFloat(getComputedStyle(e).fontSize));
+          const pulsante = r.querySelector('.invia').getBoundingClientRect();
+          return { sinistra: b.left, destra: b.right, largo: document.documentElement.scrollWidth, corpi,
+                   pulsante: pulsante.right };
+        });
+        const w = schermo.width + ' px, ' + percorso + ': ';
+        assert.ok(m.sinistra >= 0 && m.destra <= schermo.width, w + 'il riquadro esce dallo schermo');
+        assert.ok(m.pulsante <= schermo.width, w + '«Iscrivimi» esce dallo schermo');
+        assert.ok(m.largo <= schermo.width, w + 'la pagina si allarga a ' + m.largo);
+        assert.ok(m.corpi.length >= 4 && m.corpi.every(c => c >= 17), w + 'testo sotto i 17 px: ' + m.corpi.join(', '));
+      } finally { await p.chiudi(); }
+    }
   }
 });
 
@@ -311,6 +393,144 @@ controllo('la dedica manda l’immagine scelta, il nome da ricordare e chi scriv
     assert.deepStrictEqual([c.tipo, c.ricordo, c.dedica, c.immagine, c.nome, c.email, c.consenso, c._sito, c._js],
       ['dedica', 'Nonna Lina', 'Ti pensiamo ogni giorno', foto, 'Carla', 'carla@example.org', 'si', ORIGINE, '1']);
     assert.ok(esito.startsWith('Grazie. La dedica per Nonna Lina è arrivata') && esito.includes('collegamento per toglierla') && esito.includes('posta indesiderata'), esito);
+  } finally { await p.chiudi(); }
+});
+
+/* ---- dopo la dedica, l'invito alle notizie (Dacia ed Elias, 4.11): sotto il ringraziamento, nella stessa finestra, con l'email
+        appena scritta; parte solo con «Sì, iscrivimi», «Chiudi» chiude e basta. Compare una volta sola per visita, mai prima
+        della dedica, mai se la dedica non è partita. La dedica parte senza niente delle notizie ---- */
+
+const INVITO = '#modulo-invito';
+const RIGA_INVITO = 'Se vuoi, possiamo raccontarti ogni tanto che cosa fa la Fondazione: i progetti che nascono, gli incontri, il giardino che cresce.';
+const GRAZIE_NOTIZIE = 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.' +
+  ' Se non la vedi entro qualche minuto, guarda nella posta indesiderata e aggiungi segreteria@larosadoro.org ai tuoi contatti.';
+const RISPOSTE = i => (i.campi.tipo === 'dedica' ? { success: true, dedica: true, ricevuta: true } : { success: true, conferma: true, iscrizione: true });
+
+async function mandaDedica(page, nome = 'Nonna Lina', posta = 'carla@example.org') {
+  await scegliImmagine(page);
+  await page.fill('#dedica-nome', nome);
+  await page.fill('#dedica-mittente', 'Carla');
+  await page.fill('#dedica-posta', posta);
+  await page.check('#dedica-consenso');
+  await page.click('#modulo-dedica .invia');
+  return esitoDi(page, '#modulo-dedica');
+}
+
+/* il «Chiudi» che si vede nella finestra della dedica: uno solo */
+async function chiudiLaDedica(page) {
+  const chiudi = page.locator('#velo-dedica .chiudi-dialogo:visible');
+  assert.strictEqual(await chiudi.count(), 1, 'nella finestra si vedono ' + (await chiudi.count()) + ' pulsanti «Chiudi»');
+  await chiudi.click();
+  assert.ok(await page.locator('#velo-dedica').isHidden(), '«Chiudi» non chiude la finestra');
+}
+
+controllo('dopo la dedica compare l’invito alle notizie con l’email già scritta, e l’iscrizione parte solo con «Sì, iscrivimi»', async () => {
+  const p = await apri(GIARDINO, { foglio: RISPOSTE });
+  try {
+    await scegliImmagine(p.page);
+    assert.ok(await p.page.locator(INVITO).isHidden(), 'l’invito si vede prima della dedica');
+    await p.page.click('#velo-dedica .chiudi-dialogo:visible');
+    const esito = await mandaDedica(p.page);
+    assert.ok(esito.startsWith('Grazie. La dedica per Nonna Lina è arrivata'), esito);
+    assert.strictEqual(p.allo.length, 1);
+    assert.ok(!('notizie' in p.allo[0].campi) && p.allo[0].campi.tipo === 'dedica', 'la dedica porta con sé qualcosa delle notizie');
+    await p.page.locator(INVITO).waitFor({ state: 'visible', timeout: 2000 });
+    const testo = (await p.page.locator(INVITO + ' .campi').textContent()).replace(/\s+/g, ' ');
+    assert.ok(testo.includes(RIGA_INVITO), testo);
+    assert.ok(testo.includes(CONSENSO_TESTO), 'manca la frase del consenso: ' + testo);
+    assert.strictEqual(await p.page.inputValue('#invito-posta'), 'carla@example.org', 'l’email non è già scritta');
+    assert.strictEqual((await p.page.textContent(INVITO + ' .invia')).trim(), 'Sì, iscrivimi');
+    assert.ok(await p.page.locator('#modulo-dedica .righe.dopo').isHidden(), 'due «Chiudi»: quello della dedica doveva lasciare il posto all’invito');
+    await p.page.waitForTimeout(300);
+    assert.strictEqual(p.allo.length, 1, 'le notizie sono partite senza il tocco');
+    await p.page.click(INVITO + ' .invia');
+    assert.strictEqual(await esitoDi(p.page, INVITO), GRAZIE_NOTIZIE);
+    const c = p.allo[1].campi;
+    assert.deepStrictEqual([c.tipo, c.notizie, c.email, c.consenso, c.pagina, c._sito, c._js, c.sito_web],
+      ['notizie', 'si', 'carla@example.org', CONSENSO, 'in-memoria/giardino-dei-ricordi/dopo-la-dedica', ORIGINE, '1', '']);
+    assert.ok(/^\d+$/.test(c._tempo), c._tempo);
+    assert.ok(await p.page.locator(INVITO + ' .campi').isHidden());
+    await chiudiLaDedica(p.page);
+    // una seconda dedica: l'invito non torna, la persona ha già risposto
+    await mandaDedica(p.page, 'Zio Piero');
+    await p.page.waitForTimeout(300);
+    assert.ok(await p.page.locator(INVITO).isHidden(), 'l’invito torna dopo che la persona si è già iscritta');
+    assert.strictEqual(p.allo.length, 3);
+    await chiudiLaDedica(p.page);
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('chi non vuole le notizie tocca «Chiudi» e non parte niente; l’invito non torna alla dedica dopo, e si può cambiare l’email', async () => {
+  const p = await apri(GIARDINO, { foglio: RISPOSTE });
+  try {
+    await mandaDedica(p.page);
+    await p.page.locator(INVITO).waitFor({ state: 'visible', timeout: 2000 });
+    await chiudiLaDedica(p.page);
+    await p.page.waitForTimeout(300);
+    assert.strictEqual(p.allo.length, 1, 'chiudendo è partito qualcosa');
+    await mandaDedica(p.page, 'Zio Piero');
+    await p.page.waitForTimeout(300);
+    assert.ok(await p.page.locator(INVITO).isHidden(), 'l’invito torna dopo un «Chiudi»: diventa insistente');
+    await chiudiLaDedica(p.page);
+    assert.strictEqual(p.allo.length, 2);
+  } finally { await p.chiudi(); }
+  const q = await apri(GIARDINO, { foglio: RISPOSTE });
+  try {
+    await mandaDedica(q.page);
+    await q.page.locator(INVITO).waitFor({ state: 'visible', timeout: 2000 });
+    await q.page.fill('#invito-posta', 'altra@example.org');
+    await q.page.click(INVITO + ' .invia');
+    await esitoDi(q.page, INVITO);
+    assert.strictEqual(q.allo[1].campi.email, 'altra@example.org');
+  } finally { await q.chiudi(); }
+});
+
+controllo('se la dedica non parte, l’invito alle notizie non compare', async () => {
+  for (const foglio of [() => null, () => ({ success: false, error: 'email', dedica: true })]) {
+    const p = await apri(GIARDINO, { foglio });
+    try {
+      await mandaDedica(p.page);
+      await p.page.waitForTimeout(300);
+      assert.ok(await p.page.locator(INVITO).isHidden(), 'l’invito compare anche se la dedica non è partita');
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('sul telefono la dedica con l’invito sta nello schermo, il testo è ad almeno 17 px e «Sì, iscrivimi» si raggiunge', async () => {
+  for (const schermo of [{ width: 320, height: 640 }, { width: 390, height: 844 }]) {
+    const p = await apri(GIARDINO, { schermo, foglio: RISPOSTE });
+    try {
+      await mandaDedica(p.page);
+      await p.page.locator(INVITO).waitFor({ state: 'visible', timeout: 2000 });
+      const m = await p.page.evaluate(() => {
+        const d = document.getElementById('modulo-dedica').getBoundingClientRect(), i = document.getElementById('modulo-invito').getBoundingClientRect();
+        const corpi = Array.prototype.map.call(document.querySelectorAll('#modulo-invito .campi p, #invito-posta'), e => parseFloat(getComputedStyle(e).fontSize));
+        return { sinistra: Math.min(d.left, i.left), destra: Math.max(d.right, i.right), attaccati: Math.abs(i.top - d.bottom) < 2,
+                 largo: document.documentElement.scrollWidth, corpi };
+      });
+      const w = schermo.width + ' px: ';
+      assert.ok(m.sinistra >= 0 && m.destra <= schermo.width, w + 'la finestra esce dallo schermo');
+      assert.ok(m.attaccati, w + 'il ringraziamento e l’invito non stanno insieme, come un foglio solo');
+      assert.ok(m.largo <= schermo.width, w + 'la pagina si allarga a ' + m.largo);
+      assert.ok(m.corpi.length >= 3 && m.corpi.every(c => c >= 17), w + 'testo sotto i 17 px: ' + m.corpi.join(', '));
+      await p.page.locator(INVITO + ' .invia').click();
+      await esitoDi(p.page, INVITO);
+      assert.strictEqual(p.allo.length, 2, w + 'l’iscrizione non è partita');
+    } finally { await p.chiudi(); }
+  }
+});
+
+controllo('con Turnstile l’invito dopo la dedica manda una sua risposta di Turnstile, e la regola di sicurezza non blocca niente', async () => {
+  const p = await apri(GIARDINO, { turnstile: 'passa', foglio: RISPOSTE });
+  try {
+    await mandaDedica(p.page);
+    await p.page.locator(INVITO).waitFor({ state: 'visible', timeout: 2000 });
+    await p.page.click(INVITO + ' .invia');
+    await esitoDi(p.page, INVITO);
+    assert.deepStrictEqual(p.allo.map(a => [a.campi.tipo, a.campi._turnstile]), [['dedica', 'risposta-1-0'], ['notizie', 'risposta-2-0']]);
+    assert.deepStrictEqual(await p.violazioni(), []);
+    assert.deepStrictEqual(p.errori, []);
   } finally { await p.chiudi(); }
 });
 
@@ -520,8 +740,9 @@ controllo('senza ?conferma=, ?cancella= o ?togli= i riquadri restano nascosti', 
 
 /* ---- la protezione dai programmi automatici (Elias, 22.10) ---- */
 
-const PAGINE_CON_MODULI = [['contatti/index.html', ['#modulo-contatti', '#modulo-notizie']], [GIARDINO, ['#modulo-dedica', '#modulo-notizie']],
-  ['progetti/presenta-il-tuo-progetto/index.html', ['#modulo-progetto', '#modulo-notizie']], ['index.html', ['#modulo-notizie']]];
+const PAGINE_CON_MODULI = [['contatti/index.html', ['#modulo-contatti', '#modulo-notizie']], [GIARDINO, ['#modulo-dedica', '#modulo-invito', '#modulo-notizie']],
+  ['progetti/presenta-il-tuo-progetto/index.html', ['#modulo-progetto', '#modulo-notizie']], ['index.html', ['#modulo-notizie']],
+  ['dona/grazie/index.html', ['#modulo-notizie']]];
 
 controllo('ogni modulo ha il campo trappola «sito_web»: vuoto, invisibile, fuori dal giro del tasto Tab', async () => {
   for (const [percorso, moduli] of PAGINE_CON_MODULI) {
@@ -652,7 +873,7 @@ controllo('con Turnstile: una seconda dedica parte con una risposta nuova, perch
       await p.page.check('#dedica-consenso');
       await p.page.click('#modulo-dedica .invia');
       await esitoDi(p.page, '#modulo-dedica');
-      await p.page.click('#velo-dedica .dopo .chiudi-dialogo');
+      await chiudiLaDedica(p.page);
     }
     assert.deepStrictEqual(p.allo.map(a => a.campi._turnstile), ['risposta-1-0', 'risposta-1-1']);
   } finally { await p.chiudi(); }

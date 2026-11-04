@@ -13,7 +13,7 @@ pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
 import os, re, shutil, datetime, subprocess, hashlib, base64
-from testi_pagine import TESTI, DESCRIZIONI, TITOLI
+from testi_pagine import TESTI, DESCRIZIONI, TITOLI, NOTIZIE
 import json
 
 # --------------------------------------------------------------------------
@@ -87,7 +87,9 @@ GOOGLE_TAG = "G-FC78G2JWBL"               # l’ID della proprietà Google Analy
                                           # ({se-google}…{/se-google}). Vuoto: niente banner né Google Analytics, e i testi dicono che il sito
                                           # non usa cookie ({senza-google}…{/senza-google}).
 MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
-                                          # porta la data del più recente fra MISURA, RICEVUTE e MENSILE.
+                                          # porta la data del più recente fra MISURA, RICEVUTE, MENSILE e INFORMATIVA.
+INFORMATIVA = "4 novembre 2026"           # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 4.11 le notizie
+                                          # dalla fascia «Restiamo in contatto» e dall’invito dopo la dedica. Si aggiorna a ogni cambio.
 SENZA_MISURA = ("in-memoria/giardino-dei-ricordi",)   # le pagine dove Google Analytics non parte mai, neppure con il consenso,
                                           # e il banner non compare da sé: il giardino è un luogo di lutto, e resta fuori anche dai motori
 
@@ -419,34 +421,81 @@ def barra(da):
         voci.append('<a%s href="%s" aria-label="%s">%s</a>' % (classe, verso(da, cartella), sfuggi(etichetta), sfuggi(etichetta)))
     return '<nav class="barra-fissa" aria-label="Azioni principali">%s</nav>' % "".join(voci)
 
-def riquadro_notizie(da):
-    """il riquadro «Le notizie della Fondazione» in fondo a ogni pagina: basta l'email, poi la stessa email
-    di conferma dei Contatti. Il testo è quello della casella delle notizie, con la sua versione.
-    Senza FOGLIO non c'è: le notizie si chiedono dai Contatti. L'àncora #notizie la usa Lux, dalla pagina
-    «Perché donare» (https://larosadoro.org/#notizie): non si cambia (la controlla sorgenti/controlla.py)."""
-    if not FOGLIO:
-        return ""
-    versione, testo = CONSENSO_NOTIZIE
-    return """    <div class="pie-notizie" id="notizie">
-      <div><h4>Le notizie della Fondazione</h4><p>%s</p></div>
-      <form class="modulo" id="modulo-notizie" action="%s" method="post" data-indirizzo="%s"%s>
-        <div class="campi">
-          <label for="mn-posta">La tua email</label>
-          <div class="in-riga"><input id="mn-posta" name="email" type="email" autocomplete="email" maxlength="254" pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required><button type="submit" class="invia">Iscrivimi</button></div>
-          <input type="hidden" name="tipo" value="notizie">
+def modulo_notizie(id_posta, pagina=""):
+    """i campi del modulo delle notizie, come coppia (il campo dell'email, i campi nascosti): basta l'email, poi la stessa
+    email di conferma dei Contatti, con la versione del consenso. Li usano il riquadro delle notizie (pagina vuota:
+    la scrive sito.js) e l'invito dopo la dedica"""
+    email = ('<input id="%s" name="email" type="email" autocomplete="email" maxlength="254" '
+             'pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+" required>' % id_posta)
+    nascosti = """<input type="hidden" name="tipo" value="notizie">
           <input type="hidden" name="notizie" value="si">
           <input type="hidden" name="consenso" value="%s">
-          <input type="hidden" name="pagina" value="">
+          <input type="hidden" name="pagina" value="%s">
           <input type="hidden" name="_sito" value="">
+          %s""" % (sfuggi(CONSENSO_NOTIZIE[0]), sfuggi(pagina), TRAPPOLA)
+    return email, nascosti
+
+def riquadro_notizie(da, nel_testo=False):
+    """il riquadro delle notizie: il titolo, la riga della pagina, la frase del consenso di Dacia e l'email. Di solito è la fascia
+    «Restiamo in contatto» subito prima del piede (Elias e Dacia, 4.11); dove il testo ha il gettone {notizie} (la pagina «Grazie»)
+    sta lì, e la fascia non c'è: una volta sola per pagina, e niente che si apre da solo. Titolo e riga: NOTIZIE in testi_pagine.py,
+    o notizie_titolo e notizie_riga della pagina. Senza FOGLIO non c'è: le notizie si chiedono dai Contatti.
+    L'àncora #notizie la usa Lux, dalla pagina «Perché donare» (https://larosadoro.org/#notizie): non si cambia
+    (la controlla sorgenti/controlla.py)."""
+    if not FOGLIO:
+        return ""
+    t = TESTI.get(da, {})
+    testa = """<div><h2 id="notizie-titolo">%s</h2><p class="riga">%s</p><p class="consenso-notizie">%s</p></div>""" % (
+        sfuggi(t.get("notizie_titolo", NOTIZIE["titolo"])), sfuggi(t.get("notizie_riga", NOTIZIE["riga"])), sfuggi(CONSENSO_NOTIZIE[1]))
+    modulo = """<form class="modulo" id="modulo-notizie" action="%s" method="post" data-indirizzo="%s"%s>
+        <div class="campi">
+          <label for="mn-posta">La tua email</label>
+          <div class="in-riga">%s<button type="submit" class="invia">Iscrivimi</button></div>
           %s
           <p class="nota">Ti manderemo un’email per confermare l’indirizzo. Come usiamo i dati personali è spiegato nell’<a class="link" href="%s">informativa sulla privacy</a>.</p>
         </div>
         <p class="esito" role="status" tabindex="-1" hidden></p>
-      </form>
-    </div>
-""" % (sfuggi(testo), sfuggi(FOGLIO), ENTE["email"], con_turnstile(), sfuggi(versione), TRAPPOLA, verso(da, "privacy"))
+      </form>""" % ((sfuggi(FOGLIO), ENTE["email"], con_turnstile()) + modulo_notizie("mn-posta") + (verso(da, "privacy"),))
+    if nel_testo:
+        return """<aside class="pie-notizie riquadro-notizie" id="notizie" aria-labelledby="notizie-titolo">
+      %s
+      %s
+    </aside>""" % (testa, modulo)
+    return """<section class="fascia-notizie" id="notizie" aria-labelledby="notizie-titolo">
+  <div class="pagina pie-notizie">
+      %s
+      %s
+  </div>
+</section>
+""" % (testa, modulo)
 
-def footer(da):
+def invito_notizie(da):
+    """nel giardino, l'invito alle notizie che compare dopo la dedica, sotto il ringraziamento, nella stessa finestra (Dacia ed
+    Elias, 4.11): l'email è quella appena scritta, e l'iscrizione parte solo con «Sì, iscrivimi»; «Chiudi» chiude e basta.
+    Compare una volta sola per visita (sito.js). Va allo script del foglio come il riquadro, con la pagina «dopo-la-dedica».
+    Senza FOGLIO non c'è"""
+    if not FOGLIO:
+        return ""
+    return """<form class="dialogo invito-notizie" id="modulo-invito" action="%s" method="post" data-indirizzo="%s"%s hidden>
+    <div class="campi">
+    <p class="riga">%s</p>
+    <p class="consenso-notizie">%s</p>
+    <label for="invito-posta">La tua email</label>
+    %s
+    %s
+    <p class="nota">Ti manderemo un’email per confermare l’indirizzo. <a class="link" href="%s">Come trattiamo i dati</a>.</p>
+    <div class="righe">
+      <button type="button" class="chiudi-dialogo">Chiudi</button>
+      <button type="submit" class="invia">Sì, iscrivimi</button>
+    </div>
+    </div>
+    <p class="esito" role="status" tabindex="-1" hidden></p>
+    <div class="righe dopo" hidden><button type="button" class="chiudi-dialogo">Chiudi</button></div>
+  </form>""" % ((sfuggi(FOGLIO), ENTE["email"], con_turnstile(), sfuggi(NOTIZIE["dopo_la_dedica"]), sfuggi(CONSENSO_NOTIZIE[1]))
+                 + modulo_notizie("invito-posta", "in-memoria/giardino-dei-ricordi/dopo-la-dedica") + (verso(da, "privacy"),))
+
+def footer(da, fascia=True):
+    """il piede, con prima la fascia delle notizie (fascia=False quando il testo della pagina ha già il riquadro)"""
     sito = "".join('<li><a href="%s">%s</a></li>' % (verso(da, s["chiave"]), sfuggi(s["voce"])) for s in SEZIONI)
     fond = "".join('<li><a href="%s">%s</a></li>' % (verso(da, p["cartella"]), sfuggi(p["voce"]))
                    for p in SERVIZIO if p["dove"] in ("barra", "secondario"))
@@ -454,7 +503,7 @@ def footer(da):
                         for p in SERVIZIO if p["dove"] == "footer")
     if GOOGLE_TAG:                                 # per cambiare idea sui cookie: con JavaScript riapre il banner, senza porta all'informativa
         legali += ' · <a class="apri-consenso" href="%s#preferenze">Preferenze cookie</a>' % verso(da, "cookie")
-    return """<footer class="pie">
+    return (riquadro_notizie(da) if fascia else "") + """<footer class="pie">
   <div class="pagina">
     <div class="pie-alto">
       <div>%s<p class="tagline">%s</p></div>
@@ -462,13 +511,13 @@ def footer(da):
       <div><h4>La Fondazione</h4><ul>%s</ul></div>
       <div><h4>Scrivere</h4><ul><li><a href="mailto:%s">%s</a></li></ul></div>
     </div>
-%s    <hr class="separatore">
+    <hr class="separatore">
     <div class="pie-dati">
       <p>%s · %s · %s · %s · %s · %s</p>
       <p>%s</p>
     </div>
   </div>
-</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"], riquadro_notizie(da),
+</footer>""" % (logo(da), sfuggi(ENTE["tagline"]), sito, fond, ENTE["email"], ENTE["email"],
                 sfuggi(ENTE["nome"]), sfuggi(ENTE["forma"]), sfuggi(ENTE["cfpiva"]), sfuggi(ENTE["sedelegale"]), sfuggi(ENTE["runts"]),
                 sfuggi(ENTE["atto"]), legali)
 
@@ -543,6 +592,10 @@ def gettoni(html, da):
         html = html.replace("{modulo-contatti}", modulo_contatti(da))
     if "{modulo-progetto}" in html:
         html = html.replace("{modulo-progetto}", modulo_progetto(da))
+    if "{notizie}" in html:                    # il riquadro delle notizie dentro il testo: allora la fascia prima del piede non c'è
+        html = html.replace("{notizie}", riquadro_notizie(da, nel_testo=True))
+    if "{invito-notizie}" in html:
+        html = html.replace("{invito-notizie}", invito_notizie(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
     return secondo_google(secondo_turnstile(secondo_ricevute(secondo_mensile(secondo_stripe(html)))))
@@ -566,12 +619,12 @@ def secondo_mensile(testo):
 MESI = ("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre")
 
 def data_informativa():
-    """il giorno dell'ultimo aggiornamento dell'informativa: il più recente fra MISURA, RICEVUTE e MENSILE, scritti come
-    «27 ottobre 2026»; se nessuno è acceso, quello della versione dell'apertura"""
+    """il giorno dell'ultimo aggiornamento dell'informativa: il più recente fra MISURA, RICEVUTE, MENSILE e INFORMATIVA, scritti
+    come «27 ottobre 2026»; se nessuno è acceso, quello della versione dell'apertura"""
     def chiave(g):
         n, mese, anno = g.split()
         return (int(anno), MESI.index(mese), int(n))
-    giorni = [g for g in (MENSILE, RICEVUTE, MISURA) if g]
+    giorni = [g for g in (MENSILE, RICEVUTE, MISURA, INFORMATIVA) if g]
     if not giorni:
         return "26 ottobre 2026, prima dell'apertura del sito"
     return re.sub(r"^1 ", "1° ", max(giorni, key=chiave))   # il primo del mese scritto «1°» («aggiornata il 1° novembre 2026»)
@@ -1097,7 +1150,7 @@ def pagina_html(da, p, extra_head=""):
 """ % (sfuggi(politica), extra_head, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(scheda), sfuggi(descrizione), url, sfuggi(ENTE["nome"]), DOMINIO,
        robots, dati,
        risorsa(da, "img/favicon.svg"), risorsa(da, "css/stile.css"), classe_body,
-       banner_cookie(da), SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da), barra(da), risorsa(da, "js/sito.js"))
+       banner_cookie(da), SPRITE, header(da, p), hero(da, p, sotto, classe_sotto), corpo, footer(da, 'id="modulo-notizie"' not in corpo), barra(da), risorsa(da, "js/sito.js"))
 
 # la scheda per i motori di ricerca: chi siamo, in forma leggibile dalle macchine (schema.org).
 # Serve anche agli assistenti di intelligenza artificiale per non confondere la Fondazione con altre «Rosa d’Oro».

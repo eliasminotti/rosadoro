@@ -207,6 +207,33 @@ def controlla_indirizzi_da_fuori(pagine):
     print("Indirizzi usati da altri siti: %d controllati" % len(DA_FUORI))
 
 
+def controlla_notizie(pagine):
+    """Il riquadro delle notizie (Elias e Dacia, 4.11): con FOGLIO ogni pagina lo ha una volta sola, in #notizie (dove porta
+    il collegamento di Lux), fuori dal piede, e senza un testo che rimandi al «riquadro in fondo»; nel giardino, in più,
+    l'invito che compare dopo la dedica. Mai un riquadro che si apre da solo: lo guarda controlla-moduli.js nel browser."""
+    if not impostazione("FOGLIO"):
+        print("Notizie: senza FOGLIO il riquadro non c’è")
+        return
+    prima = len(problemi)
+    for rel in sorted(pagine):
+        testo = open(os.path.join(SITO, rel), encoding="utf-8").read()
+        moduli, ancore = testo.count('id="modulo-notizie"'), testo.count('id="notizie"')
+        if moduli != 1 or ancore != 1:
+            problemi.append("%s: il riquadro delle notizie c’è %d volte, e #notizie %d: deve esserci una volta sola" % (rel, moduli, ancore))
+            continue
+        piede = testo.find('<footer class="pie">')
+        if 0 <= piede < testo.find('id="modulo-notizie"'):
+            problemi.append("%s: il riquadro delle notizie è ancora dentro il piede" % rel)
+        corpo = testo[testo.find("<main"):testo.find("</main>")]
+        if "riquadro in fondo" in corpo and rel != "privacy/index.html":
+            problemi.append("%s: il testo rimanda ancora al «riquadro in fondo», che ora sta in una fascia prima del piede" % rel)
+    giardino = open(os.path.join(SITO, "in-memoria", "giardino-dei-ricordi", "index.html"), encoding="utf-8").read()
+    if giardino.count('id="modulo-invito"') != 1:
+        problemi.append("Nel giardino manca l’invito alle notizie che compare dopo la dedica")
+    if len(problemi) == prima:
+        print("Notizie: il riquadro una volta per pagina, fuori dal piede, e l’invito dopo la dedica")
+
+
 # un Payment Link di Stripe che incassa davvero: quelli di prova cominciano con «test_»; con il pulsante «Dona»
 # l'indirizzo comincia con donate.stripe.com invece di buy.stripe.com
 STRIPE_VIVO = re.compile(r"^https://(buy|donate)\.stripe\.com/[A-Za-z0-9]+$")
@@ -301,7 +328,7 @@ def controlla_ricevute(pagine):
     for f in fornitori:
         if f not in privacy:
             problemi.append("RICEVUTE è acceso, ma l’informativa non nomina %s" % re.sub("<[^>]+>", "", f))
-    data = ultimo_giorno(impostazione("MENSILE"), giorno, impostazione("MISURA"))   # l'informativa porta il giorno dell'ultimo interruttore
+    data = ultimo_giorno(impostazione("MENSILE"), giorno, impostazione("MISURA"), impostazione("INFORMATIVA"))   # l'informativa porta il giorno dell'ultimo interruttore
     if "aggiornata il %s," % data not in privacy:
         problemi.append("RICEVUTE è acceso, ma l’informativa non porta la data %s" % data)
     if re.search(r"prima dell.apertura del sito", privacy):
@@ -390,7 +417,7 @@ def controlla_misura(pagine):
         problemi.append("La pagina dei cookie dice ancora che il sito non usa cookie, ma GOOGLE_TAG è acceso")
     if "Google Analytics" not in privacy:
         problemi.append("L’informativa non parla di Google Analytics, ma GOOGLE_TAG è acceso")
-    data = ultimo_giorno(impostazione("MENSILE"), impostazione("RICEVUTE"), giorno)
+    data = ultimo_giorno(impostazione("MENSILE"), impostazione("RICEVUTE"), giorno, impostazione("INFORMATIVA"))
     if data and "aggiornata il %s," % data not in privacy:
         problemi.append("La misura è accesa, ma l’informativa non porta la data %s" % data)
     if len(problemi) == prima:
@@ -745,6 +772,7 @@ def main():
         pagine = leggi_pagine()
         controlla_collegamenti_interni(pagine)
         controlla_indirizzi_da_fuori(pagine)
+        controlla_notizie(pagine)
         controlla_stripe(pagine)
         controlla_ricevute(pagine)
         controlla_paypal(pagine)

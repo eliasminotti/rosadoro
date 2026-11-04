@@ -355,9 +355,17 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .pie ul a:hover{color:var(--testo)}
 .pie .separatore{height:1px;border:0;background:rgba(184,143,61,.1);margin:72px 0 28px}
 .notte .pie .separatore{background:rgba(184,143,61,.25)}
-/* il riquadro delle notizie in fondo alle pagine: il testo a sinistra, l'email e il pulsante a destra */
-.pie-notizie{display:grid;grid-template-columns:5fr 6fr;gap:48px;align-items:start;margin-top:72px}
+/* il riquadro delle notizie: il testo a sinistra, l'email e il pulsante a destra. Sta nella fascia «Restiamo in contatto»,
+   subito prima del piede, sul bianco della carta (Elias e Dacia, 4.11); nella pagina «Grazie» sta nel testo, in una cornice.
+   Una volta sola per pagina, e niente che si apre da solo */
+.fascia-notizie{background:var(--carta);border-top:1px solid var(--filo);padding:96px 0}
+.pie-notizie{display:grid;grid-template-columns:5fr 6fr;gap:48px;align-items:start}
+.fascia-notizie .pie-notizie{align-items:center}
 .pie-notizie p{margin:0;max-width:40ch}
+.pie-notizie h2{font-size:44px;line-height:1.1;font-weight:500;margin:0 0 18px}
+.pie-notizie .riga{font-family:var(--display);font-style:italic;font-weight:300;font-size:23px;line-height:1.5;color:var(--testo-70);margin:0 0 14px;max-width:44ch}
+.riquadro-notizie{grid-template-columns:1fr;gap:28px;margin:48px 0;padding:40px;background:var(--carta);border:1px solid var(--filo-forte)}
+.riquadro-notizie h2{font-size:34px}
 .pie-notizie .modulo{margin:0;max-width:none}
 .pie-notizie .modulo label{margin-top:6px}
 .pie-notizie .in-riga{display:flex;flex-wrap:wrap;gap:12px}
@@ -454,7 +462,11 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
   .fatti div{grid-template-columns:1fr;gap:4px}
   .pie-alto{grid-template-columns:1fr;gap:40px}
   .pie .separatore{margin:48px 0 24px}
-  .pie-notizie{grid-template-columns:1fr;gap:20px;margin-top:48px}
+  .pie-notizie{grid-template-columns:1fr;gap:24px}
+  .fascia-notizie{padding:64px 0}
+  .pie-notizie h2{font-size:34px}
+  .riquadro-notizie{padding:28px 20px}
+  .riquadro-notizie h2{font-size:30px}
   .pie-dati{flex-direction:column}
 
   /* le voci della barra: etichetta sempre visibile, parti uguali */
@@ -726,3 +738,14 @@ a.azione:hover h4{color:var(--accento)}
   #consenso-cookie .scelta{flex:1 1 0;min-width:0}
   #consenso-cookie .chiudi-consenso{top:2px;right:2px}
 }
+
+/* dopo la dedica, l'invito alle notizie sotto il ringraziamento: le due parti stanno insieme, come un foglio solo, divise da un
+   filo d'oro (Dacia ed Elias, 4.11). Se non entrano nello schermo, il velo scorre */
+.velo-dialogo.con-invito{flex-direction:column;justify-content:flex-start}
+.con-invito>.dialogo{flex:none;max-height:none}
+.con-invito>#modulo-dedica{margin-top:auto;border-bottom:0;padding-bottom:0}
+.con-invito>.dialogo.invito-notizie{margin-bottom:auto;border-top:0;padding-top:24px}
+.dialogo.invito-notizie .campi{border-top:1px solid var(--filo-forte);padding-top:24px}
+.dialogo.invito-notizie .campi>p{font-size:17px;line-height:1.5;color:var(--testo);margin:0 0 12px;max-width:none}
+.dialogo.invito-notizie .campi>p.riga{font-family:var(--display);font-style:italic;font-weight:400;font-size:21px;line-height:1.45;color:var(--testo-80)}
+.dialogo.invito-notizie .campi>p.nota{font-size:17px;color:var(--testo-60);margin:16px 0 0}
