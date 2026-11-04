@@ -77,9 +77,15 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   `controlla.py` verifica che piede e scheda dicano lo stesso indirizzo.
 - Il modulo di «Presentaci il tuo progetto» va allo stesso script, nella scheda
   «Progetti» del foglio, con un avviso a segreteria@ (`{modulo-progetto}`).
-- Il riquadro «Le notizie della Fondazione» in fondo a ogni pagina (`riquadro_notizie`
-  in `costruisci.py`) e la casella delle notizie nel modulo dei progetti vanno allo stesso
-  script: una riga «notizie» nella scheda dei Contatti e la stessa email di conferma.
+- Il riquadro delle notizie (`riquadro_notizie` in `costruisci.py`) e la casella delle notizie nel modulo dei progetti
+  vanno allo stesso script: una riga «notizie» nella scheda dei Contatti e la stessa email di conferma.
+  Dal 4.11 (Elias e Dacia) il riquadro è la fascia «Restiamo in contatto» subito prima del piede, una volta sola per
+  pagina; titolo e riga in `NOTIZIE` di `testi_pagine.py`, e una pagina può avere i suoi (`notizie_titolo`, `notizie_riga`).
+  Nella pagina «Grazie» sta nel testo, dopo il ringraziamento (gettone `{notizie}`, e allora la fascia non c’è). Nel giardino,
+  dopo la dedica, sotto il ringraziamento compare l’invito (`{invito-notizie}`, `#modulo-invito`) con l’email appena scritta:
+  parte solo con «Sì, iscrivimi», «Chiudi» chiude e basta, una volta sola per visita; la dedica parte senza niente delle
+  notizie. Mai finestre che si aprono da sole né richiami: Elias non li vuole (4.11). `controlla.py` verifica un riquadro
+  per pagina fuori dal piede, `controlla-moduli.js` la fascia, la pagina «Grazie» e l’invito nel browser.
   Solo le notizie della Fondazione: quelle di Orizzonti Celesti si chiedono solo a chi
   dona dalla Svizzera, nel ringraziamento.
 - Due cose vanno da sole, senza la segreteria (Elias, 13.10): chi riceve le notizie si

@@ -8,8 +8,8 @@
       - quando nessuna sezione è inquadrata, nessuna voce è accesa
    Senza il permesso di chi visita, nulla lo registra. Escono dal sito soltanto la
    dedica del giardino (4), il messaggio del modulo dei Contatti (5), il progetto
-   proposto (6) e l'email del riquadro delle notizie in fondo alle pagine (7), quando
-   chi scrive li manda; con la chiave di Turnstile, il controllo di Cloudflare contro
+   proposto (6) e l'email del riquadro delle notizie o dell'invito dopo la dedica (7),
+   quando chi scrive li manda; con la chiave di Turnstile, il controllo di Cloudflare contro
    i programmi automatici, solo quando qualcuno comincia a scrivere in un modulo; e,
    con la proprietà di Google Analytics (GOOGLE_TAG in costruisci.py), la misura di
    Google, solo dopo «Accetta» nel banner dei cookie, mai nel giardino (8).
@@ -182,6 +182,8 @@ function protezione(modulo) {
   }
   if (chiave) modulo.addEventListener('focusin', avvia);
   return {
+    /* Turnstile subito, senza aspettare che si scriva: per l'invito alle notizie, che compare dopo la dedica */
+    prepara: avvia,
     /* i dati del modulo con i campi della protezione, quando la risposta di Turnstile c'è o l'attesa è finita;
        null se il modulo ha la chiave di Turnstile ma la risposta non è arrivata */
     campi: function (dati) {
@@ -360,6 +362,26 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   var conFoglio = !!(foglio && window.fetch && window.FormData && window.Promise);
   var protetto = conFoglio ? protezione(modulo) : null;
   if (modulo.elements._sito) modulo.elements._sito.value = RADICE;   /* per il collegamento che toglie la dedica */
+
+  /* dopo la dedica, sotto il ringraziamento, l'invito alle notizie (Dacia ed Elias, 4.11): con l'email appena scritta,
+     una volta sola per visita (chi ha già risposto, sì o «Chiudi», non lo rivede), mai prima della dedica. La dedica
+     parte senza niente delle notizie; l'iscrizione la manda il modulo dell'invito, come il riquadro (7) */
+  var invito = document.getElementById('modulo-invito');
+  var invitoMostrato = false;
+  function nascondiInvito() {
+    if (!invito) return;
+    invito.hidden = true;
+    velo.classList.remove('con-invito');
+  }
+  function mostraInvito() {
+    if (!invito || invitoMostrato || !invito.protezione) return;
+    invitoMostrato = true;
+    invito.elements.email.value = campoPosta.value.trim();
+    dopo.hidden = true;                            /* un solo «Chiudi», quello dell'invito, in fondo */
+    invito.hidden = false;
+    velo.classList.add('con-invito');
+    invito.protezione.prepara();
+  }
   if (conFoglio) daCollegamento(document.getElementById('togli-dedica'), 'togli', foglio, indirizzo,
     'Non siamo riusciti a toglierla. Riprova tra poco, oppure scrivici a');
 
@@ -377,6 +399,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       campi.hidden = false;
       esito.hidden = true;
       dopo.hidden = true;
+      nascondiInvito();
       velo.hidden = false;
       campoNome.focus();
     });
@@ -439,6 +462,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
         dopo.hidden = false;
         scriviEsito(esito, 'Grazie. La dedica per ' + nome + ' è arrivata: la leggiamo e la posiamo nel giardino, accanto all’immagine che hai scelto.' +
           (risposta.ricevuta ? ' Ti abbiamo mandato un’email con il collegamento per toglierla, se un giorno vorrai.' + seNonLaVedi(indirizzo) : ''));
+        mostraInvito();
         esito.focus({ preventScroll: true });
       })
       .catch(function () {
@@ -678,56 +702,66 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   });
 })();
 
-/* ---- 7. il riquadro «Le notizie della Fondazione» in fondo alle pagine: l'email va allo script del
-        foglio, che scrive la richiesta nella scheda dei Contatti e manda l'email di conferma. Senza
-        questo codice il modulo parte lo stesso ---- */
+/* ---- 7. il riquadro delle notizie, nella fascia «Restiamo in contatto» prima del piede (o nel testo della pagina
+        «Grazie»), e l'invito che compare nel giardino dopo la dedica: l'email va allo script del foglio, che scrive la
+        richiesta nella scheda dei Contatti e manda l'email di conferma. Senza questo codice il riquadro parte lo stesso ---- */
 (function () {
   'use strict';
-  var modulo = document.getElementById('modulo-notizie');
-  if (!modulo || !window.fetch || !window.FormData || !window.Promise) return;
-  var protetto = protezione(modulo);
-  var campi = modulo.querySelector('.campi');
-  var esito = modulo.querySelector('.esito');
-  var invia = modulo.querySelector('.invia');
-  var indirizzo = modulo.getAttribute('data-indirizzo');
-  modulo.elements._sito.value = RADICE;
-  function comeEmail() {
-    return { oggetto: 'Notizie della Fondazione',
-             testo: 'Vorrei ricevere le notizie della Fondazione per email, a questo indirizzo: ' + modulo.elements.email.value.trim() + '.' };
-  }
-  /* la pagina da cui ci si iscrive, per sapere quali punti del sito funzionano */
-  if (RADICE && location.href.indexOf(RADICE) === 0) {
-    var qui = location.href.slice(RADICE.length).split(/[?#]/)[0].replace(/index\.html$/, '').replace(/\/$/, '');
-    modulo.elements.pagina.value = qui || 'home';
-  }
-
-  modulo.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (invia.disabled) return;
-    invia.disabled = true;
-    invia.textContent = 'Un momento…';
-    esito.hidden = true;
-    mandaAlFoglio(modulo, protetto, modulo.action)
-      .then(function (risposta) {
-        if (risposta && risposta.error === 'controllo') { dallaPosta(modulo, indirizzo, comeEmail); return; }
-        if (risposta && risposta.error === 'email') {
-          scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
-          return;
-        }
-        if (!risposta || !risposta.success) throw new Error('non arrivato');
-        modulo.reset();
-        campi.hidden = true;
-        scriviEsito(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.' + seNonLaVedi(indirizzo));
-        esito.focus({ preventScroll: true });
-      })
-      .catch(function () {
-        scriviEsito(esito, 'L’iscrizione non è partita. Riprova tra poco, oppure scrivici a', true, indirizzo);
-      })
-      .then(function () {
-        invia.disabled = false;
-        invia.textContent = 'Iscrivimi';
-      });
+  if (!window.fetch || !window.FormData || !window.Promise) return;
+  ['modulo-notizie', 'modulo-invito'].forEach(function (id) {
+    var modulo = document.getElementById(id);
+    if (modulo) iscrizione(modulo);
   });
+
+  function iscrizione(modulo) {
+    var protetto = protezione(modulo);
+    modulo.protezione = protetto;                  /* il giardino prepara Turnstile quando l'invito compare */
+    var campi = modulo.querySelector('.campi');
+    var esito = modulo.querySelector('.esito');
+    var invia = modulo.querySelector('.invia');
+    var dopo = modulo.querySelector('.righe.dopo');
+    var etichetta = invia.textContent;
+    var indirizzo = modulo.getAttribute('data-indirizzo');
+    modulo.elements._sito.value = RADICE;
+    function comeEmail() {
+      return { oggetto: 'Notizie della Fondazione',
+               testo: 'Vorrei ricevere le notizie della Fondazione per email, a questo indirizzo: ' + modulo.elements.email.value.trim() + '.' };
+    }
+    /* la pagina da cui ci si iscrive, per sapere quali punti del sito funzionano (l'invito la porta già scritta) */
+    if (!modulo.elements.pagina.value && RADICE && location.href.indexOf(RADICE) === 0) {
+      var qui = location.href.slice(RADICE.length).split(/[?#]/)[0].replace(/index\.html$/, '').replace(/\/$/, '');
+      modulo.elements.pagina.value = qui || 'home';
+    }
+
+    modulo.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (invia.disabled) return;
+      invia.disabled = true;
+      invia.textContent = 'Un momento…';
+      esito.hidden = true;
+      mandaAlFoglio(modulo, protetto, modulo.action)
+        .then(function (risposta) {
+          if (risposta && risposta.error === 'controllo') { dallaPosta(modulo, indirizzo, comeEmail); return; }
+          if (risposta && risposta.error === 'email') {
+            scriviEsito(esito, 'Controlla la tua email: l’indirizzo non sembra completo.', true);
+            return;
+          }
+          if (!risposta || !risposta.success) throw new Error('non arrivato');
+          modulo.reset();
+          campi.hidden = true;
+          if (dopo) dopo.hidden = false;
+          scriviEsito(esito, 'Grazie. Ti abbiamo mandato un’email: aprila e tocca «Confermo». Le notizie arrivano solo dopo la conferma.' + seNonLaVedi(indirizzo));
+          esito.focus({ preventScroll: true });
+        })
+        .catch(function () {
+          scriviEsito(esito, 'L’iscrizione non è partita. Riprova tra poco, oppure scrivici a', true, indirizzo);
+        })
+        .then(function () {
+          invia.disabled = false;
+          invia.textContent = etichetta;
+        });
+    });
+  }
 })();
 
 /* ---- 8. la misura di Google Analytics, solo con il consenso (Elias, 1.11; linee guida del Garante del 10.6.2021).

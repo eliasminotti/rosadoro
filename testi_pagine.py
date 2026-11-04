@@ -11,9 +11,22 @@ Gettoni usati nei testi, sostituiti dall'assemblatore:
                      o il pulsante «Scrivici» se il modulo non è ancora attivo
   {foto:NOME|didascalia|classe}   una fotografia di img/foto (NOME in maiuscolo: GIARDINO 002 è giardino-002.webp
                      o .jpg), o il suo posto segnato finché non è consegnata
+  {notizie}          il riquadro delle notizie dentro il testo, al posto della fascia prima del piede (la pagina «Grazie»)
+  {invito-notizie}   nel giardino, l’invito alle notizie che compare dopo la dedica
 """
 
 TESTI = {}
+
+# Il riquadro delle notizie (Elias e Dacia, 4.11): la fascia «Restiamo in contatto» subito prima del piede di ogni pagina,
+# oppure dentro il testo dove c’è il gettone {notizie}, una volta sola. Una pagina può avere la sua riga (notizie_riga=)
+# e il suo titolo (notizie_titolo=). Sotto la riga c’è sempre la frase del consenso, CONSENSO_NOTIZIE in costruisci.py,
+# di Dacia. «dopo_la_dedica» è la riga dell’invito che compare nel giardino dopo la dedica.
+# Bozze di Claude del 4.11, da rivedere con Dacia.
+NOTIZIE = dict(
+    titolo="Restiamo in contatto",
+    riga="Ogni tanto ti scriviamo che cosa fa la Fondazione: i progetti che nascono, gli incontri, il giardino che cresce. Le notizie non ti chiedono di donare.",
+    dopo_la_dedica="Se vuoi, possiamo raccontarti ogni tanto che cosa fa la Fondazione: i progetti che nascono, gli incontri, il giardino che cresce.",
+)
 
 # ---------------------------------------------------------------- la sezione
 TESTI["in-memoria"] = dict(
@@ -225,6 +238,7 @@ TESTI["in-memoria/giardino-dei-ricordi"] = dict(
     <p class="esito" role="status" tabindex="-1" hidden></p>
     <div class="righe dopo" hidden><button type="button" class="chiudi-dialogo">Chiudi</button></div>
   </form>
+  {invito-notizie}
 </div>
 """)
 
@@ -458,7 +472,7 @@ TESTI["privacy"] = dict(
 <h3>Quando ci scrivi</h3>
 <p>Dal modulo dei <a class="link" href="{→contatti}">Contatti</a> ci arrivano il tuo nome, il tuo indirizzo di posta elettronica, il messaggio e la pagina del sito da cui hai aperto il modulo. Li usiamo solo per risponderti. La base giuridica è il rapporto che ci chiedi di avviare e il nostro legittimo interesse a rispondere a chi ci scrive. I messaggi finiscono in un foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate di rispondere. Li conserviamo fino a tre anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione. Lo stesso vale per i messaggi che ci mandi per posta elettronica.</p>
 <h3>Quando chiedi le notizie</h3>
-<p>Puoi chiedere le notizie della Fondazione dal riquadro in fondo alle pagine, oppure spuntando la casella nel modulo dei Contatti, in quello dei progetti o in quello per donare a Lux, su <a class="link" href="https://lux.larosadoro.org/" rel="noopener">lux.larosadoro.org</a>. Dal riquadro ci arriva soltanto il tuo indirizzo di posta elettronica, con la pagina da cui ti iscrivi. Da Lux ci arriva soltanto l’indirizzo, e solo dopo che la donazione è andata a buon fine. Le notizie raccontano le attività della Fondazione e non ti chiedono di donare. Ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento da solo: il collegamento per cancellarti è nell’email di conferma e in fondo a ogni email delle notizie. Puoi anche scriverci una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
+<p>Puoi chiedere le notizie della Fondazione dal riquadro «Restiamo in contatto», che trovi prima del piede di ogni pagina, con il pulsante che compare dopo aver mandato una dedica nel giardino dei ricordi, oppure spuntando la casella nel modulo dei Contatti, in quello dei progetti o in quello per donare a Lux, su <a class="link" href="https://lux.larosadoro.org/" rel="noopener">lux.larosadoro.org</a>. Dal riquadro e dal pulsante del giardino ci arriva soltanto il tuo indirizzo di posta elettronica, con la pagina da cui ti iscrivi. Da Lux ci arriva soltanto l’indirizzo, e solo dopo che la donazione è andata a buon fine. Le notizie raccontano le attività della Fondazione e non ti chiedono di donare. Ti mandiamo un’email per confermare che l’indirizzo è tuo, e ti scriviamo soltanto dopo la conferma. Insieme al consenso conserviamo la data della conferma e la versione del testo che hai accettato. La base giuridica è il tuo consenso, che puoi ritirare in ogni momento da solo: il collegamento per cancellarti è nell’email di conferma e in fondo a ogni email delle notizie. Puoi anche scriverci una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 
 <h3>Quando ci presenti un progetto</h3>
 <p>Dal modulo <a class="link" href="{→progetti/presenta-il-tuo-progetto}">Presentaci il tuo progetto</a> ci arrivano il nome del progetto, a che punto è e che cosa fa, ciò di cui ha bisogno e il collegamento a un documento, se ce lo lasci, insieme al tuo nome, all'ente o al gruppo che indichi e al tuo indirizzo di posta elettronica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate. Li usiamo solo per leggere la proposta, valutarla e risponderti. La base giuridica è la tua richiesta di valutare il progetto. Li conserviamo per la durata della valutazione e fino a tre anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto. Non inserire nella proposta dati di altre persone senza il loro consenso.</p>
@@ -467,7 +481,7 @@ TESTI["privacy"] = dict(
 <p>Da <a class="link" href="{→lavora-con-noi}">Lavora con noi</a> puoi mandarci il tuo curriculum e una lettera di presentazione, per collaborare con la Fondazione o come volontario. Li usiamo solo per valutare la candidatura e per rispondere. Per i curriculum mandati di propria iniziativa la legge non chiede il consenso (art. 111-bis del Codice in materia di protezione dei dati personali). Scrivi solo ciò che serve: non mettere nel curriculum dati sulla salute, sulle opinioni o sulla religione, se non sono necessari. Conserviamo le candidature per tre anni, perché spesso tornano utili per un'occasione successiva; più a lungo solo se ne nasce una collaborazione. Se vuoi che la cancelliamo prima, basta una riga.</p>
 
 <h3>Quando dedichi un ricordo nel giardino</h3>
-<p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Ci lasci anche il tuo nome e il tuo indirizzo di posta elettronica, che usiamo solo per mandarti il collegamento con cui puoi toglierla, per risponderti o per chiederti qualcosa sulla dedica. Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate; il nome e la dedica entrano nel giardino dopo che li abbiamo letti. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
+<p>Nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a> scegli un'immagine e scrivi il nome di una persona che non c'è più, con una dedica facoltativa. Ci lasci anche il tuo nome e il tuo indirizzo di posta elettronica, che usiamo solo per mandarti il collegamento con cui puoi toglierla, per risponderti o per chiederti qualcosa sulla dedica. Dopo l’invio ti chiediamo se vuoi ricevere anche le notizie della Fondazione: l’iscrizione parte solo se tocchi «Sì, iscrivimi», e vale quello che è scritto in «Quando chiedi le notizie». Tutto arriva nel foglio di lavoro della Fondazione, che vedono soltanto le persone incaricate; il nome e la dedica entrano nel giardino dopo che li abbiamo letti. Pubblichiamo il nome della persona ricordata e la dedica, mai i tuoi recapiti. La base giuridica è il tuo consenso, che ci dai spuntando la casella nel modulo, con la dichiarazione di essere un familiare o comunque una persona che ha titolo a ricordarla.</p>
 <p>In Italia i dati delle persone decedute hanno una tutela propria (art. 2-terdecies del Codice in materia di protezione dei dati personali): chi ha un interesse proprio, o agisce per ragioni familiari meritevoli di protezione, può chiederne la rimozione. Puoi togliere la tua dedica in ogni momento, dal collegamento che ti mandiamo per email. Per togliere quella di un tuo caro scritta da altri, scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. Le pagine del giardino non sono offerte all'indicizzazione dei motori di ricerca.</p>
 
 <h3>Quando fai una donazione</h3>
@@ -764,6 +778,7 @@ TESTI["aziende-e-istituzioni/istituzioni"] = dict(
 # la foto «Due mani che si tengono» non c'è ancora: all'apertura al suo posto va la tavola della candela (cantiere, 21.10).
 # Quando arriva (img/foto/due-mani.jpg), torna il gettone {foto:DUE MANI|Due mani che si tengono|ritratto oro}.
 TESTI["eventi-e-formazione/formazione-accompagnamento"] = dict(
+    notizie_riga="Vuoi sapere quando ci sono novità su Quietude Italia e sugli altri percorsi della Fondazione?",
     sotto="Stare accanto a chi si trova nell'ultimo tratto della vita: competenze emotive, pratiche e spirituali.",
     corpo="""
 <figure class="tavola"><img src="{img:tavola-candela.svg}" alt="Una candela accesa, incisa"></figure>
@@ -819,9 +834,9 @@ for k in ("lasciti/perche-donare", "lasciti/il-tuo-testamento", "lasciti/il-lasc
 # ------------------------------------------------------------ News (voce nel menu, 15.9)
 TESTI["news"] = dict(
     sotto="Le novità della Fondazione: incontri, progetti, notizie.",
+    notizie_riga="Le novità arrivano qui, una alla volta. Se vuoi, te le mandiamo anche per email.",
     corpo="""
 <p>Qui trovi le novità della Fondazione, una sotto l’altra con la data, la più recente in alto: gli incontri, i progetti che nascono, i passi che facciamo.</p>
-<p>Se vuoi riceverle anche per email, chiedi le notizie della Fondazione dal riquadro in fondo alla pagina.</p>
 <h3>Il sito della Fondazione è online</h3>
 <p><em>26 ottobre 2026.</em> Da oggi il sito della Fondazione La Rosa d’Oro è aperto a tutti. Racconta chi siamo, che cosa la Fondazione è costituita per fare, nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, e che cosa stiamo facendo. Da qui puoi <a class="link" href="{→contatti}">scriverci</a>, <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentarci un progetto</a> e lasciare una dedica nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>. Le novità arriveranno su questa pagina, una alla volta.</p>
 <h3>Quietude Italia 2027: aperte le iscrizioni</h3>
@@ -1069,12 +1084,14 @@ TESTI["dona"] = dict(
 # Fuori dai menu e dai motori (NON_INDICIZZARE). Con Google Analytics acceso e il consenso, sito.js conta qui la donazione.
 TESTI["dona/grazie"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
+    notizie_titolo="Vuoi sapere che cosa nasce dalla tua donazione?",
+    notizie_riga="Ogni tanto ti raccontiamo i progetti, gli incontri e come usiamo ciò che riceviamo. Le notizie non ti chiedono di donare.",
     corpo="""
 <p>Grazie per la tua donazione alla Fondazione La Rosa d’Oro.</p>
 {se-ricevute}<p>La ricevuta della Fondazione per la dichiarazione dei redditi ti arriva per email 37 giorni dopo la donazione, all’indirizzo che hai scritto sulla pagina di Stripe.</p>
 {/se-ricevute}{senza-ricevute}<p>Se ti serve una ricevuta della Fondazione per la dichiarazione dei redditi, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 {/senza-ricevute}{se-mensile}<p>Se hai scelto di donare ogni mese, puoi smettere quando vuoi, da te, dalla <a class="link" href="{portale}" target="_blank" rel="noopener">pagina della tua donazione mensile</a> su Stripe.</p>
-{/se-mensile}<p>Se vuoi sapere che cosa nasce da ciò che riceviamo, puoi chiedere le notizie della Fondazione dal riquadro in fondo a questa pagina: raccontano le attività e non ti chiedono di donare.</p>
+{/se-mensile}{notizie}
 <p><a class="vai" href="{→}">Torna alla home</a></p>
 """)
 
@@ -1387,6 +1404,7 @@ TESTI["progetti/da-sostenere"] = dict(
 """)
 
 TESTI["progetti/in-corso"] = dict(
+    notizie_riga="Ti raccontiamo i progetti quando partono e come procedono.",
     sotto="Progetti finanziati, su cui si sta lavorando.",
     corpo="""
 <p>Qui trovi i progetti in corso, finanziati o sostenuti dalla Fondazione, con le notizie su come procedono e su come vengono usati i fondi. I primi li presenteremo qui quando partiranno; intanto le novità della Fondazione le trovi nelle <a class="link" href="{→news}">News</a>.</p>
@@ -1399,10 +1417,11 @@ TESTI["progetti/realizzati"] = dict(
 """)
 
 TESTI["eventi-e-formazione"] = dict(
+    notizie_riga="Ti scriviamo quando c’è un incontro o un percorso nuovo.",
     sotto="Gli incontri e i percorsi di formazione della Fondazione: in medicina, in agricoltura, nell’accompagnamento al fine vita.",
     corpo="""
 <p>La Fondazione è nata dall’incontro tra un agricoltore e un medico, e dall’idea che medicina e agricoltura possano lavorare insieme per la persona. Per questo lo statuto la costituisce anche per formare e per far incontrare: la formazione degli operatori in ambito medico-terapeutico e nel fine vita, e quella degli agricoltori; l’aggiornamento di medici, personale sanitario e operatori delle discipline terapeutiche; seminari, laboratori e convegni aperti a tutti.</p>
-<p>I percorsi per l’accompagnamento al fine vita li trovi nella <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}">loro pagina</a>, a cominciare da <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">Quietude Italia</a>, che parte il 13 marzo 2027. Gli incontri e gli altri percorsi arriveranno qui, a mano a mano che li organizziamo. Se vuoi saperlo quando succede, chiedi le notizie della Fondazione dal riquadro in fondo alla pagina.</p>
+<p>I percorsi per l’accompagnamento al fine vita li trovi nella <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}">loro pagina</a>, a cominciare da <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">Quietude Italia</a>, che parte il 13 marzo 2027. Gli incontri e gli altri percorsi arriveranno qui, a mano a mano che li organizziamo.</p>
 """)
 
 TESTI["eventi-e-formazione/eventi"] = dict(
