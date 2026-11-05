@@ -62,6 +62,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   portale di Stripe dove chi dona ogni mese smette da sé. Acceso, Dona e informativa lo dicono (`{se-mensile}`, `{mensili}`,
   `{portale}`); spento, per ogni mese Dona propone il bonifico periodico (`{senza-mensile}`).
   Si accende solo con `RICEVUTE` acceso e le ricevute mensili di Lux attive: acceso con le ricevute l’1 novembre 2026 (Lux, 1.11).
+- Il codice fiscale per la precompilata (Elias, 4-5.11): i sei link Stripe del sito hanno il campo facoltativo «Codice fiscale,
+  per la dichiarazione precompilata», come Lux. Il pannello di Stripe non lascia scrivere niente accanto al pulsante: lo spiega
+  Dona, sotto i pulsanti, con il collegamento al paragrafo `#codice-fiscale` dell’informativa (consenso, revoca a segreteria@,
+  Agenzia delle Entrate titolare autonomo, lo studio che tiene la contabilità). Se un link Stripe perde il campo, si cambiano i testi.
 - Chi vive in Svizzera e vuole la deduzione (Dacia ed Elias, 31.10): su Dona c’è solo la frase che finisce con «scrivici».
   Il nome di Orizzonti Celesti, il suo IBAN e la QR-fattura non stanno sulla pagina: li mandiamo per email a chi ci scrive,
   con il testo pronto nella bozza di Gmail e nel documento su Drive «Donare dalla Svizzera» (cartella «SITO — operativa»).
