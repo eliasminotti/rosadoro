@@ -1047,7 +1047,8 @@ for k in ("professionisti/fondi-convertibili", "professionisti/riqualificazione-
 # Orizzonti Celesti avrà la sua strada in franchi, se ne parla con Elias e Dacia: dal 31.10 il suo nome non sta su Dona.
 # I fondi convertibili restano fuori da questa pagina (Elias, 10.10).
 # Dal 5.11 i sei link Stripe del sito hanno il campo facoltativo «Codice fiscale, per la dichiarazione precompilata» (Elias):
-# il pannello di Stripe non lascia scrivere niente accanto al pulsante, quindi lo spiega la pagina, sotto i pulsanti, e
+# il pannello di Stripe non lascia scrivere niente accanto al pulsante, quindi lo dice la pagina, sotto i pulsanti, con una
+# sola riga discreta in corpo piccolo (p.nota: Elias, 5.11, un paragrafo lungo lì appesantisce e scoraggia), e lo spiega
 # l’informativa nel paragrafo #codice-fiscale; testi di Elias del 4-5.11, allineati a lux.larosadoro.org/privacy.
 TESTI["dona"] = dict(
     sotto="Ciò che doni diventa terra coltivata, cura, accompagnamento.",
@@ -1062,7 +1063,7 @@ TESTI["dona"] = dict(
 <p>Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, scegli quanto:</p>
 {mensili}
 <p>Puoi smettere quando vuoi, da te, dalla <a class="link" href="{portale}" target="_blank" rel="noopener">pagina della tua donazione mensile</a> su Stripe: scrivi l’indirizzo email con cui hai donato e ti arriva il collegamento per entrare.</p>
-{/se-mensile}<p>Sulla pagina di pagamento puoi scrivere il tuo codice fiscale, se vuoi. Se lo scrivi, la Fondazione La Rosa d’Oro ETS comunica la donazione all’Agenzia delle Entrate, con il tuo codice fiscale{se-mensile} (per le donazioni mensili, ogni mese){/se-mensile}, così la trovi già nella tua dichiarazione dei redditi precompilata. Puoi cambiare idea quando vuoi, scrivendo a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. L’informativa è nella <a class="link" href="{→privacy}#codice-fiscale">pagina della privacy</a>.</p>
+{/se-mensile}<p class="nota">Sulla pagina di pagamento puoi aggiungere il codice fiscale, facoltativo, per trovare la donazione già nella dichiarazione precompilata. Dettagli nell’<a class="link" href="{→privacy}#codice-fiscale">informativa privacy</a>.</p>
 <p>Doni dalla Svizzera? Sulla pagina di Stripe scegli EUR: eviti la commissione di cambio di Stripe, anche se la tua banca potrebbe applicarne una sua.</p>
 {/se-stripe}<h3>Con un bonifico</h3>
 <p>Il bonifico è la via più diretta, e per le donazioni più importanti è quella che ti consigliamo.{senza-mensile} Se vuoi accompagnarci ogni mese, con un dono che ritorna come le stagioni, puoi chiedere alla tua banca un bonifico periodico.{/senza-mensile}</p>

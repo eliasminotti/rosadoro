@@ -325,6 +325,7 @@ a.scelta:hover,button.scelta:hover{border-color:var(--oro);color:var(--testo)}
 .lato .separa{height:1px;background:var(--oro);opacity:.6;margin:6px 0}
 .testo{max-width:720px}
 .testo>*+*{margin-top:1.2em}
+.testo p.nota{font-size:17px;line-height:1.5;color:var(--testo-60)}   /* una riga discreta, come le note dei moduli: mai sotto i 17 px */
 .testo .segnaposto{margin-top:0}
 .testo .fatti{margin:48px 0 0;border-top:1px solid var(--filo-forte)}
 .fatti div{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:14px 0;border-bottom:1px solid var(--filo);font-size:16px}
