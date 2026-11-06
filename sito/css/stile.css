@@ -618,6 +618,33 @@ a.azione:hover h4{color:var(--accento)}
 .da-collegamento .invia:hover{background:var(--nero);border-color:var(--nero)}
 .da-collegamento .invia:disabled{opacity:.6;cursor:wait}
 .da-collegamento .esito{border-left:1px solid var(--oro);padding:2px 0 2px 20px;margin:20px 0 0}
+
+/* i regali solidali (dona/regali-solidali): i tre passi e il biglietto, che il browser disegna nel canvas (sito.js, 6b) */
+.testo ol.passi{margin:0 0 1.4em;padding-left:1.4em}
+.testo ol.passi li{margin:.55em 0;padding-left:.2em}
+.testo ol.passi li::marker{font-family:var(--display);color:var(--oro-scuro);font-size:1.15em}
+.modulo.biglietto{max-width:720px}
+.modulo select{display:block;width:100%;border:1px solid var(--filo-forte);border-radius:0;background:var(--bianco);font-family:var(--sans);font-size:17px;line-height:1.5;color:var(--antracite);padding:12px 14px;transition:border-color .15s}
+.modulo select:focus{border-color:var(--oro)}
+.modulo fieldset.immagini{border:0;margin:22px 0 0;padding:0;min-width:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.modulo fieldset.immagini legend{grid-column:1/-1;display:block;padding:0;font-family:var(--sans);font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--accento);margin:0 0 8px}
+.modulo label.immagine{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;margin:0;padding:10px 6px 12px;border:1px solid var(--filo-forte);background:var(--avorio);cursor:pointer;font-size:15px;letter-spacing:0;text-transform:none;color:var(--testo);transition:border-color .15s}
+.modulo label.immagine input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.modulo label.immagine img{width:100%;max-width:96px;height:auto;aspect-ratio:200/240;object-fit:contain}
+.modulo label.immagine span{font-size:15px;line-height:1.3;letter-spacing:0;color:inherit;margin:0;text-align:center}
+.modulo label.immagine:has(input:checked){border-color:var(--oro-scuro);box-shadow:inset 0 0 0 1px var(--oro-scuro)}
+.modulo label.immagine:has(input:focus-visible){outline:2px solid var(--oro);outline-offset:2px}
+.biglietto .anteprima{margin:28px 0 0}
+.biglietto .anteprima canvas{display:block;width:100%;height:auto;border:1px solid var(--filo-forte);background:var(--avorio)}
+.biglietto p.pulsanti{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:22px 0 0}
+.biglietto p.pulsanti .invia{margin-top:0}
+.biglietto p.pulsanti .scelta{padding:15px 22px}
+@media (max-width:600px){
+  .modulo fieldset.immagini{gap:8px}
+  .modulo label.immagine{padding:8px 4px 10px}
+  .modulo label.immagine img{max-width:64px}
+  .modulo label.immagine span{font-size:13px}
+}
 .da-collegamento .esito.errore{border-left-color:var(--bordeaux)}
 .da-collegamento .esito:focus{outline:none}
 

@@ -702,6 +702,259 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   });
 })();
 
+/* ---- 6b. il biglietto dei regali solidali (pagina «Regali solidali», dentro Dona; Elias, 6.11.2026): si sceglie l'occasione,
+        l'immagine, i nomi e due righe, e il browser disegna il biglietto in un canvas, A5 orizzontale. Si scarica in PDF da
+        stampare o in immagine da mandare; dove il telefono lo permette, «Manda» apre le app per condividerla.
+        Niente parte dal sito: i nomi restano nel browser. Il biglietto non dice mai la cifra.
+        Il PDF si scrive qui, senza librerie: una pagina con dentro l'immagine JPEG del canvas ---- */
+(function () {
+  'use strict';
+  var modulo = document.getElementById('modulo-biglietto');
+  if (!modulo) return;
+  var tela = modulo.querySelector('canvas');
+  var ctx = tela.getContext && tela.getContext('2d');
+  if (!ctx || !tela.toBlob || !window.Blob || !window.Promise || !window.URL || !URL.createObjectURL) return;
+  var senza = document.getElementById('biglietto-senza-js');
+  if (senza) senza.hidden = true;
+  modulo.hidden = false;
+
+  var L = tela.width, A = tela.height;
+  var AVORIO = '#FAF6EE', ANTRACITE = '#1C1C1C', ORO = '#B88F3D', ORO_SCURO = '#8D6E2A';
+  var CARATTERI = { saluto: '300 italic 112px "Cormorant Garamond"', per: '400 66px "Cormorant Garamond"',
+                    corpo: '400 35px "Instrument Sans"', messaggio: 'italic 400 %px "Cormorant Garamond"',
+                    firma: 'italic 400 60px "Cormorant Garamond"', piede: '500 21px "Instrument Sans"' };
+  var el = modulo.elements;
+  var esito = modulo.querySelector('.esito');
+  var occasione = el.occasione;
+  /* «In ricordo di una persona»: il campo con il suo nome si vede solo per questa occasione */
+  var ricordo = el.ricordo, etichettaRicordo = modulo.querySelector('label[for="mb-ricordo"]');
+  function opzione() { return occasione.options[occasione.selectedIndex]; }
+  function inRicordo() { return opzione().hasAttribute('data-saluto-nome'); }
+
+  /* l’apostrofo tipografico anche in ciò che scrive chi prepara il biglietto (regole di qualità, punto 1) */
+  function pulito(v) {
+    return String(v || '').replace(/\s+/g, ' ').trim().replace(/([A-Za-zÀ-ÖØ-öø-ÿ])'(?=[A-Za-zÀ-ÖØ-öø-ÿ])/g, '$1’');
+  }
+  /* «I nostri clienti» diventa «Per i nostri clienti»; i nomi restano con la maiuscola */
+  function minuscola(v) {
+    return /^(il|lo|la|i|gli|le|l’|tutti|tutte|mio|mia|miei|mie|nostro|nostra|nostri|nostre|caro|cara|cari|care|amici|amiche)(\s|$)/i.test(v) || /^l’/i.test(v)
+      ? v.charAt(0).toLowerCase() + v.slice(1) : v;
+  }
+  function scelto(nome) {
+    var c = modulo.querySelector('input[name="' + nome + '"]:checked');
+    return c ? c.value : '';
+  }
+  function testi() {
+    var voi = scelto('persone') === 'voi';
+    var o = opzione(), corpo = voi ? 'data-corpo-voi' : 'data-corpo-te';
+    var per = minuscola(pulito(el.per.value).replace(/^per\s+/i, ''));
+    var nome = inRicordo() ? pulito(ricordo.value) : '';
+    return {
+      saluto: nome ? o.getAttribute('data-saluto-nome').replace('{nome}', nome) : o.getAttribute('data-saluto').replace('{te}', voi ? 'voi' : 'te'),
+      per: per ? 'Per ' + per : '',
+      corpo: o.getAttribute(corpo) || modulo.getAttribute(corpo),
+      messaggio: pulito(el.messaggio.value),
+      firma: pulito(el.da.value),
+      piede: modulo.getAttribute('data-piede')
+    };
+  }
+
+  /* le righe di un testo nella larghezza data; una parola troppo lunga si spezza */
+  function righe(testo, larghezza) {
+    var fuori = [], riga = '';
+    testo.split(' ').forEach(function (parola) {
+      var prova = riga ? riga + ' ' + parola : parola;
+      if (ctx.measureText(prova).width <= larghezza) { riga = prova; return; }
+      if (riga) fuori.push(riga);
+      riga = '';
+      while (ctx.measureText(parola).width > larghezza) {
+        var n = parola.length;
+        while (n > 1 && ctx.measureText(parola.slice(0, n)).width > larghezza) n--;
+        fuori.push(parola.slice(0, n));
+        parola = parola.slice(n);
+      }
+      riga = parola;
+    });
+    if (riga) fuori.push(riga);
+    return fuori;
+  }
+  function spaziato(testo, x, y, spazio) {
+    for (var i = 0; i < testo.length; i++) {
+      ctx.fillText(testo[i], x, y);
+      x += ctx.measureText(testo[i]).width + spazio;
+    }
+  }
+
+  function disegna() {
+    var t = testi();
+    ctx.fillStyle = AVORIO;
+    ctx.fillRect(0, 0, L, A);
+    /* la cornice: un filo d’oro e uno più chiaro */
+    ctx.strokeStyle = ORO;
+    ctx.globalAlpha = 0.75; ctx.lineWidth = 2; ctx.strokeRect(46, 46, L - 92, A - 92);
+    ctx.globalAlpha = 0.35; ctx.lineWidth = 1; ctx.strokeRect(60, 60, L - 120, A - 120);
+    ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.moveTo(700, 210); ctx.lineTo(700, A - 210); ctx.stroke();
+    ctx.globalAlpha = 1;
+    /* la tavola incisa, a sinistra */
+    var immagine = modulo.querySelector('input[name="immagine"]:checked + img');
+    if (immagine && immagine.complete && immagine.naturalWidth) {
+      var w = Number(immagine.getAttribute('width')), h = Number(immagine.getAttribute('height'));
+      var scala = Math.min(500 / w, 640 / h);
+      ctx.drawImage(immagine, 380 - w * scala / 2, A / 2 - h * scala / 2, w * scala, h * scala);
+    }
+    /* il testo, a destra: si misura, poi si centra in altezza */
+    var x = 790, largo = 900, blocchi = [];
+    ctx.font = CARATTERI.saluto;
+    righe(t.saluto, largo).forEach(function (r) { blocchi.push({ font: CARATTERI.saluto, colore: ANTRACITE, testo: r, alto: 118 }); });
+    blocchi.push({ spazio: 26 });
+    if (t.per) {
+      ctx.font = CARATTERI.per;
+      righe(t.per, largo).forEach(function (r) { blocchi.push({ font: CARATTERI.per, colore: ORO_SCURO, testo: r, alto: 76 }); });
+      blocchi.push({ spazio: 34 });
+    }
+    ctx.font = CARATTERI.corpo;
+    righe(t.corpo, largo).forEach(function (r) { blocchi.push({ font: CARATTERI.corpo, colore: 'rgba(28,28,28,.8)', testo: r, alto: 54 }); });
+    if (t.messaggio) {
+      var corpo = 52, fatte;
+      do {                                       /* due righe tue: al massimo quattro, il carattere si stringe se serve */
+        ctx.font = CARATTERI.messaggio.replace('%', corpo);
+        fatte = righe(t.messaggio, largo);
+        corpo -= 4;
+      } while (fatte.length > 4 && corpo >= 36);
+      blocchi.push({ spazio: 36 });
+      fatte.slice(0, 5).forEach(function (r) { blocchi.push({ font: ctx.font, colore: ANTRACITE, testo: r, alto: Math.round((corpo + 4) * 1.22) }); });
+    }
+    if (t.firma) {
+      ctx.font = CARATTERI.firma;
+      blocchi.push({ spazio: 34 });
+      righe(t.firma, largo).forEach(function (r) { blocchi.push({ font: CARATTERI.firma, colore: ORO_SCURO, testo: r, alto: 70 }); });
+    }
+    var totale = blocchi.reduce(function (s, b) { return s + (b.spazio || b.alto); }, 0);
+    var y = Math.max(110, (A - 70 - totale) / 2);
+    ctx.textBaseline = 'alphabetic';
+    blocchi.forEach(function (b) {
+      if (b.spazio) { y += b.spazio; return; }
+      ctx.font = b.font; ctx.fillStyle = b.colore;
+      ctx.fillText(b.testo, x, y + b.alto * 0.78);
+      y += b.alto;
+    });
+    ctx.font = CARATTERI.piede; ctx.fillStyle = ORO_SCURO;
+    spaziato(t.piede.toUpperCase(), x, A - 112, 3);
+    /* per chi usa un lettore di schermo, il biglietto in parole */
+    tela.setAttribute('aria-label', 'Anteprima del biglietto: ' + [t.saluto, t.per, t.corpo, t.messaggio, t.firma, t.piede]
+      .filter(Boolean).map(function (s) { return /[.!?…»]$/.test(s) ? s : s + '.'; }).join(' '));
+  }
+
+  var inAttesa = false;
+  function ridisegna() {
+    if (inAttesa) return;
+    inAttesa = true;
+    (window.requestAnimationFrame || setTimeout)(function () { inAttesa = false; disegna(); });
+  }
+  function campoRicordo() { ricordo.hidden = etichettaRicordo.hidden = !inRicordo(); }
+  occasione.addEventListener('change', function () {
+    if (opzione().getAttribute('data-persone') === 'voi') modulo.querySelector('input[name="persone"][value="voi"]').checked = true;
+    campoRicordo();
+  });
+  campoRicordo();
+  modulo.addEventListener('input', ridisegna);
+  modulo.addEventListener('change', ridisegna);
+  disegna();
+  /* i caratteri del sito e le tavole arrivano dopo: appena ci sono, il biglietto si ridisegna */
+  if (document.fonts && document.fonts.load) {
+    Promise.all(Object.keys(CARATTERI).map(function (k) { return document.fonts.load(CARATTERI[k].replace('%', '50')); }))
+      .then(ridisegna, ridisegna);
+  }
+  var tavole = modulo.querySelectorAll('.immagine img');
+  for (var i = 0; i < tavole.length; i++) if (!tavole[i].complete) tavole[i].addEventListener('load', ridisegna);
+
+  /* il nome del file: «regalo-solidale-per-anna.pdf», e in ricordo «donazione-in-ricordo-di-maria.pdf» */
+  function nomeFile(estensione) {
+    function corto(v) {
+      v = v.toLowerCase();
+      if (v.normalize) v = v.normalize('NFD').replace(/[̀-ͯ]/g, '');
+      return v.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40).replace(/-+$/, '');
+    }
+    if (inRicordo()) {
+      var nome = corto(pulito(ricordo.value));
+      return opzione().getAttribute('data-file') + (nome ? '-di-' + nome : '') + '.' + estensione;
+    }
+    var per = corto(pulito(el.per.value).replace(/^per\s+/i, ''));
+    return 'regalo-solidale' + (per ? '-per-' + per : '') + '.' + estensione;
+  }
+  function titolo() { return opzione().getAttribute('data-titolo') || 'Regalo solidale'; }
+  function jpeg() {
+    disegna();
+    return new Promise(function (fatto, errore) {
+      try { tela.toBlob(function (b) { if (b) fatto(b); else errore(new Error('vuoto')); }, 'image/jpeg', 0.9); }
+      catch (e) { errore(e); }
+    });
+  }
+  /* il PDF: catalogo, pagine, una pagina A5 orizzontale (595,28 × 419,53 punti), l’immagine e il disegno che la stende */
+  function pdf(immagine) {
+    return immagine.arrayBuffer().then(function (dati) {
+      var parti = [], scritti = 0, dove = [];
+      function aggiungi(x) {
+        var b = typeof x === 'string' ? new TextEncoder().encode(x) : x;
+        parti.push(b); scritti += b.length;
+      }
+      function oggetto(n, testo) { dove[n] = scritti; aggiungi(n + ' 0 obj\n' + testo + '\nendobj\n'); }
+      var jpg = new Uint8Array(dati), disegno = 'q 595.28 0 0 419.53 0 0 cm /Im1 Do Q';
+      aggiungi('%PDF-1.4\n');
+      aggiungi(new Uint8Array([37, 226, 227, 207, 211, 10]));   /* la riga che dice ai programmi che il file contiene dati binari */
+      oggetto(1, '<< /Type /Catalog /Pages 2 0 R >>');
+      oggetto(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+      oggetto(3, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 419.53] /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>');
+      dove[4] = scritti;
+      aggiungi('4 0 obj\n<< /Type /XObject /Subtype /Image /Width ' + L + ' /Height ' + A +
+               ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + jpg.length + ' >>\nstream\n');
+      aggiungi(jpg);
+      aggiungi('\nendstream\nendobj\n');
+      oggetto(5, '<< /Length ' + disegno.length + ' >>\nstream\n' + disegno + '\nendstream');
+      oggetto(6, '<< /Title (' + titolo() + ') /Producer (larosadoro.org) >>');
+      var tabella = scritti, voci = '';
+      for (var n = 1; n <= 6; n++) voci += ('000000000' + dove[n]).slice(-10) + ' 00000 n \n';
+      aggiungi('xref\n0 7\n0000000000 65535 f \n' + voci + 'trailer\n<< /Size 7 /Root 1 0 R /Info 6 0 R >>\nstartxref\n' + tabella + '\n%%EOF\n');
+      return new Blob(parti, { type: 'application/pdf' });
+    });
+  }
+  function scarica(blob, nome) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = nome;
+    a.hidden = true;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.parentNode.removeChild(a); }, 5000);
+  }
+  function nonRiesce() {
+    scriviEsito(esito, 'Il tuo browser non riesce a preparare il file. Prova con un altro browser, oppure scrivici a', true,
+                'segreteria@larosadoro.org');
+  }
+
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    esito.hidden = true;
+    jpeg().then(pdf).then(function (b) { scarica(b, nomeFile('pdf')); }, nonRiesce);
+  });
+  modulo.querySelector('[data-formato="jpg"]').addEventListener('click', function () {
+    esito.hidden = true;
+    jpeg().then(function (b) { scarica(b, nomeFile('jpg')); }, nonRiesce);
+  });
+  /* «Manda»: sul telefono apre le app per condividere l’immagine (WhatsApp, la posta…), dove il browser lo permette */
+  var manda = modulo.querySelector('[data-formato="condividi"]');
+  try {
+    if (navigator.canShare && window.File && navigator.canShare({ files: [new File([''], 'prova.jpg', { type: 'image/jpeg' })] })) {
+      manda.hidden = false;
+      manda.addEventListener('click', function () {
+        jpeg().then(function (b) {
+          return navigator.share({ files: [new File([b], nomeFile('jpg'), { type: 'image/jpeg' })], title: titolo() });
+        }).catch(function () { /* chi chiude la finestra non ha bisogno di avvisi */ });
+      });
+    }
+  } catch (e) { /* resta nascosto */ }
+})();
+
 /* ---- 7. il riquadro delle notizie, nella fascia «Restiamo in contatto» prima del piede (o nel testo della pagina
         «Grazie»), e l'invito che compare nel giardino dopo la dedica: l'email va allo script del foglio, che scrive la
         richiesta nella scheda dei Contatti e manda l'email di conferma. Senza questo codice il riquadro parte lo stesso ---- */

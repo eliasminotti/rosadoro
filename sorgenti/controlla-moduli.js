@@ -1297,6 +1297,138 @@ controllo('Google: sul telefono il banner non sfonda la pagina e lascia libera l
 });
 
 
+/* ---- il biglietto del regalo solidale (pagina /regalo-solidale/): lo disegna il browser, in PDF o in immagine ---- */
+
+const REGALO = 'dona/regali-solidali/index.html';
+const BIGLIETTO = '#modulo-biglietto';
+
+/* il file che il pulsante fa scaricare: nome e contenuto */
+async function scarica(page, pulsante) {
+  const [arrivo] = await Promise.all([page.waitForEvent('download', { timeout: 10000 }), page.click(pulsante)]);
+  const file = await arrivo.path();
+  return { nome: arrivo.suggestedFilename(), dati: fs.readFileSync(file) };
+}
+
+/* che cosa dice il biglietto, come lo legge chi usa un lettore di schermo (aria-label dell'anteprima) */
+async function dettoDalBiglietto(page) {
+  await page.waitForFunction(s => (document.querySelector(s + ' canvas').getAttribute('aria-label') || '').length > 20, BIGLIETTO);
+  return (await page.getAttribute(BIGLIETTO + ' canvas', 'aria-label')).replace(/\s+/g, ' ');
+}
+
+controllo('il regalo solidale: il biglietto si prepara nella pagina e si scarica in PDF e in immagine, senza mandare niente a nessuno', async () => {
+  const p = await apri(REGALO);
+  try {
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await p.page.locator('#biglietto-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
+    assert.strictEqual(await p.page.inputValue('#mb-occasione'), 'natale', 'l’occasione già scelta è il Natale');
+    await p.page.fill('#mb-per', 'Anna');
+    await p.page.fill('#mb-da', 'Marco');
+    await p.page.fill('#mb-messaggio', "Con l'affetto di sempre");
+    await p.page.check('#modulo-biglietto input[name="immagine"][value="albero"]', { force: true });
+    const detto = await dettoDalBiglietto(p.page);
+    for (const parte of ['Buon Natale', 'Per Anna', 'pensando a te', 'Con l’affetto di sempre', 'Marco', 'Fondazione La Rosa d’Oro'])
+      assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
+    assert.ok(!/\d+\s*(euro|€)/.test(detto), 'sul biglietto non va la cifra: ' + detto);
+
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'regalo-solidale-per-anna.pdf');
+    const testo = pdf.dati.toString('latin1');
+    assert.ok(testo.startsWith('%PDF-1.'), 'non è un PDF');
+    assert.ok(testo.trimEnd().endsWith('%%EOF'), 'il PDF non si chiude');
+    assert.ok(testo.includes('/MediaBox [0 0 595.28 419.53]'), 'il foglio non è un A5 orizzontale');
+    assert.ok(/\/Subtype \/Image \/Width (\d+) \/Height (\d+)/.test(testo), 'nel PDF manca l’immagine del biglietto');
+    const [, largo, alto] = testo.match(/\/Width (\d+) \/Height (\d+)/).map(Number);
+    assert.ok(largo >= 1600 && Math.abs(largo / alto - 210 / 148) < 0.01, 'l’immagine è troppo piccola o non è un A5: ' + largo + '×' + alto);
+    const inizio = testo.indexOf('stream\n', testo.indexOf('/Subtype /Image')) + 7;
+    assert.strictEqual(pdf.dati.readUInt16BE(inizio), 0xFFD8, 'l’immagine nel PDF non è un JPEG');
+    const voci = testo.slice(testo.lastIndexOf('\nxref\n') + 1).split('\n').slice(3, 9);
+    for (const [n, voce] of voci.entries()) {
+      assert.ok(testo.startsWith((n + 1) + ' 0 obj', Number(voce.slice(0, 10))), 'la tabella del PDF non porta all’oggetto ' + (n + 1));
+    }
+
+    const jpg = await scarica(p.page, BIGLIETTO + ' button[data-formato="jpg"]');
+    assert.strictEqual(jpg.nome, 'regalo-solidale-per-anna.jpg');
+    assert.strictEqual(jpg.dati.readUInt16BE(0), 0xFFD8, 'l’immagine non è un JPEG');
+
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), [], 'il biglietto viola la regola di sicurezza della pagina');
+  } finally { await p.chiudi(); }
+});
+
+controllo('il biglietto parla a più persone con il «voi», cambia con l’occasione e senza nomi resta giusto', async () => {
+  const p = await apri(REGALO);
+  try {
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    let detto = await dettoDalBiglietto(p.page);
+    assert.ok(detto.includes('Buon Natale') && detto.includes('pensando a te'), detto);
+    assert.ok(!/Per \S/.test(detto.replace('Per il', '')), 'senza un nome non va «Per …»: ' + detto);
+    await p.page.fill('#mb-per', 'I nostri clienti');
+    await p.page.fill('#mb-da', 'Studio Rossi');
+    await p.page.check('#modulo-biglietto input[name="persone"][value="voi"]');
+    await p.page.selectOption('#mb-occasione', 'compleanno');
+    await p.page.waitForFunction(s => /voi/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    detto = await dettoDalBiglietto(p.page);
+    for (const parte of ['Buon compleanno', 'Per i nostri clienti', 'pensando a voi', 'Studio Rossi'])
+      assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
+    assert.ok(!detto.includes('Buon Natale') && !detto.includes('pensando a te'), detto);
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'regalo-solidale-per-i-nostri-clienti.pdf');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('il biglietto in ricordo di una persona: il suo nome, una donazione in memoria e non un regalo, e il campo solo per questa occasione', async () => {
+  const p = await apri(REGALO);
+  try {
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await p.page.locator('#mb-ricordo').isHidden(), 'a Natale il campo «In ricordo di» non serve');
+    await p.page.selectOption('#mb-occasione', 'ricordo');
+    await p.page.locator('#mb-ricordo').waitFor({ state: 'visible', timeout: 2000 });
+    assert.ok(await p.page.isChecked('#modulo-biglietto input[name="persone"][value="voi"]'), 'il biglietto in ricordo parla alla famiglia, con il «voi»');
+    let detto = await dettoDalBiglietto(p.page);
+    assert.ok(detto.startsWith('Anteprima del biglietto: In ricordo.'), 'senza un nome il saluto è «In ricordo»: ' + detto);
+    await p.page.fill('#mb-ricordo', 'Maria');
+    await p.page.fill('#mb-per', 'La famiglia Rossi');
+    await p.page.fill('#mb-da', 'Gli amici del coro');
+    await p.page.waitForFunction(s => /Maria/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    detto = await dettoDalBiglietto(p.page);
+    for (const parte of ['In ricordo di Maria', 'Per la famiglia Rossi', 'donazione in memoria', 'pensando a voi', 'Gli amici del coro'])
+      assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
+    assert.ok(!/regalo/i.test(detto), 'un biglietto in ricordo non parla di regalo: ' + detto);
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'donazione-in-ricordo-di-maria.pdf');
+    assert.ok(!/regalo/i.test(pdf.dati.toString('latin1').match(/\/Title \(([^)]*)\)/)[1]), 'il titolo del PDF in ricordo non parla di regalo');
+    await p.page.selectOption('#mb-occasione', 'natale');
+    await p.page.locator('#mb-ricordo').waitFor({ state: 'hidden', timeout: 2000 });
+    await p.page.waitForFunction(s => /Buon Natale/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    detto = await dettoDalBiglietto(p.page);
+    assert.ok(!detto.includes('Maria') && detto.includes('Questo regalo'), 'tornati a Natale il nome della persona ricordata non resta: ' + detto);
+    const jpg = await scarica(p.page, BIGLIETTO + ' button[data-formato="jpg"]');
+    assert.strictEqual(jpg.nome, 'regalo-solidale-per-la-famiglia-rossi.jpg');
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('il biglietto sul telefono: niente sfondamenti, l’anteprima sta nello schermo', async () => {
+  for (const schermo of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 1280, height: 800 }]) {
+    const p = await apri(REGALO, { schermo });
+    try {
+      await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+      const m = await p.page.evaluate(s => ({
+        largo: document.documentElement.scrollWidth,
+        tela: document.querySelector(s + ' canvas').getBoundingClientRect().width,
+      }), BIGLIETTO);
+      assert.ok(m.largo <= schermo.width, schermo.width + ' px: la pagina si allarga a ' + m.largo);
+      assert.ok(m.tela > 200 && m.tela <= schermo.width, schermo.width + ' px: l’anteprima è larga ' + m.tela);
+    } finally { await p.chiudi(); }
+  }
+});
+
+
 /* ---- si parte ---- */
 
 (async () => {
