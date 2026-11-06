@@ -13,7 +13,7 @@ pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
 import os, re, shutil, datetime, subprocess, hashlib, base64
-from testi_pagine import TESTI, DESCRIZIONI, TITOLI, NOTIZIE
+from testi_pagine import TESTI, DESCRIZIONI, TITOLI, NOTIZIE, BIGLIETTO
 import json
 
 # --------------------------------------------------------------------------
@@ -90,6 +90,10 @@ MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con 
                                           # porta la data del più recente fra MISURA, RICEVUTE, MENSILE e INFORMATIVA.
 INFORMATIVA = "6 novembre 2026"           # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 6.11 Google conta
                                           # anche chi scarica il fac-simile delle DAT o la guida al testamento (Ad Grants). Si aggiorna a ogni cambio.
+NATALE = True                             # la stagione del regalo di Natale nella pagina dei regali solidali (dona/regali-solidali), che resta
+                                          # online tutto l’anno (Elias, 6.11.2026). True da novembre all’Epifania: la pagina, il suo titolo per
+                                          # Google e il biglietto parlano di Natale ({se-natale}…{/se-natale}). False il resto dell’anno: la pagina
+                                          # parla degli altri doni per un’occasione e dice che il regalo di Natale torna a novembre ({senza-natale}).
 SENZA_MISURA = ("in-memoria/giardino-dei-ricordi",)   # le pagine dove Google Analytics non parte mai, neppure con il consenso,
                                           # e il banner non compare da sé: il giardino è un luogo di lutto, e resta fuori anche dai motori
 
@@ -242,6 +246,9 @@ SERVIZIO = [
     # dove Stripe riporta chi ha donato con il Payment Link del sito (Elias, 1.11): fuori dai menu e dai motori di ricerca.
     # Con Google Analytics acceso e il consenso, conta la donazione (sito.js), che altrimenti succede su Stripe e non si vede
     dict(cartella="dona/grazie", voce="Grazie", titolo="Grazie", occhiello="Donazioni", hero="avorio", dove=""),
+    # i regali solidali (Elias, 6.11.2026): un altro modo di donare, dentro Dona e fuori dal menu principale; la pagina è fissa
+    # e non si spegne mai, così tiene la sua posizione su Google da un anno all’altro. Fuori stagione cambia il testo (NATALE)
+    dict(cartella="dona/regali-solidali", voce="Regali solidali", titolo="Regali solidali", occhiello="Donazioni", hero="avorio", dove=""),
     dict(cartella="partnership", voce="Partnership e siti amici", titolo="Partnership e siti amici", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="documenti", voce="Documenti", titolo="Documenti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="contatti", voce="Contatti", titolo="Contatti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
@@ -597,16 +604,64 @@ def gettoni(html, da):
         html = html.replace("{notizie}", riquadro_notizie(da, nel_testo=True))
     if "{invito-notizie}" in html:
         html = html.replace("{invito-notizie}", invito_notizie(da))
+    if "{biglietto}" in html:
+        html = html.replace("{biglietto}", biglietto(da))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
-    return secondo_google(secondo_turnstile(secondo_ricevute(secondo_mensile(secondo_stripe(html)))))
+    return secondo_natale(secondo_google(secondo_turnstile(secondo_ricevute(secondo_mensile(secondo_stripe(html))))))
 
 SEGNO_SITO = "?locale=it&client_reference_id=sito-dona"   # la pagina di Stripe in italiano, e le donazioni del sito separate da quelle di Lux
+SEGNO_REGALO = "?locale=it&client_reference_id=sito-regalo"   # lo stesso link, dalla pagina dei regali solidali: nel conto si contano a parte
 
 def secondo_stripe(testo):
     """ciò che sta tra {se-stripe} e {/se-stripe} resta solo con STRIPE; {stripe} è l'indirizzo del pagamento con la carta"""
     testo = re.sub(r"\{se-stripe\}(.*?)\{/se-stripe\}", lambda m: m.group(1) if STRIPE else "", testo, flags=re.S)
+    testo = testo.replace("{stripe-regalo}", sfuggi(STRIPE + SEGNO_REGALO) if STRIPE else "")
     return testo.replace("{stripe}", sfuggi(STRIPE + SEGNO_SITO) if STRIPE else "")
+
+def secondo_natale(testo):
+    """con NATALE resta ciò che sta tra {se-natale} e {/se-natale}, senza resta ciò che sta tra {senza-natale} e {/senza-natale}"""
+    testo = re.sub(r"\{se-natale\}(.*?)\{/se-natale\}", lambda m: m.group(1) if NATALE else "", testo, flags=re.S)
+    return re.sub(r"\{senza-natale\}(.*?)\{/senza-natale\}", lambda m: "" if NATALE else m.group(1), testo, flags=re.S)
+
+IMMAGINI_BIGLIETTO = {"candela": ("azione-candela.svg", 200, 240), "albero": ("azione-albero.svg", 200, 240),   # le tavole incise del biglietto,
+                      "fiore": ("azione-fiore.svg", 200, 240), "rosa": ("tavola-rosa.svg", 240, 240)}         # con le loro proporzioni
+
+def biglietto(da):
+    """il biglietto dei regali solidali (Elias, 6.11.2026): l’occasione, l’immagine, i nomi e due righe; sito.js lo disegna
+    in un canvas e lo fa scaricare in PDF (A5 orizzontale) o in immagine. Niente parte dal sito: i nomi restano nel browser.
+    I testi stanno in BIGLIETTO in testi_pagine.py. Senza JavaScript il modulo resta nascosto e si legge la nota"""
+    scelta = BIGLIETTO["scelta"] if NATALE else BIGLIETTO["fuori_stagione"]
+    # un’occasione che parla già a più persone (il matrimonio) porta con sé la scelta «a più persone»
+    occasioni = "".join('<option value="%s" data-saluto="%s"%s%s>%s</option>'
+                        % (o[0], sfuggi(o[2]), ' data-persone="voi"' if o[3:] == ("voi",) else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
+                        for o in BIGLIETTO["occasioni"])
+    immagini = "".join('<label class="immagine"><input type="radio" name="immagine" value="%s"%s>'
+                       '<img src="%s" alt="" width="%d" height="%d"><span>%s</span></label>'
+                       % ((v, " checked" if i == 0 else "", risorsa(da, "img/" + IMMAGINI_BIGLIETTO[v][0])) + IMMAGINI_BIGLIETTO[v][1:] + (sfuggi(voce),))
+                       for i, (v, voce) in enumerate(BIGLIETTO["immagini"]))
+    return """<p class="nota" id="biglietto-senza-js">Per preparare il biglietto serve un browser con JavaScript acceso.</p>
+<form class="modulo biglietto" id="modulo-biglietto" data-corpo-te="%s" data-corpo-voi="%s" data-piede="%s" hidden>
+<div class="campi">
+<label for="mb-occasione">L’occasione</label>
+<select id="mb-occasione" name="occasione">%s</select>
+<fieldset class="immagini"><legend>L’immagine</legend>%s</fieldset>
+<label for="mb-per">Per chi è <span>facoltativo</span></label>
+<input id="mb-per" name="per" type="text" maxlength="60" placeholder="Per esempio: Anna, oppure i nostri clienti">
+<fieldset class="scelta"><legend>Il biglietto si rivolge</legend>
+<label class="consenso"><input type="radio" name="persone" value="te" checked> <span>a una persona</span></label>
+<label class="consenso"><input type="radio" name="persone" value="voi"> <span>a più persone</span></label>
+</fieldset>
+<label for="mb-da">Da parte di <span>facoltativo</span></label>
+<input id="mb-da" name="da" type="text" maxlength="60" placeholder="Il tuo nome, o quello dell’azienda">
+<label for="mb-messaggio">Due righe tue <span>facoltativo</span></label>
+<textarea id="mb-messaggio" name="messaggio" class="breve" rows="3" maxlength="160"></textarea>
+</div>
+<figure class="anteprima"><canvas width="1800" height="1269" role="img" aria-label=""></canvas></figure>
+<p class="pulsanti"><button type="submit" class="invia">Scarica il PDF</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
+<p class="nota">Sul biglietto non c’è la cifra. Lo prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>""" % (sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]), occasioni, immagini)
 
 def secondo_mensile(testo):
     """con MENSILE resta ciò che sta tra {se-mensile} e {/se-mensile}, senza ciò che sta tra {senza-mensile} e {/senza-mensile};
@@ -1058,10 +1113,10 @@ def pagina_html(da, p, extra_head=""):
     if p["tipo"] == "404":
         scheda = "%s — %s" % (p["titolo"], NOME_SCHEDA)
     elif da in TITOLI:
-        scheda = secondo_stripe(TITOLI[da]) if da == "" else "%s — %s" % (secondo_stripe(TITOLI[da]), NOME_SCHEDA)
+        scheda = secondo_stripe(TITOLI[da]) if da == "" else "%s — %s" % (secondo_natale(secondo_stripe(TITOLI[da])), NOME_SCHEDA)
     else:
         scheda = ENTE["nome"] if da == "" else "%s — %s" % (p["titolo"], NOME_SCHEDA)
-    descrizione = secondo_google(secondo_stripe(DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"]))))
+    descrizione = secondo_natale(secondo_google(secondo_stripe(DESCRIZIONI.get(da) or TESTI.get(da, {}).get("sotto") or ("%s — %s, %s, Milano." % (p["titolo"], ENTE["nome"], ENTE["forma"])))))
     url = DOMINIO + ("/" if da == "" else "/" + da + "/")
     if p["tipo"] == "home":
         sotto = sfuggi(ENTE["tagline"])
@@ -1178,6 +1233,9 @@ def briciole(da, p):
     s = p.get("sezione")
     if s and s != da:
         passi.append((PAGINE[s]["titolo"], DOMINIO + "/" + s + "/"))
+    madre = da.rsplit("/", 1)[0] if "/" in da else ""
+    if not s and madre in PAGINE:            # una pagina dentro un’altra, fuori dalle sezioni: i regali solidali dentro Dona
+        passi.append((PAGINE[madre]["titolo"], DOMINIO + "/" + madre + "/"))
     passi.append((p["titolo"], DOMINIO + "/" + da + "/"))
     return json.dumps({
         "@context": "https://schema.org", "@type": "BreadcrumbList",

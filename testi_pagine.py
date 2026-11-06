@@ -898,6 +898,8 @@ TESTI["news"] = dict(
     notizie_riga="Le novità arrivano qui, una alla volta. Se vuoi, te le mandiamo anche per email.",
     corpo="""
 <p>Qui trovi le novità della Fondazione, una sotto l’altra con la data, la più recente in alto: gli incontri, i progetti che nascono, i passi che facciamo.</p>
+<h3>A Natale, un regalo solidale</h3>
+<p><em>20 novembre 2026.</em> Quest’anno, sotto l’albero, puoi mettere una donazione. Doni alla Fondazione pensando a una persona e sul sito prepari il biglietto con il suo nome, da stampare o da mandare per email. Anche le aziende possono farlo, al posto dei regali ai clienti. Come si fa è nella pagina dei <a class="link" href="{→dona/regali-solidali}">regali solidali</a>.</p>
 <h3>Il sito della Fondazione è online</h3>
 <p><em>26 ottobre 2026.</em> Da oggi il sito della Fondazione La Rosa d’Oro è aperto a tutti. Racconta chi siamo, che cosa la Fondazione è costituita per fare, nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, e che cosa stiamo facendo. Da qui puoi <a class="link" href="{→contatti}">scriverci</a>, <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentarci un progetto</a> e lasciare una dedica nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>. Le novità arriveranno su questa pagina, una alla volta.</p>
 <h3>Quietude Italia 2027: aperte le iscrizioni</h3>
@@ -1143,9 +1145,65 @@ TESTI["dona"] = dict(
 <li>il <a class="link" href="{→cinque-per-mille}">5 per mille</a>, con una firma nella dichiarazione dei redditi;</li>
 <li>un <a class="link" href="{→lasciti}">lascito</a> nel testamento;</li>
 <li>una donazione in memoria, con il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a>;</li>
+<li>un <a class="link" href="{→dona/regali-solidali}">regalo solidale</a>, per Natale o per un’altra occasione, con un biglietto per chi lo riceve;</li>
 <li>se hai un’azienda, <a class="link" href="{→aziende-e-istituzioni/aziende}">una parte per il bene comune</a>.</li>
 </ul>
 """)
+
+# ------------------------------------------------------------ I regali solidali (bozza di Claude del 6.11, da approvare con Elias)
+# La pagina fissa dentro Dona, che non si spegne mai (Elias, 6.11): fuori stagione cambia solo il testo, con NATALE in costruisci.py
+# ({se-natale}…{/se-natale}, {senza-natale}…{/senza-natale}). Si dona con lo stesso link di Stripe di «Dona una volta», segnato
+# «sito-regalo» ({stripe-regalo}), oppure con il bonifico; poi il biglietto si prepara nella pagina ({biglietto}): lo disegna il
+# browser, in PDF o in immagine, e niente parte dal sito. I testi del biglietto stanno in BIGLIETTO, qui sotto.
+TESTI["dona/regali-solidali"] = dict(
+    sotto="Un regalo che diventa terra coltivata, cura, accompagnamento.",
+    corpo="""
+{se-natale}<p>A Natale puoi regalare una donazione. Doni alla Fondazione La Rosa d’Oro pensando a una persona, prepari qui sotto un biglietto con il suo nome e glielo dai: stampato, da mettere sotto l’albero, oppure per email o per messaggio. Niente pacchi e niente spedizioni: il regalo è ciò che la tua donazione fa crescere.</p>
+{/se-natale}{senza-natale}<p>Per un compleanno, una nascita, un matrimonio, una laurea o un anniversario puoi regalare una donazione. Doni alla Fondazione La Rosa d’Oro pensando a una persona, prepari qui sotto un biglietto con il suo nome e glielo dai, stampato oppure per email o per messaggio. Niente pacchi e niente spedizioni: il regalo è ciò che la tua donazione fa crescere. Il regalo di Natale torna a novembre.</p>
+{/senza-natale}<h3>Come si fa</h3>
+<ol class="passi">
+<li><strong>Doni</strong> con la carta, PayPal, Apple Pay o Google Pay sulla pagina di Stripe, oppure con un bonifico. La cifra la scegli tu. Il nome di chi riceve il regalo lì non serve.</li>
+<li><strong>Prepari il biglietto</strong> qui sotto: scegli l’occasione e l’immagine, scrivi i nomi e, se vuoi, due righe tue.</li>
+<li><strong>Lo regali.</strong> Lo scarichi in PDF da stampare, o come immagine da mandare.</li>
+</ol>
+{se-stripe}<p><a class="invia" href="{stripe-regalo}" target="_blank" rel="noopener">Dona con la carta o con PayPal</a></p>
+<p class="nota">Sulla pagina di pagamento la cifra va da 5 a 5.000 euro. Se vuoi, lì scegli anche l’ambito e aggiungi il codice fiscale, per trovare la donazione nella dichiarazione precompilata.</p>
+{/se-stripe}<p>Per il bonifico usa le coordinate della pagina <a class="link" href="{→dona}">Dona</a>, con la causale «Regalo solidale».</p>
+<h3 id="biglietto">Il biglietto</h3>
+{biglietto}
+<h3>Che cosa diventa il tuo regalo</h3>
+<p>La Fondazione La Rosa d’Oro è un ente del Terzo settore nato a Milano il 26 febbraio 2026, per coltivare la terra, curare le persone e accompagnarle fino alla fine della vita. Tra i primi progetti avviati ci sono <a class="link" href="{→eventi-e-formazione/formazione-accompagnamento}#quietude-italia-2027">Quietude Italia</a>, la formazione per accompagnare nel fine vita, e <a class="link" href="https://lux.larosadoro.org/" rel="noopener">Lux</a>, per un rapporto consapevole con il digitale.</p>
+<p>Il regalo è una donazione alla Fondazione: la impieghiamo dove c’è più bisogno, oppure nell’ambito che scegli sulla pagina di pagamento, tra la medicina e la cura, l’agricoltura, il sociale e il fine vita.</p>
+<h3>Per le aziende</h3>
+<p>Al posto dei regali ai clienti o ai collaboratori, la tua azienda può fare una sola donazione e mandare a tutti lo stesso biglietto: scegli «a più persone», scrivi per esempio «i nostri clienti» e firma con il nome dell’azienda.</p>
+<p>Per avere la ricevuta intestata all’azienda, dona con un bonifico dal conto dell’azienda e <a class="link" href="{→contatti}">scrivici</a> con la ragione sociale, la sede e il codice fiscale. L’azienda la deduce dal reddito fino al 10%, come ogni donazione a un ente del Terzo settore (art. 83 del Codice del Terzo settore). Il biglietto dice soltanto che l’azienda ha donato: per usare il nome della Fondazione nella pubblicità o sulle confezioni serve un accordo, come spiega la pagina <a class="link" href="{→aziende-e-istituzioni/aziende}">Per le aziende</a>.</p>
+<h3>La ricevuta</h3>
+<p>La ricevuta per la dichiarazione dei redditi è di chi dona, non di chi riceve il biglietto. {se-ricevute}Se doni con la carta o con PayPal ti arriva per email 37 giorni dopo, all’indirizzo che scrivi sulla pagina di Stripe. Se doni con il bonifico e ti serve{/se-ricevute}{senza-ricevute}Se ti serve{/senza-ricevute} una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale. Detrazioni e deduzioni sono spiegate nella pagina <a class="link" href="{→dona}">Dona</a>.</p>
+<h3>Per ogni occasione</h3>
+<p>Il biglietto va bene tutto l’anno: per un compleanno, una nascita, un matrimonio, una laurea, un anniversario, o senza un’occasione. Per ricordare una persona che non c’è più ci sono il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a> e il <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>.</p>
+""")
+
+# I testi del biglietto del regalo solidale (bozza di Claude del 6.11). Il biglietto non dice mai la cifra.
+# «corpo» si rivolge a una persona (te) o a più persone (voi); in un saluto, {te} diventa «te» o «voi». Fra «La», «Rosa» e «d’Oro»
+# c’è lo spazio che non va a capo (\u00a0), così il nome resta su una riga.
+# «scelta» è l’occasione già scelta quando si apre la pagina, con NATALE acceso; «fuori_stagione» quella del resto dell’anno.
+BIGLIETTO = dict(
+    scelta="natale",
+    fuori_stagione="compleanno",
+    occasioni=(
+        ("natale", "Natale", "Buon Natale"),
+        ("compleanno", "Un compleanno", "Buon compleanno"),
+        ("nascita", "Una nascita", "Una vita nuova"),
+        ("matrimonio", "Un matrimonio", "Viva gli sposi", "voi"),     # il quarto: il biglietto si rivolge già «a più persone»
+        ("laurea", "Una laurea", "Congratulazioni"),
+        ("anniversario", "Un anniversario", "Buon anniversario"),
+        ("pensiero", "Senza un’occasione", "Un pensiero per {te}"),
+    ),
+    immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
+    corpo_te="Questo regalo è una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a te. Diventerà terra coltivata, cura, accompagnamento.",
+    corpo_voi="Questo regalo è una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento.",
+    piede="Fondazione La Rosa d’Oro ETS · larosadoro.org",
+)
 
 # ------------------------------------------------------------ Grazie: dove Stripe riporta chi ha donato (bozza di Claude dell’1.11, da approvare con Elias)
 # Fuori dai menu e dai motori (NON_INDICIZZARE). Con Google Analytics acceso e il consenso, sito.js conta qui la donazione.
@@ -1158,7 +1216,8 @@ TESTI["dona/grazie"] = dict(
 {se-ricevute}<p>La ricevuta della Fondazione per la dichiarazione dei redditi ti arriva per email 37 giorni dopo la donazione, all’indirizzo che hai scritto sulla pagina di Stripe.</p>
 {/se-ricevute}{senza-ricevute}<p>Se ti serve una ricevuta della Fondazione per la dichiarazione dei redditi, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 {/senza-ricevute}{se-mensile}<p>Se hai scelto di donare ogni mese, puoi smettere quando vuoi, da te, dalla <a class="link" href="{portale}" target="_blank" rel="noopener">pagina della tua donazione mensile</a> su Stripe.</p>
-{/se-mensile}{notizie}
+{/se-mensile}<p>Se la tua donazione è un regalo, prepara qui il <a class="link" href="{→dona/regali-solidali}#biglietto">biglietto per chi lo riceve</a>.</p>
+{notizie}
 <p><a class="vai" href="{→}">Torna alla home</a></p>
 """)
 
@@ -1627,3 +1686,9 @@ TITOLI.update({
     "eventi-e-formazione/formazione-medica": "Formazione per medici e operatori sanitari",
     "eventi-e-formazione/formazione-agricola": "Formazione agricola: biologico, biodinamica, agricoltura sociale",
 })
+
+# i regali solidali (6.11, bozza di Claude): il titolo e la descrizione cambiano con la stagione (NATALE in costruisci.py)
+TITOLI["dona/regali-solidali"] = "{se-natale}Regali solidali di Natale: una donazione in regalo{/se-natale}{senza-natale}Regali solidali: una donazione per ogni occasione{/senza-natale}"
+DESCRIZIONI["dona/regali-solidali"] = ("{se-natale}Regala a Natale una donazione alla Fondazione La Rosa d’Oro e prepara il biglietto da stampare o da mandare per email. "
+    "Anche per le aziende, al posto dei regali ai clienti.{/se-natale}{senza-natale}Regala una donazione alla Fondazione La Rosa d’Oro per un compleanno, "
+    "una nascita, un matrimonio, e prepara il biglietto da stampare o da mandare per email.{/senza-natale}")
