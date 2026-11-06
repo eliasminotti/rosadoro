@@ -150,6 +150,7 @@ SEZIONI = [
              dict(slug="perche-donare", voce="Perché donare alla Rosa d'Oro", titolo="Perché donare alla Rosa d'Oro", riga="E i vantaggi fiscali",
                   oro=True),   # in oro nel menu (Dacia, 1.11)
              dict(slug="il-tuo-testamento", voce="Redigi il tuo testamento con noi", titolo="Redigi il tuo testamento con noi", riga="I tipi di testamento", tavola="lettera"),
+             dict(slug="come-fare-testamento", voce="Come fare testamento", titolo="Come fare testamento", riga="Il testamento olografo, con un esempio"),
              dict(slug="la-liberta-del-come", voce="La libertà del come", titolo="La libertà del come", riga="Le DAT e il fiduciario", art="Legge 219/2017", tavola="pergamena"),
              dict(slug="dopo-di-noi", voce="Il Dopo di Noi", titolo="Il Dopo di Noi", riga="La protezione dei fragili", art="Legge 112/2016"),
          ],

@@ -436,6 +436,62 @@ TESTI["lasciti/il-tuo-testamento"] = dict(
 </div>
 """)
 
+# ------------------------------------------------------------ Come fare testamento (Elias, 6.11.2026: la guida al testamento
+# olografo, che presenta anche il lascito come possibilità; poi un gruppo di annunci Ad Grants dedicato). Bozza di Claude,
+# provvisoria finché Elias non la approva. Le regole sono riscontrate sul testo del Codice civile in Normattiva il 6.11.2026
+# (artt. 536-544, 588, 589, 591, 602, 606, 620, 680, 682, 684, 756) e sull’art. 82 del Codice del Terzo settore.
+TESTI["lasciti/come-fare-testamento"] = dict(
+    sotto="Un foglio, una penna e poche regole: il testamento olografo, con un esempio.",
+    corpo="""
+<p>Il modo più semplice di fare testamento è scriverlo a mano: è il <strong>testamento olografo</strong>. Non servono notai né testimoni, non costa nulla e lo puoi cambiare quando vuoi. Perché valga deve rispettare tre regole, scritte nell’articolo 602 del Codice civile.</p>
+<h3>Le tre regole</h3>
+<ol>
+<li><strong>Scritto per intero di tua mano.</strong> Dalla prima all’ultima parola, con la tua grafia: niente computer, niente macchina da scrivere, niente righe scritte da un’altra persona.</li>
+<li><strong>Con la data.</strong> Giorno, mese e anno, scritti a mano anche questi.</li>
+<li><strong>Con la firma alla fine.</strong> Sotto l’ultima cosa che hai scritto. Di solito si firma con nome e cognome; vale anche un’altra firma, purché faccia capire con certezza chi sei.</li>
+</ol>
+<p>Un testamento che non è scritto di tua mano, o che non è firmato, non vale. Per gli altri difetti di forma, come una data incompleta, può essere annullato su richiesta di chi ne ha interesse (art. 606). Per fare testamento bisogna essere maggiorenni e capaci di intendere e di volere nel momento in cui lo si scrive (art. 591).</p>
+<h3>Un esempio</h3>
+<p>Anna non è sposata, non ha figli e i suoi genitori non ci sono più: può decidere liberamente di tutto ciò che ha. Ecco come potrebbe scrivere il suo testamento, a mano, su un foglio qualsiasi.</p>
+<div class="coordinate">
+<p>Io sottoscritta Anna Bianchi, nata a Milano il 12 marzo 1951, revoco ogni mio precedente testamento e dispongo così per il tempo in cui avrò cessato di vivere.</p>
+<p>Nomino mia erede universale mia sorella Laura Bianchi, nata a Como il 4 luglio 1955.</p>
+<p>Lascio alla mia amica Carla Verdi, nata a Varese il 20 settembre 1952, l’anello con lo zaffiro che era di mia madre.</p>
+<p>Lascio alla Fondazione La Rosa d’Oro ETS, con sede legale in Milano, codice fiscale 14629350969, la somma di 10.000 euro, perché sia destinata alle sue attività per la medicina e la cura.</p>
+<p>Milano, 3 febbraio 2026<br>Anna Bianchi</p>
+</div>
+<p>Nell’esempio ci sono le due cose che un testamento può fare. <strong>Nominare un erede</strong>: chi riceve tutto il patrimonio, o una sua parte, e risponde anche dei debiti. <strong>Fare un legato</strong>: lasciare una cosa precisa, una somma, un oggetto, una casa, a una persona o a un ente. Chi riceve un legato non risponde dei debiti dell’eredità (artt. 588 e 756).</p>
+<h3>Gli errori da evitare</h3>
+<ul class="stelle">
+<li>Scriverlo al computer e poi firmarlo a mano: non vale.</li>
+<li>Scriverlo in due, per esempio marito e moglie sullo stesso foglio: la legge non lo permette (art. 589). Ognuno scrive il suo.</li>
+<li>Dimenticare la data, o scriverla a metà.</li>
+<li>Firmare in alto, o aggiungere righe sotto la firma: se aggiungi qualcosa, scrivi di nuovo la data e firma di nuovo.</li>
+<li>Indicare le persone o i beni in modo vago: scrivi nomi, cognomi e date di nascita, e per un ente il nome completo, la sede e il codice fiscale.</li>
+<li>Correggere con cancellature: un testamento olografo cancellato si considera revocato, in tutto o nella parte cancellata (art. 684). Se cambi idea, riscrivilo da capo.</li>
+</ul>
+<h3>Quanto puoi lasciare a chi vuoi</h3>
+<p>Se hai coniuge, figli o genitori, una parte del patrimonio spetta per legge a loro: è la <strong>legittima</strong> (artt. 536 e seguenti). Della parte che resta, la <strong>quota disponibile</strong>, decidi tu. Fratelli e sorelle non hanno una parte riservata. La quota disponibile è:</p>
+<ul class="stelle">
+<li>tutto il patrimonio, se non hai coniuge, figli né genitori;</li>
+<li>la metà, se hai solo il coniuge, oppure un figlio solo;</li>
+<li>un terzo, se hai due o più figli, oppure il coniuge e un figlio;</li>
+<li>un quarto, se hai il coniuge e due o più figli, oppure il coniuge e i genitori;</li>
+<li>due terzi, se hai solo i genitori.</li>
+</ul>
+<p>Al coniuge spetta in più il diritto di continuare ad abitare nella casa di famiglia (art. 540). Se il testamento lascia a qualcuno più della quota disponibile resta valido, ma chi ha diritto alla legittima può chiedere che la sua parte gli sia riconosciuta.</p>
+<h3>Lasciare qualcosa a una causa</h3>
+<p>Nel testamento puoi lasciare qualcosa anche a un ente che porta avanti una causa che ti sta a cuore: una somma, un bene, una quota. Basta scrivere il nome completo dell’ente, la sede e il codice fiscale, come nell’esempio, e se vuoi a che cosa desideri che sia destinato. I lasciti agli enti del Terzo settore, come la Fondazione, non pagano l’imposta di successione, se l’ente li usa per le sue attività (art. 82 del Codice del Terzo settore).</p>
+<p>Se pensi a un lascito per la Fondazione, ne parliamo in <a class="link" href="{→lasciti/il-lascito-testamentario}">Così volli che fosse</a>. E se vuoi, <a class="link" href="{→contatti}">scrivici</a>: ti risponde una persona.</p>
+<h3>Dove conservarlo</h3>
+<p>Il testamento olografo va tenuto dove potrà essere trovato: a casa, in un posto sicuro, oppure affidato a una persona di fiducia o a un notaio. Di’ a qualcuno dove si trova. Quando verrà il momento, chi lo ha deve portarlo a un notaio, che lo pubblica perché possa essere eseguito (art. 620).</p>
+<h3>Cambiarlo o revocarlo</h3>
+<p>Il testamento si cambia quando vuoi. Un testamento nuovo che revoca i precedenti li sostituisce; se non lo dice, dei vecchi cancella solo le parti in contrasto con il nuovo (artt. 680 e 682). Per questo, quando lo riscrivi, conviene cominciare con «revoco ogni mio precedente testamento», come nell’esempio.</p>
+<h3>Le altre forme</h3>
+<p>Oltre all’olografo ci sono il <strong>testamento pubblico</strong>, ricevuto dal notaio davanti a due testimoni, e il <strong>testamento segreto</strong>, consegnato chiuso al notaio: li trovi in <a class="link" href="{→lasciti/il-tuo-testamento}">Redigi il tuo testamento con noi</a>. Il notaio è la scelta più sicura quando la situazione è complessa: un’azienda, beni all’estero, una famiglia ricomposta, un figlio minore o con disabilità, per il quale c’è anche il <a class="link" href="{→lasciti/dopo-di-noi}">Dopo di Noi</a>.</p>
+<p class="nota">Questa pagina è una guida generale: per il tuo caso, il consiglio di un notaio o di un avvocato resta il più sicuro.</p>
+""")
+
 TESTI["lasciti/dopo-di-noi"] = dict(
     sotto="Prima o poi, tutti abbiamo bisogno di un riparo. Custodisci la fragilità altrui.",
     corpo="""
@@ -1074,7 +1130,8 @@ TESTI["dona"] = dict(
 <p><strong>Causale</strong><br>«Donazione», oppure «Donazione per la medicina», «per l’agricoltura», «per il sociale», «per il fine vita», o «In memoria di» con il nome della persona.</p>
 </div>
 <h3>La ricevuta e i vantaggi fiscali</h3>
-<p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi, come spieghiamo in <a class="link" href="{→lasciti/perche-donare}">Perché donare alla Rosa d’Oro</a>. Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. {se-ricevute}Se doni con la carta o con PayPal sulla pagina di Stripe, la ricevuta della Fondazione ti arriva da sola per email 37 giorni dopo ogni donazione{se-mensile}, anche per quelle di ogni mese{/se-mensile}, all’indirizzo che hai scritto sulla pagina di Stripe. Se doni con il bonifico e ti serve{/se-ricevute}{senza-ricevute}Se ti serve{/senza-ricevute} anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
+<p>Le donazioni alla Fondazione si possono detrarre o dedurre nella dichiarazione dei redditi (art. 83 del Codice del Terzo settore). Se doni come persona scegli una delle due strade, non tutte e due per la stessa donazione: detrai dall’imposta il 30% di ciò che hai donato, su un massimo di 30.000 euro l’anno, oppure deduci la donazione dal reddito, fino al 10% del reddito che dichiari. Un’azienda la deduce dal reddito, sempre fino al 10%.</p>
+<p>Serve un pagamento tracciabile, non in contanti: conserva la sua ricevuta. {se-ricevute}Se doni con la carta o con PayPal sulla pagina di Stripe, la ricevuta della Fondazione ti arriva da sola per email 37 giorni dopo ogni donazione{se-mensile}, anche per quelle di ogni mese{/se-mensile}, all’indirizzo che hai scritto sulla pagina di Stripe. Se doni con il bonifico e ti serve{/se-ricevute}{senza-ricevute}Se ti serve{/senza-ricevute} anche una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 <h3>Se vivi in Svizzera</h3>
 <p>Se vivi in Svizzera e vuoi dedurre la donazione dalle imposte, <a class="link" href="{→contatti}">scrivici</a>.</p>
 <h3>Altri modi di sostenerci</h3>
@@ -1469,6 +1526,7 @@ DESCRIZIONI = {
     "lasciti/il-lascito-testamentario": "Il lascito testamentario: un gesto semplice e sempre modificabile che destina una parte del patrimonio a ciò che per te è vita. Quota disponibile, forme, passi.",
     "lasciti/perche-donare": "Perché donare alla Rosa d'Oro: progetti locali e verificabili, una struttura leggera, i vantaggi fiscali. Lasciti e donazioni agli ETS sono esenti da imposta.",
     "lasciti/il-tuo-testamento": "Come redigere il testamento: olografo, pubblico o segreto, come si modifica, le domande che aiuta a sciogliere. La Fondazione ti accompagna.",
+    "lasciti/come-fare-testamento": "Come fare testamento da soli: le tre regole del testamento olografo, un esempio scritto per intero, gli errori da evitare, la quota disponibile.",
     "lasciti/la-liberta-del-come": "Le Disposizioni anticipate di trattamento (DAT): che cosa sono, come si redigono, il fiduciario, che cosa specificare. Con il fac-simile da scaricare.",
     "lasciti/dopo-di-noi": "Il Dopo di Noi (legge 112/2016): tutelare un familiare con disabilità grave per quando non ci sarai più. Come la Fondazione può aiutare.",
     "progetti": "I progetti della Fondazione La Rosa d'Oro: da avviare, da sostenere, in corso, realizzati. E come presentare il tuo.",
@@ -1513,7 +1571,8 @@ TITOLI = {
     "lasciti": "Lasciti testamentari",
     "lasciti/il-lascito-testamentario": "Il lascito testamentario: così volli che fosse",
     "lasciti/perche-donare": "Perché donare alla Rosa d’Oro, e i vantaggi fiscali",
-    "lasciti/il-tuo-testamento": "Come fare testamento: olografo, pubblico o segreto",
+    "lasciti/il-tuo-testamento": "I tipi di testamento: olografo, pubblico o segreto",
+    "lasciti/come-fare-testamento": "Come fare testamento: il testamento olografo, con un esempio",
     "lasciti/la-liberta-del-come": "Le DAT, il testamento biologico: guida e fac-simile",
     "lasciti/dopo-di-noi": "Il Dopo di Noi, legge 112/2016",
     "aziende-e-istituzioni/aziende": "Per le aziende: filantropia d’impresa e bene comune",
