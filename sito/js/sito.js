@@ -770,8 +770,9 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
         La scelta resta nel browser per sei mesi; «Preferenze cookie», nel piede, riapre il banner. Ritirare il consenso
         cancella i cookie di Google e ricarica la pagina, perché Google non resti in memoria.
         A Google arrivano solo l'indirizzo della pagina senza i codici dei collegamenti delle email (resta il segno degli
-        annunci) e, con il consenso, le quattro azioni che contano: il messaggio dei Contatti (5), la conferma delle
-        notizie (5), il progetto proposto (6) e la donazione, quando si torna da Stripe sulla pagina «Grazie».
+        annunci) e, con il consenso, le azioni che contano: il messaggio dei Contatti (5), la conferma delle
+        notizie (5), il progetto proposto (6), la donazione, quando si torna da Stripe sulla pagina «Grazie», e il PDF
+        scaricato dalle pagine che informano (il fac-simile delle DAT, la guida al testamento: data-conta, sotto).
         Nel giardino dei ricordi (data-misura="no") Google non parte mai ---- */
 var misuraGoogle = (function () {
   'use strict';
@@ -882,3 +883,10 @@ var misuraGoogle = (function () {
   return { conta: segna };
 })();
 function conta(evento) { if (misuraGoogle) misuraGoogle.conta(evento); }
+/* le pagine che informano hanno un passo concreto che conta per gli annunci (chat di Ad Grants, sì di Elias del 6.11.2026):
+   scaricare il fac-simile delle DAT o la guida al testamento. Il collegamento porta data-conta con il nome dell'evento e
+   apre il PDF in una scheda nuova, così la pagina resta aperta e l'evento fa in tempo a partire */
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('a[data-conta]') : null;
+  if (a) conta(a.getAttribute('data-conta'));
+});

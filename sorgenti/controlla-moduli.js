@@ -1174,6 +1174,41 @@ controllo('Google: con il consenso si contano il messaggio, la conferma delle no
   assert.deepStrictEqual(no.google, [], 'senza consenso partono richieste verso Google');
 });
 
+/* i passi concreti delle pagine che informano (chat di Ad Grants, con il sì di Elias del 6.11.2026): scaricare il modulo
+   delle DAT e la guida da stampare al testamento olografo. Il PDF si apre in una scheda nuova: la pagina resta aperta e
+   l'evento fa in tempo a partire. Dà gli eventi arrivati a Google e le richieste partite verso Google */
+async function scaricaPdf(percorso, scelta, pdf) {
+  const p = await apriConGoogle(percorso, { scelta });
+  try {
+    const link = p.page.locator('a[href$="/' + pdf + '"]');
+    assert.strictEqual(await link.count(), 1, percorso + ': manca il collegamento a ' + pdf);
+    assert.strictEqual(await link.getAttribute('target'), '_blank', percorso + ': il PDF deve aprirsi in una scheda nuova, sennò l’evento si perde');
+    assert.ok(/\bnoopener\b/.test(await link.getAttribute('rel') || ''), percorso + ': manca rel="noopener"');
+    const chiesto = p.page.context().waitForEvent('request', r => r.url().endsWith('/' + pdf), { timeout: 5000 });
+    await link.click();
+    await chiesto;
+    await p.page.waitForTimeout(300);
+    const eventi = await eventiPerGoogle(p.page);
+    assert.deepStrictEqual(p.errori, [], percorso);
+    return { eventi, google: p.google };
+  } finally { await p.chiudi(); }
+}
+
+controllo('Google: con il consenso si conta chi scarica il modulo delle DAT o la guida al testamento; senza, nulla parte', async () => {
+  const casi = [
+    ['lasciti/la-liberta-del-come/index.html', 'DAT-fac-simile.pdf', 'scarica_modulo_dat'],
+    ['documenti/index.html', 'DAT-fac-simile.pdf', 'scarica_modulo_dat'],
+    ['lasciti/come-fare-testamento/index.html', 'guida-testamento-olografo.pdf', 'scarica_guida_testamento'],
+  ];
+  for (const [percorso, pdf, evento] of casi) {
+    const si = await scaricaPdf(percorso, 'si', pdf);
+    assert.deepStrictEqual(si.eventi, [evento], percorso);
+    const no = await scaricaPdf(percorso, 'no', pdf);
+    assert.deepStrictEqual(no.eventi, [], percorso + ': senza consenso si contano eventi');
+    assert.deepStrictEqual(no.google, [], percorso + ': senza consenso partono richieste verso Google');
+  }
+});
+
 controllo('Google: un modulo che non arriva, o una conferma che non riesce, non si conta', async () => {
   const p = await apriConGoogle('contatti/?conferma=abc123', { scelta: 'si', foglio: i => (i.metodo === 'GET' ? { success: false, testo: 'Questo collegamento non vale più.' } : { success: false, error: 'email' }) });
   try {

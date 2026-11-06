@@ -88,8 +88,8 @@ GOOGLE_TAG = "G-FC78G2JWBL"               # l’ID della proprietà Google Analy
                                           # non usa cookie ({senza-google}…{/senza-google}).
 MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
                                           # porta la data del più recente fra MISURA, RICEVUTE, MENSILE e INFORMATIVA.
-INFORMATIVA = "5 novembre 2026"           # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 5.11 il codice
-                                          # fiscale facoltativo sulla pagina di Stripe, per la precompilata (Elias, 4-5.11). Si aggiorna a ogni cambio.
+INFORMATIVA = "6 novembre 2026"           # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 6.11 Google conta
+                                          # anche chi scarica il fac-simile delle DAT o la guida al testamento (Ad Grants). Si aggiorna a ogni cambio.
 SENZA_MISURA = ("in-memoria/giardino-dei-ricordi",)   # le pagine dove Google Analytics non parte mai, neppure con il consenso,
                                           # e il banner non compare da sé: il giardino è un luogo di lutto, e resta fuori anche dai motori
 
