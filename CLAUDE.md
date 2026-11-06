@@ -122,8 +122,11 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
   Accesi: in ogni pagina il banner dei cookie (`banner_cookie`), «Accetta» e «Rifiuta» dello stesso peso, la X vale come
   rifiuto, «Preferenze cookie» nel piede lo riapre; la scelta vale sei mesi (linee guida del Garante del 10.6.2021).
   Google (gtag.js) si carica solo dopo «Accetta», mai nel giardino (`SENZA_MISURA`), e riceve l’indirizzo della pagina
-  senza i codici delle email e quattro eventi: `messaggio_contatti`, `iscrizione_notizie` (il «Confermo» dell’email),
-  `progetto_inviato`, `donazione_completata`. La donazione si conta sulla pagina «Grazie» (`dona/grazie/`, fuori dai
+  senza i codici delle email e sei eventi: `messaggio_contatti`, `iscrizione_notizie` (il «Confermo» dell’email),
+  `progetto_inviato`, `donazione_completata`, e dalle pagine che informano `scarica_modulo_dat` (il fac-simile delle DAT, da
+  «La libertà del come» e da Documenti) e `scarica_guida_testamento` (la guida da stampare di «Come fare testamento»,
+  `sorgenti/guida-testamento-olografo.html`, stampata con `sorgenti/stampa-pdf.js`): il collegamento porta `data-conta` e
+  apre il PDF in una scheda nuova, perché l’evento faccia in tempo a partire (Ad Grants, Elias 6.11). La donazione si conta sulla pagina «Grazie» (`dona/grazie/`, fuori dai
   motori), dove il Payment Link di Stripe rimanda dopo il pagamento con `?session_id={CHECKOUT_SESSION_ID}`: la pagina dice
   già che cosa succede alla ricevuta (`{se-ricevute}`), quindi il giorno di `RICEVUTE` il messaggio di Stripe non si cambia
   più. Informativa e cookie ne parlano con `{se-google}`/`{senza-google}`; la regola di sicurezza apre i domini di Google
