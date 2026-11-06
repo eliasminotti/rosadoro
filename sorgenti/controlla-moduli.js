@@ -1379,6 +1379,40 @@ controllo('il biglietto parla a più persone con il «voi», cambia con l’occa
   } finally { await p.chiudi(); }
 });
 
+controllo('il biglietto in ricordo di una persona: il suo nome, una donazione in memoria e non un regalo, e il campo solo per questa occasione', async () => {
+  const p = await apri(REGALO);
+  try {
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await p.page.locator('#mb-ricordo').isHidden(), 'a Natale il campo «In ricordo di» non serve');
+    await p.page.selectOption('#mb-occasione', 'ricordo');
+    await p.page.locator('#mb-ricordo').waitFor({ state: 'visible', timeout: 2000 });
+    assert.ok(await p.page.isChecked('#modulo-biglietto input[name="persone"][value="voi"]'), 'il biglietto in ricordo parla alla famiglia, con il «voi»');
+    let detto = await dettoDalBiglietto(p.page);
+    assert.ok(detto.startsWith('Anteprima del biglietto: In ricordo.'), 'senza un nome il saluto è «In ricordo»: ' + detto);
+    await p.page.fill('#mb-ricordo', 'Maria');
+    await p.page.fill('#mb-per', 'La famiglia Rossi');
+    await p.page.fill('#mb-da', 'Gli amici del coro');
+    await p.page.waitForFunction(s => /Maria/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    detto = await dettoDalBiglietto(p.page);
+    for (const parte of ['In ricordo di Maria', 'Per la famiglia Rossi', 'donazione in memoria', 'pensando a voi', 'Gli amici del coro'])
+      assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
+    assert.ok(!/regalo/i.test(detto), 'un biglietto in ricordo non parla di regalo: ' + detto);
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'donazione-in-ricordo-di-maria.pdf');
+    assert.ok(!/regalo/i.test(pdf.dati.toString('latin1').match(/\/Title \(([^)]*)\)/)[1]), 'il titolo del PDF in ricordo non parla di regalo');
+    await p.page.selectOption('#mb-occasione', 'natale');
+    await p.page.locator('#mb-ricordo').waitFor({ state: 'hidden', timeout: 2000 });
+    await p.page.waitForFunction(s => /Buon Natale/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    detto = await dettoDalBiglietto(p.page);
+    assert.ok(!detto.includes('Maria') && detto.includes('Questo regalo'), 'tornati a Natale il nome della persona ricordata non resta: ' + detto);
+    const jpg = await scarica(p.page, BIGLIETTO + ' button[data-formato="jpg"]');
+    assert.strictEqual(jpg.nome, 'regalo-solidale-per-la-famiglia-rossi.jpg');
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+});
+
 controllo('il biglietto sul telefono: niente sfondamenti, l’anteprima sta nello schermo', async () => {
   for (const schermo of [{ width: 320, height: 640 }, { width: 390, height: 844 }, { width: 1280, height: 800 }]) {
     const p = await apri(REGALO, { schermo });

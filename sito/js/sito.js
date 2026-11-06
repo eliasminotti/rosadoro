@@ -726,6 +726,10 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   var el = modulo.elements;
   var esito = modulo.querySelector('.esito');
   var occasione = el.occasione;
+  /* «In ricordo di una persona»: il campo con il suo nome si vede solo per questa occasione */
+  var ricordo = el.ricordo, etichettaRicordo = modulo.querySelector('label[for="mb-ricordo"]');
+  function opzione() { return occasione.options[occasione.selectedIndex]; }
+  function inRicordo() { return opzione().hasAttribute('data-saluto-nome'); }
 
   /* l’apostrofo tipografico anche in ciò che scrive chi prepara il biglietto (regole di qualità, punto 1) */
   function pulito(v) {
@@ -742,12 +746,13 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   }
   function testi() {
     var voi = scelto('persone') === 'voi';
-    var opzione = occasione.options[occasione.selectedIndex];
+    var o = opzione(), corpo = voi ? 'data-corpo-voi' : 'data-corpo-te';
     var per = minuscola(pulito(el.per.value).replace(/^per\s+/i, ''));
+    var nome = inRicordo() ? pulito(ricordo.value) : '';
     return {
-      saluto: opzione.getAttribute('data-saluto').replace('{te}', voi ? 'voi' : 'te'),
+      saluto: nome ? o.getAttribute('data-saluto-nome').replace('{nome}', nome) : o.getAttribute('data-saluto').replace('{te}', voi ? 'voi' : 'te'),
       per: per ? 'Per ' + per : '',
-      corpo: modulo.getAttribute(voi ? 'data-corpo-voi' : 'data-corpo-te'),
+      corpo: o.getAttribute(corpo) || modulo.getAttribute(corpo),
       messaggio: pulito(el.messaggio.value),
       firma: pulito(el.da.value),
       piede: modulo.getAttribute('data-piede')
@@ -846,10 +851,12 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
     inAttesa = true;
     (window.requestAnimationFrame || setTimeout)(function () { inAttesa = false; disegna(); });
   }
+  function campoRicordo() { ricordo.hidden = etichettaRicordo.hidden = !inRicordo(); }
   occasione.addEventListener('change', function () {
-    var o = occasione.options[occasione.selectedIndex];
-    if (o.getAttribute('data-persone') === 'voi') modulo.querySelector('input[name="persone"][value="voi"]').checked = true;
+    if (opzione().getAttribute('data-persone') === 'voi') modulo.querySelector('input[name="persone"][value="voi"]').checked = true;
+    campoRicordo();
   });
+  campoRicordo();
   modulo.addEventListener('input', ridisegna);
   modulo.addEventListener('change', ridisegna);
   disegna();
@@ -861,13 +868,21 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   var tavole = modulo.querySelectorAll('.immagine img');
   for (var i = 0; i < tavole.length; i++) if (!tavole[i].complete) tavole[i].addEventListener('load', ridisegna);
 
-  /* il nome del file: «regalo-solidale-per-anna.pdf» */
+  /* il nome del file: «regalo-solidale-per-anna.pdf», e in ricordo «donazione-in-ricordo-di-maria.pdf» */
   function nomeFile(estensione) {
-    var per = pulito(el.per.value).replace(/^per\s+/i, '').toLowerCase();
-    if (per.normalize) per = per.normalize('NFD').replace(/[̀-ͯ]/g, '');
-    per = per.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40).replace(/-+$/, '');
+    function corto(v) {
+      v = v.toLowerCase();
+      if (v.normalize) v = v.normalize('NFD').replace(/[̀-ͯ]/g, '');
+      return v.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40).replace(/-+$/, '');
+    }
+    if (inRicordo()) {
+      var nome = corto(pulito(ricordo.value));
+      return opzione().getAttribute('data-file') + (nome ? '-di-' + nome : '') + '.' + estensione;
+    }
+    var per = corto(pulito(el.per.value).replace(/^per\s+/i, ''));
     return 'regalo-solidale' + (per ? '-per-' + per : '') + '.' + estensione;
   }
+  function titolo() { return opzione().getAttribute('data-titolo') || 'Regalo solidale'; }
   function jpeg() {
     disegna();
     return new Promise(function (fatto, errore) {
@@ -896,7 +911,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       aggiungi(jpg);
       aggiungi('\nendstream\nendobj\n');
       oggetto(5, '<< /Length ' + disegno.length + ' >>\nstream\n' + disegno + '\nendstream');
-      oggetto(6, '<< /Title (Regalo solidale) /Producer (larosadoro.org) >>');
+      oggetto(6, '<< /Title (' + titolo() + ') /Producer (larosadoro.org) >>');
       var tabella = scritti, voci = '';
       for (var n = 1; n <= 6; n++) voci += ('000000000' + dove[n]).slice(-10) + ' 00000 n \n';
       aggiungi('xref\n0 7\n0000000000 65535 f \n' + voci + 'trailer\n<< /Size 7 /Root 1 0 R /Info 6 0 R >>\nstartxref\n' + tabella + '\n%%EOF\n');
@@ -933,7 +948,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       manda.hidden = false;
       manda.addEventListener('click', function () {
         jpeg().then(function (b) {
-          return navigator.share({ files: [new File([b], nomeFile('jpg'), { type: 'image/jpeg' })], title: 'Un regalo solidale' });
+          return navigator.share({ files: [new File([b], nomeFile('jpg'), { type: 'image/jpeg' })], title: titolo() });
         }).catch(function () { /* chi chiude la finestra non ha bisogno di avvisi */ });
       });
     }

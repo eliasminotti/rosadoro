@@ -633,8 +633,13 @@ def biglietto(da):
     I testi stanno in BIGLIETTO in testi_pagine.py. Senza JavaScript il modulo resta nascosto e si legge la nota"""
     scelta = BIGLIETTO["scelta"] if NATALE else BIGLIETTO["fuori_stagione"]
     # un’occasione che parla già a più persone (il matrimonio) porta con sé la scelta «a più persone»
-    occasioni = "".join('<option value="%s" data-saluto="%s"%s%s>%s</option>'
-                        % (o[0], sfuggi(o[2]), ' data-persone="voi"' if o[3:] == ("voi",) else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
+    # «In ricordo di una persona» porta con sé il saluto con il nome, la sua frase, il nome del file e il titolo del PDF
+    ricordo = BIGLIETTO["ricordo"]
+    in_ricordo = (' data-saluto-nome="%s" data-corpo-te="%s" data-corpo-voi="%s" data-file="%s" data-titolo="%s"'
+                  % tuple(sfuggi(ricordo[k]) for k in ("saluto", "corpo_te", "corpo_voi", "file", "titolo")))
+    occasioni = "".join('<option value="%s" data-saluto="%s"%s%s%s>%s</option>'
+                        % (o[0], sfuggi(o[2]), ' data-persone="voi"' if o[3:] == ("voi",) else "",
+                           in_ricordo if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
                         for o in BIGLIETTO["occasioni"])
     immagini = "".join('<label class="immagine"><input type="radio" name="immagine" value="%s"%s>'
                        '<img src="%s" alt="" width="%d" height="%d"><span>%s</span></label>'
@@ -646,6 +651,8 @@ def biglietto(da):
 <label for="mb-occasione">L’occasione</label>
 <select id="mb-occasione" name="occasione">%s</select>
 <fieldset class="immagini"><legend>L’immagine</legend>%s</fieldset>
+<label for="mb-ricordo" hidden>%s <span>facoltativo</span></label>
+<input id="mb-ricordo" name="ricordo" type="text" maxlength="60" placeholder="%s" hidden>
 <label for="mb-per">Per chi è <span>facoltativo</span></label>
 <input id="mb-per" name="per" type="text" maxlength="60" placeholder="Per esempio: Anna, oppure i nostri clienti">
 <fieldset class="scelta"><legend>Il biglietto si rivolge</legend>
@@ -661,7 +668,8 @@ def biglietto(da):
 <p class="pulsanti"><button type="submit" class="invia">Scarica il PDF</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
 <p class="nota">Sul biglietto non c’è la cifra. Lo prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]), occasioni, immagini)
+</form>""" % (sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]), occasioni, immagini,
+               sfuggi(ricordo["campo"]), sfuggi(ricordo["segnaposto"]))
 
 def secondo_mensile(testo):
     """con MENSILE resta ciò che sta tra {se-mensile} e {/se-mensile}, senza ciò che sta tra {senza-mensile} e {/senza-mensile};

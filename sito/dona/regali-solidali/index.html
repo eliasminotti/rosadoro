@@ -73,8 +73,10 @@
 <form class="modulo biglietto" id="modulo-biglietto" data-corpo-te="Questo regalo è una donazione alla Fondazione La Rosa d’Oro, fatta pensando a te. Diventerà terra coltivata, cura, accompagnamento." data-corpo-voi="Questo regalo è una donazione alla Fondazione La Rosa d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento." data-piede="Fondazione La Rosa d’Oro ETS · larosadoro.org" hidden>
 <div class="campi">
 <label for="mb-occasione">L’occasione</label>
-<select id="mb-occasione" name="occasione"><option value="natale" data-saluto="Buon Natale" selected>Natale</option><option value="compleanno" data-saluto="Buon compleanno">Un compleanno</option><option value="nascita" data-saluto="Una vita nuova">Una nascita</option><option value="matrimonio" data-saluto="Viva gli sposi" data-persone="voi">Un matrimonio</option><option value="laurea" data-saluto="Congratulazioni">Una laurea</option><option value="anniversario" data-saluto="Buon anniversario">Un anniversario</option><option value="pensiero" data-saluto="Un pensiero per {te}">Senza un’occasione</option></select>
+<select id="mb-occasione" name="occasione"><option value="natale" data-saluto="Buon Natale" selected>Natale</option><option value="compleanno" data-saluto="Buon compleanno">Un compleanno</option><option value="nascita" data-saluto="Una vita nuova">Una nascita</option><option value="matrimonio" data-saluto="Viva gli sposi" data-persone="voi">Un matrimonio</option><option value="laurea" data-saluto="Congratulazioni">Una laurea</option><option value="anniversario" data-saluto="Buon anniversario">Un anniversario</option><option value="san-valentino" data-saluto="Buon San Valentino">San Valentino</option><option value="festa-papa" data-saluto="Buona festa del papà">La festa del papà</option><option value="festa-mamma" data-saluto="Buona festa della mamma">La festa della mamma</option><option value="ricordo" data-saluto="In ricordo" data-persone="voi" data-saluto-nome="In ricordo di {nome}" data-corpo-te="Questa è una donazione in memoria alla Fondazione La Rosa d’Oro, fatta pensando a te. Diventerà terra coltivata, cura, accompagnamento." data-corpo-voi="Questa è una donazione in memoria alla Fondazione La Rosa d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento." data-file="donazione-in-ricordo" data-titolo="Donazione in memoria">In ricordo di una persona</option><option value="pensiero" data-saluto="Un pensiero per {te}">Senza un’occasione</option></select>
 <fieldset class="immagini"><legend>L’immagine</legend><label class="immagine"><input type="radio" name="immagine" value="candela" checked><img src="../../img/azione-candela.svg" alt="" width="200" height="240"><span>La candela</span></label><label class="immagine"><input type="radio" name="immagine" value="albero"><img src="../../img/azione-albero.svg" alt="" width="200" height="240"><span>L’albero</span></label><label class="immagine"><input type="radio" name="immagine" value="fiore"><img src="../../img/azione-fiore.svg" alt="" width="200" height="240"><span>Il fiore</span></label><label class="immagine"><input type="radio" name="immagine" value="rosa"><img src="../../img/tavola-rosa.svg" alt="" width="240" height="240"><span>La rosa</span></label></fieldset>
+<label for="mb-ricordo" hidden>In ricordo di <span>facoltativo</span></label>
+<input id="mb-ricordo" name="ricordo" type="text" maxlength="60" placeholder="Il nome della persona che ricordi" hidden>
 <label for="mb-per">Per chi è <span>facoltativo</span></label>
 <input id="mb-per" name="per" type="text" maxlength="60" placeholder="Per esempio: Anna, oppure i nostri clienti">
 <fieldset class="scelta"><legend>Il biglietto si rivolge</legend>
@@ -100,7 +102,8 @@
 <h3>La ricevuta</h3>
 <p>La ricevuta per la dichiarazione dei redditi è di chi dona, non di chi riceve il biglietto. Se doni con la carta o con PayPal ti arriva per email 37 giorni dopo, all’indirizzo che scrivi sulla pagina di Stripe. Se doni con il bonifico e ti serve una ricevuta della Fondazione, <a class="link" href="/contatti/">scrivici</a> con nome, indirizzo e codice fiscale. Detrazioni e deduzioni sono spiegate nella pagina <a class="link" href="/dona/">Dona</a>.</p>
 <h3>Per ogni occasione</h3>
-<p>Il biglietto va bene tutto l’anno: per un compleanno, una nascita, un matrimonio, una laurea, un anniversario, o senza un’occasione. Per ricordare una persona che non c’è più ci sono il <a class="link" href="/in-memoria/fondo-di-memoria/">fondo di memoria</a> e il <a class="link" href="/in-memoria/giardino-dei-ricordi/">giardino dei ricordi</a>.</p>
+<p>Il biglietto va bene tutto l’anno: per un compleanno, una nascita, un matrimonio, una laurea, un anniversario, San Valentino, la festa della mamma o del papà, o senza un’occasione.</p>
+<p>Si può fare anche in ricordo di una persona che non c’è più: scegli «In ricordo di una persona», scrivi il suo nome e dai il biglietto alla sua famiglia. Per un ricordo che resta nel tempo ci sono il <a class="link" href="/in-memoria/fondo-di-memoria/">fondo di memoria</a> e il <a class="link" href="/in-memoria/giardino-dei-ricordi/">giardino dei ricordi</a>.</p>
 </article></div></main>
 <section class="fascia-notizie" id="notizie" aria-labelledby="notizie-titolo">
   <div class="pagina pie-notizie">
@@ -137,6 +140,6 @@
   </div>
 </footer>
 <nav class="barra-fissa" aria-label="Azioni principali"><a class="b-chi-siamo" href="/chi-siamo/" aria-label="Chi siamo">Chi siamo</a><a class="b-news" href="/news/" aria-label="News">News</a><a class="b-dona dona" href="/dona/" aria-label="Dona ora">Dona ora</a><a class="b-cinque-per-mille" href="/cinque-per-mille/" aria-label="5 per mille">5 per mille</a><a class="b-lavora-con-noi" href="/lavora-con-noi/" aria-label="Lavora con noi">Lavora con noi</a></nav>
-<script src="../../js/sito.js?v=7f260ec8"></script>
+<script src="../../js/sito.js?v=9c7e6a55"></script>
 </body>
 </html>

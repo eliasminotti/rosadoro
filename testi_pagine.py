@@ -899,7 +899,7 @@ TESTI["news"] = dict(
     corpo="""
 <p>Qui trovi le novità della Fondazione, una sotto l’altra con la data, la più recente in alto: gli incontri, i progetti che nascono, i passi che facciamo.</p>
 <h3>A Natale, un regalo solidale</h3>
-<p><em>20 novembre 2026.</em> Quest’anno, sotto l’albero, puoi mettere una donazione. Doni alla Fondazione pensando a una persona e sul sito prepari il biglietto con il suo nome, da stampare o da mandare per email. Anche le aziende possono farlo, al posto dei regali ai clienti. Come si fa è nella pagina dei <a class="link" href="{→dona/regali-solidali}">regali solidali</a>.</p>
+<p><em>7 novembre 2026.</em> Quest’anno, sotto l’albero, puoi mettere una donazione. Doni alla Fondazione pensando a una persona e sul sito prepari il biglietto con il suo nome, da stampare o da mandare per email. Anche le aziende possono farlo, al posto dei regali ai clienti. Come si fa è nella pagina dei <a class="link" href="{→dona/regali-solidali}">regali solidali</a>.</p>
 <h3>Il sito della Fondazione è online</h3>
 <p><em>26 ottobre 2026.</em> Da oggi il sito della Fondazione La Rosa d’Oro è aperto a tutti. Racconta chi siamo, che cosa la Fondazione è costituita per fare, nel lavoro della terra, nella cura delle persone e nell’accompagnamento al fine vita, e che cosa stiamo facendo. Da qui puoi <a class="link" href="{→contatti}">scriverci</a>, <a class="link" href="{→progetti/presenta-il-tuo-progetto}">presentarci un progetto</a> e lasciare una dedica nel <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>. Le novità arriveranno su questa pagina, una alla volta.</p>
 <h3>Quietude Italia 2027: aperte le iscrizioni</h3>
@@ -1180,7 +1180,8 @@ TESTI["dona/regali-solidali"] = dict(
 <h3>La ricevuta</h3>
 <p>La ricevuta per la dichiarazione dei redditi è di chi dona, non di chi riceve il biglietto. {se-ricevute}Se doni con la carta o con PayPal ti arriva per email 37 giorni dopo, all’indirizzo che scrivi sulla pagina di Stripe. Se doni con il bonifico e ti serve{/se-ricevute}{senza-ricevute}Se ti serve{/senza-ricevute} una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale. Detrazioni e deduzioni sono spiegate nella pagina <a class="link" href="{→dona}">Dona</a>.</p>
 <h3>Per ogni occasione</h3>
-<p>Il biglietto va bene tutto l’anno: per un compleanno, una nascita, un matrimonio, una laurea, un anniversario, o senza un’occasione. Per ricordare una persona che non c’è più ci sono il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a> e il <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>.</p>
+<p>Il biglietto va bene tutto l’anno: per un compleanno, una nascita, un matrimonio, una laurea, un anniversario, San Valentino, la festa della mamma o del papà, o senza un’occasione.</p>
+<p>Si può fare anche in ricordo di una persona che non c’è più: scegli «In ricordo di una persona», scrivi il suo nome e dai il biglietto alla sua famiglia. Per un ricordo che resta nel tempo ci sono il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a> e il <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>.</p>
 """)
 
 # I testi del biglietto del regalo solidale (bozza di Claude del 6.11). Il biglietto non dice mai la cifra.
@@ -1197,7 +1198,23 @@ BIGLIETTO = dict(
         ("matrimonio", "Un matrimonio", "Viva gli sposi", "voi"),     # il quarto: il biglietto si rivolge già «a più persone»
         ("laurea", "Una laurea", "Congratulazioni"),
         ("anniversario", "Un anniversario", "Buon anniversario"),
+        ("san-valentino", "San Valentino", "Buon San Valentino"),
+        ("festa-papa", "La festa del papà", "Buona festa del papà"),
+        ("festa-mamma", "La festa della mamma", "Buona festa della mamma"),
+        ("ricordo", "In ricordo di una persona", "In ricordo", "voi"),
         ("pensiero", "Senza un’occasione", "Un pensiero per {te}"),
+    ),
+    # «In ricordo di una persona» (Elias, 6.11): il biglietto per la famiglia, con il nome di chi si ricorda; non è un regalo
+    # ma una donazione in memoria, e lo dicono anche la frase, il nome del file e il titolo del PDF
+    ricordo=dict(
+        occasione="ricordo",
+        campo="In ricordo di",
+        segnaposto="Il nome della persona che ricordi",
+        saluto="In ricordo di {nome}",
+        corpo_te="Questa è una donazione in memoria alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a te. Diventerà terra coltivata, cura, accompagnamento.",
+        corpo_voi="Questa è una donazione in memoria alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento.",
+        file="donazione-in-ricordo",
+        titolo="Donazione in memoria",
     ),
     immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
     corpo_te="Questo regalo è una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a te. Diventerà terra coltivata, cura, accompagnamento.",
