@@ -13,7 +13,7 @@ pronta. Serve perché un sito di cinquanta pagine senza database ha lo stesso
 header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 """
 import os, re, shutil, datetime, subprocess, hashlib, base64
-from testi_pagine import TESTI, DESCRIZIONI, TITOLI, NOTIZIE, BIGLIETTO
+from testi_pagine import TESTI, DESCRIZIONI, TITOLI, NOTIZIE, BIGLIETTO, PERGAMENA
 import json
 
 # --------------------------------------------------------------------------
@@ -249,6 +249,7 @@ SERVIZIO = [
     # i regali solidali (Elias, 6.11.2026): un altro modo di donare, dentro Dona e fuori dal menu principale; la pagina è fissa
     # e non si spegne mai, così tiene la sua posizione su Google da un anno all’altro. Fuori stagione cambia il testo (NATALE)
     dict(cartella="dona/regali-solidali", voce="Regali solidali", titolo="Regali solidali", occhiello="Donazioni", hero="avorio", dove=""),
+    dict(cartella="dona/bomboniere-solidali", voce="Bomboniere solidali", titolo="Bomboniere solidali", occhiello="Donazioni", hero="avorio", dove=""),
     dict(cartella="partnership", voce="Partnership e siti amici", titolo="Partnership e siti amici", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="documenti", voce="Documenti", titolo="Documenti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="contatti", voce="Contatti", titolo="Contatti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
@@ -606,17 +607,23 @@ def gettoni(html, da):
         html = html.replace("{invito-notizie}", invito_notizie(da))
     if "{biglietto}" in html:
         html = html.replace("{biglietto}", biglietto(da))
+    if "{pergamena}" in html:
+        html = html.replace("{pergamena}", pergamena(da))
+    if "{pergamena-ricordo}" in html:
+        html = html.replace("{pergamena-ricordo}", pergamena(da, in_ricordo=True))
     # la dedica del giardino va allo stesso script del foglio; senza FOGLIO sito.js apre la posta
     html = html.replace("{foglio}", sfuggi(FOGLIO))
     return secondo_natale(secondo_google(secondo_turnstile(secondo_ricevute(secondo_mensile(secondo_stripe(html))))))
 
 SEGNO_SITO = "?locale=it&client_reference_id=sito-dona"   # la pagina di Stripe in italiano, e le donazioni del sito separate da quelle di Lux
 SEGNO_REGALO = "?locale=it&client_reference_id=sito-regalo"   # lo stesso link, dalla pagina dei regali solidali: nel conto si contano a parte
+SEGNO_BOMBONIERA = "?locale=it&client_reference_id=sito-bomboniera"   # e dalla pagina delle bomboniere solidali (7.11)
 
 def secondo_stripe(testo):
     """ciò che sta tra {se-stripe} e {/se-stripe} resta solo con STRIPE; {stripe} è l'indirizzo del pagamento con la carta"""
     testo = re.sub(r"\{se-stripe\}(.*?)\{/se-stripe\}", lambda m: m.group(1) if STRIPE else "", testo, flags=re.S)
     testo = testo.replace("{stripe-regalo}", sfuggi(STRIPE + SEGNO_REGALO) if STRIPE else "")
+    testo = testo.replace("{stripe-bomboniera}", sfuggi(STRIPE + SEGNO_BOMBONIERA) if STRIPE else "")
     return testo.replace("{stripe}", sfuggi(STRIPE + SEGNO_SITO) if STRIPE else "")
 
 def secondo_natale(testo):
@@ -624,8 +631,16 @@ def secondo_natale(testo):
     testo = re.sub(r"\{se-natale\}(.*?)\{/se-natale\}", lambda m: m.group(1) if NATALE else "", testo, flags=re.S)
     return re.sub(r"\{senza-natale\}(.*?)\{/senza-natale\}", lambda m: "" if NATALE else m.group(1), testo, flags=re.S)
 
-IMMAGINI_BIGLIETTO = {"candela": ("azione-candela.svg", 200, 240), "albero": ("azione-albero.svg", 200, 240),   # le tavole incise del biglietto,
-                      "fiore": ("azione-fiore.svg", 200, 240), "rosa": ("tavola-rosa.svg", 240, 240)}         # con le loro proporzioni
+IMMAGINI_BIGLIETTO = {"candela": ("azione-candela.svg", 200, 240), "albero": ("azione-albero.svg", 200, 240),   # le tavole incise del biglietto
+                      "fiore": ("azione-fiore.svg", 200, 240), "rosa": ("tavola-rosa.svg", 240, 240),          # e della pergamena,
+                      "clessidra": ("azione-clessidra.svg", 200, 240)}                                       # con le loro proporzioni
+
+def scelta_immagini(da, immagini):
+    """le tavole fra cui si sceglie, nel biglietto e nella pergamena: la prima è già scelta"""
+    return "".join('<label class="immagine"><input type="radio" name="immagine" value="%s"%s>'
+                   '<img src="%s" alt="" width="%d" height="%d"><span>%s</span></label>'
+                   % ((v, " checked" if i == 0 else "", risorsa(da, "img/" + IMMAGINI_BIGLIETTO[v][0])) + IMMAGINI_BIGLIETTO[v][1:] + (sfuggi(voce),))
+                   for i, (v, voce) in enumerate(immagini))
 
 def biglietto(da):
     """il biglietto dei regali solidali (Elias, 6.11.2026): l’occasione, l’immagine, i nomi e due righe; sito.js lo disegna
@@ -641,10 +656,7 @@ def biglietto(da):
                         % (o[0], sfuggi(o[2]), ' data-persone="voi"' if o[3:] == ("voi",) else "",
                            in_ricordo if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
                         for o in BIGLIETTO["occasioni"])
-    immagini = "".join('<label class="immagine"><input type="radio" name="immagine" value="%s"%s>'
-                       '<img src="%s" alt="" width="%d" height="%d"><span>%s</span></label>'
-                       % ((v, " checked" if i == 0 else "", risorsa(da, "img/" + IMMAGINI_BIGLIETTO[v][0])) + IMMAGINI_BIGLIETTO[v][1:] + (sfuggi(voce),))
-                       for i, (v, voce) in enumerate(BIGLIETTO["immagini"]))
+    immagini = scelta_immagini(da, BIGLIETTO["immagini"])
     return """<p class="nota" id="biglietto-senza-js">Per preparare il biglietto serve un browser con JavaScript acceso.</p>
 <form class="modulo biglietto" id="modulo-biglietto" data-corpo-te="%s" data-corpo-voi="%s" data-piede="%s" hidden>
 <div class="campi">
@@ -670,6 +682,37 @@ def biglietto(da):
 <p class="esito" role="status" tabindex="-1" hidden></p>
 </form>""" % (sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]), occasioni, immagini,
                sfuggi(ricordo["campo"]), sfuggi(ricordo["segnaposto"]))
+
+def pergamena(da, in_ricordo=False):
+    """la pergamena delle bomboniere solidali (7.11.2026) e, con in_ricordo, quella al posto dei fiori nella pagina dei funerali:
+    l’occasione, l’immagine, i nomi, la data e due righe. sito.js la disegna come il biglietto e la fa scaricare in PDF, quattro
+    per foglio A4 da tagliare, o in immagine. Niente parte dal sito: i nomi restano nel browser. I testi stanno in PERGAMENA in
+    testi_pagine.py; con un’occasione sola (il funerale) la scelta dell’occasione resta nascosta"""
+    p = dict(PERGAMENA, **PERGAMENA["ricordo"]) if in_ricordo else PERGAMENA
+    occasioni = (p["occasione"],) if in_ricordo else p["occasioni"]
+    scelta = occasioni[0][0] if in_ricordo else p["scelta"]
+    nascosta = " hidden" if len(occasioni) == 1 else ""
+    voci = "".join('<option value="%s" data-riga="%s"%s>%s</option>' % (v, sfuggi(riga), " selected" if v == scelta else "", sfuggi(voce))
+                   for v, voce, riga in occasioni)
+    return """<p class="nota" id="pergamena-senza-js">Per preparare la pergamena serve un browser con JavaScript acceso.</p>
+<form class="modulo biglietto pergamena" id="modulo-pergamena" data-corpo="%s" data-file="%s" data-titolo="%s" data-piede="%s" hidden>
+<div class="campi">
+<label for="mp-occasione"%s>L’occasione</label>
+<select id="mp-occasione" name="occasione"%s>%s</select>
+<fieldset class="immagini"><legend>L’immagine</legend>%s</fieldset>
+<label for="mp-nomi">%s <span>facoltativo</span></label>
+<input id="mp-nomi" name="nomi" type="text" maxlength="60" placeholder="%s">
+<label for="mp-data">%s <span>facoltativo</span></label>
+<input id="mp-data" name="data" type="text" maxlength="40" placeholder="%s">
+<label for="mp-messaggio">Due righe vostre <span>facoltativo</span></label>
+<textarea id="mp-messaggio" name="messaggio" class="breve" rows="3" maxlength="120"></textarea>
+</div>
+<figure class="anteprima"><canvas width="1800" height="1269" role="img" aria-label=""></canvas></figure>
+<p class="pulsanti"><button type="submit" class="invia">Scarica il PDF da stampare</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
+<p class="nota">Nel PDF ci sono quattro pergamene per foglio A4, da tagliare lungo le linee grigie. Sulla pergamena non c’è la cifra. La prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>""" % (sfuggi(p["corpo"]), sfuggi(p["file"]), sfuggi(p["titolo"]), sfuggi(p["piede"]), nascosta, nascosta, voci,
+               scelta_immagini(da, p["immagini"]), sfuggi(p["nomi"]), sfuggi(p["segnaposto_nomi"]), sfuggi(p["data"]), sfuggi(p["segnaposto_data"]))
 
 def secondo_mensile(testo):
     """con MENSILE resta ciò che sta tra {se-mensile} e {/se-mensile}, senza ciò che sta tra {senza-mensile} e {/senza-mensile};

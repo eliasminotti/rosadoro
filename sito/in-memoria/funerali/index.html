@@ -65,6 +65,26 @@
   <a class="azione" href="/dona/"><img src="../../img/azione-fiore.svg" alt="Un fiore che sboccia, inciso" width="200" height="240"><div><h4>Fai sbocciare un fiore</h4><p>Sostieni progetti che riguardano il sociale</p></div></a>
   <a class="azione" href="/dona/"><img src="../../img/azione-clessidra.svg" alt="La clessidra alata, incisa" width="200" height="240"><div><h4>Gira la clessidra alata</h4><p>Sostieni progetti che riguardano il fine vita</p></div></a>
 </div>
+<h3 id="pergamena">Una pergamena al posto dei fiori</h3>
+<p>Anche la famiglia può scegliere una donazione al posto dei fiori, e dare a chi viene a salutare una pergamena in ricordo, con il nome di chi non c’è più. La prepari qui sotto, la stampi a casa, quattro per foglio, e la tagli lungo le linee grigie. La donazione si fa dalla pagina <a class="link" href="/dona/">Dona</a>.</p>
+<p class="nota" id="pergamena-senza-js">Per preparare la pergamena serve un browser con JavaScript acceso.</p>
+<form class="modulo biglietto pergamena" id="modulo-pergamena" data-corpo="Al posto dei fiori, una donazione alla Fondazione La Rosa d’Oro in sua memoria. Grazie di essere qui a ricordare insieme." data-file="pergamena-in-ricordo-di-" data-titolo="Pergamena in ricordo" data-piede="Fondazione La Rosa d’Oro ETS · larosadoro.org" hidden>
+<div class="campi">
+<label for="mp-occasione" hidden>L’occasione</label>
+<select id="mp-occasione" name="occasione" hidden><option value="funerale" data-riga="In ricordo" selected>Un funerale, al posto dei fiori</option></select>
+<fieldset class="immagini"><legend>L’immagine</legend><label class="immagine"><input type="radio" name="immagine" value="candela" checked><img src="../../img/azione-candela.svg" alt="" width="200" height="240"><span>La candela</span></label><label class="immagine"><input type="radio" name="immagine" value="albero"><img src="../../img/azione-albero.svg" alt="" width="200" height="240"><span>L’albero</span></label><label class="immagine"><input type="radio" name="immagine" value="fiore"><img src="../../img/azione-fiore.svg" alt="" width="200" height="240"><span>Il fiore</span></label><label class="immagine"><input type="radio" name="immagine" value="clessidra"><img src="../../img/azione-clessidra.svg" alt="" width="200" height="240"><span>La clessidra</span></label></fieldset>
+<label for="mp-nomi">Il nome <span>facoltativo</span></label>
+<input id="mp-nomi" name="nomi" type="text" maxlength="60" placeholder="Il nome della persona che ricordate">
+<label for="mp-data">Gli anni, o il giorno <span>facoltativo</span></label>
+<input id="mp-data" name="data" type="text" maxlength="40" placeholder="Per esempio: 1940 – 2026">
+<label for="mp-messaggio">Due righe vostre <span>facoltativo</span></label>
+<textarea id="mp-messaggio" name="messaggio" class="breve" rows="3" maxlength="120"></textarea>
+</div>
+<figure class="anteprima"><canvas width="1800" height="1269" role="img" aria-label=""></canvas></figure>
+<p class="pulsanti"><button type="submit" class="invia">Scarica il PDF da stampare</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
+<p class="nota">Nel PDF ci sono quattro pergamene per foglio A4, da tagliare lungo le linee grigie. Sulla pergamena non c’è la cifra. La prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
+<p class="esito" role="status" tabindex="-1" hidden></p>
+</form>
 <p>Grazie ai ricordi, chi non c’è più rimane presente nella vita dei suoi cari: ricordarlo è un modo naturale per mantenere vivo il legame e, gradualmente, accettare l’assenza. E talvolta, per sostenere la famiglia, serve un gesto concreto.</p>
 <h3>Un gesto concreto per la famiglia</h3>
 <p>Vuoi essere tu a coprire le spese del funerale di un amico? O vorresti chiedere aiuto senza imbarazzo, permettendo a chi desidera sostenerti — ma non sa come — di farlo? Contattaci: apriremo noi la raccolta al posto tuo, per il funerale o per gli <a class="link" href="/in-memoria/svuota-e-sorridi/">Svuota e Sorridi</a>.</p>
@@ -110,6 +130,6 @@
   </div>
 </footer>
 <nav class="barra-fissa" aria-label="Azioni principali"><a class="b-chi-siamo" href="/chi-siamo/" aria-label="Chi siamo">Chi siamo</a><a class="b-news" href="/news/" aria-label="News">News</a><a class="b-dona dona" href="/dona/" aria-label="Dona ora">Dona ora</a><a class="b-cinque-per-mille" href="/cinque-per-mille/" aria-label="5 per mille">5 per mille</a><a class="b-lavora-con-noi" href="/lavora-con-noi/" aria-label="Lavora con noi">Lavora con noi</a></nav>
-<script src="../../js/sito.js?v=9c7e6a55"></script>
+<script src="../../js/sito.js?v=480bbc8d"></script>
 </body>
 </html>
