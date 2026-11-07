@@ -1392,7 +1392,7 @@ controllo('il biglietto in ricordo di una persona: il suo nome, una donazione in
     await p.page.fill('#mb-ricordo', 'Maria');
     await p.page.fill('#mb-per', 'La famiglia Rossi');
     await p.page.fill('#mb-da', 'Gli amici del coro');
-    await p.page.waitForFunction(s => /Maria/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    await p.page.waitForFunction(s => /Gli amici del coro/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
     detto = await dettoDalBiglietto(p.page);
     for (const parte of ['In ricordo di Maria', 'Per la famiglia Rossi', 'donazione in memoria', 'pensando a voi', 'Gli amici del coro'])
       assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
@@ -1411,6 +1411,113 @@ controllo('il biglietto in ricordo di una persona: il suo nome, una donazione in
     assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
     assert.deepStrictEqual(p.errori, []);
   } finally { await p.chiudi(); }
+});
+
+/* ---- la pergamena delle bomboniere solidali, e quella in ricordo nella pagina dei funerali: quattro per foglio A4 ---- */
+
+const BOMBONIERE = 'dona/bomboniere-solidali/index.html';
+const FUNERALI = 'in-memoria/funerali/index.html';
+const PERGAMENA = '#modulo-pergamena';
+
+async function dettoDallaPergamena(page) {
+  await page.waitForFunction(s => (document.querySelector(s + ' canvas').getAttribute('aria-label') || '').length > 20, PERGAMENA);
+  return (await page.getAttribute(PERGAMENA + ' canvas', 'aria-label')).replace(/\s+/g, ' ');
+}
+
+/* un PDF A4 orizzontale con la stessa pergamena quattro volte, e la tabella interna che porta agli oggetti giusti */
+function pdfDaQuattro(dati) {
+  const testo = dati.toString('latin1');
+  assert.ok(testo.startsWith('%PDF-1.') && testo.trimEnd().endsWith('%%EOF'), 'non è un PDF intero');
+  assert.ok(testo.includes('/MediaBox [0 0 841.89 595.28]'), 'il foglio non è un A4 orizzontale');
+  assert.strictEqual((testo.match(/\/Im1 Do/g) || []).length, 4, 'nel foglio non ci sono quattro pergamene');
+  const [, largo, alto] = testo.match(/\/Width (\d+) \/Height (\d+)/).map(Number);
+  assert.ok(largo >= 1600 && Math.abs(largo / alto - 210 / 148) < 0.01, 'l’immagine è troppo piccola o non ha le proporzioni di un A6: ' + largo + '×' + alto);
+  const inizio = testo.indexOf('stream\n', testo.indexOf('/Subtype /Image')) + 7;
+  assert.strictEqual(dati.readUInt16BE(inizio), 0xFFD8, 'l’immagine nel PDF non è un JPEG');
+  const voci = testo.slice(testo.lastIndexOf('\nxref\n') + 1).split('\n').slice(3, 9);
+  for (const [n, voce] of voci.entries())
+    assert.ok(testo.startsWith((n + 1) + ' 0 obj', Number(voce.slice(0, 10))), 'la tabella del PDF non porta all’oggetto ' + (n + 1));
+  return testo;
+}
+
+controllo('le bomboniere solidali: la pergamena con i nomi e la data, quattro per foglio A4, senza mandare niente a nessuno', async () => {
+  const p = await apri(BOMBONIERE);
+  try {
+    await p.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await p.page.locator('#pergamena-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
+    assert.strictEqual(await p.page.inputValue('#mp-occasione'), 'matrimonio', 'l’occasione già scelta è il matrimonio');
+    assert.ok(!(await p.page.$$eval('#mp-occasione option', o => o.map(x => x.value))).includes('funerale'), 'il funerale non sta fra le bomboniere');
+    assert.ok(await p.page.$('a[href*="client_reference_id=sito-bomboniera"]'), 'il pulsante per donare porta a Stripe con il segno «sito-bomboniera»');
+    await p.page.fill('#mp-nomi', 'Chiara e Luca');
+    await p.page.fill('#mp-data', '12 giugno 2027');
+    await p.page.fill('#mp-messaggio', "Grazie di essere con noi");
+    await p.page.waitForFunction(s => /Grazie di essere con noi/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
+    let detto = await dettoDallaPergamena(p.page);
+    for (const parte of ['Chiara e Luca', 'Sposi · 12 giugno 2027', 'Al posto della bomboniera', 'Grazie di essere con noi', 'Fondazione La Rosa d’Oro'])
+      assert.ok(detto.includes(parte), 'la pergamena non dice «' + parte + '»: ' + detto);
+    assert.ok(!/\d+\s*(euro|€)/.test(detto) && !/regalo/i.test(detto), 'sulla pergamena non vanno la cifra né il regalo: ' + detto);
+
+    const pdf = await scarica(p.page, PERGAMENA + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'pergamena-solidale-chiara-e-luca.pdf');
+    pdfDaQuattro(pdf.dati);
+    const jpg = await scarica(p.page, PERGAMENA + ' button[data-formato="jpg"]');
+    assert.strictEqual(jpg.nome, 'pergamena-solidale-chiara-e-luca.jpg');
+    assert.strictEqual(jpg.dati.readUInt16BE(0), 0xFFD8, 'l’immagine non è un JPEG');
+
+    await p.page.selectOption('#mp-occasione', 'battesimo');
+    await p.page.fill('#mp-nomi', 'Sofia');
+    await p.page.waitForFunction(s => /Sofia/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
+    detto = await dettoDallaPergamena(p.page);
+    assert.ok(detto.includes('Il battesimo · 12 giugno 2027') && !detto.includes('Sposi'), detto);
+
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), [], 'la pergamena viola la regola di sicurezza della pagina');
+  } finally { await p.chiudi(); }
+});
+
+controllo('la pergamena al posto dei fiori, nella pagina dei funerali: il nome di chi si ricorda, mai bomboniere né feste', async () => {
+  const p = await apri(FUNERALI);
+  try {
+    await p.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
+    assert.strictEqual(await p.page.inputValue('#mp-occasione'), 'funerale');
+    assert.ok(await p.page.locator('#mp-occasione').isHidden(), 'con un’occasione sola la scelta dell’occasione non serve');
+    let detto = await dettoDallaPergamena(p.page);
+    assert.ok(detto.startsWith('Anteprima della pergamena: In ricordo.'), 'senza un nome la pergamena dice «In ricordo»: ' + detto);
+    await p.page.fill('#mp-nomi', 'Maria Bianchi');
+    await p.page.fill('#mp-data', '1940 – 2026');
+    await p.page.waitForFunction(s => /1940/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
+    detto = await dettoDallaPergamena(p.page);
+    for (const parte of ['Maria Bianchi', 'In ricordo · 1940 – 2026', 'Al posto dei fiori', 'in sua memoria'])
+      assert.ok(detto.includes(parte), 'la pergamena non dice «' + parte + '»: ' + detto);
+    assert.ok(!/bombonier|regalo|festa|festeggi/i.test(detto), 'la pergamena in ricordo non parla di feste: ' + detto);
+    const pdf = await scarica(p.page, PERGAMENA + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'pergamena-in-ricordo-di-maria-bianchi.pdf');
+    const testo = pdfDaQuattro(pdf.dati);
+    assert.ok(!/bombonier|regalo/i.test(testo.match(/\/Title \(([^)]*)\)/)[1]), 'il titolo del PDF in ricordo non parla di bomboniere');
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), [], 'la pergamena viola la regola di sicurezza della pagina');
+  } finally { await p.chiudi(); }
+});
+
+controllo('la pergamena sul telefono: niente sfondamenti, l’anteprima sta nello schermo', async () => {
+  for (const pagina of [BOMBONIERE, FUNERALI]) {
+    for (const schermo of [{ width: 320, height: 640 }, { width: 390, height: 844 }]) {
+      const p = await apri(pagina, { schermo });
+      try {
+        await p.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
+        const m = await p.page.evaluate(s => ({
+          largo: document.documentElement.scrollWidth,
+          tela: document.querySelector(s + ' canvas').getBoundingClientRect().width,
+        }), PERGAMENA);
+        assert.ok(m.largo <= schermo.width, pagina + ', ' + schermo.width + ' px: la pagina si allarga a ' + m.largo);
+        assert.ok(m.tela > 200 && m.tela <= schermo.width, pagina + ', ' + schermo.width + ' px: l’anteprima è larga ' + m.tela);
+      } finally { await p.chiudi(); }
+    }
+  }
 });
 
 controllo('il biglietto sul telefono: niente sfondamenti, l’anteprima sta nello schermo', async () => {
