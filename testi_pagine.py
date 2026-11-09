@@ -522,7 +522,7 @@ TESTI["lasciti/dopo-di-noi"] = dict(
 TESTI["privacy"] = dict(
     sotto="Come trattiamo i tuoi dati, in parole semplici.",
     corpo="""
-<p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, ne chiedi le notizie, dedichi un ricordo, ci presenti un progetto, ci mandi la tua candidatura o fai una donazione; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
+<p>Questa pagina spiega quali dati raccogliamo quando visiti il sito, scrivi alla Fondazione, ne chiedi le notizie, dedichi un ricordo, ci presenti un progetto, ci mandi la tua candidatura o fai una donazione, e quali usiamo quando siamo noi a scriverti per primi; perché li raccogliamo, per quanto tempo li teniamo e quali sono i tuoi diritti. È scritta per essere letta, non solo per essere pubblicata: se qualcosa non è chiaro, scrivici.</p>
 
 <h3>Chi è il titolare</h3>
 <p>Il titolare del trattamento è la <strong>Fondazione La Rosa d'Oro ETS</strong>, con sede in via Bianca di Savoia 17, 20122 Milano, iscritta al Registro unico nazionale del Terzo settore (RUNTS, sezione g, rep. n. 170120), codice fiscale e partita IVA 14629350969. Per ogni domanda sui tuoi dati scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>. La Fondazione non ha nominato un responsabile della protezione dei dati: la legge non lo richiede per un ente con trattamenti di questa dimensione.</p>
@@ -560,6 +560,10 @@ TESTI["privacy"] = dict(
 <h3>Quando ti scriviamo noi</h3>
 <p>A chi ha donato possiamo scrivere per ringraziare e per rendere conto di come è stato usato ciò che ha donato. In quell'occasione ti chiediamo se vuoi ricevere anche le notizie sulle attività della Fondazione: te le mandiamo solo se rispondi di sì, e puoi ritirare il consenso in ogni momento, dal collegamento in fondo a ogni email delle notizie o con una riga di risposta.</p>
 
+<h3>Quando ti scriviamo per primi</h3>
+<p>Ad alcuni studi professionali, imprese, enti e associazioni scriviamo una lettera per proporre una collaborazione: indicazioni reciproche, incontri, progetti comuni. Usiamo soltanto dati professionali pubblici, cioè il nome, il ruolo e l’indirizzo dello studio o della sede, presi dal suo sito, da un albo o da un registro pubblico, e nella lettera diciamo da dove li abbiamo presi. Li teniamo in un foglio di lavoro della Fondazione, su Google Workspace, che vedono soltanto le persone incaricate. La base giuridica è il nostro legittimo interesse a far conoscere la Fondazione a chi lavora negli stessi ambiti (articolo 6, paragrafo 1, lettera f, del GDPR): lo abbiamo valutato per iscritto, e la valutazione si può chiedere alla segreteria.</p>
+<p>Scriviamo una sola volta, per posta. Non usiamo questi dati per chiedere donazioni, non li mettiamo in liste di invio e non li diamo a nessuno. Se non rispondi, li cancelliamo dopo dodici mesi. Puoi opporti in ogni momento con una riga a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>: cancelliamo i dati e conserviamo soltanto il nome e la data della richiesta, per non scriverti più. Per email scriviamo solo a chi ce lo ha chiesto o ci ha scritto per primo, e alle redazioni all’indirizzo che pubblicano per la stampa.</p>
+
 <h3>Chi tratta i dati insieme a noi</h3>
 <p>Oltre alle persone della Fondazione, i tuoi dati sono trattati da alcuni fornitori, ciascuno per la sua parte:</p>
 <ul>
@@ -584,6 +588,7 @@ TESTI["privacy"] = dict(
 {/se-google}<li>messaggi del modulo dei Contatti e della posta: fino a tre anni dalla nostra risposta, e più a lungo solo se ne nasce un rapporto con la Fondazione;</li>
 <li>progetti proposti: per la durata della valutazione e fino a tre anni dalla nostra risposta; se il progetto entra tra quelli sostenuti, per la durata del rapporto;</li>
 <li>candidature: tre anni, più a lungo solo se ne nasce una collaborazione; prima, se ce lo chiedi;</li>
+<li>dati professionali di chi riceve una nostra lettera per primo: dodici mesi, se non risponde; se si oppone, soltanto il nome e la data della richiesta;</li>
 <li>dediche nel giardino: finché la pagina resta in linea, o finché non la togli o non ne chiedi la rimozione; i tuoi recapiti, per lo stesso tempo;</li>
 <li>dati delle donazioni, ricevute e documenti contabili: dieci anni;</li>
 <li>consenso a ricevere notizie: finché non lo ritiri.</li>

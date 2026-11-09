@@ -88,8 +88,8 @@ GOOGLE_TAG = "G-FC78G2JWBL"               # l’ID della proprietà Google Analy
                                           # non usa cookie ({senza-google}…{/senza-google}).
 MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
                                           # porta la data del più recente fra MISURA, RICEVUTE, MENSILE e INFORMATIVA.
-INFORMATIVA = "6 novembre 2026"           # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 6.11 Google conta
-                                          # anche chi scarica il fac-simile delle DAT o la guida al testamento (Ad Grants). Si aggiorna a ogni cambio.
+INFORMATIVA = "10 novembre 2026"          # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 10.11 la sezione
+                                          # «Quando ti scriviamo per primi», per le lettere ai partner. Si aggiorna a ogni cambio.
 NATALE = True                             # la stagione del regalo di Natale nella pagina dei regali solidali (dona/regali-solidali), che resta
                                           # online tutto l’anno (Elias, 6.11.2026). True da novembre all’Epifania: la pagina, il suo titolo per
                                           # Google e il biglietto parlano di Natale ({se-natale}…{/se-natale}). False il resto dell’anno: la pagina
