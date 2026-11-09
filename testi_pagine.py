@@ -1610,7 +1610,10 @@ TESTI["progetti/da-sostenere"] = dict(
     sotto="Progetti pronti a partire, che raccolgono i fondi per farlo.",
     corpo="""
 <p>Qui trovi i progetti che hanno un business plan e raccolgono i fondi per realizzarsi. Per ognuno diremo che cosa fa, quanto serve e come puoi sostenerlo: con una donazione, un fondo di memoria, un lascito o, per un’azienda, con una parte delle vendite o degli utili.</p>
-<p>I primi li presenteremo qui. Intanto puoi sostenere la Fondazione e i suoi progetti dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
+<h3>Lux, per un rapporto consapevole con il digitale</h3>
+<p>Lux è il programma della Fondazione per un rapporto più consapevole fra le persone di ogni età, a cominciare dai più giovani, e gli strumenti digitali: i social, i giochi, l’intelligenza artificiale. Sostiene anche ciò che fa loro da contrappeso: il lavoro manuale, la terra e la natura, il ritmo lento, l’incontro fra persone in un luogo reale.</p>
+<p>Le donazioni a Lux vanno a un fondo della Fondazione con la sua contabilità separata, perché restino tracciabili. Chi dona accende una luce simbolica, senza premi, classifiche né inviti a donare di nuovo. Si dona dal suo sito, <a class="link" href="https://lux.larosadoro.org/" rel="noopener">lux.larosadoro.org</a>, dove trovi anche dove vanno le donazioni.</p>
+<p>Gli altri progetti da sostenere li presenteremo qui a mano a mano che sono pronti. Intanto puoi sostenere la Fondazione e i suoi progetti dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
 """)
 
 TESTI["progetti/in-corso"] = dict(
