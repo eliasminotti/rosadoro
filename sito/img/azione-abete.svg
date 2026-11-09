@@ -16,10 +16,12 @@
   <g stroke="#8D6E2A" stroke-width=".8" opacity=".4" stroke-linecap="round">
     <path d="M98 62l-6 9M108 74l-7 10M90 102l-8 11M118 104l-7 10M102 108l-8 12M80 146l-9 12M132 148l-8 11M110 146l-9 13"/>
   </g>
-  <!-- le luci, piccole e d’oro -->
+  <!-- dodici palline d’oro, e con la stella fanno tredici (Elias, 9.11) -->
   <g fill="#B88F3D" opacity=".85">
-    <circle cx="94" cy="86" r="1.8"/><circle cx="113" cy="124" r="1.8"/><circle cx="76" cy="128" r="1.8"/>
-    <circle cx="96" cy="168" r="1.8"/><circle cx="136" cy="170" r="1.8"/><circle cx="62" cy="172" r="1.8"/>
+    <circle cx="104" cy="66" r="2.1"/><circle cx="93" cy="85" r="2.1"/>
+    <circle cx="97" cy="101" r="2.1"/><circle cx="116" cy="108" r="2.1"/><circle cx="74" cy="126" r="2.1"/><circle cx="96" cy="127" r="2.1"/>
+    <circle cx="91" cy="145" r="2.1"/><circle cx="118" cy="151" r="2.1"/><circle cx="62" cy="168" r="2.1"/>
+    <circle cx="86" cy="168" r="2.1"/><circle cx="116" cy="172" r="2.1"/><circle cx="140" cy="167" r="2.1"/>
   </g>
   <!-- tronco e terra -->
   <g stroke="#1C1C1C" fill="none" stroke-linecap="round">
