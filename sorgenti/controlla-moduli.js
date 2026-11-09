@@ -1321,10 +1321,14 @@ controllo('il regalo solidale: il biglietto si prepara nella pagina e si scarica
     await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
     assert.ok(await p.page.locator('#biglietto-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
     assert.strictEqual(await p.page.inputValue('#mb-occasione'), 'natale', 'l’occasione già scelta è il Natale');
+    /* a Natale l’abete al posto dell’albero tondo, già scelto (Elias, 9.11) */
+    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]', l => l.map(x => x.value));
+    assert.deepStrictEqual(tavole, ['abete', 'candela', 'fiore', 'rosa'], 'a Natale il biglietto ha l’abete al posto dell’albero tondo: ' + tavole);
+    assert.strictEqual(await p.page.inputValue(BIGLIETTO + ' input[name="immagine"]:checked'), 'abete', 'a Natale l’immagine già scelta è l’abete');
     await p.page.fill('#mb-per', 'Anna');
     await p.page.fill('#mb-da', 'Marco');
     await p.page.fill('#mb-messaggio', "Con l'affetto di sempre");
-    await p.page.check('#modulo-biglietto input[name="immagine"][value="albero"]', { force: true });
+    await p.page.check('#modulo-biglietto input[name="immagine"][value="candela"]', { force: true });
     const detto = await dettoDalBiglietto(p.page);
     for (const parte of ['Buon Natale', 'Per Anna', 'pensando a te', 'Con l’affetto di sempre', 'Marco', 'Fondazione La Rosa d’Oro'])
       assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
@@ -1387,6 +1391,9 @@ controllo('il biglietto in ricordo di una persona: il suo nome, una donazione in
     await p.page.selectOption('#mb-occasione', 'ricordo');
     await p.page.locator('#mb-ricordo').waitFor({ state: 'visible', timeout: 2000 });
     assert.ok(await p.page.isChecked('#modulo-biglietto input[name="persone"][value="voi"]'), 'il biglietto in ricordo parla alla famiglia, con il «voi»');
+    if (await p.page.$(BIGLIETTO + ' input[name="immagine"][value="abete"]'))
+      assert.strictEqual(await p.page.inputValue(BIGLIETTO + ' input[name="immagine"]:checked'), 'candela',
+                         'lasciando il Natale, l’abete già scelto lascia il posto alla candela');
     let detto = await dettoDalBiglietto(p.page);
     assert.ok(detto.startsWith('Anteprima del biglietto: In ricordo.'), 'senza un nome il saluto è «In ricordo»: ' + detto);
     await p.page.fill('#mb-ricordo', 'Maria');
