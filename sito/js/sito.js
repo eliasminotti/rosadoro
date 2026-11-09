@@ -875,6 +875,9 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       var campoRicordo = function () { ricordo.hidden = etichettaRicordo.hidden = !inRicordo(); };
       occasione.addEventListener('change', function () {
         if (opzione().getAttribute('data-persone') === 'voi') modulo.querySelector('input[name="persone"][value="voi"]').checked = true;
+        /* l’abete è del Natale (9.11): per un’altra occasione, se era già scelto, lascia il posto alla candela */
+        var abete = modulo.querySelector('input[name="immagine"][value="abete"]');
+        if (abete && abete.checked && occasione.value !== 'natale') modulo.querySelector('input[name="immagine"][value="candela"]').checked = true;
         campoRicordo();
       });
       campoRicordo();

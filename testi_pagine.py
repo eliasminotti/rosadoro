@@ -1247,6 +1247,8 @@ BIGLIETTO = dict(
         titolo="Donazione in memoria",
     ),
     immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
+    # da novembre all’Epifania (NATALE acceso) l’abete con la stella al posto dell’albero tondo, già scelto (Elias, 9.11)
+    immagini_natale=(("abete", "L’abete"), ("candela", "La candela"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
     corpo_te="Questo regalo è una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a te. Diventerà terra coltivata, cura, accompagnamento.",
     corpo_voi="Questo regalo è una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento.",
     piede="Fondazione La Rosa d’Oro ETS · larosadoro.org",

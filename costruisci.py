@@ -633,7 +633,7 @@ def secondo_natale(testo):
 
 IMMAGINI_BIGLIETTO = {"candela": ("azione-candela.svg", 200, 240), "albero": ("azione-albero.svg", 200, 240),   # le tavole incise del biglietto
                       "fiore": ("azione-fiore.svg", 200, 240), "rosa": ("tavola-rosa.svg", 240, 240),          # e della pergamena,
-                      "clessidra": ("azione-clessidra.svg", 200, 240)}                                       # con le loro proporzioni
+                      "clessidra": ("azione-clessidra.svg", 200, 240), "abete": ("azione-abete.svg", 200, 240)}   # con le loro proporzioni
 
 def scelta_immagini(da, immagini):
     """le tavole fra cui si sceglie, nel biglietto e nella pergamena: la prima è già scelta"""
@@ -656,7 +656,7 @@ def biglietto(da):
                         % (o[0], sfuggi(o[2]), ' data-persone="voi"' if o[3:] == ("voi",) else "",
                            in_ricordo if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
                         for o in BIGLIETTO["occasioni"])
-    immagini = scelta_immagini(da, BIGLIETTO["immagini"])
+    immagini = scelta_immagini(da, BIGLIETTO["immagini_natale"] if NATALE else BIGLIETTO["immagini"])   # a Natale l’abete (9.11)
     return """<p class="nota" id="biglietto-senza-js">Per preparare il biglietto serve un browser con JavaScript acceso.</p>
 <form class="modulo biglietto" id="modulo-biglietto" data-corpo-te="%s" data-corpo-voi="%s" data-piede="%s" hidden>
 <div class="campi">
