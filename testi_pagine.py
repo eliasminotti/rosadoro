@@ -254,6 +254,9 @@ TESTI["in-memoria/funerali"] = dict(
   <a class="azione" href="{→dona}"><img src="{img:azione-fiore.svg}" alt="Un fiore che sboccia, inciso" width="200" height="240"><div><h4>Fai sbocciare un fiore</h4><p>Sostieni progetti che riguardano il sociale</p></div></a>
   <a class="azione" href="{→dona}"><img src="{img:azione-clessidra.svg}" alt="La clessidra alata, incisa" width="200" height="240"><div><h4>Gira la clessidra alata</h4><p>Sostieni progetti che riguardano il fine vita</p></div></a>
 </div>
+<h3 id="pergamena">Una pergamena al posto dei fiori</h3>
+<p>Anche la famiglia può scegliere una donazione al posto dei fiori, e dare a chi viene a salutare una pergamena in ricordo, con il nome di chi non c’è più. La prepari qui sotto, la stampi a casa, quattro per foglio, e la tagli lungo le linee grigie. La donazione si fa dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
+{pergamena-ricordo}
 <p>Grazie ai ricordi, chi non c'è più rimane presente nella vita dei suoi cari: ricordarlo è un modo naturale per mantenere vivo il legame e, gradualmente, accettare l'assenza. E talvolta, per sostenere la famiglia, serve un gesto concreto.</p>
 <h3>Un gesto concreto per la famiglia</h3>
 <p>Vuoi essere tu a coprire le spese del funerale di un amico? O vorresti chiedere aiuto senza imbarazzo, permettendo a chi desidera sostenerti — ma non sa come — di farlo? Contattaci: apriremo noi la raccolta al posto tuo, per il funerale o per gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a>.</p>
@@ -1146,6 +1149,7 @@ TESTI["dona"] = dict(
 <li>un <a class="link" href="{→lasciti}">lascito</a> nel testamento;</li>
 <li>una donazione in memoria, con il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a>;</li>
 <li>un <a class="link" href="{→dona/regali-solidali}">regalo solidale</a>, per Natale o per un’altra occasione, con un biglietto per chi lo riceve;</li>
+<li>le <a class="link" href="{→dona/bomboniere-solidali}">bomboniere solidali</a>: al posto della bomboniera, una pergamena da stampare per gli invitati;</li>
 <li>se hai un’azienda, <a class="link" href="{→aziende-e-istituzioni/aziende}">una parte per il bene comune</a>.</li>
 </ul>
 """)
@@ -1180,8 +1184,34 @@ TESTI["dona/regali-solidali"] = dict(
 <h3>La ricevuta</h3>
 <p>La ricevuta per la dichiarazione dei redditi è di chi dona, non di chi riceve il biglietto. {se-ricevute}Se doni con la carta o con PayPal ti arriva per email 37 giorni dopo, all’indirizzo che scrivi sulla pagina di Stripe. Se doni con il bonifico e ti serve{/se-ricevute}{senza-ricevute}Se ti serve{/senza-ricevute} una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale. Detrazioni e deduzioni sono spiegate nella pagina <a class="link" href="{→dona}">Dona</a>.</p>
 <h3>Per ogni occasione</h3>
-<p>Il biglietto va bene tutto l’anno: per un compleanno, una nascita, un matrimonio, una laurea, un anniversario, San Valentino, la festa della mamma o del papà, o senza un’occasione.</p>
+<p>Il biglietto va bene tutto l’anno: per un compleanno, una nascita, un matrimonio, una laurea, un anniversario, San Valentino, la festa della mamma o del papà, o senza un’occasione. Per dare a ogni invitato una pergamena al posto della bomboniera ci sono le <a class="link" href="{→dona/bomboniere-solidali}">bomboniere solidali</a>.</p>
 <p>Si può fare anche in ricordo di una persona che non c’è più: scegli «In ricordo di una persona», scrivi il suo nome e dai il biglietto alla sua famiglia. Per un ricordo che resta nel tempo ci sono il <a class="link" href="{→in-memoria/fondo-di-memoria}">fondo di memoria</a> e il <a class="link" href="{→in-memoria/giardino-dei-ricordi}">giardino dei ricordi</a>.</p>
+""")
+
+# ------------------------------------------------------------ Bomboniere solidali (bozza di Claude del 7.11, da approvare con Elias)
+# Pagina fissa dentro Dona, come i regali solidali; «bomboniere solidali» resta nel titolo e nell’indirizzo perché è ciò che si
+# cerca, ma l’oggetto si chiama «pergamena solidale»: niente oggetti, niente prezzi a pezzo, l’importo è libero (Elias, 6.11).
+TESTI["dona/bomboniere-solidali"] = dict(
+    sotto="Una pergamena per ogni invitato, e la festa continua in terra coltivata, cura, accompagnamento.",
+    corpo="""
+<p>Per un matrimonio, un battesimo, una comunione, una cresima o una laurea, al posto delle bomboniere puoi fare una donazione alla Fondazione La Rosa d’Oro. Prepari qui sotto la pergamena con i vostri nomi e la data, la stampi a casa e la dai a ogni invitato, sul tavolo o accanto al segnaposto. Non c’è niente da comprare né da spedire: il ricordo della festa è ciò che la donazione fa crescere.</p>
+<h3>Come si fa</h3>
+<ol class="passi">
+<li><strong>Doni</strong> una volta, con la carta, PayPal, Apple Pay o Google Pay sulla pagina di Stripe, oppure con un bonifico. La cifra la scegli tu, e non dipende dal numero degli invitati.</li>
+<li><strong>Prepari la pergamena</strong> qui sotto: l’occasione, l’immagine, i nomi, la data e, se vuoi, due righe vostre.</li>
+<li><strong>La stampi</strong> a casa, quattro per foglio A4, e la tagli lungo le linee grigie. Puoi anche scaricarla come immagine, da mandare a chi non può venire.</li>
+</ol>
+{se-stripe}<p><a class="invia" href="{stripe-bomboniera}" target="_blank" rel="noopener">Dona con la carta o con PayPal</a></p>
+<p class="nota">Sulla pagina di pagamento la cifra va da 5 a 5.000 euro. Se vuoi, lì scegli anche l’ambito e aggiungi il codice fiscale, per trovare la donazione nella dichiarazione precompilata.</p>
+{/se-stripe}<p>Per il bonifico usa le coordinate della pagina <a class="link" href="{→dona}">Dona</a>, con la causale «Bomboniere solidali».</p>
+<h3 id="pergamena">La pergamena</h3>
+{pergamena}
+<h3>Che cosa diventa la vostra festa</h3>
+<p>La Fondazione La Rosa d’Oro è un ente del Terzo settore nato a Milano il 26 febbraio 2026, per coltivare la terra, curare le persone e accompagnarle fino alla fine della vita. La donazione la impieghiamo dove c’è più bisogno, oppure nell’ambito che scegli sulla pagina di pagamento, tra la medicina e la cura, l’agricoltura, il sociale e il fine vita.</p>
+<h3>La ricevuta</h3>
+<p>La ricevuta per la dichiarazione dei redditi è di chi dona, non degli invitati. {se-ricevute}Se doni con la carta o con PayPal ti arriva per email 37 giorni dopo, all’indirizzo che scrivi sulla pagina di Stripe. Se doni con il bonifico e ti serve{/se-ricevute}{senza-ricevute}Se ti serve{/senza-ricevute} una ricevuta della Fondazione, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale. Detrazioni e deduzioni sono spiegate nella pagina <a class="link" href="{→dona}">Dona</a>.</p>
+<h3>Altre occasioni</h3>
+<p>Per un regalo a una persona, a Natale o per un compleanno, ci sono i <a class="link" href="{→dona/regali-solidali}">regali solidali</a>, con un biglietto per chi lo riceve. Per un funerale, al posto dei fiori, la pergamena in ricordo si prepara nella pagina dei <a class="link" href="{→in-memoria/funerali}#pergamena">funerali</a>.</p>
 """)
 
 # I testi del biglietto del regalo solidale (bozza di Claude del 6.11). Il biglietto non dice mai la cifra.
@@ -1217,8 +1247,45 @@ BIGLIETTO = dict(
         titolo="Donazione in memoria",
     ),
     immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
+    # da novembre all’Epifania (NATALE acceso) l’abete con la stella al posto dell’albero tondo, già scelto (Elias, 9.11)
+    immagini_natale=(("abete", "L’abete"), ("candela", "La candela"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
     corpo_te="Questo regalo è una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a te. Diventerà terra coltivata, cura, accompagnamento.",
     corpo_voi="Questo regalo è una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento.",
+    piede="Fondazione La Rosa d’Oro ETS · larosadoro.org",
+)
+
+# La pergamena delle bomboniere solidali e quella in ricordo, al posto dei fiori, nella pagina dei funerali (bozza di Claude
+# del 7.11, da approvare con Elias). La stampa a casa chi dona, quattro per foglio A4; non dice mai la cifra.
+# Ogni occasione: il valore, la voce nel menu, la riga sotto i nomi. «ricordo» è la pergamena della pagina dei funerali.
+PERGAMENA = dict(
+    scelta="matrimonio",
+    occasioni=(
+        ("matrimonio", "Un matrimonio", "Sposi"),
+        ("battesimo", "Un battesimo", "Il battesimo"),
+        ("comunione", "La prima comunione", "La prima comunione"),
+        ("cresima", "La cresima", "La cresima"),
+        ("laurea", "Una laurea", "La laurea"),
+        ("nozze", "Un anniversario di nozze", "Il nostro anniversario"),
+    ),
+    immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
+    nomi="I nomi",
+    segnaposto_nomi="Per esempio: Chiara e Luca, oppure Sofia",
+    data="La data",
+    segnaposto_data="Per esempio: 12 giugno 2027",
+    corpo="Al posto della bomboniera, una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, per festeggiare insieme. Diventerà terra coltivata, cura, accompagnamento.",
+    file="pergamena-solidale-",
+    titolo="Pergamena solidale",
+    ricordo=dict(
+        occasione=("funerale", "Un funerale, al posto dei fiori", "In ricordo"),
+        immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("clessidra", "La clessidra")),
+        nomi="Il nome",
+        segnaposto_nomi="Il nome della persona che ricordate",
+        data="Gli anni, o il giorno",
+        segnaposto_data="Per esempio: 1940 – 2026",
+        corpo="Al posto dei fiori, una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro in sua memoria. Grazie di essere qui a ricordare insieme.",
+        file="pergamena-in-ricordo-di-",
+        titolo="Pergamena in ricordo",
+    ),
     piede="Fondazione La Rosa d’Oro ETS · larosadoro.org",
 )
 
@@ -1233,7 +1300,7 @@ TESTI["dona/grazie"] = dict(
 {se-ricevute}<p>La ricevuta della Fondazione per la dichiarazione dei redditi ti arriva per email 37 giorni dopo la donazione, all’indirizzo che hai scritto sulla pagina di Stripe.</p>
 {/se-ricevute}{senza-ricevute}<p>Se ti serve una ricevuta della Fondazione per la dichiarazione dei redditi, <a class="link" href="{→contatti}">scrivici</a> con nome, indirizzo e codice fiscale.</p>
 {/senza-ricevute}{se-mensile}<p>Se hai scelto di donare ogni mese, puoi smettere quando vuoi, da te, dalla <a class="link" href="{portale}" target="_blank" rel="noopener">pagina della tua donazione mensile</a> su Stripe.</p>
-{/se-mensile}<p>Se la tua donazione è un regalo, prepara qui il <a class="link" href="{→dona/regali-solidali}#biglietto">biglietto per chi lo riceve</a>.</p>
+{/se-mensile}<p>Se la tua donazione è un regalo, prepara qui il <a class="link" href="{→dona/regali-solidali}#biglietto">biglietto per chi lo riceve</a>; se è al posto delle bomboniere, qui la <a class="link" href="{→dona/bomboniere-solidali}#pergamena">pergamena per gli invitati</a>.</p>
 {notizie}
 <p><a class="vai" href="{→}">Torna alla home</a></p>
 """)
@@ -1706,6 +1773,9 @@ TITOLI.update({
 
 # i regali solidali (6.11, bozza di Claude): il titolo e la descrizione cambiano con la stagione (NATALE in costruisci.py)
 TITOLI["dona/regali-solidali"] = "{se-natale}Regali solidali di Natale: una donazione in regalo{/se-natale}{senza-natale}Regali solidali: una donazione per ogni occasione{/senza-natale}"
+TITOLI["dona/bomboniere-solidali"] = "Bomboniere solidali: la pergamena al posto della bomboniera"
+DESCRIZIONI["dona/bomboniere-solidali"] = ("Al posto delle bomboniere, una donazione alla Fondazione La Rosa d’Oro e una pergamena da stampare a casa per ogni "
+    "invitato: per matrimoni, battesimi, comunioni, cresime e lauree.")
 DESCRIZIONI["dona/regali-solidali"] = ("{se-natale}Regala a Natale una donazione alla Fondazione La Rosa d’Oro e prepara il biglietto da stampare o da mandare per email. "
     "Anche per le aziende, al posto dei regali ai clienti.{/se-natale}{senza-natale}Regala una donazione alla Fondazione La Rosa d’Oro per un compleanno, "
     "una nascita, un matrimonio, e prepara il biglietto da stampare o da mandare per email.{/senza-natale}")

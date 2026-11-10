@@ -241,13 +241,16 @@ VERSO_STRIPE = re.compile(r"^https://(buy|donate)\.stripe\.com/")
 SEGNO_SITO = "?locale=it&client_reference_id=sito-dona"
 SEGNO_REGALO = "?locale=it&client_reference_id=sito-regalo"   # lo stesso link, dalla pagina dei regali solidali (Elias, 6.11)
 REGALI = os.path.join("dona", "regali-solidali", "index.html")
+SEGNO_BOMBONIERA = "?locale=it&client_reference_id=sito-bomboniera"   # e dalla pagina delle bomboniere solidali (7.11)
+BOMBONIERE = os.path.join("dona", "bomboniere-solidali", "index.html")
 PORTALE_VIVO = re.compile(r"^https://billing\.stripe\.com/p/login/[A-Za-z0-9]+$")
 
 
 def controlla_stripe(pagine):
     """Dona: con STRIPE la carta è il primo modo di donare (Elias, 19.10), con un Payment Link vero, in italiano e segnato
     «sito-dona», perché il conto Stripe è lo stesso di Lux e le donazioni del sito non devono confondersi con le sue.
-    La pagina dei regali solidali usa lo stesso link segnato «sito-regalo», per contare a parte i regali (6.11).
+    La pagina dei regali solidali usa lo stesso link segnato «sito-regalo», per contare a parte i regali (6.11), e quella delle
+    bomboniere solidali lo segna «sito-bomboniera» (7.11).
     Senza STRIPE nessuna pagina porta a Stripe."""
     stripe = impostazione("STRIPE")
     verso_stripe = [(rel, i) for rel, p in sorted(pagine.items()) for i in p.indirizzi if VERSO_STRIPE.match(i)]
@@ -264,11 +267,14 @@ def controlla_stripe(pagine):
     atteso = stripe + SEGNO_SITO
     attesi = {atteso} | ({l + SEGNO_SITO for _, l in impostazione_mensili() if l} if impostazione("MENSILE") else set())
     regalo = stripe + SEGNO_REGALO        # i regali solidali usano il link di «Dona una volta», segnato a parte: solo lì
+    bomboniera = stripe + SEGNO_BOMBONIERA
     for rel, i in verso_stripe:
-        if i not in attesi and not (rel == REGALI and i == regalo):
+        if i not in attesi and not (rel == REGALI and i == regalo) and not (rel == BOMBONIERE and i == bomboniera):
             problemi.append("%s porta a Stripe con un indirizzo diverso da quelli di STRIPE e MENSILI: %s" % (rel, i))
     if REGALI in pagine and regalo not in pagine[REGALI].indirizzi:
         problemi.append("La pagina dei regali solidali non porta a Stripe con il segno «sito-regalo»: %s" % regalo)
+    if BOMBONIERE in pagine and bomboniera not in pagine[BOMBONIERE].indirizzi:
+        problemi.append("La pagina delle bomboniere solidali non porta a Stripe con il segno «sito-bomboniera»: %s" % bomboniera)
     dona = os.path.join(SITO, "dona", "index.html")
     testo = open(dona, encoding="utf-8").read() if os.path.isfile(dona) else ""
     dove = testo.find('href="%s"' % atteso.replace("&", "&amp;"))
@@ -286,7 +292,8 @@ SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senz
                   "{se-mensile}", "{/se-mensile}", "{senza-mensile}", "{/senza-mensile}", "{mensili}", "{portale}",
                   "{se-turnstile}", "{/se-turnstile}", "{senza-turnstile}", "{/senza-turnstile}", "{turnstile}", "{trappola}",
                   "{se-google}", "{/se-google}", "{senza-google}", "{/senza-google}",
-                  "{se-natale}", "{/se-natale}", "{senza-natale}", "{/senza-natale}", "{biglietto}", "{stripe-regalo}")
+                  "{se-natale}", "{/se-natale}", "{senza-natale}", "{/senza-natale}", "{biglietto}", "{stripe-regalo}",
+                  "{pergamena}", "{pergamena-ricordo}", "{stripe-bomboniera}")
 MESI = ("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre")
 
 
