@@ -32,6 +32,12 @@ on:
 permissions:
   contents: read
 
+# Su una proposta, un invio nuovo annulla i controlli ancora in corso sull’invio precedente (regola 6 di «Uso di GitHub»
+# nel CLAUDE.md). Le altre corse (ogni mattina, dopo la pubblicazione, a mano) hanno ciascuna un gruppo suo e non si annullano.
+concurrency:
+  group: controlli-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
 env:
   ROUTINE: https://api.anthropic.com/v1/claude_code/routines/trig_01GimrxxKbZ2YPuztqXUbzkj/fire
 
