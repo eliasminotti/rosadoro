@@ -145,6 +145,8 @@ SEZIONI = [
              dict(slug="funerali", voce="Funerali", titolo="Funerali", riga="Non fiori ma opere di bene", hero="tavola", testata="candela"),
              dict(slug="svuota-e-sorridi", voce="Gli Svuota e Sorridi", titolo="Gli Svuota e Sorridi", riga="", hero="tavola", testata="interno", leggera=True),
              dict(slug="io-sono-qui-per-te", voce="Io sono qui per te", titolo="Io sono qui per te", riga="Accompagnamento nel fine vita", hero="lemniscata"),
+             # la bibliografia di Francesca Zanuttini (Dacia, 13.11): i temi sono quelli della sezione, la morte, il lutto e l’accompagnamento
+             dict(slug="petali-di-carta", voce="Letture consigliate", titolo="Petali di carta", riga="Letture consigliate", hero="tavola", testata="biblioteca"),
              dict(slug="elaborare-il-lutto", voce="Elaborare il lutto", titolo="Elaborare il lutto", riga="", nascosta=True),
          ]),
     dict(chiave="lasciti", voce="Lasciti", titolo="Lasciti", hero="rosa", tavola="interno", casa="rosa",
@@ -946,6 +948,7 @@ TAVOLE_ALT = {
     "pergamena": "Una pergamena aperta con la piuma che scrive, incisa su avorio",
     "equipe": "Quattro persone in cerchio, unite da archi, incise su avorio",
     "tempio": "Un tempio con il timpano e tre colonne, inciso su avorio",
+    "biblioteca": "Un libro aperto davanti a una nicchia di libri; dalle pagine si alzano petali, incisi su avorio",
 }
 TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 

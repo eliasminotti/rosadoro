@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-label="Un libro aperto davanti a una nicchia di libri; dalle pagine si alzano petali, incisi su fondo avorio">
+<defs>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/>
+  </pattern>
+  <radialGradient id="aloneB" cx="50%" cy="58%" r="42%">
+    <stop offset="0%" stop-color="#B88F3D" stop-opacity=".30"/>
+    <stop offset="42%" stop-color="#B88F3D" stop-opacity=".10"/>
+    <stop offset="100%" stop-color="#FAF6EE" stop-opacity="0"/>
+  </radialGradient>
+  <symbol id="petalo" viewBox="-20 -44 40 48" width="40" height="48" x="-20" y="-44" overflow="visible">
+    <path d="M0 0C-10-6-19-18-18-31-17-42-8-47 0-47 8-47 17-42 18-31 19-18 10-6 0 0z" fill="#B88F3D" fill-opacity=".13" stroke="#8D6E2A" stroke-width="1.2"/>
+    <path d="M-14-38c8 4 20 4 28 0M0-5c-2-9-2-19 0-28" fill="none" stroke="#8D6E2A" stroke-width=".7" opacity=".4"/>
+  </symbol>
+</defs>
+  <rect width="1400" height="760" fill="#FAF6EE"/>
+  <rect width="1400" height="760" fill="url(#aloneB)"/>
+
+  <!-- il pavimento -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M300 660h800" stroke-width="1.2" opacity=".35"/>
+    <path d="M380 700h640" stroke-width=".7" opacity=".14"/>
+  </g>
+
+  <!-- la nicchia con i ripiani -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M470 660V262a230 140 0 0 1 460 0V660" stroke-width="1.5" opacity=".5"/>
+    <path d="M490 660V266a210 124 0 0 1 420 0V660" stroke-width=".9" opacity=".32"/>
+    <path d="M490 292h420M490 366h420M490 440h420" stroke-width=".9" opacity=".34"/>
+  </g>
+  <g color="#1C1C1C" opacity=".2"><path d="M470 660V262a230 140 0 0 1 20-56V660z" fill="url(#tr-medio)" stroke="none"/></g>
+  <g color="#1C1C1C" stroke="currentColor" fill="none" stroke-width="2.4" opacity=".2"><path d="M520 290v-42M554 290v-50M568 290v-34M578 290v-34M590 290v-34M626 290v-50M636 290v-54M645 290v-50M676 290v-38M686 290v-50M697 290v-50M707 290v-34M717 290v-42M748 290v-38M762 290v-46M774 290v-50M785 290v-42M795 290v-54M804 290v-50M816 290v-42M827 290v-50M836 290v-50M847 290v-38M859 290v-34M868 290v-50M879 290v-42M510 364v-46M522 364v-34M533 364v-46M542 364v-34M553 364v-54M565 364v-42M576 364v-34M587 364v-38M599 364v-34M610 364v-38M622 364v-46M634 364v-34M646 364v-50M656 364v-46M667 364v-54M678 364v-54M688 364v-38M698 364v-38M707 364v-46M717 364v-42M727 364v-46M741 364v-50M751 364v-54M765 364v-54M774 364v-46M788 364v-46M800 364v-34M812 364v-34M822 364v-46M855 364v-34M869 364v-34M504 438v-38M514 438v-54M525 438v-50M534 438v-34M546 438v-46M555 438v-38M566 438v-54M598 438v-50M612 438v-34M623 438v-54M634 438v-50M644 438v-42M658 438v-50M669 438v-54M679 438v-38M689 438v-38M722 438v-34M734 438v-42M748 438v-42M759 438v-42M768 438v-38M779 438v-38M793 438v-34M804 438v-54M813 438v-46M823 438v-46M835 438v-54M847 438v-46M856 438v-54M866 438v-34M878 438v-54M892 438v-46"/></g>
+
+  <!-- il tavolo -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M520 592h360" stroke-width="1.5" opacity=".55"/>
+    <path d="M528 600h344" stroke-width=".8" opacity=".3"/>
+    <path d="M548 600v60M852 600v60" stroke-width="1.3" opacity=".45"/>
+  </g>
+  <g color="#1C1C1C" opacity=".18"><path d="M528 600h344v8H528z" fill="url(#tr-rado)" stroke="none"/></g>
+
+  <!-- il libro aperto -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M700 584c-40-14-92-18-146-10l4-66c54-8 104-4 142 9z" fill="#FAF6EE" stroke-width="1.5" opacity=".7"/>
+    <path d="M700 584c40-14 92-18 146-10l-4-66c-54-8-104-4-142 9z" fill="#FAF6EE" stroke-width="1.5" opacity=".7"/>
+    <path d="M554 574l-2 8c52-6 106-2 148 10 42-12 96-16 148-10l-2-8" stroke-width="1.1" opacity=".45"/>
+    <path d="M700 517v67" stroke-width="1.2" opacity=".55"/>
+    <g stroke-width=".8" opacity=".3">
+      <path d="M576 526c38-5 76-2 108 7M578 540c38-5 74-2 106 7M579 554c36-5 72-2 104 7"/>
+      <path d="M716 533c32-9 70-12 108-7M716 547c32-9 68-12 106-7M716 561c32-9 66-12 104-7"/>
+    </g>
+  </g>
+  <!-- una pagina che si alza -->
+  <g color="#8D6E2A" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M700 517c-6-30-28-50-62-58-14 12-34 22-60 26 30 2 64 12 122 32z" fill="#FAF6EE" stroke-width="1.2" opacity=".75"/>
+  </g>
+
+  <!-- i petali di carta -->
+  <g><use href="#petalo" transform="translate(668 440) rotate(-22) scale(1.05)"/><use href="#petalo" transform="translate(730 396) rotate(18) scale(0.92)"/><use href="#petalo" transform="translate(676 340) rotate(-30) scale(0.8)"/><use href="#petalo" transform="translate(764 296) rotate(34) scale(0.7)"/><use href="#petalo" transform="translate(712 244) rotate(-10) scale(0.6)"/><use href="#petalo" transform="translate(796 204) rotate(26) scale(0.5)"/><use href="#petalo" transform="translate(744 166) rotate(-20) scale(0.42)"/></g>
+
+</svg>
