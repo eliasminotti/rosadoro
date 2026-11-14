@@ -315,15 +315,15 @@ TESTI["in-memoria/io-sono-qui-per-te"] = dict(
 
 # ------------------------------------------------- F · petali di carta
 # La bibliografia di Francesca Zanuttini, mandata da Dacia il 13.11.2026: il testo è suo, con le correzioni della tabella mandata
-# a Dacia. Francesca vuole che i messaggi arrivino a lei, non alla segreteria: quando Elias crea letture@larosadoro.org, l’indirizzo
-# qui sotto diventa quello. Sonia Benassi e Chantal Dejean restano fuori finché Dacia e Francesca non decidono di metterle.
+# a Dacia. Dacia (14.11): l’indirizzo resta segreteria@larosadoro.org; Sonia Benassi e Chantal Dejean restano fuori; Moody è
+# «La vita oltre la vita», tra le esperienze di premorte; sotto il titolo «A cura di Francesca Zanuttini».
 TESTI["in-memoria/petali-di-carta"] = dict(
-    sotto="Letture consigliate",
+    sotto="A cura di Francesca Zanuttini",
     corpo="""
 <p>Questa raccolta di letture non vuole essere esaustiva, ma solo offrire alcuni spunti di studio e di conoscenza, che possono aprire la porta ad ulteriori ricerche personali.</p>
 <p>Ogni testo è stato letto con attenzione e per ognuno di essi viene dato un piccolo commento: non è una recensione letteraria, bensì un’opinione soggettiva, che si basa sulle conoscenze e sull’esperienza personale di chi ha letto il libro.</p>
 <p>I libri sono stati suddivisi per argomento, in modo da indirizzare la scelta secondo il proprio interesse.</p>
-<p>A cura di Francesca Zanuttini. Per informazioni, consigli, condivisioni e approfondimenti scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
+<p>Per informazioni, consigli, condivisioni e approfondimenti scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
 <h3 class="argomento">Sulla comunicazione con i defunti</h3>
 <div class="libro"><p class="dati"><strong>Ponti tra la vita e la morte: incontro con i defunti</strong> · Iris Paxino · Editrice Antroposofica, 2020</p><p>Bellissimo libro, scritto in modo chiaro e semplice da una psicologa con esperienza nella comunicazione con i defunti. Affronta molte tematiche importanti relativamente al post mortem e alla relazione con i defunti. Assolutamente da leggere.</p></div>
 <div class="libro"><p class="dati"><strong>Testimony of Light</strong> (in inglese) · Helen Greaves · World Fellowship Press, 1969</p><p>Testo datato, ma molto interessante sulla comunicazione tra aldiqua e aldilà di due amiche suore, di cui una muore e l’altra, dotata di chiaroveggenza, riceve i suoi racconti sull’aldilà.</p></div>
@@ -335,7 +335,8 @@ TESTI["in-memoria/petali-di-carta"] = dict(
 <h3 class="argomento">Sul lutto</h3>
 <div class="libro"><p class="dati"><strong>La vita dopo un grande dolore</strong> · Raymond Moody e Dianne Arcangel · Armenia, 2007</p><p>Testo discorsivo sul lutto e i suoi vari aspetti; semplice, sono in particolare belli gli esempi e le storie raccontate.</p></div>
 <h3 class="argomento">Sulle esperienze NDE</h3>
-<div class="libro"><p class="dati"><strong>Manuale per sopravvivere dopo la morte</strong> · Ensitiv · UnoEditori, 2014</p><p>Libro diretto, simpatico, chiaro e basato sull’esperienza personale di un autore italiano, con doti di veggenza, la cui identità non è nota. Portando esperienze personali di OBE (out of body experience, esperienze fuori dal corpo) vuole dare indicazioni su come orientarsi nei mondi sottili, anche dopo la morte. Prospettiva interessante, a volte sopra le righe, ma da valutare.</p></div>
+<div class="libro"><p class="dati"><strong>La vita oltre la vita</strong> · Raymond Moody · Corbaccio, 2019 (1977)</p><p>Testo datato, ma sempre bellissimo, scritto dallo psichiatra e scienziato che per primo ha parlato delle esperienze di premorte in modo scientifico e rigoroso. Scritto in modo molto chiaro. Da leggere.</p></div>
+<div class="libro"><p class="dati"><strong>Manuale per sopravvivere dopo la morte</strong> · Ensitiv · OM Edizioni, 2023</p><p>Libro diretto, simpatico, chiaro e basato sull’esperienza personale di un autore italiano, con doti di veggenza, la cui identità non è nota. Portando esperienze personali di OBE (out of body experience, esperienze fuori dal corpo) vuole dare indicazioni su come orientarsi nei mondi sottili, anche dopo la morte. Prospettiva interessante, a volte sopra le righe, ma da valutare.</p></div>
 <div class="libro"><p class="dati"><strong>Ritorno dall’aldilà</strong> · George Ritchie · Edizioni Artemis, (1978) 2022</p><p>Testo stupendo autobiografico sull’esperienza NDE (near death experience, esperienza di premorte) dell’autore, medico; descrive in modo mirabile l’incontro con il Cristo e l’effetto che questo ha avuto sulla sua vita. Molto ispirato, assolutamente consigliato.</p></div>
 <div class="libro"><p class="dati"><strong>Esiste un posto bellissimo</strong> · Jeffrey Long · Mondadori, 2013</p><p>Il più grande studio scientifico sulle esperienze di NDE; l’autore è un medico che ha dedicato la vita a questa ricerca internazionale. Scientifico, puntuale, chiaro, ricco di racconti documentati. Assolutamente da leggere; titolo in inglese “Evidence of the Afterlife”.</p></div>
 <div class="libro"><p class="dati"><strong>Morendo ho ritrovato me stessa</strong> · Anita Moorjani · Editore My Life, 2012</p><p>Bellissimo libro, in cui l’autrice racconta la sua malattia, il suo calvario, la sua esperienza di premorte e di guarigione miracolosa e come la sua storia abbia trasformato radicalmente la sua vita. Molto bello.</p></div>
@@ -364,7 +365,6 @@ TESTI["in-memoria/petali-di-carta"] = dict(
 <h3 class="argomento">Sulla prenatalità</h3>
 <div class="libro"><p class="dati"><strong>Anime coraggiose</strong> · Robert Schwartz · Macro Edizioni, 2020</p><p>Bellissimo testo di ricerca sulla prenatalità; osa molto, richiede apertura a nuove visioni. Tratta della scelta del proprio destino e delle prove della vita, prima di nascere.</p></div>
 <h3 class="argomento">Sulle vite pregresse</h3>
-<div class="libro"><p class="dati"><strong>Vita dopo vita</strong> · Raymond Moody · Corbaccio, 1977</p><p>Testo datato, ma sempre bellissimo, scritto dallo psichiatra e scienziato che per primo ha parlato delle vite passate in modo scientifico e rigoroso. Scritto in modo molto chiaro. Da leggere.</p></div>
 <div class="libro"><p class="dati"><strong>Reincarnazione, 20 casi a sostegno</strong> · Ian Stevenson · Armenia, 2017 (1975)</p><p>Testo impostato in modo scientifico e pignolo; i casi trattati sono soprattutto dell’India. Forse non più adatto ai nostri tempi.</p></div>
 <h3 class="argomento">Sulla presenza del mondo spirituale intorno a noi</h3>
 <div class="libro"><p class="dati"><strong>Presenze positive</strong> · Marco Cesati Cassin · Sperling &amp; Kupfer, 2020</p><p>Testo che si può leggere come un’introduzione alle coincidenze e agli aiuti del mondo spirituale. Facile, diretto, apre molte porte; un’ottima prima lettura.</p></div>

@@ -147,7 +147,8 @@ SEZIONI = [
              dict(slug="svuota-e-sorridi", voce="Gli Svuota e Sorridi", titolo="Gli Svuota e Sorridi", riga="", hero="tavola", testata="interno", leggera=True),
              dict(slug="io-sono-qui-per-te", voce="Io sono qui per te", titolo="Io sono qui per te", riga="Accompagnamento nel fine vita", hero="lemniscata"),
              # la bibliografia di Francesca Zanuttini (Dacia, 13.11): i temi sono quelli della sezione, la morte, il lutto e l’accompagnamento
-             dict(slug="petali-di-carta", voce="Letture consigliate", titolo="Petali di carta", riga="Letture consigliate", hero="tavola", testata="biblioteca"),
+             # la voce «Letture e film consigliati» (Dacia, 14.11): la filmografia di Francesca arriverà con «Petali & Pellicole»
+             dict(slug="petali-di-carta", voce="Letture e film consigliati", titolo="Petali di carta", riga="Letture consigliate, a cura di Francesca Zanuttini", hero="tavola", testata="biblioteca"),
              dict(slug="elaborare-il-lutto", voce="Elaborare il lutto", titolo="Elaborare il lutto", riga="", nascosta=True),
          ]),
     dict(chiave="lasciti", voce="Lasciti", titolo="Lasciti", hero="rosa", tavola="interno", casa="rosa",
