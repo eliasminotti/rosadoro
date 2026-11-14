@@ -187,6 +187,18 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
 - I messaggi di commit sono in italiano: una frase che dice che cosa cambia
   per chi guarda il sito.
 
+## Uso di GitHub
+
+L'account eliasminotti-claude è stato sospeso dal 6 al 10.11.2026 per un uso troppo intenso. Regole per tutte le sessioni (Doc «Strategia GitHub — backup e piano B», sezione 2):
+
+1. Per aspettare i controlli, la sessione si iscrive agli eventi della proposta e chiude il turno. Mai gh run watch, gh pr checks --watch, Monitor o cicli (until … sleep) che chiedono lo stato a GitHub; a mano, al massimo una lettura ogni 15 minuti per proposta.
+2. Commit in locale; push solo a passo finito e non più di uno ogni 15 minuti. Niente commit vuoti, niente proposte chiuse e riaperte per far ripartire i controlli.
+3. Chi rivede manda tutti i rilievi in una sola revisione, non un commento alla volta.
+4. Un cantiere alla volta su GitHub: il turno lo decide Elias nel Doc «Turno GitHub», e fuori turno si lavora senza GitHub. Dentro il turno, una sola sessione attiva per repository: chi rivede parte quando chi scrive si ferma ad aspettare.
+5. Se GitHub risponde con un limite (rate limit, errore 403 o 429): un solo nuovo tentativo dopo un minuto, poi niente GitHub e avviso a Elias.
+6. Sulle bozze niente invii intermedi: si spinge una volta sola il commit che serve (per Social il commit rosso). Ogni workflow annulla la corsa precedente (concurrency con cancel-in-progress); nessun workflow pianificato più di una volta l'ora.
+7. Solo i propri repository: niente stelle, follow, fork o segnalazioni altrove.
+
 ## Dove sono le altre cose
 
 - La lista del cantiere (che cosa resta, chi lo fa):
