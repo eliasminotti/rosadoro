@@ -1014,6 +1014,199 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   });
 })();
 
+/* ---- 6c. la ricerca nel sito (Dacia ed Elias, 14.11.2026): la pagina «Cerca nel sito» legge l’indice che costruisci.py
+        scrive accanto (indice.json: titolo, indirizzo, descrizione e testo di ogni pagina) e cerca qui, nel browser.
+        Le parole cercate non partono verso nessuno: restano nell’indirizzo della pagina, come «?q=…», e nel campo.
+        Una pagina entra se contiene tutte le parole; le parole lunghe valgono anche al plurale o al femminile
+        (testamento trova testamenti), e senza accenti come con gli accenti. Vale di più il titolo, poi la descrizione,
+        poi quante volte la parola torna nel testo. Tutto ciò che si scrive entra nella pagina come testo, mai come codice ---- */
+(function () {
+  var modulo = document.getElementById('modulo-cerca');
+  if (!modulo) return;
+  var campo = document.getElementById('cerca-parole');
+  var stato = document.getElementById('cerca-stato');
+  var elenco = document.getElementById('risultati');
+  var senzaJs = document.getElementById('cerca-senza-js');
+  if (senzaJs) senzaJs.hidden = true;
+  var MASSIMO = 30;
+  /* le parole che da sole non dicono niente */
+  var VUOTE = ' a ad ai al alla alle allo agli anche c che chi ci come con cosa da dal dalla dalle dei degli del della delle di do e ed gli ha ho i il in l la le lo ma mi ne nei negli nel nella nelle non o per piu se si sono su sul sulla ti tra fra tu un una uno vi ';
+
+  /* minuscole, senza accenti, l’apostrofo come spazio: la stessa lunghezza del testo di partenza, così le posizioni valgono per tutti e due */
+  function piana(t) {
+    var o = '';
+    for (var i = 0; i < t.length; i++) {
+      var c = t.charAt(i);
+      if (c === '\'' || c === '’' || c === '‘' || c === 'ʼ' || c === '`') c = ' ';
+      else if (c > '\u007f' && c.normalize) c = c.normalize('NFD').charAt(0);
+      o += c.toLowerCase().charAt(0);
+    }
+    return o;
+  }
+  function lettera(c) { return /[a-z0-9]/.test(c); }
+  /* le parole della ricerca; da cinque lettere in su l’ultima vocale cade, così vale anche per il plurale */
+  function parole(q) {
+    var fuori = [];
+    piana(q).split(/[^a-z0-9]+/).forEach(function (w) {
+      if (!w || (VUOTE.indexOf(' ' + w + ' ') >= 0 && !/^[0-9]+$/.test(w))) return;
+      if (w.length >= 5 && /[aeiou]$/.test(w)) w = w.slice(0, -1);
+      if (fuori.indexOf(w) < 0) fuori.push(w);
+    });
+    return fuori;
+  }
+  /* la parola vale solo dove comincia una parola del testo: «lux» non si trova dentro «deluxe»; le parole corte
+     (DAT, 5, Lux) valgono solo intere, così «dat» non trova «dati» */
+  function intera(testo, w, i) {
+    return (i === 0 || !lettera(testo.charAt(i - 1))) && (w.length > 3 || !lettera(testo.charAt(i + w.length)));
+  }
+  function trova(testo, w, da) {
+    var i = testo.indexOf(w, da || 0);
+    while (i >= 0 && !intera(testo, w, i)) i = testo.indexOf(w, i + 1);
+    return i;
+  }
+  function quante(testo, w) {
+    var n = 0, i = trova(testo, w, 0);
+    while (i >= 0 && n < 20) { n++; i = trova(testo, w, i + w.length); }
+    return n;
+  }
+
+  var pagine = null;
+  var attesa = null;
+  function indice() {
+    if (pagine) return Promise.resolve(pagine);
+    if (!attesa) {
+      attesa = fetch(modulo.getAttribute('data-indice'), { cache: 'no-cache' })
+        .then(function (r) { if (!r.ok) throw new Error('indice'); return r.json(); })
+        .then(function (dati) {
+          pagine = (dati && dati.pagine || []).map(function (p) {
+            return { t: p.t || '', h: p.h || '', s: p.s || '', d: p.d || '', x: p.x || '',
+                     pt: piana(p.t || ''), pd: piana(p.d || ''), px: piana(p.x || '') };
+          });
+          return pagine;
+        });
+      attesa.catch(function () { attesa = null; });
+    }
+    return attesa;
+  }
+
+  /* dove il testo ha più parole cercate vicine: tra i punti dove ne comincia una, quello con più parole diverse
+     nelle righe che seguono; a pari merito il primo */
+  function punto(piano, ws) {
+    var meglio = -1, quanteMeglio = 0;
+    ws.forEach(function (w) {
+      for (var i = trova(piano, w, 0), n = 0; i >= 0 && n < 40; i = trova(piano, w, i + w.length), n++) {
+        var vicine = 0, finestra = piano.slice(Math.max(0, i - 70), i + 190);
+        ws.forEach(function (v) { if (trova(finestra, v, 0) >= 0) vicine++; });
+        if (vicine > quanteMeglio || (vicine === quanteMeglio && i < meglio)) { meglio = i; quanteMeglio = vicine; }
+      }
+    });
+    return meglio;
+  }
+  /* la riga sotto il titolo: un pezzo del testo dove si trovano le parole cercate, con le parole in evidenza */
+  function riga(p, ws) {
+    var fonte = p.x, piano = p.px, primo = punto(piano, ws);
+    if (primo < 0) { fonte = p.d; piano = p.pd; primo = punto(piano, ws); }
+    if (primo < 0) { fonte = p.d || p.x; piano = p.d ? p.pd : p.px; primo = 0; }
+    var inizio = Math.max(0, primo - 70), fine = Math.min(fonte.length, primo + 190);
+    if (inizio > 0) { var s = fonte.indexOf(' ', inizio); if (s >= 0 && s < primo) inizio = s + 1; }
+    if (fine < fonte.length) { var e = fonte.lastIndexOf(' ', fine); if (e > primo) fine = e; }
+    var pezzi = [], ultimo = inizio, i = inizio;
+    while (i < fine) {
+      var preso = 0;
+      for (var k = 0; k < ws.length && !preso; k++) {
+        var w = ws[k];
+        if (piano.substr(i, w.length) === w && intera(piano, w, i)) {
+          var j = i + w.length;
+          while (j < fine && lettera(piano.charAt(j))) j++;      /* fino alla fine della parola */
+          preso = j - i;
+        }
+      }
+      if (preso) {
+        if (i > ultimo) pezzi.push([fonte.slice(ultimo, i), false]);
+        pezzi.push([fonte.slice(i, i + preso), true]);
+        i += preso; ultimo = i;
+      } else i++;
+    }
+    if (fine > ultimo) pezzi.push([fonte.slice(ultimo, fine), false]);
+    var para = document.createElement('p');
+    if (inizio > 0) para.appendChild(document.createTextNode('… '));
+    pezzi.forEach(function (x) {
+      if (x[1]) { var m = document.createElement('mark'); m.textContent = x[0]; para.appendChild(m); }
+      else para.appendChild(document.createTextNode(x[0]));
+    });
+    if (fine < fonte.length) para.appendChild(document.createTextNode(' …'));
+    return para;
+  }
+
+  function scrivi(testo, conLink) {
+    stato.textContent = testo;
+    if (conLink) {
+      stato.appendChild(document.createTextNode(' Prova con altre parole, oppure '));
+      var a = document.createElement('a');
+      a.className = 'link';
+      a.href = modulo.getAttribute('data-contatti');
+      a.textContent = 'scrivici';
+      stato.appendChild(a);
+      stato.appendChild(document.createTextNode(': ti rispondiamo di persona.'));
+    }
+    stato.hidden = false;
+  }
+
+  function cerca(q) {
+    while (elenco.firstChild) elenco.removeChild(elenco.firstChild);
+    var ws = parole(q);
+    if (!q.replace(/\s+/g, '')) { stato.hidden = true; stato.textContent = ''; return; }
+    if (!ws.length) { scrivi('Scrivi una parola un po’ più precisa: per esempio «testamento» o «funerale».'); return; }
+    stato.hidden = true;                                    /* il conto si scrive quando l’elenco è pronto */
+    indice().then(function (tutte) {
+      var trovate = [];
+      tutte.forEach(function (p, ordine) {
+        var punti = 0;
+        for (var k = 0; k < ws.length; k++) {
+          var w = ws[k];
+          var nt = trova(p.pt, w, 0) >= 0 ? 1 : 0, nd = quante(p.pd, w), nx = quante(p.px, w);
+          if (!nt && !nd && !nx) return;                        /* manca una parola: la pagina non entra */
+          punti += nt * 20 + Math.min(nd, 3) * 5 + Math.min(nx, 10);
+        }
+        trovate.push({ p: p, punti: punti, ordine: ordine });
+      });
+      trovate.sort(function (a, b) { return b.punti - a.punti || a.ordine - b.ordine; });
+      if (!trovate.length) { scrivi('Non abbiamo trovato nessuna pagina con queste parole.', true); return; }
+      trovate.slice(0, MASSIMO).forEach(function (r) {
+        var li = document.createElement('li');
+        if (r.p.s) { var dove = document.createElement('span'); dove.className = 'dove'; dove.textContent = r.p.s; li.appendChild(dove); }
+        var a = document.createElement('a');
+        a.className = 'titolo';
+        a.href = r.p.h;
+        a.textContent = r.p.t;
+        li.appendChild(a);
+        li.appendChild(riga(r.p, ws));
+        elenco.appendChild(li);
+      });
+      var n = trovate.length;
+      scrivi(n === 1 ? 'Una pagina parla di «' + q + '».'
+             : n + ' pagine parlano di «' + q + '»' + (n > MASSIMO ? ': qui le prime ' + MASSIMO + '.' : '.'));
+    }, function () {
+      scrivi('La ricerca non riesce a partire in questo momento. Riprova tra poco, oppure cerca la pagina dal menu.');
+    });
+  }
+
+  modulo.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = campo.value.trim().slice(0, 120);
+    if (history.replaceState) history.replaceState(null, '', location.pathname + (q ? '?q=' + encodeURIComponent(q) : ''));
+    cerca(q);
+  });
+  var iniziale = /[?&]q=([^&#]*)/.exec(location.search);
+  if (iniziale) {
+    var q0 = '';
+    try { q0 = decodeURIComponent(iniziale[1].replace(/\+/g, ' ')); } catch (err) { q0 = ''; }
+    q0 = q0.trim().slice(0, 120);
+    campo.value = q0;
+    cerca(q0);
+  }
+})();
+
 /* ---- 7. il riquadro delle notizie, nella fascia «Restiamo in contatto» prima del piede (o nel testo della pagina
         «Grazie»), e l'invito che compare nel giardino dopo la dedica: l'email va allo script del foglio, che scrive la
         richiesta nella scheda dei Contatti e manda l'email di conferma. Senza questo codice il riquadro parte lo stesso ---- */

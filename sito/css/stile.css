@@ -787,3 +787,24 @@ h3.argomento{font-size:30px;line-height:1.2;margin:52px 0 20px;padding-top:18px;
 .esempio{margin:28px 0 36px;max-width:640px}
 .esempio img{display:block;width:100%;height:auto;border:1px solid var(--filo-forte);background:var(--avorio)}
 .esempio figcaption{margin-top:10px;font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70)}
+/* la ricerca nel sito (Dacia ed Elias, 14.11): la lente con «Cerca» in alto, sul telefono la prima voce del menu; la pagina dei risultati */
+.lente{width:15px;height:15px;flex:none}
+.menu-sec>li{display:flex;align-items:center}
+.menu-sec a.cerca,.menu-sec-mobile a.cerca{display:inline-flex;align-items:center;gap:7px}
+.menu-sec a.cerca[aria-current]{color:var(--testo)}
+.cerca-modulo{margin-top:0}
+.cerca-modulo .in-riga{display:flex;flex-wrap:wrap;gap:12px}
+.cerca-modulo .in-riga input{flex:1 1 260px;width:auto;min-width:0}
+.cerca-modulo .in-riga .invia{margin-top:0}
+.cerca-stato{margin:36px 0 0;color:var(--testo)}
+.risultati{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--filo-forte)}
+.risultati li{padding:22px 0 24px;border-bottom:1px solid var(--filo)}
+.risultati .dove{display:block;font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--accento);margin-bottom:8px}
+.risultati .titolo{font-family:var(--display);font-size:26px;line-height:1.25;font-weight:600;color:var(--testo)}
+.risultati .titolo:hover{color:var(--accento)}
+.risultati p{margin:8px 0 0;font-size:17px;line-height:1.55;color:var(--testo-60)}
+.risultati mark{background:rgba(184,143,61,.22);color:var(--testo);padding:0 1px}
+.hero.breve{min-height:0;padding:72px 0 44px}
+.hero.breve h1{font-size:72px;margin-bottom:24px}
+.hero.breve+.corpo{padding-top:48px}
+@media (max-width:600px){.hero.breve{padding:40px 0 28px}.hero.breve h1{font-size:48px}.hero.breve+.corpo{padding-top:32px}}

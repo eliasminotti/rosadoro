@@ -15,6 +15,7 @@ header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 import os, re, shutil, datetime, subprocess, hashlib, base64
 from testi_pagine import TESTI, DESCRIZIONI, TITOLI, NOTIZIE, BIGLIETTO, PERGAMENA
 import json
+from html import unescape
 
 # --------------------------------------------------------------------------
 # impostazioni
@@ -260,6 +261,9 @@ SERVIZIO = [
     dict(cartella="news", voce="News", titolo="News", occhiello="La Fondazione", hero="avorio", dove="barra"),
     dict(cartella="lavora-con-noi", voce="Lavora con noi", titolo="Lavora con noi", occhiello="La Fondazione", hero="avorio", dove="barra"),
     dict(cartella="cinque-per-mille", voce="5 per mille", titolo="Il 5 per mille", occhiello="Sostieni la Fondazione", hero="avorio", dove="barra"),
+    # la ricerca nel sito (Dacia ed Elias, 14.11.2026): ci porta la lente in alto, e sul telefono la prima voce del menu
+    # La testata è bassa (breve), così il campo per scrivere si vede subito, anche sul telefono
+    dict(cartella="cerca", voce="Cerca", titolo="Cerca nel sito", occhiello="La Fondazione", hero="avorio", dove="", breve=True),
 ]
 # «Lavora con noi» per ora rimanda ai Progetti da avviare
 BARRA = [("Chi siamo", "chi-siamo"), ("News", "news"), ("Dona ora", "dona"), ("5 per mille", "cinque-per-mille"), ("Lavora con noi", "lavora-con-noi")]   # cinque voci, Dona ora al centro (Elias, 16.9)
@@ -290,7 +294,7 @@ for s in SEZIONI:
 
 for p in SERVIZIO:
     registra(p["cartella"], voce=p["voce"], titolo=p["titolo"], occhiello=p["occhiello"], hero=p["hero"],
-             tipo=p.get("tipo", "pagina"), sezione=None, notte=False)
+             tipo=p.get("tipo", "pagina"), sezione=None, notte=False, breve=p.get("breve", False))
 
 # --------------------------------------------------------------------------
 # collegamenti relativi: ogni pagina sa a che profondità sta
@@ -339,6 +343,9 @@ SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden="tru
       <path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/>
       <circle cx="100" cy="100" r="86" stroke-width=".7" opacity=".55"/>
     </g>
+  </symbol>
+  <symbol id="lente" viewBox="0 0 20 20">
+    <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.6"/><path d="M12.6 12.6 17.2 17.2"/></g>
   </symbol>
   <symbol id="rosa-piccola" viewBox="0 0 200 200">
     <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
@@ -402,9 +409,15 @@ def header(da, pagina):
                     voci.append('<li class="voce sola%s"><a href="%s">%s</a></li>' % (" attiva" if da == p["cartella"] else "", verso(da, p["cartella"]), sfuggi(p["voce"])))
     secondari = "".join('<li><a href="%s">%s</a></li>' % (verso(da, p["cartella"]), sfuggi(p["voce"]))
                         for p in SERVIZIO if p["dove"] == "secondario")
+    # la ricerca nel sito (14.11.2026): la lente con la parola «Cerca», in fondo alla riga in alto; sul telefono apre il menu
+    qui = ' aria-current="page"' if da == "cerca" else ""
+    lente = '<svg class="lente" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#lente"/></svg>'
+    cerca = '<li><a class="cerca" href="%s" aria-label="Cerca nel sito"%s>%s<span>Cerca</span></a></li>' % (verso(da, "cerca"), qui, lente)
+    cerca_telefono = '<li><a class="cerca" href="%s"%s>%s<span>Cerca nel sito</span></a></li>' % (verso(da, "cerca"), qui, lente)
     # sul telefono «Chi siamo» e «Lavora con noi» lasciano la barra in basso e stanno qui, tra le voci rosse (Elias, 11.10)
-    secondari_telefono = ('<li class="solo-telefono"><a href="%s">Chi siamo</a></li>' % verso(da, "chi-siamo") + secondari
+    secondari_telefono = (cerca_telefono + '<li class="solo-telefono"><a href="%s">Chi siamo</a></li>' % verso(da, "chi-siamo") + secondari
                           + '<li class="solo-telefono"><a href="%s">Lavora con noi</a></li>' % verso(da, "lavora-con-noi"))
+    secondari += cerca
     # Lux, il progetto della Fondazione per il digitale: in alto a sinistra, in diagonale con «Per professionisti»;
     # sul telefono, dove la riga in alto non c'è, chiude il menu (Elias, 11.10)
     lux = ('<a class="lux" href="%s"><span class="lux-nome">Lux</span> <span class="lux-riga">per un uso consapevole del digitale</span></a>'
@@ -550,7 +563,7 @@ def hero(da, p, sotto, classe_sotto="sotto"):
     fonte = ('<p class="fonte">%s</p>' % sfuggi(p["art"])) if p.get("art") else ""
     testo = '%s%s<h1>%s</h1><hr class="filo"><p class="%s">%s</p>' % (occhiello, fonte, sfuggi(p["titolo"]), classe_sotto, sotto)
     if tipo == "avorio":
-        return '<section class="hero hero-avorio"><div class="riga"></div><div class="bordo"></div><div class="pagina">%s</div></section>' % testo
+        return '<section class="hero hero-avorio%s"><div class="riga"></div><div class="bordo"></div><div class="pagina">%s</div></section>' % (" breve" if p.get("breve") else "", testo)
     if tipo == "rosa":
         return '<section class="hero hero-rosa">%s<div class="pagina">%s</div></section>' % (emblema(), testo)
     if tipo == "veli":
@@ -1175,10 +1188,12 @@ IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno ind
 # le schede dei fondi convertibili e della riqualificazione etica, di cui si parla a tu per tu (Elias, 9.10): si leggono
 # dal sito, ma non si cercano su Google
 # dal 1.11.2026 anche la pagina dove Stripe riporta chi ha donato: serve solo a chi arriva da lì
-NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica", "dona/grazie")
+# dal 14.11.2026 anche la pagina della ricerca nel sito, che senza parole è vuota e con le parole è una pagina di risultati
+NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica", "dona/grazie", "cerca")
 # i file che robots.txt chiude a tutti i motori: le dediche del giardino (dediche.json, che la pubblicazione scrive accanto
 # alla pagina) e la foto della bambina in Dopo di Noi, che resta sul sito ma non entra in Google Immagini (Elias e Dacia, 26.10)
-FUORI_DAI_MOTORI = ("in-memoria/giardino-dei-ricordi/dediche.json", "img/foto/bimba-1.jpg")
+# Dal 14.11.2026 anche l’indice della ricerca nel sito (cerca/indice.json), che contiene il testo delle pagine tenute fuori da Google
+FUORI_DAI_MOTORI = ("in-memoria/giardino-dei-ricordi/dediche.json", "img/foto/bimba-1.jpg", "cerca/indice.json")
 
 def pagina_html(da, p, extra_head=""):
     # il titolo della scheda è anche il titolo che Google mostra: per le pagine dal titolo evocativo
@@ -1317,6 +1332,42 @@ def briciole(da, p):
 
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FAF6EE"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
 
+# --------------------------------------------------------------------------
+# la ricerca nel sito (Dacia ed Elias, 14.11.2026): l’indice è un file accanto alla pagina «Cerca nel sito», con il titolo,
+# l’indirizzo, la descrizione e il testo di ogni pagina; sito.js lo legge e cerca nel browser di chi visita, senza mandare
+# le parole a nessuno. Entrano le pagine che si vedono nei menu: non quelle spente, nascoste o ancora senza testo, non la
+# pagina «Grazie» di chi torna da Stripe. Il giardino entra con il suo testo; le dediche no, stanno in dediche.json
+# --------------------------------------------------------------------------
+NASCOSTE = {(p["slug"] if p.get("radice") else s["chiave"] + "/" + p["slug"]) for s in SEZIONI for p in s["pagine"] if p.get("nascosta")}
+FUORI_DALLA_RICERCA = ("cerca", "dona/grazie")
+
+def testo_piano(html):
+    """il testo che si legge in un pezzo di pagina: via i moduli, i menu di lato, i disegni, gli script e i pulsanti"""
+    for tag in ("script", "style", "aside", "form", "svg", "select", "button", "noscript", "template"):
+        html = re.sub(r"<%s\b.*?</%s>" % (tag, tag), " ", html, flags=re.S)
+    html = re.sub(r'<a class="vai"[^>]*>.*?</a>', " ", html, flags=re.S)     # «Apri», «Vai alla pagina»: servono a muoversi, non dicono niente
+    html = re.sub(r"<(br|p|li|h[1-6]|div|dt|dd|figure|figcaption|blockquote|tr|td|th|section|article|ul|ol|dl|hr)\b", r" <\1", html)
+    # un tag che apre stacca le parole («Apri» dopo il titolo di una scheda); uno che chiude no («Dona.» resta attaccato)
+    testo = unescape(re.sub(r"</[^>]+>", "", re.sub(r"<[^/][^>]*>", " ", html)))
+    return re.sub(r"\s+", " ", testo).strip()
+
+def indice_ricerca():
+    voci = []
+    for cartella, p in PAGINE.items():
+        if (cartella in FUORI_DALLA_RICERCA or cartella in NASCOSTE or cartella in IN_ATTESA or p.get("spenta")):
+            continue
+        with open(os.path.join(USCITA, cartella, "index.html"), encoding="utf-8") as f:
+            html = f.read()
+        corpo = re.search(r"<main\b.*?</main>", html, re.S)
+        descrizione = re.search(r'<meta name="description" content="([^"]*)"', html)
+        sezione = PAGINE[p["sezione"]]["voce"] if p.get("sezione") and p["sezione"] != cartella else ("" if cartella == "" else p["occhiello"])
+        voci.append({"t": p["titolo"] if cartella else "Home", "h": verso("cerca", cartella), "s": sezione,
+                     "d": unescape(descrizione.group(1)) if descrizione else "", "x": testo_piano(corpo.group(0)) if corpo else ""})
+    os.makedirs(os.path.join(USCITA, "cerca"), exist_ok=True)
+    with open(os.path.join(USCITA, "cerca", "indice.json"), "w", encoding="utf-8") as f:
+        json.dump({"pagine": voci}, f, ensure_ascii=False, separators=(",", ":"))
+    print("Indice della ricerca: %d pagine" % len(voci))
+
 def costruisci():
     # via le pagine vecchie, restano css/js/font/img/allegati/audio
     for nome in os.listdir(USCITA):
@@ -1346,6 +1397,7 @@ def costruisci():
             f.write(apostrofi(pagina_html(cartella, p)))
         conteggio += 1
     print("Scritte %d pagine in %s (%s)" % (conteggio, USCITA, datetime.date.today().isoformat()))
+    indice_ricerca()
     # la mappa del sito per i motori di ricerca: solo le pagine che hanno già il loro testo
     oggi = datetime.date.today().isoformat()
     voci = ["<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (DOMINIO + ("/" if not k else "/" + k + "/"), oggi)

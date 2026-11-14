@@ -1610,6 +1610,76 @@ controllo('la pergamena del saluto: la frase della famiglia, in oro, viene prima
 });
 
 
+/* ---- la ricerca nel sito (Dacia ed Elias, 14.11.2026): la pagina «Cerca nel sito» legge l’indice che costruisci.py scrive
+        accanto, e cerca nel browser; niente parte verso altri siti ---- */
+
+const CERCA = 'cerca/index.html';
+
+async function trovati(page) {
+  await page.waitForFunction(() => { const s = document.getElementById('cerca-stato'); return s && !s.hidden && s.textContent.trim().length > 0; });
+  return page.$$eval('#risultati li', l => l.map(x => ({ titolo: x.querySelector('a').textContent.trim(), href: x.querySelector('a').getAttribute('href'),
+                                                          riga: (x.querySelector('p') || { textContent: '' }).textContent })));
+}
+
+controllo('la ricerca nel sito: dalle parole alle pagine, con una riga di testo, senza mandare niente a nessuno', async () => {
+  const p = await apri(CERCA + '?q=testamento');
+  try {
+    assert.ok(await p.page.locator('#cerca-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
+    assert.strictEqual(await p.page.inputValue('#cerca-parole'), 'testamento', 'le parole dell’indirizzo restano nel campo');
+    let r = await trovati(p.page);
+    assert.ok(r.length >= 3, 'per «testamento» ci sono poche pagine: ' + JSON.stringify(r.map(x => x.titolo)));
+    assert.ok(r.some(x => /lasciti\/come-fare-testamento/.test(x.href)), 'manca «Come fare testamento»: ' + JSON.stringify(r.map(x => x.href)));
+    assert.ok(r.every(x => /testament/i.test(x.titolo + ' ' + x.riga)), 'una riga non mostra la parola cercata');
+    assert.ok(await p.page.locator('#risultati mark').count() > 0, 'la parola cercata non è evidenziata');
+    /* una parola senza accento trova anche quella con l’accento, e due parole vogliono tutte e due */
+    await p.page.fill('#cerca-parole', 'pergamena funerale');
+    await p.page.press('#cerca-parole', 'Enter');
+    await p.page.waitForFunction(() => /pergamena/.test(location.search));
+    r = await trovati(p.page);
+    assert.ok(r.length >= 1 && /in-memoria\/funerali/.test(r[0].href), 'per «pergamena funerale» la prima pagina è Funerali: ' + JSON.stringify(r.map(x => x.href)));
+    await p.page.fill('#cerca-parole', 'parolachenoncè');
+    await p.page.press('#cerca-parole', 'Enter');
+    await p.page.waitForFunction(() => /nessuna pagina/i.test(document.getElementById('cerca-stato').textContent));
+    assert.strictEqual(await p.page.locator('#risultati li').count(), 0);
+    assert.ok(await p.page.locator('#cerca-stato a[href*="contatti"]').count() === 1, 'senza risultati si propone di scriverci');
+    /* quello che si scrive resta testo: niente codice nella pagina */
+    await p.page.fill('#cerca-parole', '<img src=x onerror="window.__preso=1"> lux');
+    await p.page.press('#cerca-parole', 'Enter');
+    await p.page.waitForTimeout(400);
+    assert.strictEqual(await p.page.locator('#cerca-stato img, #risultati img').count(), 0, 'le parole cercate sono diventate codice');
+    assert.strictEqual(await p.page.evaluate(() => window.__preso), undefined);
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.google, [], 'la ricerca non chiama Google');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), [], 'la pagina della ricerca viola la regola di sicurezza');
+  } finally { await p.chiudi(); }
+});
+
+controllo('la lente della ricerca sta in alto in ogni pagina, e sul telefono nel menu', async () => {
+  for (const schermo of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
+    const p = await apri('in-memoria/funerali/index.html', { schermo });
+    try {
+      if (schermo.width > 900) {
+        const lente = p.page.locator('.testa-alta a.cerca');
+        assert.ok(await lente.isVisible(), 'in alto non si vede la lente della ricerca');
+        assert.strictEqual(await lente.getAttribute('aria-label'), 'Cerca nel sito');
+        await lente.click();
+      } else {
+        await p.page.click('button.apri-menu');
+        const voce = p.page.locator('.menu-sec-mobile a.cerca');
+        await voce.waitFor({ state: 'visible', timeout: 2000 });
+        await voce.click();
+      }
+      await p.page.waitForURL(/\/cerca\//);
+      assert.ok(await p.page.locator('#cerca-parole').isVisible());
+      const largo = await p.page.evaluate(() => document.documentElement.scrollWidth);
+      assert.ok(largo <= schermo.width, schermo.width + ' px: la pagina della ricerca si allarga a ' + largo);
+    } finally { await p.chiudi(); }
+  }
+});
+
+
 /* ---- si parte ---- */
 
 (async () => {

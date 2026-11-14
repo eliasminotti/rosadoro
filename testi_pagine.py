@@ -1873,3 +1873,22 @@ DESCRIZIONI["dona/bomboniere-solidali"] = ("Al posto delle bomboniere, una donaz
 DESCRIZIONI["dona/regali-solidali"] = ("{se-natale}Regala a Natale una donazione alla Fondazione La Rosa d’Oro e prepara il biglietto da stampare o da mandare per email. "
     "Anche per le aziende, al posto dei regali ai clienti.{/se-natale}{senza-natale}Regala una donazione alla Fondazione La Rosa d’Oro per un compleanno, "
     "una nascita, un matrimonio, e prepara il biglietto da stampare o da mandare per email.{/senza-natale}")
+
+# la ricerca nel sito (Dacia ed Elias, 14.11.2026): cerca nel browser di chi visita, nell’indice che costruisci.py scrive
+# accanto alla pagina (cerca/indice.json); le parole cercate non partono verso nessuno. Fuori dai motori di ricerca
+TESTI["cerca"] = dict(
+    sotto="Scrivi una o più parole: ti mostriamo le pagine del sito che ne parlano.",
+    corpo="""
+<form class="modulo cerca-modulo" id="modulo-cerca" role="search" action="{→cerca}" method="get" data-indice="indice.json" data-contatti="{→contatti}">
+<label for="cerca-parole">Che cosa cerchi</label>
+<div class="in-riga">
+<input id="cerca-parole" name="q" type="search" maxlength="120" autocomplete="off" enterkeyhint="search" placeholder="Per esempio: testamento, funerale, 5 per mille">
+<button type="submit" class="invia">Cerca</button>
+</div>
+<p class="nota" id="cerca-senza-js">La ricerca ha bisogno di JavaScript, che nel tuo browser è spento. Tutte le pagine si trovano anche dal menu; per una domanda puoi <a class="link" href="{→contatti}">scriverci</a>.</p>
+</form>
+<p class="cerca-stato" id="cerca-stato" role="status" hidden></p>
+<ol class="risultati" id="risultati"></ol>
+""")
+TITOLI["cerca"] = "Cerca nel sito"
+DESCRIZIONI["cerca"] = "Cerca nelle pagine del sito della Fondazione La Rosa d’Oro: lasciti e testamento, donazioni in memoria, funerali, fondi e progetti."
