@@ -808,12 +808,14 @@ controllo('la regola di sicurezza (CSP) e quella sul referrer stanno in ogni pag
 });
 
 /* ---- la musica su scelta: il valzer di Chopin nel fondo di memoria e nel giardino, il Lacrimosa di Mozart nei Funerali
-        (Dacia ed Elias, 1.11). Ogni pulsante dice la sua musica, parte solo col tocco, e quando si ferma torna a dire la sua ---- */
+        (Dacia ed Elias, 1.11), O Tannenbaum nei Regali solidali da novembre all’Epifania (Dacia, 14.11). Ogni pulsante dice
+        la sua musica, parte solo col tocco, e quando si ferma torna a dire la sua ---- */
 
 controllo('la musica: ogni pagina ha il suo pulsante, che parte al tocco, si ferma e torna a dire la sua musica', async () => {
   const pagine = [
     ['in-memoria/fondo-di-memoria/index.html', 'audio/valzer-op-69.mp3', 'Ascolta · Chopin, valzer op. 69'],
-    ['in-memoria/funerali/index.html', 'audio/lacrimosa.mp3', 'Ascolta · Mozart, Lacrimosa']
+    ['in-memoria/funerali/index.html', 'audio/lacrimosa.mp3', 'Ascolta · Mozart, Lacrimosa'],
+    ['dona/regali-solidali/index.html', 'audio/o-tannenbaum.mp3', 'Ascolta · O Tannenbaum']
   ];
   for (const [percorso, file, etichetta] of pagine) {
     const p = await apri(percorso);
@@ -1588,14 +1590,16 @@ controllo('i funerali: la frase in oro, la cartolina di condoglianze per la fami
 });
 
 /* la cartolina di condoglianze anche con una foto del Giardino dei ricordi (Dacia, 14.11: «meno formale ma più di cuore»):
-   dopo i quattro disegni, otto foto del giardino con i loro nomi; la foto scelta riempie la parte sinistra della cartolina */
+   dopo i quattro disegni, due foto con i loro nomi, la rosa bianca (la più scelta nel giardino) e la calla (Dacia, 14.11 sera);
+   la foto scelta riempie la parte sinistra della cartolina */
 controllo('la cartolina di condoglianze si può fare anche con una foto del Giardino dei ricordi', async () => {
   const p = await apri(FUNERALI);
   try {
     await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
     const foto = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"][data-foto]', l => l.map(x => x.value + ' ' + x.parentNode.textContent.trim()));
-    assert.strictEqual(foto.length, 8, 'le foto del giardino nella cartolina: ' + JSON.stringify(foto));
-    assert.ok(foto.every(x => /^giardino-\d{3} \S/.test(x)), 'ogni foto ha il suo nome, come nel giardino: ' + JSON.stringify(foto));
+    assert.deepStrictEqual(foto, ['rosa-bianca La rosa bianca', 'giardino-185 La calla bianca'],
+      'nella cartolina la rosa bianca e la calla, con i loro nomi come nel giardino: ' + JSON.stringify(foto));
+    assert.strictEqual(await p.page.getAttribute('#mb-per', 'placeholder'), 'Per esempio: la famiglia di Beatrice', 'il nome d’esempio è Beatrice');
     assert.ok(await p.page.isChecked(BIGLIETTO + ' input[name="immagine"][value="candela"]'), 'all’inizio resta scelta la candela');
     const punto = () => p.page.$eval(BIGLIETTO + ' canvas', c => Array.from(c.getContext('2d').getImageData(150, 260, 1, 1).data.slice(0, 3)));
     const avorio = await punto();

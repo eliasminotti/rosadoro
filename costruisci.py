@@ -102,8 +102,14 @@ MUSICHE = {                               # la musica su scelta (musica= in test
     "valzer": ("audio/valzer-op-69.mp3", "Chopin, valzer op. 69", ""),    # Luke Faulkner, Musopen: pubblico dominio ovunque
     "lacrimosa": ("audio/lacrimosa.mp3", "Mozart, Lacrimosa",             # il terzo è il nome per intero, che compare col mouse
                   "Mozart, Lacrimosa dal Requiem K. 626. Herbert von Karajan, Berliner Philharmoniker, Wiener Singverein, 1962"),
-}                                         # Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti
+                                          # Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti
                                           # (Elias, 1.11: se arriva una richiesta di toglierlo, si passa a una versione per pianoforte)
+    "tannenbaum": ("audio/o-tannenbaum.mp3", "O Tannenbaum",
+                   "O Tannenbaum, canto tradizionale tedesco. Coro della U.S. Army Band «Pershing’s Own», circa 2010"),
+}   # O Tannenbaum (Dacia, 14.11: la sua prima scelta per il Natale): Wikimedia Commons, «U.S. Army Band - O Tannenbaum.ogg»
+    # (sha256 9ee88fd8…), senza i 5 secondi di silenzio in fondo. È un lavoro di militari americani nel loro servizio: nessun diritto
+    # negli Stati Uniti (17 U.S.C. § 105), e in Europa la protezione non dura più che nel paese d’origine (direttiva 2006/116/CE,
+    # art. 7). Il canto è del 1824 (Ernst Anschütz), su una melodia popolare. Suona solo con NATALE (musica_natale=)
 
 CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
                                           # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
@@ -661,18 +667,48 @@ def scelta_immagini(da, immagini):
                    % ((v, " checked" if i == 0 else "", risorsa(da, "img/" + IMMAGINI_BIGLIETTO[v][0])) + IMMAGINI_BIGLIETTO[v][1:] + (sfuggi(voce),))
                    for i, (v, voce) in enumerate(immagini))
 
+def misure_foto(percorso):
+    """larghezza e altezza di una foto .jpg o .webp, lette dal file stesso (senza librerie in più)"""
+    with open(percorso, "rb") as f:
+        d = f.read()
+    if d[:4] == b"RIFF" and d[8:12] == b"WEBP":
+        if d[12:16] == b"VP8 ":
+            return int.from_bytes(d[26:28], "little") & 0x3FFF, int.from_bytes(d[28:30], "little") & 0x3FFF
+        if d[12:16] == b"VP8L":
+            b = int.from_bytes(d[21:25], "little")
+            return (b & 0x3FFF) + 1, ((b >> 14) & 0x3FFF) + 1
+        if d[12:16] == b"VP8X":
+            return int.from_bytes(d[24:27], "little") + 1, int.from_bytes(d[27:30], "little") + 1
+    elif d[:2] == b"\xff\xd8":
+        i = 2
+        while i + 9 < len(d):
+            if d[i] != 0xFF:
+                i += 1
+                continue
+            m = d[i + 1]
+            if m in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                return int.from_bytes(d[i + 7:i + 9], "big"), int.from_bytes(d[i + 5:i + 7], "big")
+            if m in (0xD8, 0x01) or 0xD0 <= m <= 0xD7 or m == 0xFF:
+                i += 1 if m == 0xFF else 2
+                continue
+            i += 2 + int.from_bytes(d[i + 2:i + 4], "big")
+    raise SystemExit("ERRORE: non riesco a leggere le misure della foto %s" % percorso)
+
 def foto_giardino(da, foto):
     """le foto del Giardino dei ricordi nella cartolina di condoglianze (Dacia, 14.11), dopo i disegni: si caricano solo quando
-    si vedono, e sito.js le riconosce da data-foto"""
+    si vedono, e sito.js le riconosce da data-foto. Ogni foto è in img/foto/, in .webp o in .jpg (la rosa bianca del giardino)"""
     if not foto:
         return ""
+    righe = []
     for f in foto:
-        if not os.path.exists(os.path.join(USCITA, "img", "foto", f[0] + ".webp")):
-            raise SystemExit("ERRORE: manca la foto img/foto/%s.webp della cartolina di condoglianze" % f[0])
-    return ('<p class="gruppo">Oppure una foto del Giardino dei ricordi</p>'
-            + "".join('<label class="immagine dal-giardino"><input type="radio" name="immagine" value="%s" data-foto="%s">'
-                      '<img src="%s" alt="" width="1024" height="1024" loading="lazy"><span>%s</span></label>'
-                      % (f[0], f[2] if len(f) > 2 else 0.5, risorsa(da, "img/foto/%s.webp" % f[0]), sfuggi(f[1])) for f in foto))
+        nome = next((f[0] + e for e in (".webp", ".jpg") if os.path.exists(os.path.join(USCITA, "img", "foto", f[0] + e))), None)
+        if not nome:
+            raise SystemExit("ERRORE: manca la foto img/foto/%s.webp (o .jpg) della cartolina di condoglianze" % f[0])
+        larga, alta = misure_foto(os.path.join(USCITA, "img", "foto", nome))
+        righe.append('<label class="immagine dal-giardino"><input type="radio" name="immagine" value="%s" data-foto="%s">'
+                     '<img src="%s" alt="" width="%d" height="%d" loading="lazy"><span>%s</span></label>'
+                     % (f[0], f[2] if len(f) > 2 else 0.5, risorsa(da, "img/foto/" + nome), larga, alta, sfuggi(f[1])))
+    return '<p class="gruppo">Oppure una foto del Giardino dei ricordi</p>' + "".join(righe)
 
 def biglietto(da, in_ricordo=False):
     """il biglietto dei regali solidali (Elias, 6.11.2026): l’occasione, l’immagine, i nomi e due righe; sito.js lo disegna
@@ -995,7 +1031,7 @@ TAVOLE_ALT = {
     "pergamena": "Una pergamena aperta con la piuma che scrive, incisa su avorio",
     "equipe": "Quattro persone in cerchio, unite da archi, incise su avorio",
     "tempio": "Un tempio con il timpano e tre colonne, inciso su avorio",
-    "biblioteca": "Un libro aperto davanti a una nicchia di libri; dalle pagine si alzano petali, incisi su avorio",
+    "biblioteca": "Un libro aperto da cui si alzano petali e una cinepresa d’epoca con la sua pellicola, incisi su avorio",
 }
 TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 
@@ -1241,10 +1277,11 @@ def pagina_html(da, p, extra_head=""):
         corpo = corpo_pagina(da, p)
     if da in TESTI and TESTI[da].get("sotto"):
         sotto = sfuggi(secondo_google(TESTI[da]["sotto"]))
-    if da in TESTI and TESTI[da].get("musica"):
-        # musica=True è il valzer di Chopin; un nome sceglie un’altra musica di MUSICHE.
+    musica = da in TESTI and (TESTI[da].get("musica") or (NATALE and TESTI[da].get("musica_natale")))
+    if musica:
+        # musica=True è il valzer di Chopin; un nome sceglie un’altra musica di MUSICHE; musica_natale= suona solo con NATALE.
         # Se il file c'è, il pulsante si vede subito: sul telefono il browser non scarica nulla prima del tocco
-        file, titolo, per_intero = MUSICHE["valzer" if TESTI[da]["musica"] is True else TESTI[da]["musica"]]
+        file, titolo, per_intero = MUSICHE["valzer" if musica is True else musica]
         nascosto = "" if os.path.exists(os.path.join(USCITA, file)) else " hidden"
         intero = ' title="%s"' % sfuggi(per_intero) if per_intero else ""
         sotto += ('</p><button type="button" class="ascolta" data-audio="%s"%s%s>Ascolta · %s'

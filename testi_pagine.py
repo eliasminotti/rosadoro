@@ -1240,6 +1240,7 @@ TESTI["dona"] = dict(
 # browser, in PDF o in immagine, e niente parte dal sito. I testi del biglietto stanno in BIGLIETTO, qui sotto.
 TESTI["dona/regali-solidali"] = dict(
     sotto="Un regalo che diventa terra coltivata, cura, accompagnamento.",
+    musica_natale="tannenbaum",   # da novembre all’Epifania il pulsante «Ascolta · O Tannenbaum» (Dacia, 14.11)
     corpo="""
 {se-natale}<p>Giunge l’atmosfera di Natale. Il fuoco scoppiettante nel camino, le risate, il profumo di arancia e cannella… anche i cuori più freddi divengono caldi. Il desiderio di donare agli altri si fa più forte. Ascolta quel richiamo del donare… non correre per negozi, sosta e scrivi.</p>
 <p>E allora… dona, scalda e accendi il Natale con un biglietto della Fondazione La Rosa d’Oro. Scegli il biglietto con una candela, o un abete o una rosa, o un altro fiore.</p>
@@ -1336,13 +1337,11 @@ BIGLIETTO = dict(
         # nella pagina dei funerali (Dacia, 14.11) lo stesso biglietto è la «cartolina solidale di condoglianze»: solo questa
         # occasione, le tavole dei funerali, «la famiglia» come esempio di chi la riceve
         immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("clessidra", "La clessidra")),
-        segnaposto_per="Per esempio: la famiglia di Maria",
-        # accanto ai disegni, otto foto del Giardino dei ricordi, con i nomi che hanno nel giardino (Dacia, 14.11: «meno formale
-        # ma più di cuore»): immagini quiete, di luce e di acqua. La foto scelta riempie la parte sinistra della cartolina,
-        # tagliata al centro; un terzo valore sposta il taglio (0 a sinistra, 1 a destra), per la calla che sta a sinistra
-        foto=(("giardino-002", "Lo specchio del lago"), ("giardino-004", "Il prato al tramonto"), ("giardino-034", "La luce tra gli alberi"),
-              ("giardino-185", "La calla bianca", 0.1), ("giardino-340", "Il mare di nuvole"), ("giardino-372", "L’ultima luce sui monti"),
-              ("giardino-570", "Gli anemoni dei boschi"), ("giardino-013", "Il croco nel prato")),
+        segnaposto_per="Per esempio: la famiglia di Beatrice",   # Beatrice al posto di Maria (Dacia, 14.11 sera)
+        # accanto ai disegni, due foto del Giardino dei ricordi, con i nomi che hanno nel giardino (Dacia, 14.11: «meno formale
+        # ma più di cuore»; la sera: la rosa bianca, la più scelta nel giardino, e la calla). La foto scelta riempie la parte
+        # sinistra della cartolina, tagliata al centro; un terzo valore sposta il taglio (0 a sinistra, 1 a destra)
+        foto=(("rosa-bianca", "La rosa bianca", 0.45), ("giardino-185", "La calla bianca", 0.1)),
     ),
     immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
     # da novembre all’Epifania (NATALE acceso) l’abete con la stella al posto dell’albero tondo, già scelto (Elias, 9.11)

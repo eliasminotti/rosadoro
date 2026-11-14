@@ -12,6 +12,8 @@ Che cosa c’è
     audio/           il valzer op. 69 n. 1 di Chopin per il fondo di memoria e il giardino (Luke Faulkner, Musopen, pubblico dominio)
                      e il Lacrimosa del Requiem di Mozart per i Funerali (Karajan, Berliner Philharmoniker, Wiener Singverein,
                      Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti; da IMSLP, file 581264)
+                     e O Tannenbaum per i Regali solidali a Natale (coro della U.S. Army Band, circa 2010: pubblico dominio;
+                     da Wikimedia Commons, «U.S. Army Band - O Tannenbaum.ogg»)
     allegati/        i documenti da scaricare: lo statuto con la carta intestata della Fondazione e il fac-simile delle DAT
   costruisci.py      l’assemblatore: la mappa del sito, menu, testata e piede; scrive tutte le pagine
   testi_pagine.py    i testi delle pagine (la sezione «In memoria» è quella di Dacia)
