@@ -659,6 +659,19 @@ def scelta_immagini(da, immagini):
                    % ((v, " checked" if i == 0 else "", risorsa(da, "img/" + IMMAGINI_BIGLIETTO[v][0])) + IMMAGINI_BIGLIETTO[v][1:] + (sfuggi(voce),))
                    for i, (v, voce) in enumerate(immagini))
 
+def foto_giardino(da, foto):
+    """le foto del Giardino dei ricordi nella cartolina di condoglianze (Dacia, 14.11), dopo i disegni: si caricano solo quando
+    si vedono, e sito.js le riconosce da data-foto"""
+    if not foto:
+        return ""
+    for f in foto:
+        if not os.path.exists(os.path.join(USCITA, "img", "foto", f[0] + ".webp")):
+            raise SystemExit("ERRORE: manca la foto img/foto/%s.webp della cartolina di condoglianze" % f[0])
+    return ('<p class="gruppo">Oppure una foto del Giardino dei ricordi</p>'
+            + "".join('<label class="immagine dal-giardino"><input type="radio" name="immagine" value="%s" data-foto="%s">'
+                      '<img src="%s" alt="" width="1024" height="1024" loading="lazy"><span>%s</span></label>'
+                      % (f[0], f[2] if len(f) > 2 else 0.5, risorsa(da, "img/foto/%s.webp" % f[0]), sfuggi(f[1])) for f in foto))
+
 def biglietto(da, in_ricordo=False):
     """il biglietto dei regali solidali (Elias, 6.11.2026): l’occasione, l’immagine, i nomi e due righe; sito.js lo disegna
     in un canvas e lo fa scaricare in PDF (A5 orizzontale) o in immagine. Niente parte dal sito: i nomi restano nel browser.
@@ -679,7 +692,7 @@ def biglietto(da, in_ricordo=False):
                            con_nome if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
                         for o in tutte)
     if in_ricordo:
-        immagini = scelta_immagini(da, ricordo["immagini"])
+        immagini = scelta_immagini(da, ricordo["immagini"]) + foto_giardino(da, ricordo.get("foto"))
     else:
         immagini = scelta_immagini(da, BIGLIETTO["immagini_natale"] if NATALE else BIGLIETTO["immagini"])   # a Natale l’abete (9.11)
     nome = "la cartolina" if in_ricordo else "il biglietto"

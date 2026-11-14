@@ -1323,7 +1323,7 @@ controllo('il regalo solidale: il biglietto si prepara nella pagina e si scarica
     assert.ok(await p.page.locator('#biglietto-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
     assert.strictEqual(await p.page.inputValue('#mb-occasione'), 'natale', 'l’occasione già scelta è il Natale');
     /* a Natale l’abete al posto dell’albero tondo, già scelto (Elias, 9.11) */
-    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]', l => l.map(x => x.value));
+    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]:not([data-foto])', l => l.map(x => x.value));
     assert.deepStrictEqual(tavole, ['abete', 'candela', 'fiore', 'rosa'], 'a Natale il biglietto ha l’abete al posto dell’albero tondo: ' + tavole);
     assert.strictEqual(await p.page.inputValue(BIGLIETTO + ' input[name="immagine"]:checked'), 'abete', 'a Natale l’immagine già scelta è l’abete');
     await p.page.fill('#mb-per', 'Anna');
@@ -1334,6 +1334,9 @@ controllo('il regalo solidale: il biglietto si prepara nella pagina e si scarica
     for (const parte of ['Buon Natale', 'Per Anna', 'pensando a te', 'Con l’affetto di sempre', 'Marco', 'Fondazione La Rosa d’Oro'])
       assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
     assert.ok(!/\d+\s*(euro|€)/.test(detto), 'sul biglietto non va la cifra: ' + detto);
+    /* su tutti i biglietti prima la frase di chi regala e la firma, sotto la frase della Fondazione (Dacia, 14.11) */
+    assert.ok(detto.indexOf('Con l’affetto di sempre') < detto.indexOf('Marco') && detto.indexOf('Marco') < detto.indexOf('Questo regalo è una donazione'),
+              'prima le due righe e la firma, poi la frase della Fondazione: ' + detto);
 
     const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
     assert.strictEqual(pdf.nome, 'regalo-solidale-per-anna.pdf');
@@ -1561,7 +1564,7 @@ controllo('i funerali: la frase in oro, la cartolina di condoglianze per la fami
     assert.ok(await p.page.locator('#mb-occasione').isHidden(), 'con un’occasione sola la scelta dell’occasione non serve');
     assert.ok(await p.page.locator('#mb-ricordo').isVisible(), 'il campo «In ricordo di» si vede subito');
     assert.ok(await p.page.isChecked(BIGLIETTO + ' input[name="persone"][value="voi"]'), 'la cartolina parla alla famiglia, con il «voi»');
-    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]', l => l.map(x => x.value));
+    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]:not([data-foto])', l => l.map(x => x.value));
     assert.deepStrictEqual(tavole, ['candela', 'albero', 'fiore', 'clessidra'], 'la cartolina ha le tavole dei funerali: ' + tavole);
     await p.page.fill('#mb-ricordo', 'Rita');
     await p.page.fill('#mb-per', 'la famiglia di Rita');
@@ -1584,6 +1587,33 @@ controllo('i funerali: la frase in oro, la cartolina di condoglianze per la fami
   } finally { await p.chiudi(); }
 });
 
+/* la cartolina di condoglianze anche con una foto del Giardino dei ricordi (Dacia, 14.11: «meno formale ma più di cuore»):
+   dopo i quattro disegni, otto foto del giardino con i loro nomi; la foto scelta riempie la parte sinistra della cartolina */
+controllo('la cartolina di condoglianze si può fare anche con una foto del Giardino dei ricordi', async () => {
+  const p = await apri(FUNERALI);
+  try {
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    const foto = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"][data-foto]', l => l.map(x => x.value + ' ' + x.parentNode.textContent.trim()));
+    assert.strictEqual(foto.length, 8, 'le foto del giardino nella cartolina: ' + JSON.stringify(foto));
+    assert.ok(foto.every(x => /^giardino-\d{3} \S/.test(x)), 'ogni foto ha il suo nome, come nel giardino: ' + JSON.stringify(foto));
+    assert.ok(await p.page.isChecked(BIGLIETTO + ' input[name="immagine"][value="candela"]'), 'all’inizio resta scelta la candela');
+    const punto = () => p.page.$eval(BIGLIETTO + ' canvas', c => Array.from(c.getContext('2d').getImageData(150, 260, 1, 1).data.slice(0, 3)));
+    const avorio = await punto();
+    assert.deepStrictEqual(avorio, [250, 246, 238], 'con il disegno, in alto a sinistra la cartolina è avorio: ' + avorio);
+    await p.page.locator(BIGLIETTO + ' label.immagine.dal-giardino').first().click();
+    await p.page.waitForFunction(s => { const i = document.querySelector(s + ' input[data-foto]:checked + img'); return i && i.complete && i.naturalWidth > 0; }, BIGLIETTO);
+    await p.page.waitForTimeout(300);
+    const conFoto = await punto();
+    assert.notDeepStrictEqual(conFoto, avorio, 'la foto scelta non compare sulla cartolina');
+    await p.page.fill('#mb-ricordo', 'Rita');
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'donazione-in-ricordo-di-rita.pdf');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), []);
+  } finally { await p.chiudi(); }
+});
+
 controllo('la pergamena del saluto: la frase della famiglia, in oro, viene prima di «Al posto dei fiori», anche se è lunga', async () => {
   const p = await apri(FUNERALI);
   try {
@@ -1598,13 +1628,13 @@ controllo('la pergamena del saluto: la frase della famiglia, in oro, viene prima
     assert.ok(detto.indexOf('tenetevi uniti') < detto.indexOf('Al posto dei fiori'), 'la frase della famiglia va prima di «Al posto dei fiori»: ' + detto);
     assert.deepStrictEqual(p.errori, []);
   } finally { await p.chiudi(); }
-  const b = await apri(BOMBONIERE);       /* le bomboniere restano come sono: prima «Al posto della bomboniera», poi le due righe */
+  const b = await apri(BOMBONIERE);       /* anche nelle bomboniere prima le due righe, poi «Al posto della bomboniera» (Dacia, 14.11: su tutti i biglietti) */
   try {
     await b.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
     await b.page.fill('#mp-messaggio', 'Grazie di essere con noi');
     await b.page.waitForFunction(s => /Grazie di essere/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
     const detto = await dettoDallaPergamena(b.page);
-    assert.ok(detto.indexOf('Al posto della bomboniera') < detto.indexOf('Grazie di essere con noi'), detto);
+    assert.ok(detto.indexOf('Grazie di essere con noi') < detto.indexOf('Al posto della bomboniera'), 'prima le due righe, poi la frase della Fondazione: ' + detto);
     assert.strictEqual(await b.page.getAttribute('#mp-messaggio', 'maxlength'), '120', 'nelle bomboniere le due righe restano corte');
   } finally { await b.chiudi(); }
 });

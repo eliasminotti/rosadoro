@@ -1241,7 +1241,16 @@ TESTI["dona"] = dict(
 TESTI["dona/regali-solidali"] = dict(
     sotto="Un regalo che diventa terra coltivata, cura, accompagnamento.",
     corpo="""
-{se-natale}<p>A Natale puoi regalare una donazione. Doni alla Fondazione La Rosa d’Oro pensando a una persona, prepari qui sotto un biglietto con il suo nome e glielo dai: stampato, da mettere sotto l’albero, oppure per email o per messaggio. Niente pacchi e niente spedizioni: il regalo è ciò che la tua donazione fa crescere.</p>
+{se-natale}<p>Giunge l’atmosfera di Natale. Il fuoco scoppiettante nel camino, le risate, il profumo di arancia e cannella… anche i cuori più freddi divengono caldi. Il desiderio di donare agli altri si fa più forte. Ascolta quel richiamo del donare… non correre per negozi, sosta e scrivi.</p>
+<p>E allora… dona, scalda e accendi il Natale con un biglietto della Fondazione La Rosa d’Oro. Scegli il biglietto con una candela, o un abete o una rosa, o un altro fiore.</p>
+<p>Accendilo per te, per credere concretamente in un futuro migliore.</p>
+<p>Accendilo per un amico o un’amica, perché possa vedere che c’è altro oltre la materia.</p>
+<p>Accendilo per il mondo.</p>
+<p>Piccole cifre, grandi sogni.</p>
+<p>Fai un <strong>dono solidale</strong> alla Fondazione La Rosa d’Oro pensando a una persona. Prepara qui sotto un biglietto con il suo nome e un pensiero: puoi stamparlo e metterlo sotto l’albero, oppure inviarlo via email o per messaggio.</p>
+<p>E se proprio non sai cosa scrivere? <a class="link" href="{→contatti}">Contattaci</a>: abbiamo anime dalla penna d’oro che possono scrivere per te.</p>
+<p>Niente pacchi e niente spedizioni. Un regalo di luce è ciò che la tua donazione fa crescere.</p>
+<p>Se puoi, ricordati anche di quella zia anziana che vive lontano, a cui non scrivi mai, o di quell’amica che hai perso di vista. Ricevere il biglietto della Fondazione La Rosa d’Oro la farà sorridere.</p>
 {/se-natale}{senza-natale}<p>Per un compleanno, una nascita, un matrimonio, una laurea o un anniversario puoi regalare una donazione. Doni alla Fondazione La Rosa d’Oro pensando a una persona, prepari qui sotto un biglietto con il suo nome e glielo dai, stampato oppure per email o per messaggio. Niente pacchi e niente spedizioni: il regalo è ciò che la tua donazione fa crescere. Il regalo di Natale torna a novembre.</p>
 {/senza-natale}<h3>Come si fa</h3>
 <ol class="passi">
@@ -1328,6 +1337,12 @@ BIGLIETTO = dict(
         # occasione, le tavole dei funerali, «la famiglia» come esempio di chi la riceve
         immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("clessidra", "La clessidra")),
         segnaposto_per="Per esempio: la famiglia di Maria",
+        # accanto ai disegni, otto foto del Giardino dei ricordi, con i nomi che hanno nel giardino (Dacia, 14.11: «meno formale
+        # ma più di cuore»): immagini quiete, di luce e di acqua. La foto scelta riempie la parte sinistra della cartolina,
+        # tagliata al centro; un terzo valore sposta il taglio (0 a sinistra, 1 a destra), per la calla che sta a sinistra
+        foto=(("giardino-002", "Lo specchio del lago"), ("giardino-004", "Il prato al tramonto"), ("giardino-034", "La luce tra gli alberi"),
+              ("giardino-185", "La calla bianca", 0.1), ("giardino-340", "Il mare di nuvole"), ("giardino-372", "L’ultima luce sui monti"),
+              ("giardino-570", "Gli anemoni dei boschi"), ("giardino-013", "Il croco nel prato")),
     ),
     immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
     # da novembre all’Epifania (NATALE acceso) l’abete con la stella al posto dell’albero tondo, già scelto (Elias, 9.11)
@@ -1358,6 +1373,7 @@ PERGAMENA = dict(
     corpo="Al posto della bomboniera, una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, per festeggiare insieme. Diventerà terra coltivata, cura, accompagnamento.",
     file="pergamena-solidale-",
     titolo="Pergamena solidale",
+    frase_prima=True,           # su tutti i biglietti prima la frase di chi la prepara, sotto quella della Fondazione (Dacia, 14.11)
     ricordo=dict(
         occasione=("funerale", "Un funerale, al posto dei fiori", "In ricordo"),
         immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("clessidra", "La clessidra")),
@@ -1369,7 +1385,7 @@ PERGAMENA = dict(
         file="pergamena-in-ricordo-di-",
         titolo="Pergamena in ricordo",
         lunghezza=220,          # la frase della famiglia può essere lunga, anche una citazione con la fonte (Dacia, 14.11)
-        frase_prima=True,       # la frase della famiglia, in oro, va prima di «Al posto dei fiori» (Dacia, 14.11)
+        frase_prima=True,       # la frase della famiglia, in oro, va prima di «Al posto dei fiori» (Dacia, 14.11), come in tutte
     ),
     piede="Fondazione La Rosa d’Oro ETS · larosadoro.org",
 )

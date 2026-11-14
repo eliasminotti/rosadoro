@@ -712,7 +712,9 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   'use strict';
   function cartoncino(modulo) {
     var pergamena = modulo.id === 'modulo-pergamena';
-    var primaFrase = pergamena && modulo.hasAttribute('data-frase-prima');
+    /* la frase di chi prepara il cartoncino viene prima, sotto quella della Fondazione: su tutti i biglietti (Dacia, 14.11) e
+       nelle pergamene che lo chiedono (data-frase-prima) */
+    var primaFrase = !pergamena || modulo.hasAttribute('data-frase-prima');
     var tela = modulo.querySelector('canvas');
     var ctx = tela.getContext && tela.getContext('2d');
     if (!ctx || !tela.toBlob || !window.Blob || !window.Promise || !window.URL || !URL.createObjectURL) return;
@@ -815,9 +817,17 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       ctx.globalAlpha = 0.35; ctx.lineWidth = 1; ctx.strokeRect(60, 60, L - 120, A - 120);
       ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.moveTo(700, 210); ctx.lineTo(700, A - 210); ctx.stroke();
       ctx.globalAlpha = 1;
-      /* la tavola incisa, a sinistra */
+      /* la tavola incisa, a sinistra; una foto del giardino (cartolina di condoglianze, Dacia 14.11) riempie invece tutta
+         la parte sinistra dentro la cornice, tagliata al centro */
       var immagine = modulo.querySelector('input[name="immagine"]:checked + img');
-      if (immagine && immagine.complete && immagine.naturalWidth) {
+      var foto = immagine && immagine.previousElementSibling && immagine.previousElementSibling.hasAttribute('data-foto');
+      if (foto && immagine.complete && immagine.naturalWidth) {
+        var fl = 640, fa = A - 120, iw = immagine.naturalWidth, ih = immagine.naturalHeight;
+        var fs = Math.max(fl / iw, fa / ih), sl = fl / fs, sa = fa / fs;
+        var fuoco = parseFloat(immagine.previousElementSibling.getAttribute('data-foto'));
+        fuoco = isNaN(fuoco) ? 0.5 : Math.min(1, Math.max(0, fuoco));
+        ctx.drawImage(immagine, (iw - sl) * fuoco, (ih - sa) / 2, sl, sa, 60, 60, fl, fa);
+      } else if (!foto && immagine && immagine.complete && immagine.naturalWidth) {
         var w = Number(immagine.getAttribute('width')), h = Number(immagine.getAttribute('height'));
         var scala = Math.min(500 / w, 640 / h);
         ctx.drawImage(immagine, 380 - w * scala / 2, A / 2 - h * scala / 2, w * scala, h * scala);
@@ -834,11 +844,12 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
         aggiungi('per', t.per, ORO_SCURO);
         blocchi.push({ spazio: 34 });
       }
-      /* nella pergamena del saluto (funerali, Dacia 14.11) la frase della famiglia viene prima, in oro, e può essere lunga
-         (una citazione con la fonte): fino a sei righe; poi «Al posto dei fiori…» */
+      /* prima la frase di chi prepara il cartoncino, poi quella della Fondazione (Dacia, 14.11). Nelle pergamene la frase è in
+         oro e può essere lunga (al funerale una citazione con la fonte): fino a sei righe; nel biglietto due righe e la firma */
+      var oro = pergamena && primaFrase;
       if (!primaFrase) aggiungi('corpo', t.corpo, 'rgba(28,28,28,.8)');
       if (t.messaggio) {
-        var corpo = 52, fatte, quante = primaFrase ? 6 : 4, minimo = primaFrase ? 32 : 36;
+        var corpo = 52, fatte, quante = oro ? 6 : 4, minimo = oro ? 32 : 36;
         do {                                       /* due righe tue: al massimo quattro, il carattere si stringe se serve */
           ctx.font = STILE.messaggio[0].replace('%', corpo);
           fatte = righe(t.messaggio, largo);
@@ -846,16 +857,16 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
         } while (fatte.length > quante && corpo >= minimo);
         blocchi.push({ spazio: 36 });
         fatte.slice(0, quante + 1).forEach(function (r) {
-          blocchi.push({ font: ctx.font, colore: primaFrase ? ORO_SCURO : ANTRACITE, testo: r, alto: Math.round((corpo + 4) * 1.22) });
+          blocchi.push({ font: ctx.font, colore: oro ? ORO_SCURO : ANTRACITE, testo: r, alto: Math.round((corpo + 4) * 1.22) });
         });
-      }
-      if (primaFrase) {
-        blocchi.push({ spazio: t.messaggio ? 40 : 0 });
-        aggiungi('corpo', t.corpo, 'rgba(28,28,28,.8)');
       }
       if (t.firma) {
         blocchi.push({ spazio: 34 });
         aggiungi('firma', t.firma, ORO_SCURO);
+      }
+      if (primaFrase) {
+        blocchi.push({ spazio: t.messaggio || t.firma ? 44 : 0 });
+        aggiungi('corpo', t.corpo, 'rgba(28,28,28,.8)');
       }
       var totale = blocchi.reduce(function (s, b) { return s + (b.spazio || b.alto); }, 0);
       var y = Math.max(110, (A - 70 - totale) / 2);
@@ -870,7 +881,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       spaziato(t.piede.toUpperCase(), x, A - 112, 3);
       /* per chi usa un lettore di schermo, il cartoncino in parole */
       tela.setAttribute('aria-label', (pergamena ? 'Anteprima della pergamena: ' : 'Anteprima del biglietto: ') +
-        (primaFrase ? [t.saluto, t.per, t.messaggio, t.corpo, t.firma, t.piede] : [t.saluto, t.per, t.corpo, t.messaggio, t.firma, t.piede])
+        (primaFrase ? [t.saluto, t.per, t.messaggio, t.firma, t.corpo, t.piede] : [t.saluto, t.per, t.corpo, t.messaggio, t.firma, t.piede])
         .filter(Boolean).map(function (s) { return /[.!?…»]$/.test(s) ? s : s + '.'; }).join(' '));
     }
 

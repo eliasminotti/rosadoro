@@ -808,3 +808,7 @@ h3.argomento{font-size:30px;line-height:1.2;margin:52px 0 20px;padding-top:18px;
 .hero.breve h1{font-size:72px;margin-bottom:24px}
 .hero.breve+.corpo{padding-top:48px}
 @media (max-width:600px){.hero.breve{padding:40px 0 28px}.hero.breve h1{font-size:48px}.hero.breve+.corpo{padding-top:32px}}
+/* la cartolina di condoglianze anche con una foto del Giardino dei ricordi (Dacia, 14.11): le foto dopo i disegni, quadrate */
+.modulo fieldset.immagini .gruppo{grid-column:1/-1;margin:10px 0 0;font-size:15px;line-height:1.4;color:var(--testo-60);max-width:none}
+.modulo label.immagine.dal-giardino{padding:6px 6px 10px}
+.modulo label.immagine.dal-giardino img{max-width:none;aspect-ratio:1;object-fit:cover}
