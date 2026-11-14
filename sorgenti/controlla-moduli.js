@@ -196,7 +196,8 @@ async function esitoDi(page, dove) {
 /* ---- i controlli ---- */
 
 const controlli = [];
-function controllo(descrizione, prova) { controlli.push({ descrizione, prova }); }
+/* SOLO=parola fa girare solo i controlli che la contengono, mentre si lavora; controlla.py li fa girare tutti */
+function controllo(descrizione, prova) { if (!process.env.SOLO || descrizione.includes(process.env.SOLO)) controlli.push({ descrizione, prova }); }
 
 controllo('il modulo dei Contatti manda allo script i campi giusti, con la pagina da cui si arriva, e dice grazie', async () => {
   const p = await apri('contatti/index.html', { foglio: () => ({ success: true, conferma: true }), referer: ORIGINE + 'lasciti/index.html' });
@@ -1540,6 +1541,72 @@ controllo('il biglietto sul telefono: niente sfondamenti, l’anteprima sta nell
       assert.ok(m.tela > 200 && m.tela <= schermo.width, schermo.width + ' px: l’anteprima è larga ' + m.tela);
     } finally { await p.chiudi(); }
   }
+});
+
+
+/* ---- la pagina dei funerali di Dacia (14.11.2026): la frase in oro, la cartolina di condoglianze e la pergamena del saluto ---- */
+
+const FRASE_RITA = '«…un’ultima cosa vorrei raccomandarvi: tenetevi uniti, vogliatevi bene. Quando potete riunitevi tutti. ' +
+                   'Era la mia più grande gioia quando vi avevo tutti insieme» (da «I miei desideri», 1.10.1984)';
+
+controllo('i funerali: la frase in oro, la cartolina di condoglianze per la famiglia e l’esempio della pergamena con Rita', async () => {
+  const p = await apri(FUNERALI);
+  try {
+    assert.strictEqual((await p.page.textContent('p.citazione.apre')).trim(), 'Una cerimonia funebre che celebra una vita');
+    assert.strictEqual((await p.page.textContent('h3#cartolina')).trim(), 'Cartolina solidale di condoglianze');
+    assert.strictEqual((await p.page.textContent('h3#pergamena')).trim(), 'La pergamena del saluto');
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await p.page.locator('#biglietto-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
+    assert.strictEqual(await p.page.inputValue('#mb-occasione'), 'ricordo', 'ai funerali la cartolina è sempre in ricordo');
+    assert.ok(await p.page.locator('#mb-occasione').isHidden(), 'con un’occasione sola la scelta dell’occasione non serve');
+    assert.ok(await p.page.locator('#mb-ricordo').isVisible(), 'il campo «In ricordo di» si vede subito');
+    assert.ok(await p.page.isChecked(BIGLIETTO + ' input[name="persone"][value="voi"]'), 'la cartolina parla alla famiglia, con il «voi»');
+    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]', l => l.map(x => x.value));
+    assert.deepStrictEqual(tavole, ['candela', 'albero', 'fiore', 'clessidra'], 'la cartolina ha le tavole dei funerali: ' + tavole);
+    await p.page.fill('#mb-ricordo', 'Rita');
+    await p.page.fill('#mb-per', 'la famiglia di Rita');
+    await p.page.fill('#mb-da', 'Anna e Marco');
+    await p.page.waitForFunction(s => /Anna e Marco/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    const detto = await dettoDalBiglietto(p.page);
+    for (const parte of ['In ricordo di Rita', 'Per la famiglia di Rita', 'donazione in memoria', 'pensando a voi', 'Anna e Marco'])
+      assert.ok(detto.includes(parte), 'la cartolina non dice «' + parte + '»: ' + detto);
+    assert.ok(!/regalo|natale|festa/i.test(detto), 'la cartolina di condoglianze non parla di regali né di feste: ' + detto);
+    assert.ok(/cartolina/i.test(await p.page.textContent(BIGLIETTO + ' .nota')), 'la nota sotto la cartolina la chiama cartolina');
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'donazione-in-ricordo-di-rita.pdf');
+    const esempio = p.page.locator('figure.esempio img');
+    assert.ok((await esempio.getAttribute('alt')).includes('Rita'), 'l’esempio della pergamena dice di chi è');
+    assert.ok(await esempio.evaluate(i => i.complete && i.naturalWidth > 0), 'l’immagine dell’esempio non si carica');
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), [], 'la pagina dei funerali viola la regola di sicurezza');
+  } finally { await p.chiudi(); }
+});
+
+controllo('la pergamena del saluto: la frase della famiglia, in oro, viene prima di «Al posto dei fiori», anche se è lunga', async () => {
+  const p = await apri(FUNERALI);
+  try {
+    await p.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
+    await p.page.fill('#mp-nomi', 'Rita');
+    await p.page.fill('#mp-data', '4 ottobre 2013');
+    await p.page.fill('#mp-messaggio', FRASE_RITA);
+    assert.strictEqual(await p.page.inputValue('#mp-messaggio'), FRASE_RITA, 'la frase di Rita non ci sta nel campo');
+    await p.page.waitForFunction(s => /I miei desideri/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
+    const detto = await dettoDallaPergamena(p.page);
+    assert.ok(detto.includes('Rita') && detto.includes('In ricordo · 4 ottobre 2013'), detto);
+    assert.ok(detto.indexOf('tenetevi uniti') < detto.indexOf('Al posto dei fiori'), 'la frase della famiglia va prima di «Al posto dei fiori»: ' + detto);
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+  const b = await apri(BOMBONIERE);       /* le bomboniere restano come sono: prima «Al posto della bomboniera», poi le due righe */
+  try {
+    await b.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
+    await b.page.fill('#mp-messaggio', 'Grazie di essere con noi');
+    await b.page.waitForFunction(s => /Grazie di essere/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
+    const detto = await dettoDallaPergamena(b.page);
+    assert.ok(detto.indexOf('Al posto della bomboniera') < detto.indexOf('Grazie di essere con noi'), detto);
+    assert.strictEqual(await b.page.getAttribute('#mp-messaggio', 'maxlength'), '120', 'nelle bomboniere le due righe restano corte');
+  } finally { await b.chiudi(); }
 });
 
 

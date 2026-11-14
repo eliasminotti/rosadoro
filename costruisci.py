@@ -88,8 +88,8 @@ GOOGLE_TAG = "G-FC78G2JWBL"               # l’ID della proprietà Google Analy
                                           # non usa cookie ({senza-google}…{/senza-google}).
 MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
                                           # porta la data del più recente fra MISURA, RICEVUTE, MENSILE e INFORMATIVA.
-INFORMATIVA = "12 novembre 2026"          # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 12.11 la sezione
-                                          # «Quando ti scriviamo per primi», per le lettere ai partner. Si aggiorna a ogni cambio.
+INFORMATIVA = "14 novembre 2026"          # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: la sezione «Quando ti
+                                          # scriviamo per primi», per le lettere ai partner, è online dal 14.11. Si aggiorna a ogni cambio.
 NATALE = True                             # la stagione del regalo di Natale nella pagina dei regali solidali (dona/regali-solidali), che resta
                                           # online tutto l’anno (Elias, 6.11.2026). True da novembre all’Epifania: la pagina, il suo titolo per
                                           # Google e il biglietto parlano di Natale ({se-natale}…{/se-natale}). False il resto dell’anno: la pagina
@@ -609,6 +609,8 @@ def gettoni(html, da):
         html = html.replace("{invito-notizie}", invito_notizie(da))
     if "{biglietto}" in html:
         html = html.replace("{biglietto}", biglietto(da))
+    if "{biglietto-ricordo}" in html:
+        html = html.replace("{biglietto-ricordo}", biglietto(da, in_ricordo=True))
     if "{pergamena}" in html:
         html = html.replace("{pergamena}", pergamena(da))
     if "{pergamena-ricordo}" in html:
@@ -644,34 +646,44 @@ def scelta_immagini(da, immagini):
                    % ((v, " checked" if i == 0 else "", risorsa(da, "img/" + IMMAGINI_BIGLIETTO[v][0])) + IMMAGINI_BIGLIETTO[v][1:] + (sfuggi(voce),))
                    for i, (v, voce) in enumerate(immagini))
 
-def biglietto(da):
+def biglietto(da, in_ricordo=False):
     """il biglietto dei regali solidali (Elias, 6.11.2026): l’occasione, l’immagine, i nomi e due righe; sito.js lo disegna
     in un canvas e lo fa scaricare in PDF (A5 orizzontale) o in immagine. Niente parte dal sito: i nomi restano nel browser.
-    I testi stanno in BIGLIETTO in testi_pagine.py. Senza JavaScript il modulo resta nascosto e si legge la nota"""
+    I testi stanno in BIGLIETTO in testi_pagine.py. Senza JavaScript il modulo resta nascosto e si legge la nota.
+    Con in_ricordo è la «cartolina solidale di condoglianze» della pagina dei funerali (Dacia, 14.11): solo l’occasione
+    «In ricordo di una persona», con la scelta nascosta, le tavole dei funerali e il «voi» già scelto, per la famiglia"""
     scelta = BIGLIETTO["scelta"] if NATALE else BIGLIETTO["fuori_stagione"]
     # un’occasione che parla già a più persone (il matrimonio) porta con sé la scelta «a più persone»
     # «In ricordo di una persona» porta con sé il saluto con il nome, la sua frase, il nome del file e il titolo del PDF
     ricordo = BIGLIETTO["ricordo"]
-    in_ricordo = (' data-saluto-nome="%s" data-corpo-te="%s" data-corpo-voi="%s" data-file="%s" data-titolo="%s"'
-                  % tuple(sfuggi(ricordo[k]) for k in ("saluto", "corpo_te", "corpo_voi", "file", "titolo")))
+    con_nome = (' data-saluto-nome="%s" data-corpo-te="%s" data-corpo-voi="%s" data-file="%s" data-titolo="%s"'
+                % tuple(sfuggi(ricordo[k]) for k in ("saluto", "corpo_te", "corpo_voi", "file", "titolo")))
+    tutte = BIGLIETTO["occasioni"]
+    if in_ricordo:
+        tutte, scelta = [o for o in tutte if o[0] == ricordo["occasione"]], ricordo["occasione"]
     occasioni = "".join('<option value="%s" data-saluto="%s"%s%s%s>%s</option>'
                         % (o[0], sfuggi(o[2]), ' data-persone="voi"' if o[3:] == ("voi",) else "",
-                           in_ricordo if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
-                        for o in BIGLIETTO["occasioni"])
-    immagini = scelta_immagini(da, BIGLIETTO["immagini_natale"] if NATALE else BIGLIETTO["immagini"])   # a Natale l’abete (9.11)
-    return """<p class="nota" id="biglietto-senza-js">Per preparare il biglietto serve un browser con JavaScript acceso.</p>
+                           con_nome if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
+                        for o in tutte)
+    if in_ricordo:
+        immagini = scelta_immagini(da, ricordo["immagini"])
+    else:
+        immagini = scelta_immagini(da, BIGLIETTO["immagini_natale"] if NATALE else BIGLIETTO["immagini"])   # a Natale l’abete (9.11)
+    nome = "la cartolina" if in_ricordo else "il biglietto"
+    nascosta = " hidden" if in_ricordo else ""
+    return """<p class="nota" id="biglietto-senza-js">Per preparare %s serve un browser con JavaScript acceso.</p>
 <form class="modulo biglietto" id="modulo-biglietto" data-corpo-te="%s" data-corpo-voi="%s" data-piede="%s" hidden>
 <div class="campi">
-<label for="mb-occasione">L’occasione</label>
-<select id="mb-occasione" name="occasione">%s</select>
+<label for="mb-occasione"%s>L’occasione</label>
+<select id="mb-occasione" name="occasione"%s>%s</select>
 <fieldset class="immagini"><legend>L’immagine</legend>%s</fieldset>
-<label for="mb-ricordo" hidden>%s <span>facoltativo</span></label>
-<input id="mb-ricordo" name="ricordo" type="text" maxlength="60" placeholder="%s" hidden>
+<label for="mb-ricordo"%s>%s <span>facoltativo</span></label>
+<input id="mb-ricordo" name="ricordo" type="text" maxlength="60" placeholder="%s"%s>
 <label for="mb-per">Per chi è <span>facoltativo</span></label>
-<input id="mb-per" name="per" type="text" maxlength="60" placeholder="Per esempio: Anna, oppure i nostri clienti">
-<fieldset class="scelta"><legend>Il biglietto si rivolge</legend>
-<label class="consenso"><input type="radio" name="persone" value="te" checked> <span>a una persona</span></label>
-<label class="consenso"><input type="radio" name="persone" value="voi"> <span>a più persone</span></label>
+<input id="mb-per" name="per" type="text" maxlength="60" placeholder="%s">
+<fieldset class="scelta"><legend>%s si rivolge</legend>
+<label class="consenso"><input type="radio" name="persone" value="te"%s> <span>a una persona</span></label>
+<label class="consenso"><input type="radio" name="persone" value="voi"%s> <span>a più persone</span></label>
 </fieldset>
 <label for="mb-da">Da parte di <span>facoltativo</span></label>
 <input id="mb-da" name="da" type="text" maxlength="60" placeholder="Il tuo nome, o quello dell’azienda">
@@ -680,10 +692,15 @@ def biglietto(da):
 </div>
 <figure class="anteprima"><canvas width="1800" height="1269" role="img" aria-label=""></canvas></figure>
 <p class="pulsanti"><button type="submit" class="invia">Scarica il PDF</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
-<p class="nota">Sul biglietto non c’è la cifra. Lo prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
+<p class="nota">%s</p>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]), occasioni, immagini,
-               sfuggi(ricordo["campo"]), sfuggi(ricordo["segnaposto"]))
+</form>""" % (nome, sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]),
+               nascosta, nascosta, occasioni, immagini,
+               "" if in_ricordo else " hidden", sfuggi(ricordo["campo"]), sfuggi(ricordo["segnaposto"]), "" if in_ricordo else " hidden",
+               sfuggi(ricordo["segnaposto_per"] if in_ricordo else "Per esempio: Anna, oppure i nostri clienti"),
+               "La cartolina" if in_ricordo else "Il biglietto", "" if in_ricordo else " checked", " checked" if in_ricordo else "",
+               "Sulla cartolina non c’è la cifra. La prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi."
+               if in_ricordo else "Sul biglietto non c’è la cifra. Lo prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.")
 
 def pergamena(da, in_ricordo=False):
     """la pergamena delle bomboniere solidali (7.11.2026) e, con in_ricordo, quella al posto dei fiori nella pagina dei funerali:
@@ -697,7 +714,7 @@ def pergamena(da, in_ricordo=False):
     voci = "".join('<option value="%s" data-riga="%s"%s>%s</option>' % (v, sfuggi(riga), " selected" if v == scelta else "", sfuggi(voce))
                    for v, voce, riga in occasioni)
     return """<p class="nota" id="pergamena-senza-js">Per preparare la pergamena serve un browser con JavaScript acceso.</p>
-<form class="modulo biglietto pergamena" id="modulo-pergamena" data-corpo="%s" data-file="%s" data-titolo="%s" data-piede="%s" hidden>
+<form class="modulo biglietto pergamena" id="modulo-pergamena" data-corpo="%s" data-file="%s" data-titolo="%s" data-piede="%s"%s hidden>
 <div class="campi">
 <label for="mp-occasione"%s>L’occasione</label>
 <select id="mp-occasione" name="occasione"%s>%s</select>
@@ -707,14 +724,16 @@ def pergamena(da, in_ricordo=False):
 <label for="mp-data">%s <span>facoltativo</span></label>
 <input id="mp-data" name="data" type="text" maxlength="40" placeholder="%s">
 <label for="mp-messaggio">Due righe vostre <span>facoltativo</span></label>
-<textarea id="mp-messaggio" name="messaggio" class="breve" rows="3" maxlength="120"></textarea>
+<textarea id="mp-messaggio" name="messaggio" class="breve" rows="3" maxlength="%d"></textarea>
 </div>
 <figure class="anteprima"><canvas width="1800" height="1269" role="img" aria-label=""></canvas></figure>
 <p class="pulsanti"><button type="submit" class="invia">Scarica il PDF da stampare</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
 <p class="nota">Nel PDF ci sono quattro pergamene per foglio A4, da tagliare lungo le linee grigie. Sulla pergamena non c’è la cifra. La prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(p["corpo"]), sfuggi(p["file"]), sfuggi(p["titolo"]), sfuggi(p["piede"]), nascosta, nascosta, voci,
-               scelta_immagini(da, p["immagini"]), sfuggi(p["nomi"]), sfuggi(p["segnaposto_nomi"]), sfuggi(p["data"]), sfuggi(p["segnaposto_data"]))
+</form>""" % (sfuggi(p["corpo"]), sfuggi(p["file"]), sfuggi(p["titolo"]), sfuggi(p["piede"]),
+               ' data-frase-prima' if p.get("frase_prima") else "", nascosta, nascosta, voci,
+               scelta_immagini(da, p["immagini"]), sfuggi(p["nomi"]), sfuggi(p["segnaposto_nomi"]), sfuggi(p["data"]), sfuggi(p["segnaposto_data"]),
+               p.get("lunghezza", 120))
 
 def secondo_mensile(testo):
     """con MENSILE resta ciò che sta tra {se-mensile} e {/se-mensile}, senza ciò che sta tra {senza-mensile} e {/senza-mensile};

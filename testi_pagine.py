@@ -247,16 +247,24 @@ TESTI["in-memoria/funerali"] = dict(
     sotto="Non fiori ma opere di bene.",
     musica="lacrimosa",      # il Lacrimosa del Requiem di Mozart (Dacia, 1.11; scelta di Elias: Karajan 1962)
     corpo="""
-<p>Al posto di ghirlande e fiori, per il funerale si possono raccogliere fondi per un progetto. Chi partecipa scrive un messaggio di vicinanza per coloro che restano, e sostiene con la propria donazione una causa:</p>
+<p class="citazione apre">Una cerimonia funebre che celebra una vita</p>
+<p>Al posto di corone e fiori, per il funerale è possibile raccogliere fondi per un progetto. Può farlo la famiglia stessa oppure chi partecipa al funerale o chi non può partecipare — dai familiari stretti fino ad amici, colleghi e conoscenti. In quest’ultimo caso si può scrivere un messaggio di vicinanza per la famiglia della persona che ha varcato la soglia, inviando via mail o stampando la cartolina qui sotto, scegliendo di sostenere con la propria donazione una causa tra le seguenti.</p>
 <div class="azioni">
   <a class="azione" href="{→dona}"><img src="{img:azione-candela.svg}" alt="Una candela accesa, incisa" width="200" height="240"><div><h4>Accendi una candela</h4><p>Sostieni progetti di medicina</p></div></a>
   <a class="azione" href="{→dona}"><img src="{img:azione-albero.svg}" alt="Un albero appena piantato, inciso" width="200" height="240"><div><h4>Pianta un albero</h4><p>Sostieni progetti per l'agricoltura</p></div></a>
   <a class="azione" href="{→dona}"><img src="{img:azione-fiore.svg}" alt="Un fiore che sboccia, inciso" width="200" height="240"><div><h4>Fai sbocciare un fiore</h4><p>Sostieni progetti che riguardano il sociale</p></div></a>
   <a class="azione" href="{→dona}"><img src="{img:azione-clessidra.svg}" alt="La clessidra alata, incisa" width="200" height="240"><div><h4>Gira la clessidra alata</h4><p>Sostieni progetti che riguardano il fine vita</p></div></a>
 </div>
-<h3 id="pergamena">Una pergamena al posto dei fiori</h3>
-<p>Anche la famiglia può scegliere una donazione al posto dei fiori, e dare a chi viene a salutare una pergamena in ricordo, con il nome di chi non c’è più. La prepari qui sotto, la stampi a casa, quattro per foglio, e la tagli lungo le linee grigie. La donazione si fa dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
+<h3 id="cartolina">Cartolina solidale di condoglianze</h3>
+<p>Crea la tua cartolina da inviare ai parenti come segno di condoglianze: scegli l’immagine, scrivi il nome di chi ricordi e due righe tue, poi scaricala in PDF o come immagine e mandala via mail.</p>
+{biglietto-ricordo}
+<h3 id="pergamena">La pergamena del saluto</h3>
+<p>Un gesto sempre più apprezzato è quello di un funerale sobrio, ove i soldi sono devoluti a giuste cause. La famiglia che sceglie una donazione al posto dei fiori può decidere di esprimere questo suo intento con una pergamena da distribuire il giorno del funerale in ricordo, con il nome di chi non c’è più e una frase.</p>
+<p>Prepara la tua pergamena: puoi stamparla a casa, quattro per foglio, o inviarla via mail.</p>
+<figure class="esempio"><img src="{img:esempio-pergamena-rita.jpg}" alt="Un esempio di pergamena del saluto: Rita, in ricordo, 4 ottobre 2013, con una sua frase in oro e, sotto, «Al posto dei fiori, una donazione alla Fondazione La Rosa d’Oro in sua memoria»" width="900" height="635" loading="lazy"><figcaption>Un esempio: la pergamena per Rita</figcaption></figure>
 {pergamena-ricordo}
+<p>La donazione si fa dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
+<p>A breve sarà possibile piantare un «albero commemorativo», in memoria del defunto, per onorarne il ricordo in modo duraturo, presso un terreno ove vivono i progetti della Fondazione. Se ti interessa, <a class="link" href="{→contatti}">scrivici</a>.</p>
 <p>Grazie ai ricordi, chi non c'è più rimane presente nella vita dei suoi cari: ricordarlo è un modo naturale per mantenere vivo il legame e, gradualmente, accettare l'assenza. E talvolta, per sostenere la famiglia, serve un gesto concreto.</p>
 <h3>Un gesto concreto per la famiglia</h3>
 <p>Vuoi essere tu a coprire le spese del funerale di un amico? O vorresti chiedere aiuto senza imbarazzo, permettendo a chi desidera sostenerti — ma non sa come — di farlo? Contattaci: apriremo noi la raccolta al posto tuo, per il funerale o per gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a>.</p>
@@ -1316,6 +1324,10 @@ BIGLIETTO = dict(
         corpo_voi="Questa è una donazione in memoria alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento.",
         file="donazione-in-ricordo",
         titolo="Donazione in memoria",
+        # nella pagina dei funerali (Dacia, 14.11) lo stesso biglietto è la «cartolina solidale di condoglianze»: solo questa
+        # occasione, le tavole dei funerali, «la famiglia» come esempio di chi la riceve
+        immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("clessidra", "La clessidra")),
+        segnaposto_per="Per esempio: la famiglia di Maria",
     ),
     immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
     # da novembre all’Epifania (NATALE acceso) l’abete con la stella al posto dell’albero tondo, già scelto (Elias, 9.11)
@@ -1356,6 +1368,8 @@ PERGAMENA = dict(
         corpo="Al posto dei fiori, una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro in sua memoria. Grazie di essere qui a ricordare insieme.",
         file="pergamena-in-ricordo-di-",
         titolo="Pergamena in ricordo",
+        lunghezza=220,          # la frase della famiglia può essere lunga, anche una citazione con la fonte (Dacia, 14.11)
+        frase_prima=True,       # la frase della famiglia, in oro, va prima di «Al posto dei fiori» (Dacia, 14.11)
     ),
     piede="Fondazione La Rosa d’Oro ETS · larosadoro.org",
 )
@@ -1743,7 +1757,7 @@ DESCRIZIONI = {
     "in-memoria": "Donare in memoria di chi non c'è più: il fondo di memoria, il giardino dei ricordi, il funerale che diventa un'opera di bene, l'aiuto a chi resta.",
     "in-memoria/fondo-di-memoria": "Il fondo di memoria: una donazione che ricorda una persona cara e sostiene un progetto concreto. Come si apre, in quali modi, con quali vantaggi fiscali.",
     "in-memoria/giardino-dei-ricordi": "Il giardino dei ricordi: scegli un'immagine, scrivi il nome di chi vuoi ricordare e, se vuoi, una dedica. Lo posiamo nel giardino della Fondazione.",
-    "in-memoria/funerali": "Non fiori ma opere di bene: al funerale si raccolgono fondi per un progetto. Accendi una candela, pianta un albero, fai sbocciare un fiore.",
+    "in-memoria/funerali": "Non fiori ma opere di bene: al funerale si raccolgono fondi per un progetto, con la cartolina solidale di condoglianze e la pergamena del saluto.",
     "in-memoria/svuota-e-sorridi": "Gli Svuota e Sorridi: l'aiuto pratico della Fondazione per svuotare la casa di chi non c'è più, con rispetto, dando nuova vita agli oggetti.",
     "in-memoria/io-sono-qui-per-te": "Io sono qui per te: l'accompagnamento della Fondazione a chi si avvicina alla fine della vita e a chi gli sta accanto, con medici e counselor.",
     "in-memoria/petali-di-carta": "Petali di carta: letture consigliate sulla morte, il lutto, l’accompagnamento al morente e le esperienze di premorte, con un commento per ogni libro.",

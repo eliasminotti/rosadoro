@@ -712,6 +712,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
   'use strict';
   function cartoncino(modulo) {
     var pergamena = modulo.id === 'modulo-pergamena';
+    var primaFrase = pergamena && modulo.hasAttribute('data-frase-prima');
     var tela = modulo.querySelector('canvas');
     var ctx = tela.getContext && tela.getContext('2d');
     if (!ctx || !tela.toBlob || !window.Blob || !window.Promise || !window.URL || !URL.createObjectURL) return;
@@ -833,16 +834,24 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
         aggiungi('per', t.per, ORO_SCURO);
         blocchi.push({ spazio: 34 });
       }
-      aggiungi('corpo', t.corpo, 'rgba(28,28,28,.8)');
+      /* nella pergamena del saluto (funerali, Dacia 14.11) la frase della famiglia viene prima, in oro, e può essere lunga
+         (una citazione con la fonte): fino a sei righe; poi «Al posto dei fiori…» */
+      if (!primaFrase) aggiungi('corpo', t.corpo, 'rgba(28,28,28,.8)');
       if (t.messaggio) {
-        var corpo = 52, fatte;
+        var corpo = 52, fatte, quante = primaFrase ? 6 : 4, minimo = primaFrase ? 32 : 36;
         do {                                       /* due righe tue: al massimo quattro, il carattere si stringe se serve */
           ctx.font = STILE.messaggio[0].replace('%', corpo);
           fatte = righe(t.messaggio, largo);
           corpo -= 4;
-        } while (fatte.length > 4 && corpo >= 36);
+        } while (fatte.length > quante && corpo >= minimo);
         blocchi.push({ spazio: 36 });
-        fatte.slice(0, 5).forEach(function (r) { blocchi.push({ font: ctx.font, colore: ANTRACITE, testo: r, alto: Math.round((corpo + 4) * 1.22) }); });
+        fatte.slice(0, quante + 1).forEach(function (r) {
+          blocchi.push({ font: ctx.font, colore: primaFrase ? ORO_SCURO : ANTRACITE, testo: r, alto: Math.round((corpo + 4) * 1.22) });
+        });
+      }
+      if (primaFrase) {
+        blocchi.push({ spazio: t.messaggio ? 40 : 0 });
+        aggiungi('corpo', t.corpo, 'rgba(28,28,28,.8)');
       }
       if (t.firma) {
         blocchi.push({ spazio: 34 });
@@ -861,7 +870,7 @@ function daCollegamento(riquadro, parametro, foglio, indirizzo, seNonRiesce, qua
       spaziato(t.piede.toUpperCase(), x, A - 112, 3);
       /* per chi usa un lettore di schermo, il cartoncino in parole */
       tela.setAttribute('aria-label', (pergamena ? 'Anteprima della pergamena: ' : 'Anteprima del biglietto: ') +
-        [t.saluto, t.per, t.corpo, t.messaggio, t.firma, t.piede]
+        (primaFrase ? [t.saluto, t.per, t.messaggio, t.corpo, t.firma, t.piede] : [t.saluto, t.per, t.corpo, t.messaggio, t.firma, t.piede])
         .filter(Boolean).map(function (s) { return /[.!?…»]$/.test(s) ? s : s + '.'; }).join(' '));
     }
 

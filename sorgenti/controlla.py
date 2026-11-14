@@ -293,7 +293,7 @@ SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senz
                   "{se-turnstile}", "{/se-turnstile}", "{senza-turnstile}", "{/senza-turnstile}", "{turnstile}", "{trappola}",
                   "{se-google}", "{/se-google}", "{senza-google}", "{/senza-google}",
                   "{se-natale}", "{/se-natale}", "{senza-natale}", "{/senza-natale}", "{biglietto}", "{stripe-regalo}",
-                  "{pergamena}", "{pergamena-ricordo}", "{stripe-bomboniera}")
+                  "{pergamena}", "{pergamena-ricordo}", "{stripe-bomboniera}", "{biglietto-ricordo}")
 MESI = ("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre")
 
 
