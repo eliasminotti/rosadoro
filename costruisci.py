@@ -251,7 +251,8 @@ SERVIZIO = [
     dict(cartella="dona/grazie", voce="Grazie", titolo="Grazie", occhiello="Donazioni", hero="avorio", dove=""),
     # i regali solidali (Elias, 6.11.2026): un altro modo di donare, dentro Dona e fuori dal menu principale; la pagina è fissa
     # e non si spegne mai, così tiene la sua posizione su Google da un anno all’altro. Fuori stagione cambia il testo (NATALE)
-    dict(cartella="dona/regali-solidali", voce="Regali solidali", titolo="Regali solidali", occhiello="Donazioni", hero="avorio", dove=""),
+    # il titolo: da novembre all’Epifania «Regali solidali di Natale» (Dacia, 14.11), il resto dell’anno «Regali solidali»; la voce resta
+    dict(cartella="dona/regali-solidali", voce="Regali solidali", titolo="Regali solidali di Natale" if NATALE else "Regali solidali", occhiello="Donazioni", hero="avorio", dove=""),
     dict(cartella="dona/bomboniere-solidali", voce="Bomboniere solidali", titolo="Bomboniere solidali", occhiello="Donazioni", hero="avorio", dove=""),
     dict(cartella="partnership", voce="Partnership e siti amici", titolo="Partnership e siti amici", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="documenti", voce="Documenti", titolo="Documenti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
