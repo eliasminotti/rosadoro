@@ -12,6 +12,8 @@ Che cosa c’è
     audio/           il valzer op. 69 n. 1 di Chopin per il fondo di memoria e il giardino (Luke Faulkner, Musopen, pubblico dominio)
                      e il Lacrimosa del Requiem di Mozart per i Funerali (Karajan, Berliner Philharmoniker, Wiener Singverein,
                      Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti; da IMSLP, file 581264)
+                     e O Tannenbaum per i Regali solidali a Natale (coro della U.S. Army Band, circa 2010: pubblico dominio;
+                     da Wikimedia Commons, «U.S. Army Band - O Tannenbaum.ogg»)
     allegati/        i documenti da scaricare: lo statuto con la carta intestata della Fondazione e il fac-simile delle DAT
   costruisci.py      l’assemblatore: la mappa del sito, menu, testata e piede; scrive tutte le pagine
   testi_pagine.py    i testi delle pagine (la sezione «In memoria» è quella di Dacia)
@@ -41,9 +43,10 @@ Come si costruisce
 
 Come si pubblica
   Ogni lavoro si fa su un ramo suo e diventa una proposta (pull request). Quando Elias dice di sì entra nel ramo
-  principale, claude/rosadoro-foundation-site-6hc5hu, e il workflow .github/workflows/pages.yml pubblica sito/ su
-  https://larosadoro.org/ (dal 21.10.2026, con i collegamenti puliti; il vecchio indirizzo di prova
-  https://eliasminotti.github.io/rosadoro/ porta lì). Fino al giorno dell’apertura le pagine chiedono ai motori
+  principale, claude/rosadoro-foundation-site-6hc5hu, del repository larosadoro/rosadoro (nell’organizzazione GitHub della
+  Fondazione dal 14.11.2026, prima eliasminotti/rosadoro), e il workflow .github/workflows/pages.yml pubblica sito/ su
+  https://larosadoro.org/ (dal 21.10.2026, con i collegamenti puliti; l’indirizzo di GitHub Pages
+  https://larosadoro.github.io/rosadoro/ porta lì). Fino al giorno dell’apertura le pagine chiedono ai motori
   di ricerca di non indicizzarle: ANTEPRIMA in costruisci.py si spegne quel giorno, dopo il sì di Elias.
 
 I controlli

@@ -171,7 +171,10 @@ Prima di tutto leggi `LEGGIMI.txt` e `REGOLE-DI-QUALITA.txt`.
 
 - Il ramo principale è `claude/rosadoro-foundation-site-6hc5hu`: ogni push lì
   pubblica `sito/` su https://larosadoro.org/ con `.github/workflows/pages.yml`.
-  Il vecchio indirizzo di prova https://eliasminotti.github.io/rosadoro/ porta lì.
+  L'indirizzo di GitHub Pages https://larosadoro.github.io/rosadoro/ porta lì.
+- Il repository è `larosadoro/rosadoro`, nell'organizzazione GitHub della Fondazione
+  dal 14.11.2026 (prima `eliasminotti/rosadoro`: GitHub reindirizza i vecchi indirizzi,
+  ma si usa il nuovo). Il vecchio https://eliasminotti.github.io/rosadoro/ non risponde più.
 - Ogni lavoro si fa su un ramo suo e arriva sul ramo principale solo dopo
   l'approvazione di Elias.
 - Il sito pubblicato si controlla da solo con `.github/workflows/controlli.yml`

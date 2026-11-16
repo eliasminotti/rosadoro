@@ -247,16 +247,24 @@ TESTI["in-memoria/funerali"] = dict(
     sotto="Non fiori ma opere di bene.",
     musica="lacrimosa",      # il Lacrimosa del Requiem di Mozart (Dacia, 1.11; scelta di Elias: Karajan 1962)
     corpo="""
-<p>Al posto di ghirlande e fiori, per il funerale si possono raccogliere fondi per un progetto. Chi partecipa scrive un messaggio di vicinanza per coloro che restano, e sostiene con la propria donazione una causa:</p>
+<p class="citazione apre">Una cerimonia funebre che celebra una vita</p>
+<p>Al posto di corone e fiori, per il funerale è possibile raccogliere fondi per un progetto. Può farlo la famiglia stessa oppure chi partecipa al funerale o chi non può partecipare — dai familiari stretti fino ad amici, colleghi e conoscenti. In quest’ultimo caso si può scrivere un messaggio di vicinanza per la famiglia della persona che ha varcato la soglia, inviando via mail o stampando la cartolina qui sotto, scegliendo di sostenere con la propria donazione una causa tra le seguenti.</p>
 <div class="azioni">
   <a class="azione" href="{→dona}"><img src="{img:azione-candela.svg}" alt="Una candela accesa, incisa" width="200" height="240"><div><h4>Accendi una candela</h4><p>Sostieni progetti di medicina</p></div></a>
   <a class="azione" href="{→dona}"><img src="{img:azione-albero.svg}" alt="Un albero appena piantato, inciso" width="200" height="240"><div><h4>Pianta un albero</h4><p>Sostieni progetti per l'agricoltura</p></div></a>
   <a class="azione" href="{→dona}"><img src="{img:azione-fiore.svg}" alt="Un fiore che sboccia, inciso" width="200" height="240"><div><h4>Fai sbocciare un fiore</h4><p>Sostieni progetti che riguardano il sociale</p></div></a>
   <a class="azione" href="{→dona}"><img src="{img:azione-clessidra.svg}" alt="La clessidra alata, incisa" width="200" height="240"><div><h4>Gira la clessidra alata</h4><p>Sostieni progetti che riguardano il fine vita</p></div></a>
 </div>
-<h3 id="pergamena">Una pergamena al posto dei fiori</h3>
-<p>Anche la famiglia può scegliere una donazione al posto dei fiori, e dare a chi viene a salutare una pergamena in ricordo, con il nome di chi non c’è più. La prepari qui sotto, la stampi a casa, quattro per foglio, e la tagli lungo le linee grigie. La donazione si fa dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
+<h3 id="cartolina">Cartolina solidale di condoglianze</h3>
+<p>Crea la tua cartolina da inviare ai parenti come segno di condoglianze: scegli l’immagine, scrivi il nome di chi ricordi e due righe tue, poi scaricala in PDF o come immagine e mandala via mail.</p>
+{biglietto-ricordo}
+<h3 id="pergamena">La pergamena del saluto</h3>
+<p>Un gesto sempre più apprezzato è quello di un funerale sobrio, ove i soldi sono devoluti a giuste cause. La famiglia che sceglie una donazione al posto dei fiori può decidere di esprimere questo suo intento con una pergamena da distribuire il giorno del funerale in ricordo, con il nome di chi non c’è più e una frase.</p>
+<p>Prepara la tua pergamena: puoi stamparla a casa, quattro per foglio, o inviarla via mail.</p>
+<figure class="esempio"><img src="{img:esempio-pergamena-rita.jpg}" alt="Un esempio di pergamena del saluto: Rita, in ricordo, 4 ottobre 2013, con una sua frase in oro e, sotto, «Al posto dei fiori, una donazione alla Fondazione La Rosa d’Oro in sua memoria»" width="900" height="635" loading="lazy"><figcaption>Un esempio: la pergamena per Rita</figcaption></figure>
 {pergamena-ricordo}
+<p>La donazione si fa dalla pagina <a class="link" href="{→dona}">Dona</a>.</p>
+<p>A breve sarà possibile piantare un «albero commemorativo», in memoria del defunto, per onorarne il ricordo in modo duraturo, presso un terreno ove vivono i progetti della Fondazione. Se ti interessa, <a class="link" href="{→contatti}">scrivici</a>.</p>
 <p>Grazie ai ricordi, chi non c'è più rimane presente nella vita dei suoi cari: ricordarlo è un modo naturale per mantenere vivo il legame e, gradualmente, accettare l'assenza. E talvolta, per sostenere la famiglia, serve un gesto concreto.</p>
 <h3>Un gesto concreto per la famiglia</h3>
 <p>Vuoi essere tu a coprire le spese del funerale di un amico? O vorresti chiedere aiuto senza imbarazzo, permettendo a chi desidera sostenerti — ma non sa come — di farlo? Contattaci: apriremo noi la raccolta al posto tuo, per il funerale o per gli <a class="link" href="{→in-memoria/svuota-e-sorridi}">Svuota e Sorridi</a>.</p>
@@ -303,6 +311,72 @@ TESTI["in-memoria/io-sono-qui-per-te"] = dict(
 <p>Sei un counselor, uno psicologo o un terapeuta olistico esperto dell’accompagnamento al morire? <a class="link" href="{→contatti}">Scrivici</a> e considereremo insieme tutte le possibilità.</p>
 <p>Conosci una persona in difficoltà? Girale il sito della Fondazione: il passaparola è più importante di qualunque altro mezzo, e ognuno di noi ha una responsabilità sociale.</p>
 </div>
+""")
+
+# ------------------------------------------------- F · petali di carta
+# La bibliografia di Francesca Zanuttini, mandata da Dacia il 13.11.2026: il testo è suo, con le correzioni della tabella mandata
+# a Dacia. Dacia (14.11): l’indirizzo resta segreteria@larosadoro.org; Sonia Benassi e Chantal Dejean restano fuori; Moody è
+# «La vita oltre la vita», tra le esperienze di premorte; sotto il titolo «A cura di Francesca Zanuttini».
+TESTI["in-memoria/petali-di-carta"] = dict(
+    sotto="A cura di Francesca Zanuttini",
+    corpo="""
+<p>Questa raccolta di letture non vuole essere esaustiva, ma solo offrire alcuni spunti di studio e di conoscenza, che possono aprire la porta ad ulteriori ricerche personali.</p>
+<p>Ogni testo è stato letto con attenzione e per ognuno di essi viene dato un piccolo commento: non è una recensione letteraria, bensì un’opinione soggettiva, che si basa sulle conoscenze e sull’esperienza personale di chi ha letto il libro.</p>
+<p>I libri sono stati suddivisi per argomento, in modo da indirizzare la scelta secondo il proprio interesse.</p>
+<p>Per informazioni, consigli, condivisioni e approfondimenti scrivi a <a class="link" href="mailto:segreteria@larosadoro.org">segreteria@larosadoro.org</a>.</p>
+<h3 class="argomento">Sulla comunicazione con i defunti</h3>
+<div class="libro"><p class="dati"><strong>Ponti tra la vita e la morte: incontro con i defunti</strong> · Iris Paxino · Editrice Antroposofica, 2020</p><p>Bellissimo libro, scritto in modo chiaro e semplice da una psicologa con esperienza nella comunicazione con i defunti. Affronta molte tematiche importanti relativamente al post mortem e alla relazione con i defunti. Assolutamente da leggere.</p></div>
+<div class="libro"><p class="dati"><strong>Testimony of Light</strong> (in inglese) · Helen Greaves · World Fellowship Press, 1969</p><p>Testo datato, ma molto interessante sulla comunicazione tra aldiqua e aldilà di due amiche suore, di cui una muore e l’altra, dotata di chiaroveggenza, riceve i suoi racconti sull’aldilà.</p></div>
+<div class="libro"><p class="dati"><strong>Sorella morte</strong> · Carlo Biagi e Anna Monza · Edizioni Cerchio della Luna, 2017</p><p>Testo semplice, scritto da una persona dotata di veggenza, con esperienza nella comunicazione con i defunti e nell’approccio alla morte. Per avvicinarsi con dolcezza.</p></div>
+<div class="libro"><p class="dati"><strong>Esiste l’aldilà</strong> · Lino Sardos Albertini · Reverdito, 1986</p><p>Testo autobiografico, racconta la storia di un padre che perde il figlio e andando alla ricerca di risposte incontra una persona che è in contatto con il defunto. Approccio scientifico. Molto bello.</p></div>
+<div class="libro"><p class="dati"><strong>La crisi della morte</strong> · Ernesto Bozzano · Armenia, 1981</p><p>Testo piuttosto datato, che raccoglie casi di comunicazione medianica nel post mortem, estrapolati da svariati testi degli ultimi cento anni. Ottima raccolta, ottima analisi, un po’ antiquato nel linguaggio.</p></div>
+<div class="libro"><p class="dati"><strong>Istruzioni dall’aldilà</strong> · Federico Cellina · Mediterranee, 1990</p><p>Raccolta di comunicazioni e informazioni selezionate dai vari gruppi di medianità (es. il Cerchio Firenze 77), che hanno ricevuto comunicazioni dal mondo spirituale. La selezione è accurata, ponderata, cerca di escludere i dati poco attendibili, si concentra sui messaggi positivi, propositivi e d’amore. Interessante e di facile comprensione.</p></div>
+<div class="libro"><p class="dati"><strong>Esperimenti sull’aldilà. La prova scientifica della vita oltre la morte</strong> · Gary Schwartz · Mondadori, 2003</p><p>Accurato studio scientifico sulla comunicazione con i defunti; utilizza modalità di analisi scientifiche, molto interessante, una valida lettura.</p></div>
+<h3 class="argomento">Sul lutto</h3>
+<div class="libro"><p class="dati"><strong>La vita dopo un grande dolore</strong> · Raymond Moody e Dianne Arcangel · Armenia, 2007</p><p>Testo discorsivo sul lutto e i suoi vari aspetti; semplice, sono in particolare belli gli esempi e le storie raccontate.</p></div>
+<h3 class="argomento">Sulle esperienze NDE</h3>
+<div class="libro"><p class="dati"><strong>La vita oltre la vita</strong> · Raymond Moody · Corbaccio, 2019 (1977)</p><p>Testo datato, ma sempre bellissimo, scritto dallo psichiatra e scienziato che per primo ha parlato delle esperienze di premorte in modo scientifico e rigoroso. Scritto in modo molto chiaro. Da leggere.</p></div>
+<div class="libro"><p class="dati"><strong>Manuale per sopravvivere dopo la morte</strong> · Ensitiv · OM Edizioni, 2023</p><p>Libro diretto, simpatico, chiaro e basato sull’esperienza personale di un autore italiano, con doti di veggenza, la cui identità non è nota. Portando esperienze personali di OBE (out of body experience, esperienze fuori dal corpo) vuole dare indicazioni su come orientarsi nei mondi sottili, anche dopo la morte. Prospettiva interessante, a volte sopra le righe, ma da valutare.</p></div>
+<div class="libro"><p class="dati"><strong>Ritorno dall’aldilà</strong> · George Ritchie · Edizioni Artemis, (1978) 2022</p><p>Testo stupendo autobiografico sull’esperienza NDE (near death experience, esperienza di premorte) dell’autore, medico; descrive in modo mirabile l’incontro con il Cristo e l’effetto che questo ha avuto sulla sua vita. Molto ispirato, assolutamente consigliato.</p></div>
+<div class="libro"><p class="dati"><strong>Esiste un posto bellissimo</strong> · Jeffrey Long · Mondadori, 2013</p><p>Il più grande studio scientifico sulle esperienze di NDE; l’autore è un medico che ha dedicato la vita a questa ricerca internazionale. Scientifico, puntuale, chiaro, ricco di racconti documentati. Assolutamente da leggere; titolo in inglese “Evidence of the Afterlife”.</p></div>
+<div class="libro"><p class="dati"><strong>Morendo ho ritrovato me stessa</strong> · Anita Moorjani · Editore My Life, 2012</p><p>Bellissimo libro, in cui l’autrice racconta la sua malattia, il suo calvario, la sua esperienza di premorte e di guarigione miracolosa e come la sua storia abbia trasformato radicalmente la sua vita. Molto bello.</p></div>
+<div class="libro"><p class="dati"><strong>Il paradiso per davvero</strong> · Todd Burpo · Rizzoli, 2015</p><p>Libro tratto da una storia realmente accaduta, che racconta l’esperienza di premorte di un bambino e delle difficoltà incontrate dalla famiglia nel comprendere l’accaduto. Molto bello.</p></div>
+<h3 class="argomento">Sull’accompagnamento al morente</h3>
+<div class="libro"><p class="dati"><strong>Vivere con il dolore</strong> · Iris Paxino · Natura e Cultura, 2014</p><p>Testo non centrato sulla morte, bensì sulla sopportazione del dolore, sul suo significato; si riferisce sia al dolore fisico che a quello psicologico. Interessante per l’accompagnamento del morente che vive queste situazioni.</p></div>
+<div class="libro"><p class="dati"><strong>La morte amica</strong> · Marie de Hennezel · Rizzoli, 1998</p><p>Libro meraviglioso, semplice e diretto, l’autrice racconta la sua esperienza come psicologa in un centro di cure palliative a Parigi. Scritto molto bene, parla molto dell’accompagnamento al morente, soprattutto dal punto di vista psicologico e umano. Di grande ispirazione.</p></div>
+<div class="libro"><p class="dati"><strong>La notte non fa paura</strong> · Kathryn Mannix · Corbaccio, 2018</p><p>Meraviglioso testo, scritto da una dottoressa inglese esperta in cure palliative. Descrive tante storie vissute, una più bella dell’altra. Da leggere.</p></div>
+<div class="libro"><p class="dati"><strong>L’amore sempre</strong> · Attilio Stajano · Lindau Edizioni, 2020</p><p>L’autore è un volontario in un reparto di cure palliative e racconta le storie vissute accompagnando i morenti; il testo è arricchito dal vissuto personale. Molto valido.</p></div>
+<div class="libro"><p class="dati"><strong>Saper accompagnare</strong> · Frank Ostaseski · Mondadori, 2023</p><p>Libro molto conosciuto, l’autore è il fondatore dello Zen Hospice di San Francisco. Porta una grande esperienza nell’accompagnamento al morente. Interessante.</p></div>
+<div class="libro"><p class="dati"><strong>Who Dies? An Investigation of Conscious Living and Conscious Dying</strong> (in inglese) · Stephen Levine · Anchor Press/Doubleday, 1982</p><p>Testo molto approfondito sul morire e sull’accompagnamento al morente. L’autore racconta la sua esperienza nell’accompagnare attraverso la soglia. Descrive molte meditazioni, che si possono imparare. Ottimo libro.</p></div>
+<h3 class="argomento">Sulla morte in generale</h3>
+<div class="libro"><p class="dati"><strong>La morte è di vitale importanza</strong> · Elisabeth Kübler-Ross · Armenia, 2016</p><p>Un libro di cui non si può fare a meno, quando si incontra il tema della morte. Si tratta di una raccolta di conferenze postume di una psichiatra che ha dedicato la sua vita al tema della morte e dell’accompagnamento al morente, in particolare i bambini.</p></div>
+<div class="libro"><p class="dati"><strong>Impara a vivere, impara a morire</strong> · Elisabeth Kübler-Ross · Feltrinelli, 2001</p><p>Altro meraviglioso libro della dottoressa Kübler-Ross, che affronta i temi dell’eutanasia, del dolore, della morte infantile e del suicidio. Assolutamente consigliato.</p></div>
+<div class="libro"><p class="dati"><strong>Essere mortale</strong> · Atul Gawande · Giulio Einaudi Editore, 2016</p><p>Libro meraviglioso, scritto da un medico che affronta i limiti della medicina moderna di fronte alla morte. Si concentra molto su come affrontare gli ultimi giorni o mesi che ci restano. Assolutamente da leggere.</p></div>
+<div class="libro"><p class="dati"><strong>Morire ad occhi aperti</strong> · Marie de Hennezel · Lindau Edizioni, 2006</p><p>Questo testo racconta la morte di un “guru” francese, seguito dall’autrice, racconta la sua vita e il suo insegnamento. Interessante.</p></div>
+<div class="libro"><p class="dati"><strong>La fonte magica</strong> · Natalie Babbitt · Rizzoli, 2012</p><p>Racconto da cui è tratto il film “Tuck Everlasting”. Dolce, leggero, bello, molto adatto anche ai bambini.</p></div>
+<div class="libro"><p class="dati"><strong>La solitudine del morente</strong> · Norbert Elias · Il Mulino, 1985</p><p>Disamina accurata e chiara dell’approccio della cultura attuale alla morte. Molto interessante.</p></div>
+<div class="libro"><p class="dati"><strong>Crossing the Threshold</strong> (in inglese) · Nicholas Wijnberg e Philip Martyn · Temple Lodge Publishing, 2003</p><p>Breve testo antroposofico, che tratta tutti gli aspetti intorno al momento della morte. Interessante.</p></div>
+<div class="libro"><p class="dati"><strong>Storia della morte in Occidente</strong> · Philippe Ariès · Rizzoli, 1978</p><p>Saggio sull’evoluzione del rapporto con la morte in Occidente, dal Medioevo fino ai giorni nostri. Interessante, molto accurato, forse poco scorrevole.</p></div>
+<div class="libro"><p class="dati"><strong>L’ultimo viaggio</strong> · Stanislav Grof · Apogeo, 2007</p><p>Saggio estremamente accurato e approfondito su svariati aspetti che riguardano la morte. Trattando anche molto della tecnica della respirazione olotropica, talvolta i due argomenti non sono ben separati.</p></div>
+<h3 class="argomento">Sull’invecchiamento e sulla malattia</h3>
+<div class="libro"><p class="dati"><strong>Il calore del cuore impedisce al corpo di invecchiare</strong> · Marie de Hennezel · Rizzoli, 2008</p><p>Testo sull’invecchiamento e sulla relazione che la società e la medicina hanno con il processo dell’invecchiare. Interessante.</p></div>
+<div class="libro"><p class="dati"><strong>Le campane di Bicêtre</strong> · Georges Simenon · Mondadori, 1966</p><p>Sebbene sia datato, si tratta di un bel romanzo sulla malattia (ictus in particolare) descritta e vissuta dal punto di vista del malato. Affronta anche i temi della revisione della propria vita e dell’accettazione di ciò che è stato e di ciò che è. Molto interessante.</p></div>
+<div class="libro"><p class="dati"><strong>Ho il cancro e non ho l’abito adatto</strong> · Cristina Piga · Ugo Mursia Editore, 2007</p><p>Autobiografia che tratta l’incontro con la malattia. Porta spunti di riflessione sul vissuto personale della malattia e della relazione con il mondo della medicina.</p></div>
+<h3 class="argomento">Sulla prenatalità</h3>
+<div class="libro"><p class="dati"><strong>Anime coraggiose</strong> · Robert Schwartz · Macro Edizioni, 2020</p><p>Bellissimo testo di ricerca sulla prenatalità; osa molto, richiede apertura a nuove visioni. Tratta della scelta del proprio destino e delle prove della vita, prima di nascere.</p></div>
+<h3 class="argomento">Sulle vite pregresse</h3>
+<div class="libro"><p class="dati"><strong>Reincarnazione, 20 casi a sostegno</strong> · Ian Stevenson · Armenia, 2017 (1975)</p><p>Testo impostato in modo scientifico e pignolo; i casi trattati sono soprattutto dell’India. Forse non più adatto ai nostri tempi.</p></div>
+<h3 class="argomento">Sulla presenza del mondo spirituale intorno a noi</h3>
+<div class="libro"><p class="dati"><strong>Presenze positive</strong> · Marco Cesati Cassin · Sperling &amp; Kupfer, 2020</p><p>Testo che si può leggere come un’introduzione alle coincidenze e agli aiuti del mondo spirituale. Facile, diretto, apre molte porte; un’ottima prima lettura.</p></div>
+<div class="libro"><p class="dati"><strong>Brevi incontri e piccoli miracoli</strong> · Jacky Newcomb · Mondadori, 2006</p><p>Bel testo, tratta soprattutto della presenza degli angeli nella nostra vita. È una lettura molto confortante.</p></div>
+<h3 class="argomento">Per bambini</h3>
+<div class="libro"><p class="dati"><strong>Senza fine</strong> · Zongxi Deng · Carthusia, 2023</p><p>Meraviglioso libro illustrato, senza parole. Le immagini sono molto evocative e raccontano il passaggio della morte in un modo immaginativo, rendendo questo testo immediato per i bambini e adatto anche agli adulti.</p></div>
+<div class="libro"><p class="dati"><strong>Waterbugs and Dragonflies: Explaining Death to Children</strong> (in inglese) · Doris Stickney · Pilgrim Press, 1982</p><p>Meravigliosa storia per raccontare ai bambini la morte in modo immaginativo; adatta anche agli adulti.</p></div>
+<div class="libro"><p class="dati"><strong>Sorellina tutta mia</strong> · Astrid Lindgren · Il Gioco di Leggere, 2010 (1949)</p><p>Racconto molto bello, che narra del lutto in modo immaginativo e dolce. Molto adatto ai bambini, ma vale la pena anche per gli adulti.</p></div>
+<div class="libro"><p class="dati"><strong>Che cos’è la morte nonnino?</strong> · Pimm van Hest e Lisa Brandenburg · Clavis, 2018</p><p>Dialogo tra nonno e nipote su cosa è la morte e cosa ci aspetta dopo. Carino.</p></div>
+<div class="libro"><p class="dati"><strong>L’albero dei ricordi</strong> · Britta Teckentrup · Carlo Gallucci Editore, 2018</p><p>Una volpe muore e gli altri animali le rendono onore; è una trasposizione del lutto in chiave animale, non tiene tuttavia conto del fatto che l’essere umano non è costituito come un animale e quindi il passaggio della morte non può essere paragonato.</p></div>
+<div class="libro"><p class="dati"><strong>Soledad e la nonna</strong> · Birte Müller · Nord-Sud Edizioni, 2004</p><p>Narra con parole e disegni la festa dei morti in America latina. Veritiero dal punto di vista culturale, ma poco profondo.</p></div>
+<div class="libro"><p class="dati"><strong>È tempo di andare</strong> · Kim Sena · Orecchio Acerbo, 2019</p><p>Carino, ma un pochino superficiale.</p></div>
 """)
 
 # ------------------------------------------------------- approfondimento
@@ -1166,8 +1240,18 @@ TESTI["dona"] = dict(
 # browser, in PDF o in immagine, e niente parte dal sito. I testi del biglietto stanno in BIGLIETTO, qui sotto.
 TESTI["dona/regali-solidali"] = dict(
     sotto="Un regalo che diventa terra coltivata, cura, accompagnamento.",
+    musica_natale="tannenbaum",   # da novembre all’Epifania il pulsante «Ascolta · O Tannenbaum» (Dacia, 14.11)
     corpo="""
-{se-natale}<p>A Natale puoi regalare una donazione. Doni alla Fondazione La Rosa d’Oro pensando a una persona, prepari qui sotto un biglietto con il suo nome e glielo dai: stampato, da mettere sotto l’albero, oppure per email o per messaggio. Niente pacchi e niente spedizioni: il regalo è ciò che la tua donazione fa crescere.</p>
+{se-natale}<p>Giunge l’atmosfera di Natale. Il fuoco scoppiettante nel camino, le risate, il profumo di arancia e cannella… anche i cuori più freddi divengono caldi. Il desiderio di donare agli altri si fa più forte. Ascolta quel richiamo del donare… non correre per negozi, sosta e scrivi.</p>
+<p>E allora… dona, scalda e accendi il Natale con un biglietto della Fondazione La Rosa d’Oro. Scegli il biglietto con una candela, o un abete o una rosa, o un altro fiore.</p>
+<p>Accendilo per te, per credere concretamente in un futuro migliore.</p>
+<p>Accendilo per un amico o un’amica, perché possa vedere che c’è altro oltre la materia.</p>
+<p>Accendilo per il mondo.</p>
+<p>Piccole cifre, grandi sogni.</p>
+<p>Fai un <strong>dono solidale</strong> alla Fondazione La Rosa d’Oro pensando a una persona. Prepara qui sotto un biglietto con il suo nome e un pensiero: puoi stamparlo e metterlo sotto l’albero, oppure inviarlo via email o per messaggio.</p>
+<p>E se proprio non sai cosa scrivere? <a class="link" href="{→contatti}">Contattaci</a>: abbiamo anime dalla penna d’oro che possono scrivere per te.</p>
+<p>Niente pacchi e niente spedizioni. Un regalo di luce è ciò che la tua donazione fa crescere.</p>
+<p>Se puoi, ricordati anche di quella zia anziana che vive lontano, a cui non scrivi mai, o di quell’amica che hai perso di vista. Ricevere il biglietto della Fondazione La Rosa d’Oro la farà sorridere.</p>
 {/se-natale}{senza-natale}<p>Per un compleanno, una nascita, un matrimonio, una laurea o un anniversario puoi regalare una donazione. Doni alla Fondazione La Rosa d’Oro pensando a una persona, prepari qui sotto un biglietto con il suo nome e glielo dai, stampato oppure per email o per messaggio. Niente pacchi e niente spedizioni: il regalo è ciò che la tua donazione fa crescere. Il regalo di Natale torna a novembre.</p>
 {/senza-natale}<h3>Come si fa</h3>
 <ol class="passi">
@@ -1250,6 +1334,14 @@ BIGLIETTO = dict(
         corpo_voi="Questa è una donazione in memoria alla Fondazione La\u00a0Rosa\u00a0d’Oro, fatta pensando a voi. Diventerà terra coltivata, cura, accompagnamento.",
         file="donazione-in-ricordo",
         titolo="Donazione in memoria",
+        # nella pagina dei funerali (Dacia, 14.11) lo stesso biglietto è la «cartolina solidale di condoglianze»: solo questa
+        # occasione, le tavole dei funerali, «la famiglia» come esempio di chi la riceve
+        immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("clessidra", "La clessidra")),
+        segnaposto_per="Per esempio: la famiglia di Beatrice",   # Beatrice al posto di Maria (Dacia, 14.11 sera)
+        # accanto ai disegni, due foto del Giardino dei ricordi, con i nomi che hanno nel giardino (Dacia, 14.11: «meno formale
+        # ma più di cuore»; la sera: la rosa bianca, la più scelta nel giardino, e la calla). La foto scelta riempie la parte
+        # sinistra della cartolina, tagliata al centro; un terzo valore sposta il taglio (0 a sinistra, 1 a destra)
+        foto=(("rosa-bianca", "La rosa bianca", 0.45), ("giardino-185", "La calla bianca", 0.1)),
     ),
     immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("rosa", "La rosa")),
     # da novembre all’Epifania (NATALE acceso) l’abete con la stella al posto dell’albero tondo, già scelto (Elias, 9.11)
@@ -1280,6 +1372,7 @@ PERGAMENA = dict(
     corpo="Al posto della bomboniera, una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro, per festeggiare insieme. Diventerà terra coltivata, cura, accompagnamento.",
     file="pergamena-solidale-",
     titolo="Pergamena solidale",
+    frase_prima=True,           # su tutti i biglietti prima la frase di chi la prepara, sotto quella della Fondazione (Dacia, 14.11)
     ricordo=dict(
         occasione=("funerale", "Un funerale, al posto dei fiori", "In ricordo"),
         immagini=(("candela", "La candela"), ("albero", "L’albero"), ("fiore", "Il fiore"), ("clessidra", "La clessidra")),
@@ -1290,6 +1383,8 @@ PERGAMENA = dict(
         corpo="Al posto dei fiori, una donazione alla Fondazione La\u00a0Rosa\u00a0d’Oro in sua memoria. Grazie di essere qui a ricordare insieme.",
         file="pergamena-in-ricordo-di-",
         titolo="Pergamena in ricordo",
+        lunghezza=220,          # la frase della famiglia può essere lunga, anche una citazione con la fonte (Dacia, 14.11)
+        frase_prima=True,       # la frase della famiglia, in oro, va prima di «Al posto dei fiori» (Dacia, 14.11), come in tutte
     ),
     piede="Fondazione La Rosa d’Oro ETS · larosadoro.org",
 )
@@ -1677,9 +1772,10 @@ DESCRIZIONI = {
     "in-memoria": "Donare in memoria di chi non c'è più: il fondo di memoria, il giardino dei ricordi, il funerale che diventa un'opera di bene, l'aiuto a chi resta.",
     "in-memoria/fondo-di-memoria": "Il fondo di memoria: una donazione che ricorda una persona cara e sostiene un progetto concreto. Come si apre, in quali modi, con quali vantaggi fiscali.",
     "in-memoria/giardino-dei-ricordi": "Il giardino dei ricordi: scegli un'immagine, scrivi il nome di chi vuoi ricordare e, se vuoi, una dedica. Lo posiamo nel giardino della Fondazione.",
-    "in-memoria/funerali": "Non fiori ma opere di bene: al funerale si raccolgono fondi per un progetto. Accendi una candela, pianta un albero, fai sbocciare un fiore.",
+    "in-memoria/funerali": "Non fiori ma opere di bene: al funerale si raccolgono fondi per un progetto, con la cartolina solidale di condoglianze e la pergamena del saluto.",
     "in-memoria/svuota-e-sorridi": "Gli Svuota e Sorridi: l'aiuto pratico della Fondazione per svuotare la casa di chi non c'è più, con rispetto, dando nuova vita agli oggetti.",
     "in-memoria/io-sono-qui-per-te": "Io sono qui per te: l'accompagnamento della Fondazione a chi si avvicina alla fine della vita e a chi gli sta accanto, con medici e counselor.",
+    "in-memoria/petali-di-carta": "Petali di carta: letture consigliate sulla morte, il lutto, l’accompagnamento al morente e le esperienze di premorte, con un commento per ogni libro.",
     "in-memoria/elaborare-il-lutto": "Elaborare il lutto: perché ricordare aiuta, e come un gesto concreto in memoria di una persona cara sostiene chi resta.",
     "lasciti": "Lasciti testamentari alla Fondazione La Rosa d'Oro: che cosa si può lasciare, come si fa, i vantaggi fiscali, il testamento, le DAT, il Dopo di Noi.",
     "lasciti/il-lascito-testamentario": "Il lascito testamentario: un gesto semplice e sempre modificabile che destina una parte del patrimonio a ciò che per te è vita. Quota disponibile, forme, passi.",
@@ -1727,6 +1823,7 @@ TITOLI = {
     "in-memoria/funerali": "Funerali: non fiori ma opere di bene",
     "in-memoria/svuota-e-sorridi": "Svuotare la casa di chi non c’è più",
     "in-memoria/io-sono-qui-per-te": "Accompagnamento nel fine vita: Io sono qui per te",
+    "in-memoria/petali-di-carta": "Petali di carta: libri sulla morte, il lutto e l’accompagnamento",
     "lasciti": "Lasciti testamentari",
     "lasciti/il-lascito-testamentario": "Il lascito testamentario: così volli che fosse",
     "lasciti/perche-donare": "Perché donare alla Rosa d’Oro, e i vantaggi fiscali",
@@ -1791,3 +1888,22 @@ DESCRIZIONI["dona/bomboniere-solidali"] = ("Al posto delle bomboniere, una donaz
 DESCRIZIONI["dona/regali-solidali"] = ("{se-natale}Regala a Natale una donazione alla Fondazione La Rosa d’Oro e prepara il biglietto da stampare o da mandare per email. "
     "Anche per le aziende, al posto dei regali ai clienti.{/se-natale}{senza-natale}Regala una donazione alla Fondazione La Rosa d’Oro per un compleanno, "
     "una nascita, un matrimonio, e prepara il biglietto da stampare o da mandare per email.{/senza-natale}")
+
+# la ricerca nel sito (Dacia ed Elias, 14.11.2026): cerca nel browser di chi visita, nell’indice che costruisci.py scrive
+# accanto alla pagina (cerca/indice.json); le parole cercate non partono verso nessuno. Fuori dai motori di ricerca
+TESTI["cerca"] = dict(
+    sotto="Scrivi una o più parole: ti mostriamo le pagine del sito che ne parlano.",
+    corpo="""
+<form class="modulo cerca-modulo" id="modulo-cerca" role="search" action="{→cerca}" method="get" data-indice="indice.json" data-contatti="{→contatti}">
+<label for="cerca-parole">Che cosa cerchi</label>
+<div class="in-riga">
+<input id="cerca-parole" name="q" type="search" maxlength="120" autocomplete="off" enterkeyhint="search" placeholder="Per esempio: testamento, funerale, 5 per mille">
+<button type="submit" class="invia">Cerca</button>
+</div>
+<p class="nota" id="cerca-senza-js">La ricerca ha bisogno di JavaScript, che nel tuo browser è spento. Tutte le pagine si trovano anche dal menu; per una domanda puoi <a class="link" href="{→contatti}">scriverci</a>.</p>
+</form>
+<p class="cerca-stato" id="cerca-stato" role="status" hidden></p>
+<ol class="risultati" id="risultati"></ol>
+""")
+TITOLI["cerca"] = "Cerca nel sito"
+DESCRIZIONI["cerca"] = "Cerca nelle pagine del sito della Fondazione La Rosa d’Oro: lasciti e testamento, donazioni in memoria, funerali, fondi e progetti."

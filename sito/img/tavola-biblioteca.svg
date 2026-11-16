@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-label="Un libro aperto da cui si alzano petali e una cinepresa d’epoca con la sua pellicola, incisi su fondo avorio">
+<defs>
+  <pattern id="tr-rado" width="17" height="17" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="17" stroke="currentColor" stroke-width=".9" opacity=".35"/>
+  </pattern>
+  <pattern id="tr-medio" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.1" opacity=".45"/>
+  </pattern>
+  <radialGradient id="aloneP" cx="50%" cy="52%" r="46%">
+    <stop offset="0%" stop-color="#B88F3D" stop-opacity=".30"/>
+    <stop offset="42%" stop-color="#B88F3D" stop-opacity=".10"/>
+    <stop offset="100%" stop-color="#FAF6EE" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="svanisce" gradientUnits="userSpaceOnUse" x1="880" y1="0" x2="470" y2="0">
+    <stop offset="0" stop-color="#fff"/>
+    <stop offset=".55" stop-color="#fff" stop-opacity=".85"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <mask id="pellicola-svanisce" maskUnits="userSpaceOnUse" x="0" y="0" width="1400" height="760">
+    <rect width="1400" height="760" fill="url(#svanisce)"/>
+  </mask>
+  <symbol id="petalo" viewBox="-20 -44 40 48" width="40" height="48" x="-20" y="-44" overflow="visible">
+    <path d="M0 0C-10-6-19-18-18-31-17-42-8-47 0-47 8-47 17-42 18-31 19-18 10-6 0 0z" fill="#B88F3D" fill-opacity=".13" stroke="#8D6E2A" stroke-width="1.2"/>
+    <path d="M-14-38c8 4 20 4 28 0M0-5c-2-9-2-19 0-28" fill="none" stroke="#8D6E2A" stroke-width=".7" opacity=".4"/>
+  </symbol>
+  <symbol id="bobina" viewBox="-60 -60 120 120" width="120" height="120" x="-60" y="-60" overflow="visible">
+    <circle r="52" fill="#FAF6EE" stroke="#1C1C1C" stroke-width="1.5" stroke-opacity=".6"/>
+    <circle r="47" fill="none" stroke="#1C1C1C" stroke-width=".8" stroke-opacity=".3"/>
+    <circle r="9" fill="none" stroke="#1C1C1C" stroke-width="1.2" stroke-opacity=".55"/>
+    <circle r="3" fill="#1C1C1C" fill-opacity=".45"/>
+    <g fill="none" stroke="#1C1C1C" stroke-width="1" stroke-opacity=".42">
+      <path d="M0-32a14 14 0 1 1 0 .1zM27.7 16a14 14 0 1 1 .1 0zM-27.7 16a14 14 0 1 1 .1 0z" transform="translate(0 0)"/>
+    </g>
+  </symbol>
+</defs>
+  <rect width="1400" height="760" fill="#FAF6EE"/>
+  <rect width="1400" height="760" fill="url(#aloneP)"/>
+
+  <!-- il pavimento -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M290 660h820" stroke-width="1.2" opacity=".35"/>
+    <path d="M370 700h660" stroke-width=".7" opacity=".14"/>
+  </g>
+
+  <!-- il tavolino del libro -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M396 608h332" stroke-width="1.5" opacity=".55"/>
+    <path d="M404 616h316" stroke-width=".8" opacity=".3"/>
+    <path d="M424 616v44M700 616v44" stroke-width="1.3" opacity=".45"/>
+  </g>
+  <g color="#1C1C1C" opacity=".18"><path d="M404 616h316v8H404z" fill="url(#tr-rado)" stroke="none"/></g>
+
+  <!-- il libro aperto -->
+  <g transform="translate(-138 16)" color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M700 584c-40-14-92-18-146-10l4-66c54-8 104-4 142 9z" fill="#FAF6EE" stroke-width="1.5" opacity=".7"/>
+    <path d="M700 584c40-14 92-18 146-10l-4-66c-54-8-104-4-142 9z" fill="#FAF6EE" stroke-width="1.5" opacity=".7"/>
+    <path d="M554 574l-2 8c52-6 106-2 148 10 42-12 96-16 148-10l-2-8" stroke-width="1.1" opacity=".45"/>
+    <path d="M700 517v67" stroke-width="1.2" opacity=".55"/>
+    <g stroke-width=".8" opacity=".3">
+      <path d="M576 526c38-5 76-2 108 7M578 540c38-5 74-2 106 7M579 554c36-5 72-2 104 7"/>
+      <path d="M716 533c32-9 70-12 108-7M716 547c32-9 68-12 106-7M716 561c32-9 66-12 104-7"/>
+    </g>
+  </g>
+  <g transform="translate(-138 16)" color="#8D6E2A" fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M700 517c6-30 28-50 62-58 14 12 34 22 60 26-30 2-64 12-122 32z" fill="#FAF6EE" stroke-width="1.2" opacity=".75"/>
+  </g>
+
+  <!-- il treppiede -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M934 486L852 660M936 486l4 182M938 486l78 174" stroke-width="1.5" opacity=".5"/>
+    <path d="M930 490L846 660M942 490l78 170" stroke-width=".7" opacity=".25"/>
+    <path d="M884 590h104" stroke-width=".9" opacity=".3"/>
+    <path d="M912 478h48v10h-48z" fill="#FAF6EE" stroke-width="1.2" opacity=".55"/>
+  </g>
+
+  <!-- la cinepresa -->
+  <g color="#1C1C1C" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <!-- il fianco in ombra e il coperchio -->
+    <path d="M1010 396l22-14v86l-22 12z" fill="url(#tr-medio)" stroke-width="1.2" opacity=".5"/>
+    <path d="M864 396l22-14h146l-22 14z" fill="#FAF6EE" stroke-width="1.2" opacity=".5"/>
+    <!-- il corpo -->
+    <path d="M864 396h146v84H864z" fill="#FAF6EE" stroke-width="1.6" opacity=".65"/>
+    <path d="M874 406h126v64H874z" stroke-width=".8" opacity=".28"/>
+    <path d="M934 420a16 16 0 1 0 .1 0" stroke-width="1" opacity=".35"/>
+    <!-- la manovella -->
+    <path d="M1021 432l24 14v14" stroke-width="1.4" opacity=".5"/>
+    <circle cx="1021" cy="432" r="4" stroke-width="1.1" opacity=".5"/>
+    <!-- l’obiettivo, rivolto al libro -->
+    <path d="M864 416h-40v42h40" fill="#FAF6EE" stroke-width="1.4" opacity=".6"/>
+    <path d="M824 412l-26-10v70l26-10z" fill="#FAF6EE" stroke-width="1.4" opacity=".6"/>
+    <ellipse cx="798" cy="437" rx="8" ry="35" fill="#FAF6EE" stroke-width="1.3" opacity=".6"/>
+    <ellipse cx="799" cy="437" rx="4" ry="22" stroke-width=".8" opacity=".35"/>
+    <path d="M836 416v42M848 416v42" stroke-width=".7" opacity=".3"/>
+    <!-- i sostegni delle bobine -->
+    <path d="M906 384v-62M986 384v-56" stroke-width="1.4" opacity=".5"/>
+  </g>
+  <g color="#1C1C1C" opacity=".16"><path d="M864 470h146v10H864z" fill="url(#tr-rado)" stroke="none"/></g>
+
+  <!-- le bobine -->
+  <use href="#bobina" transform="translate(986 328) scale(.88)"/>
+  <use href="#bobina" transform="translate(906 320)"/>
+
+  <!-- la pellicola che si svolge -->
+  <g mask="url(#pellicola-svanisce)" fill="none" stroke-linecap="butt">
+    <path id="nastro" d="M872 282C842 214 780 170 712 182S608 230 548 200 470 132 430 150" stroke="#1C1C1C" stroke-width="22" stroke-opacity=".5"/>
+    <path d="M872 282C842 214 780 170 712 182S608 230 548 200 470 132 430 150" stroke="#FAF6EE" stroke-width="19.4"/>
+    <path d="M872 282C842 214 780 170 712 182S608 230 548 200 470 132 430 150" stroke="#1C1C1C" stroke-width="15" stroke-opacity=".45" stroke-dasharray="3 6"/>
+    <path d="M872 282C842 214 780 170 712 182S608 230 548 200 470 132 430 150" stroke="#FAF6EE" stroke-width="9.5"/>
+    <path d="M872 282C842 214 780 170 712 182S608 230 548 200 470 132 430 150" stroke="#B88F3D" stroke-width="9.5" stroke-opacity=".12"/>
+    <path d="M872 282C842 214 780 170 712 182S608 230 548 200 470 132 430 150" stroke="#1C1C1C" stroke-width="9.5" stroke-opacity=".38" stroke-dasharray="1.1 24"/>
+  </g>
+
+  <!-- i petali di carta -->
+  <g><use href="#petalo" transform="translate(546 452) rotate(-18) scale(1.05)"/><use href="#petalo" transform="translate(604 410) rotate(20) scale(0.94)"/><use href="#petalo" transform="translate(566 352) rotate(-28) scale(0.84)"/><use href="#petalo" transform="translate(648 318) rotate(30) scale(0.76)"/><use href="#petalo" transform="translate(616 262) rotate(-8) scale(0.66)"/><use href="#petalo" transform="translate(700 244) rotate(24) scale(0.58)"/><use href="#petalo" transform="translate(668 132) rotate(-22) scale(0.48)"/><use href="#petalo" transform="translate(744 112) rotate(16) scale(0.42)"/></g>
+
+</svg>

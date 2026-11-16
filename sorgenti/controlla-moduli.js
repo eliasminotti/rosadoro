@@ -196,7 +196,8 @@ async function esitoDi(page, dove) {
 /* ---- i controlli ---- */
 
 const controlli = [];
-function controllo(descrizione, prova) { controlli.push({ descrizione, prova }); }
+/* SOLO=parola fa girare solo i controlli che la contengono, mentre si lavora; controlla.py li fa girare tutti */
+function controllo(descrizione, prova) { if (!process.env.SOLO || descrizione.includes(process.env.SOLO)) controlli.push({ descrizione, prova }); }
 
 controllo('il modulo dei Contatti manda allo script i campi giusti, con la pagina da cui si arriva, e dice grazie', async () => {
   const p = await apri('contatti/index.html', { foglio: () => ({ success: true, conferma: true }), referer: ORIGINE + 'lasciti/index.html' });
@@ -807,12 +808,14 @@ controllo('la regola di sicurezza (CSP) e quella sul referrer stanno in ogni pag
 });
 
 /* ---- la musica su scelta: il valzer di Chopin nel fondo di memoria e nel giardino, il Lacrimosa di Mozart nei Funerali
-        (Dacia ed Elias, 1.11). Ogni pulsante dice la sua musica, parte solo col tocco, e quando si ferma torna a dire la sua ---- */
+        (Dacia ed Elias, 1.11), O Tannenbaum nei Regali solidali da novembre all’Epifania (Dacia, 14.11). Ogni pulsante dice
+        la sua musica, parte solo col tocco, e quando si ferma torna a dire la sua ---- */
 
 controllo('la musica: ogni pagina ha il suo pulsante, che parte al tocco, si ferma e torna a dire la sua musica', async () => {
   const pagine = [
     ['in-memoria/fondo-di-memoria/index.html', 'audio/valzer-op-69.mp3', 'Ascolta · Chopin, valzer op. 69'],
-    ['in-memoria/funerali/index.html', 'audio/lacrimosa.mp3', 'Ascolta · Mozart, Lacrimosa']
+    ['in-memoria/funerali/index.html', 'audio/lacrimosa.mp3', 'Ascolta · Mozart, Lacrimosa'],
+    ['dona/regali-solidali/index.html', 'audio/o-tannenbaum.mp3', 'Ascolta · O Tannenbaum']
   ];
   for (const [percorso, file, etichetta] of pagine) {
     const p = await apri(percorso);
@@ -1322,7 +1325,7 @@ controllo('il regalo solidale: il biglietto si prepara nella pagina e si scarica
     assert.ok(await p.page.locator('#biglietto-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
     assert.strictEqual(await p.page.inputValue('#mb-occasione'), 'natale', 'l’occasione già scelta è il Natale');
     /* a Natale l’abete al posto dell’albero tondo, già scelto (Elias, 9.11) */
-    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]', l => l.map(x => x.value));
+    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]:not([data-foto])', l => l.map(x => x.value));
     assert.deepStrictEqual(tavole, ['abete', 'candela', 'fiore', 'rosa'], 'a Natale il biglietto ha l’abete al posto dell’albero tondo: ' + tavole);
     assert.strictEqual(await p.page.inputValue(BIGLIETTO + ' input[name="immagine"]:checked'), 'abete', 'a Natale l’immagine già scelta è l’abete');
     await p.page.fill('#mb-per', 'Anna');
@@ -1333,6 +1336,9 @@ controllo('il regalo solidale: il biglietto si prepara nella pagina e si scarica
     for (const parte of ['Buon Natale', 'Per Anna', 'pensando a te', 'Con l’affetto di sempre', 'Marco', 'Fondazione La Rosa d’Oro'])
       assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
     assert.ok(!/\d+\s*(euro|€)/.test(detto), 'sul biglietto non va la cifra: ' + detto);
+    /* su tutti i biglietti prima la frase di chi regala e la firma, sotto la frase della Fondazione (Dacia, 14.11) */
+    assert.ok(detto.indexOf('Con l’affetto di sempre') < detto.indexOf('Marco') && detto.indexOf('Marco') < detto.indexOf('Questo regalo è una donazione'),
+              'prima le due righe e la firma, poi la frase della Fondazione: ' + detto);
 
     const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
     assert.strictEqual(pdf.nome, 'regalo-solidale-per-anna.pdf');
@@ -1372,7 +1378,9 @@ controllo('il biglietto parla a più persone con il «voi», cambia con l’occa
     await p.page.fill('#mb-da', 'Studio Rossi');
     await p.page.check('#modulo-biglietto input[name="persone"][value="voi"]');
     await p.page.selectOption('#mb-occasione', 'compleanno');
-    await p.page.waitForFunction(s => /voi/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    /* si aspetta il biglietto ridisegnato con tutti e due i cambi: il «voi» da solo può arrivare prima dell’occasione nuova */
+    await p.page.waitForFunction(s => { const a = document.querySelector(s + ' canvas').getAttribute('aria-label') || '';
+      return /voi/.test(a) && /Buon compleanno/.test(a); }, BIGLIETTO);
     detto = await dettoDalBiglietto(p.page);
     for (const parte of ['Buon compleanno', 'Per i nostri clienti', 'pensando a voi', 'Studio Rossi'])
       assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
@@ -1538,6 +1546,171 @@ controllo('il biglietto sul telefono: niente sfondamenti, l’anteprima sta nell
       }), BIGLIETTO);
       assert.ok(m.largo <= schermo.width, schermo.width + ' px: la pagina si allarga a ' + m.largo);
       assert.ok(m.tela > 200 && m.tela <= schermo.width, schermo.width + ' px: l’anteprima è larga ' + m.tela);
+    } finally { await p.chiudi(); }
+  }
+});
+
+
+/* ---- la pagina dei funerali di Dacia (14.11.2026): la frase in oro, la cartolina di condoglianze e la pergamena del saluto ---- */
+
+const FRASE_RITA = '«…un’ultima cosa vorrei raccomandarvi: tenetevi uniti, vogliatevi bene. Quando potete riunitevi tutti. ' +
+                   'Era la mia più grande gioia quando vi avevo tutti insieme» (da «I miei desideri», 1.10.1984)';
+
+controllo('i funerali: la frase in oro, la cartolina di condoglianze per la famiglia e l’esempio della pergamena con Rita', async () => {
+  const p = await apri(FUNERALI);
+  try {
+    assert.strictEqual((await p.page.textContent('p.citazione.apre')).trim(), 'Una cerimonia funebre che celebra una vita');
+    assert.strictEqual((await p.page.textContent('h3#cartolina')).trim(), 'Cartolina solidale di condoglianze');
+    assert.strictEqual((await p.page.textContent('h3#pergamena')).trim(), 'La pergamena del saluto');
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    assert.ok(await p.page.locator('#biglietto-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
+    assert.strictEqual(await p.page.inputValue('#mb-occasione'), 'ricordo', 'ai funerali la cartolina è sempre in ricordo');
+    assert.ok(await p.page.locator('#mb-occasione').isHidden(), 'con un’occasione sola la scelta dell’occasione non serve');
+    assert.ok(await p.page.locator('#mb-ricordo').isVisible(), 'il campo «In ricordo di» si vede subito');
+    assert.ok(await p.page.isChecked(BIGLIETTO + ' input[name="persone"][value="voi"]'), 'la cartolina parla alla famiglia, con il «voi»');
+    const tavole = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"]:not([data-foto])', l => l.map(x => x.value));
+    assert.deepStrictEqual(tavole, ['candela', 'albero', 'fiore', 'clessidra'], 'la cartolina ha le tavole dei funerali: ' + tavole);
+    await p.page.fill('#mb-ricordo', 'Rita');
+    await p.page.fill('#mb-per', 'la famiglia di Rita');
+    await p.page.fill('#mb-da', 'Anna e Marco');
+    await p.page.waitForFunction(s => /Anna e Marco/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    const detto = await dettoDalBiglietto(p.page);
+    for (const parte of ['In ricordo di Rita', 'Per la famiglia di Rita', 'donazione in memoria', 'pensando a voi', 'Anna e Marco'])
+      assert.ok(detto.includes(parte), 'la cartolina non dice «' + parte + '»: ' + detto);
+    assert.ok(!/regalo|natale|festa/i.test(detto), 'la cartolina di condoglianze non parla di regali né di feste: ' + detto);
+    assert.ok(/cartolina/i.test(await p.page.textContent(BIGLIETTO + ' .nota')), 'la nota sotto la cartolina la chiama cartolina');
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'donazione-in-ricordo-di-rita.pdf');
+    const esempio = p.page.locator('figure.esempio img');
+    assert.ok((await esempio.getAttribute('alt')).includes('Rita'), 'l’esempio della pergamena dice di chi è');
+    assert.ok(await esempio.evaluate(i => i.complete && i.naturalWidth > 0), 'l’immagine dell’esempio non si carica');
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), [], 'la pagina dei funerali viola la regola di sicurezza');
+  } finally { await p.chiudi(); }
+});
+
+/* la cartolina di condoglianze anche con una foto del Giardino dei ricordi (Dacia, 14.11: «meno formale ma più di cuore»):
+   dopo i quattro disegni, due foto con i loro nomi, la rosa bianca (la più scelta nel giardino) e la calla (Dacia, 14.11 sera);
+   la foto scelta riempie la parte sinistra della cartolina */
+controllo('la cartolina di condoglianze si può fare anche con una foto del Giardino dei ricordi', async () => {
+  const p = await apri(FUNERALI);
+  try {
+    await p.page.locator(BIGLIETTO).waitFor({ state: 'visible', timeout: 5000 });
+    const foto = await p.page.$$eval(BIGLIETTO + ' input[name="immagine"][data-foto]', l => l.map(x => x.value + ' ' + x.parentNode.textContent.trim()));
+    assert.deepStrictEqual(foto, ['rosa-bianca La rosa bianca', 'giardino-185 La calla bianca'],
+      'nella cartolina la rosa bianca e la calla, con i loro nomi come nel giardino: ' + JSON.stringify(foto));
+    assert.strictEqual(await p.page.getAttribute('#mb-per', 'placeholder'), 'Per esempio: la famiglia di Beatrice', 'il nome d’esempio è Beatrice');
+    assert.ok(await p.page.isChecked(BIGLIETTO + ' input[name="immagine"][value="candela"]'), 'all’inizio resta scelta la candela');
+    const punto = () => p.page.$eval(BIGLIETTO + ' canvas', c => Array.from(c.getContext('2d').getImageData(150, 260, 1, 1).data.slice(0, 3)));
+    const avorio = await punto();
+    assert.deepStrictEqual(avorio, [250, 246, 238], 'con il disegno, in alto a sinistra la cartolina è avorio: ' + avorio);
+    await p.page.locator(BIGLIETTO + ' label.immagine.dal-giardino').first().click();
+    await p.page.waitForFunction(s => { const i = document.querySelector(s + ' input[data-foto]:checked + img'); return i && i.complete && i.naturalWidth > 0; }, BIGLIETTO);
+    await p.page.waitForTimeout(300);
+    const conFoto = await punto();
+    assert.notDeepStrictEqual(conFoto, avorio, 'la foto scelta non compare sulla cartolina');
+    await p.page.fill('#mb-ricordo', 'Rita');
+    const pdf = await scarica(p.page, BIGLIETTO + ' button[type="submit"]');
+    assert.strictEqual(pdf.nome, 'donazione-in-ricordo-di-rita.pdf');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), []);
+  } finally { await p.chiudi(); }
+});
+
+controllo('la pergamena del saluto: la frase della famiglia, in oro, viene prima di «Al posto dei fiori», anche se è lunga', async () => {
+  const p = await apri(FUNERALI);
+  try {
+    await p.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
+    await p.page.fill('#mp-nomi', 'Rita');
+    await p.page.fill('#mp-data', '4 ottobre 2013');
+    await p.page.fill('#mp-messaggio', FRASE_RITA);
+    assert.strictEqual(await p.page.inputValue('#mp-messaggio'), FRASE_RITA, 'la frase di Rita non ci sta nel campo');
+    await p.page.waitForFunction(s => /I miei desideri/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
+    const detto = await dettoDallaPergamena(p.page);
+    assert.ok(detto.includes('Rita') && detto.includes('In ricordo · 4 ottobre 2013'), detto);
+    assert.ok(detto.indexOf('tenetevi uniti') < detto.indexOf('Al posto dei fiori'), 'la frase della famiglia va prima di «Al posto dei fiori»: ' + detto);
+    assert.deepStrictEqual(p.errori, []);
+  } finally { await p.chiudi(); }
+  const b = await apri(BOMBONIERE);       /* anche nelle bomboniere prima le due righe, poi «Al posto della bomboniera» (Dacia, 14.11: su tutti i biglietti) */
+  try {
+    await b.page.locator(PERGAMENA).waitFor({ state: 'visible', timeout: 5000 });
+    await b.page.fill('#mp-messaggio', 'Grazie di essere con noi');
+    await b.page.waitForFunction(s => /Grazie di essere/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), PERGAMENA);
+    const detto = await dettoDallaPergamena(b.page);
+    assert.ok(detto.indexOf('Grazie di essere con noi') < detto.indexOf('Al posto della bomboniera'), 'prima le due righe, poi la frase della Fondazione: ' + detto);
+    assert.strictEqual(await b.page.getAttribute('#mp-messaggio', 'maxlength'), '120', 'nelle bomboniere le due righe restano corte');
+  } finally { await b.chiudi(); }
+});
+
+
+/* ---- la ricerca nel sito (Dacia ed Elias, 14.11.2026): la pagina «Cerca nel sito» legge l’indice che costruisci.py scrive
+        accanto, e cerca nel browser; niente parte verso altri siti ---- */
+
+const CERCA = 'cerca/index.html';
+
+async function trovati(page) {
+  await page.waitForFunction(() => { const s = document.getElementById('cerca-stato'); return s && !s.hidden && s.textContent.trim().length > 0; });
+  return page.$$eval('#risultati li', l => l.map(x => ({ titolo: x.querySelector('a').textContent.trim(), href: x.querySelector('a').getAttribute('href'),
+                                                          riga: (x.querySelector('p') || { textContent: '' }).textContent })));
+}
+
+controllo('la ricerca nel sito: dalle parole alle pagine, con una riga di testo, senza mandare niente a nessuno', async () => {
+  const p = await apri(CERCA + '?q=testamento');
+  try {
+    assert.ok(await p.page.locator('#cerca-senza-js').isHidden(), 'con JavaScript la nota per chi non ce l’ha deve sparire');
+    assert.strictEqual(await p.page.inputValue('#cerca-parole'), 'testamento', 'le parole dell’indirizzo restano nel campo');
+    let r = await trovati(p.page);
+    assert.ok(r.length >= 3, 'per «testamento» ci sono poche pagine: ' + JSON.stringify(r.map(x => x.titolo)));
+    assert.ok(r.some(x => /lasciti\/come-fare-testamento/.test(x.href)), 'manca «Come fare testamento»: ' + JSON.stringify(r.map(x => x.href)));
+    assert.ok(r.every(x => /testament/i.test(x.titolo + ' ' + x.riga)), 'una riga non mostra la parola cercata');
+    assert.ok(await p.page.locator('#risultati mark').count() > 0, 'la parola cercata non è evidenziata');
+    /* una parola senza accento trova anche quella con l’accento, e due parole vogliono tutte e due */
+    await p.page.fill('#cerca-parole', 'pergamena funerale');
+    await p.page.press('#cerca-parole', 'Enter');
+    await p.page.waitForFunction(() => /pergamena/.test(location.search));
+    r = await trovati(p.page);
+    assert.ok(r.length >= 1 && /in-memoria\/funerali/.test(r[0].href), 'per «pergamena funerale» la prima pagina è Funerali: ' + JSON.stringify(r.map(x => x.href)));
+    await p.page.fill('#cerca-parole', 'parolachenoncè');
+    await p.page.press('#cerca-parole', 'Enter');
+    await p.page.waitForFunction(() => /nessuna pagina/i.test(document.getElementById('cerca-stato').textContent));
+    assert.strictEqual(await p.page.locator('#risultati li').count(), 0);
+    assert.ok(await p.page.locator('#cerca-stato a[href*="contatti"]').count() === 1, 'senza risultati si propone di scriverci');
+    /* quello che si scrive resta testo: niente codice nella pagina */
+    await p.page.fill('#cerca-parole', '<img src=x onerror="window.__preso=1"> lux');
+    await p.page.press('#cerca-parole', 'Enter');
+    await p.page.waitForTimeout(400);
+    assert.strictEqual(await p.page.locator('#cerca-stato img, #risultati img').count(), 0, 'le parole cercate sono diventate codice');
+    assert.strictEqual(await p.page.evaluate(() => window.__preso), undefined);
+    assert.deepStrictEqual(p.allo, [], 'niente deve partire verso lo script del foglio');
+    assert.deepStrictEqual(p.fuori, [], 'niente deve partire verso altri siti');
+    assert.deepStrictEqual(p.google, [], 'la ricerca non chiama Google');
+    assert.deepStrictEqual(p.errori, []);
+    assert.deepStrictEqual(await p.violazioni(), [], 'la pagina della ricerca viola la regola di sicurezza');
+  } finally { await p.chiudi(); }
+});
+
+controllo('la lente della ricerca sta in alto in ogni pagina, e sul telefono nel menu', async () => {
+  for (const schermo of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
+    const p = await apri('in-memoria/funerali/index.html', { schermo });
+    try {
+      if (schermo.width > 900) {
+        const lente = p.page.locator('.testa-alta a.cerca');
+        assert.ok(await lente.isVisible(), 'in alto non si vede la lente della ricerca');
+        assert.strictEqual(await lente.getAttribute('aria-label'), 'Cerca nel sito');
+        await lente.click();
+      } else {
+        await p.page.click('button.apri-menu');
+        const voce = p.page.locator('.menu-sec-mobile a.cerca');
+        await voce.waitFor({ state: 'visible', timeout: 2000 });
+        await voce.click();
+      }
+      await p.page.waitForURL(/\/cerca\//);
+      assert.ok(await p.page.locator('#cerca-parole').isVisible());
+      const largo = await p.page.evaluate(() => document.documentElement.scrollWidth);
+      assert.ok(largo <= schermo.width, schermo.width + ' px: la pagina della ricerca si allarga a ' + largo);
     } finally { await p.chiudi(); }
   }
 });

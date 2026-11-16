@@ -777,3 +777,38 @@ a.azione:hover h4{color:var(--accento)}
 .dialogo.invito-notizie .campi>p{font-size:17px;line-height:1.5;color:var(--testo);margin:0 0 12px;max-width:none}
 .dialogo.invito-notizie .campi>p.riga{font-family:var(--display);font-style:italic;font-weight:400;font-size:21px;line-height:1.45;color:var(--testo-80)}
 .dialogo.invito-notizie .campi>p.nota{font-size:17px;color:var(--testo-60);margin:16px 0 0}
+/* Petali di carta (13.11): ogni libro è titolo, autore, editore e anno su una riga, poi il commento */
+.libro{margin:0 0 26px}
+.libro p{margin:0}
+.libro .dati{margin-bottom:6px;color:var(--testo-70)}
+.libro .dati strong{font-family:var(--display);font-size:21px;line-height:1.3;font-weight:600;color:var(--testo)}
+h3.argomento{font-size:30px;line-height:1.2;margin:52px 0 20px;padding-top:18px;border-top:1px solid var(--oro)}
+/* Funerali (Dacia, 14.11): l’esempio della pergamena del saluto, prima del modulo, con la didascalia sotto come nelle dediche */
+.esempio{margin:28px 0 36px;max-width:640px}
+.esempio img{display:block;width:100%;height:auto;border:1px solid var(--filo-forte);background:var(--avorio)}
+.esempio figcaption{margin-top:10px;font-family:var(--display);font-style:italic;font-size:19px;line-height:1.45;color:var(--testo-70)}
+/* la ricerca nel sito (Dacia ed Elias, 14.11): la lente con «Cerca» in alto, sul telefono la prima voce del menu; la pagina dei risultati */
+.lente{width:15px;height:15px;flex:none}
+.menu-sec>li{display:flex;align-items:center}
+.menu-sec a.cerca,.menu-sec-mobile a.cerca{display:inline-flex;align-items:center;gap:7px}
+.menu-sec a.cerca[aria-current]{color:var(--testo)}
+.cerca-modulo{margin-top:0}
+.cerca-modulo .in-riga{display:flex;flex-wrap:wrap;gap:12px}
+.cerca-modulo .in-riga input{flex:1 1 260px;width:auto;min-width:0}
+.cerca-modulo .in-riga .invia{margin-top:0}
+.cerca-stato{margin:36px 0 0;color:var(--testo)}
+.risultati{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--filo-forte)}
+.risultati li{padding:22px 0 24px;border-bottom:1px solid var(--filo)}
+.risultati .dove{display:block;font-size:12px;line-height:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--accento);margin-bottom:8px}
+.risultati .titolo{font-family:var(--display);font-size:26px;line-height:1.25;font-weight:600;color:var(--testo)}
+.risultati .titolo:hover{color:var(--accento)}
+.risultati p{margin:8px 0 0;font-size:17px;line-height:1.55;color:var(--testo-60)}
+.risultati mark{background:rgba(184,143,61,.22);color:var(--testo);padding:0 1px}
+.hero.breve{min-height:0;padding:72px 0 44px}
+.hero.breve h1{font-size:72px;margin-bottom:24px}
+.hero.breve+.corpo{padding-top:48px}
+@media (max-width:600px){.hero.breve{padding:40px 0 28px}.hero.breve h1{font-size:48px}.hero.breve+.corpo{padding-top:32px}}
+/* la cartolina di condoglianze anche con una foto del Giardino dei ricordi (Dacia, 14.11): le foto dopo i disegni, quadrate */
+.modulo fieldset.immagini .gruppo{grid-column:1/-1;margin:10px 0 0;font-size:15px;line-height:1.4;color:var(--testo-60);max-width:none}
+.modulo label.immagine.dal-giardino{padding:6px 6px 10px}
+.modulo label.immagine.dal-giardino img{max-width:none;aspect-ratio:1;object-fit:cover}

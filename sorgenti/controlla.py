@@ -42,7 +42,8 @@ import urllib.error, urllib.parse, urllib.request, urllib.robotparser
 
 RADICE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITO = os.path.join(RADICE, "sito")
-SITO_DI_PROVA = "https://eliasminotti.github.io/rosadoro/"   # dal 21.10.2026 porta a larosadoro.org
+SITO_DI_PROVA = "https://larosadoro.github.io/rosadoro/"     # l’indirizzo di GitHub Pages: porta a larosadoro.org
+                                                              # (dal 14.11.2026, con il repository nell’organizzazione larosadoro)
 DEDICHE = os.path.join("in-memoria", "giardino-dei-ricordi", "dediche.json")   # la scrive la pubblicazione, non la costruzione
 FOTO_BAMBINA = os.path.join("img", "foto", "bimba-1.jpg")   # Dopo di Noi: fuori da Google Immagini finché Elias e Dacia non decidono (26.10)
 CERTIFICATO_MINIMO = 10          # giorni: GitHub rinnova i certificati molto prima; sotto i 10 il rinnovo si è inceppato
@@ -293,7 +294,7 @@ SEGNI_RICEVUTE = ("{se-ricevute}", "{/se-ricevute}", "{senza-ricevute}", "{/senz
                   "{se-turnstile}", "{/se-turnstile}", "{senza-turnstile}", "{/senza-turnstile}", "{turnstile}", "{trappola}",
                   "{se-google}", "{/se-google}", "{senza-google}", "{/senza-google}",
                   "{se-natale}", "{/se-natale}", "{senza-natale}", "{/senza-natale}", "{biglietto}", "{stripe-regalo}",
-                  "{pergamena}", "{pergamena-ricordo}", "{stripe-bomboniera}")
+                  "{pergamena}", "{pergamena-ricordo}", "{stripe-bomboniera}", "{biglietto-ricordo}")
 MESI = ("gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre")
 
 

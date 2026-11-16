@@ -15,6 +15,7 @@ header in cinquanta file, e una modifica al menu va fatta una volta sola, qui.
 import os, re, shutil, datetime, subprocess, hashlib, base64
 from testi_pagine import TESTI, DESCRIZIONI, TITOLI, NOTIZIE, BIGLIETTO, PERGAMENA
 import json
+from html import unescape
 
 # --------------------------------------------------------------------------
 # impostazioni
@@ -88,8 +89,8 @@ GOOGLE_TAG = "G-FC78G2JWBL"               # l’ID della proprietà Google Analy
                                           # non usa cookie ({senza-google}…{/senza-google}).
 MISURA = "1 novembre 2026"                # il giorno da cui il sito misura con Google Analytics, scritto come «3 novembre 2026»: l’informativa
                                           # porta la data del più recente fra MISURA, RICEVUTE, MENSILE e INFORMATIVA.
-INFORMATIVA = "12 novembre 2026"          # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: il 12.11 la sezione
-                                          # «Quando ti scriviamo per primi», per le lettere ai partner. Si aggiorna a ogni cambio.
+INFORMATIVA = "14 novembre 2026"          # l’ultima volta che è cambiato il testo dell’informativa senza un interruttore: la sezione «Quando ti
+                                          # scriviamo per primi», per le lettere ai partner, è online dal 14.11. Si aggiorna a ogni cambio.
 NATALE = True                             # la stagione del regalo di Natale nella pagina dei regali solidali (dona/regali-solidali), che resta
                                           # online tutto l’anno (Elias, 6.11.2026). True da novembre all’Epifania: la pagina, il suo titolo per
                                           # Google e il biglietto parlano di Natale ({se-natale}…{/se-natale}). False il resto dell’anno: la pagina
@@ -101,8 +102,14 @@ MUSICHE = {                               # la musica su scelta (musica= in test
     "valzer": ("audio/valzer-op-69.mp3", "Chopin, valzer op. 69", ""),    # Luke Faulkner, Musopen: pubblico dominio ovunque
     "lacrimosa": ("audio/lacrimosa.mp3", "Mozart, Lacrimosa",             # il terzo è il nome per intero, che compare col mouse
                   "Mozart, Lacrimosa dal Requiem K. 626. Herbert von Karajan, Berliner Philharmoniker, Wiener Singverein, 1962"),
-}                                         # Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti
+                                          # Deutsche Grammophon 1962: pubblico dominio in Italia e in Europa, non negli Stati Uniti
                                           # (Elias, 1.11: se arriva una richiesta di toglierlo, si passa a una versione per pianoforte)
+    "tannenbaum": ("audio/o-tannenbaum.mp3", "O Tannenbaum",
+                   "O Tannenbaum, canto tradizionale tedesco. Coro della U.S. Army Band «Pershing’s Own», circa 2010"),
+}   # O Tannenbaum (Dacia, 14.11: la sua prima scelta per il Natale): Wikimedia Commons, «U.S. Army Band - O Tannenbaum.ogg»
+    # (sha256 9ee88fd8…), senza i 5 secondi di silenzio in fondo. È un lavoro di militari americani nel loro servizio: nessun diritto
+    # negli Stati Uniti (17 U.S.C. § 105), e in Europa la protezione non dura più che nel paese d’origine (direttiva 2006/116/CE,
+    # art. 7). Il canto è del 1824 (Ernst Anschütz), su una melodia popolare. Suona solo con NATALE (musica_natale=)
 
 CF_PIVA = "14629350969"                   # il codice fiscale e la partita IVA della Fondazione: è lo stesso numero (Agenzia delle Entrate,
                                           # verifica del 19.10.2026: partita IVA attiva, inizio attività 28.2.2026). La partita IVA va nella home
@@ -145,6 +152,9 @@ SEZIONI = [
              dict(slug="funerali", voce="Funerali", titolo="Funerali", riga="Non fiori ma opere di bene", hero="tavola", testata="candela"),
              dict(slug="svuota-e-sorridi", voce="Gli Svuota e Sorridi", titolo="Gli Svuota e Sorridi", riga="", hero="tavola", testata="interno", leggera=True),
              dict(slug="io-sono-qui-per-te", voce="Io sono qui per te", titolo="Io sono qui per te", riga="Accompagnamento nel fine vita", hero="lemniscata"),
+             # la bibliografia di Francesca Zanuttini (Dacia, 13.11): i temi sono quelli della sezione, la morte, il lutto e l’accompagnamento
+             # la voce «Letture e film consigliati» (Dacia, 14.11): la filmografia di Francesca arriverà con «Petali & Pellicole»
+             dict(slug="petali-di-carta", voce="Letture e film consigliati", titolo="Petali di carta", riga="Letture consigliate, a cura di Francesca Zanuttini", hero="tavola", testata="biblioteca"),
              dict(slug="elaborare-il-lutto", voce="Elaborare il lutto", titolo="Elaborare il lutto", riga="", nascosta=True),
          ]),
     dict(chiave="lasciti", voce="Lasciti", titolo="Lasciti", hero="rosa", tavola="interno", casa="rosa",
@@ -248,7 +258,8 @@ SERVIZIO = [
     dict(cartella="dona/grazie", voce="Grazie", titolo="Grazie", occhiello="Donazioni", hero="avorio", dove=""),
     # i regali solidali (Elias, 6.11.2026): un altro modo di donare, dentro Dona e fuori dal menu principale; la pagina è fissa
     # e non si spegne mai, così tiene la sua posizione su Google da un anno all’altro. Fuori stagione cambia il testo (NATALE)
-    dict(cartella="dona/regali-solidali", voce="Regali solidali", titolo="Regali solidali", occhiello="Donazioni", hero="avorio", dove=""),
+    # il titolo: da novembre all’Epifania «Regali solidali di Natale» (Dacia, 14.11), il resto dell’anno «Regali solidali»; la voce resta
+    dict(cartella="dona/regali-solidali", voce="Regali solidali", titolo="Regali solidali di Natale" if NATALE else "Regali solidali", occhiello="Donazioni", hero="avorio", dove=""),
     dict(cartella="dona/bomboniere-solidali", voce="Bomboniere solidali", titolo="Bomboniere solidali", occhiello="Donazioni", hero="avorio", dove=""),
     dict(cartella="partnership", voce="Partnership e siti amici", titolo="Partnership e siti amici", occhiello="La Fondazione", hero="avorio", dove="secondario"),
     dict(cartella="documenti", voce="Documenti", titolo="Documenti", occhiello="La Fondazione", hero="avorio", dove="secondario"),
@@ -258,6 +269,9 @@ SERVIZIO = [
     dict(cartella="news", voce="News", titolo="News", occhiello="La Fondazione", hero="avorio", dove="barra"),
     dict(cartella="lavora-con-noi", voce="Lavora con noi", titolo="Lavora con noi", occhiello="La Fondazione", hero="avorio", dove="barra"),
     dict(cartella="cinque-per-mille", voce="5 per mille", titolo="Il 5 per mille", occhiello="Sostieni la Fondazione", hero="avorio", dove="barra"),
+    # la ricerca nel sito (Dacia ed Elias, 14.11.2026): ci porta la lente in alto, e sul telefono la prima voce del menu
+    # La testata è bassa (breve), così il campo per scrivere si vede subito, anche sul telefono
+    dict(cartella="cerca", voce="Cerca", titolo="Cerca nel sito", occhiello="La Fondazione", hero="avorio", dove="", breve=True),
 ]
 # «Lavora con noi» per ora rimanda ai Progetti da avviare
 BARRA = [("Chi siamo", "chi-siamo"), ("News", "news"), ("Dona ora", "dona"), ("5 per mille", "cinque-per-mille"), ("Lavora con noi", "lavora-con-noi")]   # cinque voci, Dona ora al centro (Elias, 16.9)
@@ -288,7 +302,7 @@ for s in SEZIONI:
 
 for p in SERVIZIO:
     registra(p["cartella"], voce=p["voce"], titolo=p["titolo"], occhiello=p["occhiello"], hero=p["hero"],
-             tipo=p.get("tipo", "pagina"), sezione=None, notte=False)
+             tipo=p.get("tipo", "pagina"), sezione=None, notte=False, breve=p.get("breve", False))
 
 # --------------------------------------------------------------------------
 # collegamenti relativi: ogni pagina sa a che profondità sta
@@ -337,6 +351,9 @@ SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden="tru
       <path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/>
       <circle cx="100" cy="100" r="86" stroke-width=".7" opacity=".55"/>
     </g>
+  </symbol>
+  <symbol id="lente" viewBox="0 0 20 20">
+    <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.6"/><path d="M12.6 12.6 17.2 17.2"/></g>
   </symbol>
   <symbol id="rosa-piccola" viewBox="0 0 200 200">
     <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
@@ -400,9 +417,15 @@ def header(da, pagina):
                     voci.append('<li class="voce sola%s"><a href="%s">%s</a></li>' % (" attiva" if da == p["cartella"] else "", verso(da, p["cartella"]), sfuggi(p["voce"])))
     secondari = "".join('<li><a href="%s">%s</a></li>' % (verso(da, p["cartella"]), sfuggi(p["voce"]))
                         for p in SERVIZIO if p["dove"] == "secondario")
+    # la ricerca nel sito (14.11.2026): la lente con la parola «Cerca», in fondo alla riga in alto; sul telefono apre il menu
+    qui = ' aria-current="page"' if da == "cerca" else ""
+    lente = '<svg class="lente" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#lente"/></svg>'
+    cerca = '<li><a class="cerca" href="%s" aria-label="Cerca nel sito"%s>%s<span>Cerca</span></a></li>' % (verso(da, "cerca"), qui, lente)
+    cerca_telefono = '<li><a class="cerca" href="%s"%s>%s<span>Cerca nel sito</span></a></li>' % (verso(da, "cerca"), qui, lente)
     # sul telefono «Chi siamo» e «Lavora con noi» lasciano la barra in basso e stanno qui, tra le voci rosse (Elias, 11.10)
-    secondari_telefono = ('<li class="solo-telefono"><a href="%s">Chi siamo</a></li>' % verso(da, "chi-siamo") + secondari
+    secondari_telefono = (cerca_telefono + '<li class="solo-telefono"><a href="%s">Chi siamo</a></li>' % verso(da, "chi-siamo") + secondari
                           + '<li class="solo-telefono"><a href="%s">Lavora con noi</a></li>' % verso(da, "lavora-con-noi"))
+    secondari += cerca
     # Lux, il progetto della Fondazione per il digitale: in alto a sinistra, in diagonale con «Per professionisti»;
     # sul telefono, dove la riga in alto non c'è, chiude il menu (Elias, 11.10)
     lux = ('<a class="lux" href="%s"><span class="lux-nome">Lux</span> <span class="lux-riga">per un uso consapevole del digitale</span></a>'
@@ -548,7 +571,7 @@ def hero(da, p, sotto, classe_sotto="sotto"):
     fonte = ('<p class="fonte">%s</p>' % sfuggi(p["art"])) if p.get("art") else ""
     testo = '%s%s<h1>%s</h1><hr class="filo"><p class="%s">%s</p>' % (occhiello, fonte, sfuggi(p["titolo"]), classe_sotto, sotto)
     if tipo == "avorio":
-        return '<section class="hero hero-avorio"><div class="riga"></div><div class="bordo"></div><div class="pagina">%s</div></section>' % testo
+        return '<section class="hero hero-avorio%s"><div class="riga"></div><div class="bordo"></div><div class="pagina">%s</div></section>' % (" breve" if p.get("breve") else "", testo)
     if tipo == "rosa":
         return '<section class="hero hero-rosa">%s<div class="pagina">%s</div></section>' % (emblema(), testo)
     if tipo == "veli":
@@ -607,6 +630,8 @@ def gettoni(html, da):
         html = html.replace("{invito-notizie}", invito_notizie(da))
     if "{biglietto}" in html:
         html = html.replace("{biglietto}", biglietto(da))
+    if "{biglietto-ricordo}" in html:
+        html = html.replace("{biglietto-ricordo}", biglietto(da, in_ricordo=True))
     if "{pergamena}" in html:
         html = html.replace("{pergamena}", pergamena(da))
     if "{pergamena-ricordo}" in html:
@@ -642,34 +667,87 @@ def scelta_immagini(da, immagini):
                    % ((v, " checked" if i == 0 else "", risorsa(da, "img/" + IMMAGINI_BIGLIETTO[v][0])) + IMMAGINI_BIGLIETTO[v][1:] + (sfuggi(voce),))
                    for i, (v, voce) in enumerate(immagini))
 
-def biglietto(da):
+def misure_foto(percorso):
+    """larghezza e altezza di una foto .jpg o .webp, lette dal file stesso (senza librerie in più)"""
+    with open(percorso, "rb") as f:
+        d = f.read()
+    if d[:4] == b"RIFF" and d[8:12] == b"WEBP":
+        if d[12:16] == b"VP8 ":
+            return int.from_bytes(d[26:28], "little") & 0x3FFF, int.from_bytes(d[28:30], "little") & 0x3FFF
+        if d[12:16] == b"VP8L":
+            b = int.from_bytes(d[21:25], "little")
+            return (b & 0x3FFF) + 1, ((b >> 14) & 0x3FFF) + 1
+        if d[12:16] == b"VP8X":
+            return int.from_bytes(d[24:27], "little") + 1, int.from_bytes(d[27:30], "little") + 1
+    elif d[:2] == b"\xff\xd8":
+        i = 2
+        while i + 9 < len(d):
+            if d[i] != 0xFF:
+                i += 1
+                continue
+            m = d[i + 1]
+            if m in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                return int.from_bytes(d[i + 7:i + 9], "big"), int.from_bytes(d[i + 5:i + 7], "big")
+            if m in (0xD8, 0x01) or 0xD0 <= m <= 0xD7 or m == 0xFF:
+                i += 1 if m == 0xFF else 2
+                continue
+            i += 2 + int.from_bytes(d[i + 2:i + 4], "big")
+    raise SystemExit("ERRORE: non riesco a leggere le misure della foto %s" % percorso)
+
+def foto_giardino(da, foto):
+    """le foto del Giardino dei ricordi nella cartolina di condoglianze (Dacia, 14.11), dopo i disegni: si caricano solo quando
+    si vedono, e sito.js le riconosce da data-foto. Ogni foto è in img/foto/, in .webp o in .jpg (la rosa bianca del giardino)"""
+    if not foto:
+        return ""
+    righe = []
+    for f in foto:
+        nome = next((f[0] + e for e in (".webp", ".jpg") if os.path.exists(os.path.join(USCITA, "img", "foto", f[0] + e))), None)
+        if not nome:
+            raise SystemExit("ERRORE: manca la foto img/foto/%s.webp (o .jpg) della cartolina di condoglianze" % f[0])
+        larga, alta = misure_foto(os.path.join(USCITA, "img", "foto", nome))
+        righe.append('<label class="immagine dal-giardino"><input type="radio" name="immagine" value="%s" data-foto="%s">'
+                     '<img src="%s" alt="" width="%d" height="%d" loading="lazy"><span>%s</span></label>'
+                     % (f[0], f[2] if len(f) > 2 else 0.5, risorsa(da, "img/foto/" + nome), larga, alta, sfuggi(f[1])))
+    return '<p class="gruppo">Oppure una foto del Giardino dei ricordi</p>' + "".join(righe)
+
+def biglietto(da, in_ricordo=False):
     """il biglietto dei regali solidali (Elias, 6.11.2026): l’occasione, l’immagine, i nomi e due righe; sito.js lo disegna
     in un canvas e lo fa scaricare in PDF (A5 orizzontale) o in immagine. Niente parte dal sito: i nomi restano nel browser.
-    I testi stanno in BIGLIETTO in testi_pagine.py. Senza JavaScript il modulo resta nascosto e si legge la nota"""
+    I testi stanno in BIGLIETTO in testi_pagine.py. Senza JavaScript il modulo resta nascosto e si legge la nota.
+    Con in_ricordo è la «cartolina solidale di condoglianze» della pagina dei funerali (Dacia, 14.11): solo l’occasione
+    «In ricordo di una persona», con la scelta nascosta, le tavole dei funerali e il «voi» già scelto, per la famiglia"""
     scelta = BIGLIETTO["scelta"] if NATALE else BIGLIETTO["fuori_stagione"]
     # un’occasione che parla già a più persone (il matrimonio) porta con sé la scelta «a più persone»
     # «In ricordo di una persona» porta con sé il saluto con il nome, la sua frase, il nome del file e il titolo del PDF
     ricordo = BIGLIETTO["ricordo"]
-    in_ricordo = (' data-saluto-nome="%s" data-corpo-te="%s" data-corpo-voi="%s" data-file="%s" data-titolo="%s"'
-                  % tuple(sfuggi(ricordo[k]) for k in ("saluto", "corpo_te", "corpo_voi", "file", "titolo")))
+    con_nome = (' data-saluto-nome="%s" data-corpo-te="%s" data-corpo-voi="%s" data-file="%s" data-titolo="%s"'
+                % tuple(sfuggi(ricordo[k]) for k in ("saluto", "corpo_te", "corpo_voi", "file", "titolo")))
+    tutte = BIGLIETTO["occasioni"]
+    if in_ricordo:
+        tutte, scelta = [o for o in tutte if o[0] == ricordo["occasione"]], ricordo["occasione"]
     occasioni = "".join('<option value="%s" data-saluto="%s"%s%s%s>%s</option>'
                         % (o[0], sfuggi(o[2]), ' data-persone="voi"' if o[3:] == ("voi",) else "",
-                           in_ricordo if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
-                        for o in BIGLIETTO["occasioni"])
-    immagini = scelta_immagini(da, BIGLIETTO["immagini_natale"] if NATALE else BIGLIETTO["immagini"])   # a Natale l’abete (9.11)
-    return """<p class="nota" id="biglietto-senza-js">Per preparare il biglietto serve un browser con JavaScript acceso.</p>
+                           con_nome if o[0] == ricordo["occasione"] else "", " selected" if o[0] == scelta else "", sfuggi(o[1]))
+                        for o in tutte)
+    if in_ricordo:
+        immagini = scelta_immagini(da, ricordo["immagini"]) + foto_giardino(da, ricordo.get("foto"))
+    else:
+        immagini = scelta_immagini(da, BIGLIETTO["immagini_natale"] if NATALE else BIGLIETTO["immagini"])   # a Natale l’abete (9.11)
+    nome = "la cartolina" if in_ricordo else "il biglietto"
+    nascosta = " hidden" if in_ricordo else ""
+    return """<p class="nota" id="biglietto-senza-js">Per preparare %s serve un browser con JavaScript acceso.</p>
 <form class="modulo biglietto" id="modulo-biglietto" data-corpo-te="%s" data-corpo-voi="%s" data-piede="%s" hidden>
 <div class="campi">
-<label for="mb-occasione">L’occasione</label>
-<select id="mb-occasione" name="occasione">%s</select>
+<label for="mb-occasione"%s>L’occasione</label>
+<select id="mb-occasione" name="occasione"%s>%s</select>
 <fieldset class="immagini"><legend>L’immagine</legend>%s</fieldset>
-<label for="mb-ricordo" hidden>%s <span>facoltativo</span></label>
-<input id="mb-ricordo" name="ricordo" type="text" maxlength="60" placeholder="%s" hidden>
+<label for="mb-ricordo"%s>%s <span>facoltativo</span></label>
+<input id="mb-ricordo" name="ricordo" type="text" maxlength="60" placeholder="%s"%s>
 <label for="mb-per">Per chi è <span>facoltativo</span></label>
-<input id="mb-per" name="per" type="text" maxlength="60" placeholder="Per esempio: Anna, oppure i nostri clienti">
-<fieldset class="scelta"><legend>Il biglietto si rivolge</legend>
-<label class="consenso"><input type="radio" name="persone" value="te" checked> <span>a una persona</span></label>
-<label class="consenso"><input type="radio" name="persone" value="voi"> <span>a più persone</span></label>
+<input id="mb-per" name="per" type="text" maxlength="60" placeholder="%s">
+<fieldset class="scelta"><legend>%s si rivolge</legend>
+<label class="consenso"><input type="radio" name="persone" value="te"%s> <span>a una persona</span></label>
+<label class="consenso"><input type="radio" name="persone" value="voi"%s> <span>a più persone</span></label>
 </fieldset>
 <label for="mb-da">Da parte di <span>facoltativo</span></label>
 <input id="mb-da" name="da" type="text" maxlength="60" placeholder="Il tuo nome, o quello dell’azienda">
@@ -678,10 +756,15 @@ def biglietto(da):
 </div>
 <figure class="anteprima"><canvas width="1800" height="1269" role="img" aria-label=""></canvas></figure>
 <p class="pulsanti"><button type="submit" class="invia">Scarica il PDF</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
-<p class="nota">Sul biglietto non c’è la cifra. Lo prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
+<p class="nota">%s</p>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]), occasioni, immagini,
-               sfuggi(ricordo["campo"]), sfuggi(ricordo["segnaposto"]))
+</form>""" % (nome, sfuggi(BIGLIETTO["corpo_te"]), sfuggi(BIGLIETTO["corpo_voi"]), sfuggi(BIGLIETTO["piede"]),
+               nascosta, nascosta, occasioni, immagini,
+               "" if in_ricordo else " hidden", sfuggi(ricordo["campo"]), sfuggi(ricordo["segnaposto"]), "" if in_ricordo else " hidden",
+               sfuggi(ricordo["segnaposto_per"] if in_ricordo else "Per esempio: Anna, oppure i nostri clienti"),
+               "La cartolina" if in_ricordo else "Il biglietto", "" if in_ricordo else " checked", " checked" if in_ricordo else "",
+               "Sulla cartolina non c’è la cifra. La prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi."
+               if in_ricordo else "Sul biglietto non c’è la cifra. Lo prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.")
 
 def pergamena(da, in_ricordo=False):
     """la pergamena delle bomboniere solidali (7.11.2026) e, con in_ricordo, quella al posto dei fiori nella pagina dei funerali:
@@ -695,7 +778,7 @@ def pergamena(da, in_ricordo=False):
     voci = "".join('<option value="%s" data-riga="%s"%s>%s</option>' % (v, sfuggi(riga), " selected" if v == scelta else "", sfuggi(voce))
                    for v, voce, riga in occasioni)
     return """<p class="nota" id="pergamena-senza-js">Per preparare la pergamena serve un browser con JavaScript acceso.</p>
-<form class="modulo biglietto pergamena" id="modulo-pergamena" data-corpo="%s" data-file="%s" data-titolo="%s" data-piede="%s" hidden>
+<form class="modulo biglietto pergamena" id="modulo-pergamena" data-corpo="%s" data-file="%s" data-titolo="%s" data-piede="%s"%s hidden>
 <div class="campi">
 <label for="mp-occasione"%s>L’occasione</label>
 <select id="mp-occasione" name="occasione"%s>%s</select>
@@ -705,14 +788,16 @@ def pergamena(da, in_ricordo=False):
 <label for="mp-data">%s <span>facoltativo</span></label>
 <input id="mp-data" name="data" type="text" maxlength="40" placeholder="%s">
 <label for="mp-messaggio">Due righe vostre <span>facoltativo</span></label>
-<textarea id="mp-messaggio" name="messaggio" class="breve" rows="3" maxlength="120"></textarea>
+<textarea id="mp-messaggio" name="messaggio" class="breve" rows="3" maxlength="%d"></textarea>
 </div>
 <figure class="anteprima"><canvas width="1800" height="1269" role="img" aria-label=""></canvas></figure>
 <p class="pulsanti"><button type="submit" class="invia">Scarica il PDF da stampare</button><button type="button" class="scelta" data-formato="jpg">Scarica l’immagine</button><button type="button" class="scelta" data-formato="condividi" hidden>Manda</button></p>
 <p class="nota">Nel PDF ci sono quattro pergamene per foglio A4, da tagliare lungo le linee grigie. Sulla pergamena non c’è la cifra. La prepara il tuo browser: i nomi e le parole che scrivi non arrivano a noi.</p>
 <p class="esito" role="status" tabindex="-1" hidden></p>
-</form>""" % (sfuggi(p["corpo"]), sfuggi(p["file"]), sfuggi(p["titolo"]), sfuggi(p["piede"]), nascosta, nascosta, voci,
-               scelta_immagini(da, p["immagini"]), sfuggi(p["nomi"]), sfuggi(p["segnaposto_nomi"]), sfuggi(p["data"]), sfuggi(p["segnaposto_data"]))
+</form>""" % (sfuggi(p["corpo"]), sfuggi(p["file"]), sfuggi(p["titolo"]), sfuggi(p["piede"]),
+               ' data-frase-prima' if p.get("frase_prima") else "", nascosta, nascosta, voci,
+               scelta_immagini(da, p["immagini"]), sfuggi(p["nomi"]), sfuggi(p["segnaposto_nomi"]), sfuggi(p["data"]), sfuggi(p["segnaposto_data"]),
+               p.get("lunghezza", 120))
 
 def secondo_mensile(testo):
     """con MENSILE resta ciò che sta tra {se-mensile} e {/se-mensile}, senza ciò che sta tra {senza-mensile} e {/senza-mensile};
@@ -946,6 +1031,7 @@ TAVOLE_ALT = {
     "pergamena": "Una pergamena aperta con la piuma che scrive, incisa su avorio",
     "equipe": "Quattro persone in cerchio, unite da archi, incise su avorio",
     "tempio": "Un tempio con il timpano e tre colonne, inciso su avorio",
+    "biblioteca": "Un libro aperto da cui si alzano petali e una cinepresa d’epoca con la sua pellicola, incisi su avorio",
 }
 TAVOLE_ALTE = ("spighe", "rosa")   # le tavole verticali: nella cornice della home stanno intere
 
@@ -1153,10 +1239,12 @@ IN_ATTESA = []   # le pagine che mostrano ancora un segnaposto: non si fanno ind
 # le schede dei fondi convertibili e della riqualificazione etica, di cui si parla a tu per tu (Elias, 9.10): si leggono
 # dal sito, ma non si cercano su Google
 # dal 1.11.2026 anche la pagina dove Stripe riporta chi ha donato: serve solo a chi arriva da lì
-NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica", "dona/grazie")
+# dal 14.11.2026 anche la pagina della ricerca nel sito, che senza parole è vuota e con le parole è una pagina di risultati
+NON_INDICIZZARE = ("in-memoria/giardino-dei-ricordi", "professionisti/fondi-convertibili", "professionisti/riqualificazione-etica", "dona/grazie", "cerca")
 # i file che robots.txt chiude a tutti i motori: le dediche del giardino (dediche.json, che la pubblicazione scrive accanto
 # alla pagina) e la foto della bambina in Dopo di Noi, che resta sul sito ma non entra in Google Immagini (Elias e Dacia, 26.10)
-FUORI_DAI_MOTORI = ("in-memoria/giardino-dei-ricordi/dediche.json", "img/foto/bimba-1.jpg")
+# Dal 14.11.2026 anche l’indice della ricerca nel sito (cerca/indice.json), che contiene il testo delle pagine tenute fuori da Google
+FUORI_DAI_MOTORI = ("in-memoria/giardino-dei-ricordi/dediche.json", "img/foto/bimba-1.jpg", "cerca/indice.json")
 
 def pagina_html(da, p, extra_head=""):
     # il titolo della scheda è anche il titolo che Google mostra: per le pagine dal titolo evocativo
@@ -1189,10 +1277,11 @@ def pagina_html(da, p, extra_head=""):
         corpo = corpo_pagina(da, p)
     if da in TESTI and TESTI[da].get("sotto"):
         sotto = sfuggi(secondo_google(TESTI[da]["sotto"]))
-    if da in TESTI and TESTI[da].get("musica"):
-        # musica=True è il valzer di Chopin; un nome sceglie un’altra musica di MUSICHE.
+    musica = da in TESTI and (TESTI[da].get("musica") or (NATALE and TESTI[da].get("musica_natale")))
+    if musica:
+        # musica=True è il valzer di Chopin; un nome sceglie un’altra musica di MUSICHE; musica_natale= suona solo con NATALE.
         # Se il file c'è, il pulsante si vede subito: sul telefono il browser non scarica nulla prima del tocco
-        file, titolo, per_intero = MUSICHE["valzer" if TESTI[da]["musica"] is True else TESTI[da]["musica"]]
+        file, titolo, per_intero = MUSICHE["valzer" if musica is True else musica]
         nascosto = "" if os.path.exists(os.path.join(USCITA, file)) else " hidden"
         intero = ' title="%s"' % sfuggi(per_intero) if per_intero else ""
         sotto += ('</p><button type="button" class="ascolta" data-audio="%s"%s%s>Ascolta · %s'
@@ -1295,6 +1384,42 @@ def briciole(da, p):
 
 FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#FAF6EE"/><g fill="none" stroke="#8D6E2A" stroke-width="7" stroke-linecap="round"><circle cx="100" cy="100" r="12"/><path d="M100 70c17-11 36-3 38 16s-15 33-38 30"/><path d="M100 130c-17 11-36 3-38-16s15-33 38-30"/><path d="M100 34c33-19 69-3 72 32s-29 62-72 57"/><path d="M100 166c-33 19-69 3-72-32s29-62 72-57"/></g></svg>"""
 
+# --------------------------------------------------------------------------
+# la ricerca nel sito (Dacia ed Elias, 14.11.2026): l’indice è un file accanto alla pagina «Cerca nel sito», con il titolo,
+# l’indirizzo, la descrizione e il testo di ogni pagina; sito.js lo legge e cerca nel browser di chi visita, senza mandare
+# le parole a nessuno. Entrano le pagine che si vedono nei menu: non quelle spente, nascoste o ancora senza testo, non la
+# pagina «Grazie» di chi torna da Stripe. Il giardino entra con il suo testo; le dediche no, stanno in dediche.json
+# --------------------------------------------------------------------------
+NASCOSTE = {(p["slug"] if p.get("radice") else s["chiave"] + "/" + p["slug"]) for s in SEZIONI for p in s["pagine"] if p.get("nascosta")}
+FUORI_DALLA_RICERCA = ("cerca", "dona/grazie")
+
+def testo_piano(html):
+    """il testo che si legge in un pezzo di pagina: via i moduli, i menu di lato, i disegni, gli script e i pulsanti"""
+    for tag in ("script", "style", "aside", "form", "svg", "select", "button", "noscript", "template"):
+        html = re.sub(r"<%s\b.*?</%s>" % (tag, tag), " ", html, flags=re.S)
+    html = re.sub(r'<a class="vai"[^>]*>.*?</a>', " ", html, flags=re.S)     # «Apri», «Vai alla pagina»: servono a muoversi, non dicono niente
+    html = re.sub(r"<(br|p|li|h[1-6]|div|dt|dd|figure|figcaption|blockquote|tr|td|th|section|article|ul|ol|dl|hr)\b", r" <\1", html)
+    # un tag che apre stacca le parole («Apri» dopo il titolo di una scheda); uno che chiude no («Dona.» resta attaccato)
+    testo = unescape(re.sub(r"</[^>]+>", "", re.sub(r"<[^/][^>]*>", " ", html)))
+    return re.sub(r"\s+", " ", testo).strip()
+
+def indice_ricerca():
+    voci = []
+    for cartella, p in PAGINE.items():
+        if (cartella in FUORI_DALLA_RICERCA or cartella in NASCOSTE or cartella in IN_ATTESA or p.get("spenta")):
+            continue
+        with open(os.path.join(USCITA, cartella, "index.html"), encoding="utf-8") as f:
+            html = f.read()
+        corpo = re.search(r"<main\b.*?</main>", html, re.S)
+        descrizione = re.search(r'<meta name="description" content="([^"]*)"', html)
+        sezione = PAGINE[p["sezione"]]["voce"] if p.get("sezione") and p["sezione"] != cartella else ("" if cartella == "" else p["occhiello"])
+        voci.append({"t": p["titolo"] if cartella else "Home", "h": verso("cerca", cartella), "s": sezione,
+                     "d": unescape(descrizione.group(1)) if descrizione else "", "x": testo_piano(corpo.group(0)) if corpo else ""})
+    os.makedirs(os.path.join(USCITA, "cerca"), exist_ok=True)
+    with open(os.path.join(USCITA, "cerca", "indice.json"), "w", encoding="utf-8") as f:
+        json.dump({"pagine": voci}, f, ensure_ascii=False, separators=(",", ":"))
+    print("Indice della ricerca: %d pagine" % len(voci))
+
 def costruisci():
     # via le pagine vecchie, restano css/js/font/img/allegati/audio
     for nome in os.listdir(USCITA):
@@ -1324,6 +1449,7 @@ def costruisci():
             f.write(apostrofi(pagina_html(cartella, p)))
         conteggio += 1
     print("Scritte %d pagine in %s (%s)" % (conteggio, USCITA, datetime.date.today().isoformat()))
+    indice_ricerca()
     # la mappa del sito per i motori di ricerca: solo le pagine che hanno già il loro testo
     oggi = datetime.date.today().isoformat()
     voci = ["<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (DOMINIO + ("/" if not k else "/" + k + "/"), oggi)
