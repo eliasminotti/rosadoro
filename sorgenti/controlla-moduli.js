@@ -1378,7 +1378,9 @@ controllo('il biglietto parla a più persone con il «voi», cambia con l’occa
     await p.page.fill('#mb-da', 'Studio Rossi');
     await p.page.check('#modulo-biglietto input[name="persone"][value="voi"]');
     await p.page.selectOption('#mb-occasione', 'compleanno');
-    await p.page.waitForFunction(s => /voi/.test(document.querySelector(s + ' canvas').getAttribute('aria-label')), BIGLIETTO);
+    /* si aspetta il biglietto ridisegnato con tutti e due i cambi: il «voi» da solo può arrivare prima dell’occasione nuova */
+    await p.page.waitForFunction(s => { const a = document.querySelector(s + ' canvas').getAttribute('aria-label') || '';
+      return /voi/.test(a) && /Buon compleanno/.test(a); }, BIGLIETTO);
     detto = await dettoDalBiglietto(p.page);
     for (const parte of ['Buon compleanno', 'Per i nostri clienti', 'pensando a voi', 'Studio Rossi'])
       assert.ok(detto.includes(parte), 'il biglietto non dice «' + parte + '»: ' + detto);
